@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Iniciar sesión - NoHaxx</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <div class="logo">NoHaxx</div>
+    <div class="top-buttons">
+      <a href="/">Inicio</a>
+      <a href="/contacto.html">Contacto</a>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <h1>Iniciar sesión en NoHaxx</h1>
+    <form id="login-form">
+      <input type="email" id="email" placeholder="Correo electrónico" required />
+      <input type="password" id="password" placeholder="Contraseña" required />
+      <button type="submit" id="login-btn">Iniciar sesión</button>
+    </form>
+
+    <div>
+      <p style="margin-top: 20px;">
+        ¿Aún no tienes cuenta?
+        <a href="registro.html" id="registrate">Regístrate</a>
+      </p>
+    </div>
+
+    <div id="mensaje-error"></div>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+  
+  <script src="scripts/firebase-config.js"></script>
+
+  <script src="scripts/login.js"></script>
+</body>
+</html>

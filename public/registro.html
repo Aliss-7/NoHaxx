@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Registro de Usuario - NoHaxx</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <div class="logo">NoHaxx</div>
+    <div class="top-buttons">
+      <a href="/">Inicio</a>
+      <a href="/login.html">Login</a>
+      <a href="/contacto.html">Contacto</a>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <h1>Registro de nuevo usuario</h1>
+    <form id="registro-form">
+      <label>Nombre*<br>
+        <input type="text" id="nombre" required>
+      </label><br><br>
+
+      <label>Apellidos*<br>
+        <input type="text" id="apellidos" required>
+      </label><br><br>
+
+      <label>Email*<br>
+        <input type="email" id="email" required>
+      </label><br><br>
+
+      <label>Contraseña*<br>
+        <input type="password" id="password" required>
+      </label>
+      <div id="mensaje-error-password" class="mensaje-error-corto"></div><br>
+
+      <label>Confirmar Contraseña*<br>
+        <input type="password" id="confirmar-password" required>
+      </label><br><br>
+
+      <label>Número de teléfono (opcional)<br>
+        <input type="tel" id="telefono">
+      </label><br><br>
+
+      <label>Departamento (opcional)<br>
+        <input type="text" id="departamento">
+      </label><br><br>
+
+      <button type="submit">Crear cuenta</button>
+    </form>
+
+    <div id="mensaje-error"></div>
+  </main>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-storage-compat.js"></script>
+  
+  <script src="scripts/firebase-config.js"></script>
+
+  <script src="scripts/login.js"></script>
+
+  <script src="scripts/registro.js"></script>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Contacto - NoHaxx</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header id="main-header">
+    <div class="logo">NoHaxx</div>
+    <div class="top-buttons" id="nav-buttons">
+      <a href="/login.html" id="login-link">Login</a>
+      <a href="/contacto.html" class="active">Contacto</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="contacto-container">
+      <h1>Contacto</h1>
+      <p>¿Tienes dudas o quieres ponerte en contacto con nosotros? ¡Escríbenos!</p>
+
+      <form id="contact-form" novalidate>
+        <label for="nombre">Nombre *</label>
+        <input type="text" id="nombre" name="from_name" required placeholder="Tu nombre" />
+
+        <label for="email">Email *</label>
+        <input type="email" id="email" name="reply_to" required placeholder="tu@email.com" />
+
+        <label for="asunto">Asunto *</label>
+        <input type="text" id="asunto" name="subject" required placeholder="Asunto del mensaje" />
+
+        <label for="mensaje">Mensaje *</label>
+        <textarea id="mensaje" name="message" rows="5" required placeholder="Escribe tu mensaje aquí"></textarea>
+
+        <button type="submit" id="enviar-btn">Enviar</button>
+      </form>
+
+      <p id="form-mensaje" role="alert" aria-live="polite"></p>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 NoHaxx. Todos los derechos reservados.</p>
+  </footer>
+
+  <!-- EmailJS SDK nuevo -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script src="scripts/contacto.js"></script>
+</body>
+</html>

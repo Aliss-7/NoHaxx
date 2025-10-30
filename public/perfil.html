@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Perfil de usuario - NoHaxx</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="notificacion"></div>
+
+  <header>
+    <div class="logo">NoHaxx</div>
+    <div class="top-buttons">
+      <a href="/">Inicio</a>
+      <a href="/modulos.html">Módulos</a>
+      <a href="/resultados.html">Resultados</a>
+      <a href="/perfil.html">Perfil</a>
+      <a href="/contacto.html">Contacto</a>
+      <a href="#" id="logout-btn">Cerrar sesión</a>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <h1>Perfil de Usuario</h1>
+
+    <div class="perfil-container">
+
+      <div class="perfil-datos">
+        <p><strong>Nombre:</strong> <input type="text" id="nombre" disabled /></p>
+        <p><strong>Apellidos:</strong> <input type="text" id="apellidos" disabled /></p>
+        <p><strong>Correo electrónico:</strong> <span id="email">Cargando...</span></p>
+        <p><strong>Teléfono:</strong> <input type="text" id="telefono" disabled /></p>
+        <p><strong>Departamento:</strong> <input type="text" id="departamento" disabled /></p>
+        <button class="boton" id="editar-btn" style="margin-top: 1rem;">Editar Perfil</button>
+      </div>
+    </div>
+
+    <div style="margin-top: 3rem; text-align: left;">
+      <h2 id="titulo-progreso">Mi progreso</h2>
+      <div class="barra-contenedor">
+        <div class="barra-progreso" id="barra-progreso"></div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Firebase SDKs -->
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-storage-compat.js"></script>
+  
+  <script src="scripts/firebase-config.js"></script>
+
+  <script src="scripts/login.js"></script>
+
+  <script src="scripts/perfil.js"></script>
+</body>
+</html>

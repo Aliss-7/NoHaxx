@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NoHaxx – Resultados</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="dashboard" class="dashboard-container">
+    <h1>Resultados de NoHaxx</h1>
+    <p id="userName"></p>
+
+    <div class="card total-score">
+      <h2>Puntuación total</h2>
+      <div id="totalScore">...</div>
+    </div>
+
+    <div class="modules-section">
+      <h2>Puntuación por modulo</h2>
+      <div id="moduleScores" class="modules-container"></div>
+    </div>
+
+    <div class="card ranking">
+      <h2>Posición en el Ranking</h2>
+      <div id="rankingPosition">...</div>
+    </div>
+
+    <button id="logoutBtn">Cerrar sesión</button>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+
+  <script src="scripts/firebase-config.js"></script>
+  
+  <script src="scripts/resultados.js"></script>
+</body>
+</html>

@@ -1,0 +1,8 @@
+{
+  "projects": {
+    "default": "nohaxx-v1",
+    "NoHaxx": "nohaxx-v1"
+  },
+  "targets": {},
+  "etags": {}
+}
