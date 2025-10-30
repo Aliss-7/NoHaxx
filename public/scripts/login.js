@@ -4,7 +4,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const passwordInput = document.getElementById("password");
     const form = document.getElementById("login-form");
     const loginBtn = document.getElementById("login-btn");
-    const registrarseBtn = document.getElementById("registrarse");
     const mensajeError = document.getElementById("mensaje-error");
   
     // Redirigir si ya hay sesión
@@ -39,19 +38,3 @@ document.addEventListener("DOMContentLoaded", () => {
           
                     
     });
-  
-    // Registrarse (fuera del formulario)
-    registrarseBtn.addEventListener("click", () => {
-      const email = emailInput.value;
-      const password = passwordInput.value;
-  
-      auth.createUserWithEmailAndPassword(email, password)
-        .then(() => {
-          window.location.href = "modulos.html";
-        })
-        .catch((error) => {
-          mensajeError.textContent = "Error al registrarse: " + error.message;
-        });
-    });
-  });
-  
