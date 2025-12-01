@@ -21,23 +21,32 @@
   <main class="main-content">
     <h2>Módulos de Concienciación en Ciberseguridad</h2>
     <p>A continuación encontrarás una serie de módulos interactivos:</p>
-    <ul>
+    
+    <ul class="lista-modulos">
       <li>
-        <a href="modulos/phishing/teoria.html" id="phishing-link"></a>
-          Módulo 1: Phishing
+        <a href="modulos/phishing/teoria.html" id="phishing-link">
+          📧 Módulo 1: Phishing
         </a>
       </li>
       <li>
-        <a href="modulos/ransomware/teoria.html" id="ransomware-link"></a>
-          Módulo 2: Ransomware
+        <a href="modulos/ransomware/teoria.html" id="ransomware-link">
+          🔒 Módulo 2: Ransomware
         </a>
       </li>
       <li>
-        <a href="modulos/ingenieria/teoria.html" id="ingenieria-link"></a>
-          Módulo 3: Ingeniería Social
+        <a href="modulos/ingenieria/teoria.html" id="ingenieria-link">
+          🎭 Módulo 3: Ingeniería Social
         </a>
       </li>
     </ul>
   </main>
+
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+
+  <script src="scripts/firebase-config.js"></script>
+
+  <script src="scripts/modulos.js"></script>
 </body>
 </html>
