@@ -8,9 +8,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const linkMod3 = document.getElementById("ingenieria-link");
 
   // URLs de destino (Asegúrate de que las rutas son correctas)
-  const urlMod1 = "modules/phishing/teoria.html";
-  const urlMod2 = "modules/ransomware/teoria.html";
-  const urlMod3 = "modules/ingenieria/teoria.html";
+  const urlMod1 = "modulos/phishing/teoria.html";
+  const urlMod2 = "modulos/ransomware/teoria.html";
+  const urlMod3 = "modulos/ingenieria/teoria.html";
 
   // Función para bloquear un módulo
   const bloquear = (elemento) => {
