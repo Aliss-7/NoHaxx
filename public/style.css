@@ -325,3 +325,13 @@ main {
     min-width: auto;
   }
 }
+
+/* Estilo para módulos bloqueados */
+.bloqueado {
+  opacity: 0.6;
+  pointer-events: auto;
+  background-color: #e0e0e0 !important;
+  color: #666 !important;
+  border-color: #999 !important;
+  cursor: not-allowed;
+}

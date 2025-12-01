@@ -5,11 +5,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const passwordInput = document.getElementById("password");
   const mensajeErrorPass = document.getElementById("mensaje-error-password");
 
-  // Expresión regular para validar contraseña:
+  // validar contraseña
   // mínimo 8 caracteres, al menos una mayúscula, una minúscula, un número y un símbolo
   const passRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
 
-  // Validar la contraseña en tiempo real al escribir
+  // validar la contraseña en tiempo real al escribir
   passwordInput.addEventListener("input", () => {
     const password = passwordInput.value;
     if (!passRegex.test(password)) {
@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
   form.addEventListener("submit", (e) => {
     e.preventDefault();
 
-    mensajeError.textContent = ""; // limpiar mensajes globales
+    mensajeError.textContent = "";
 
     const nombre = document.getElementById("nombre").value.trim();
     const apellidos = document.getElementById("apellidos").value.trim();

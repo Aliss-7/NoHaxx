@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Examen Ransomware</title>
+  <link rel="stylesheet" href="../../style.css">
+</head>
+<body>
+  <main class="main-content">
+    <h2>Examen Final: Ransomware</h2>
+    <p>Pregunta: ¿Cuál es la medida más efectiva para recuperar tus datos sin pagar un rescate?</p>
+    
+    <button onclick="finalizar(false)">Tener un buen antivirus</button>
+    <button onclick="finalizar(true)">Tener copias de seguridad (Backups) actualizadas</button>
+    <button onclick="finalizar(false)">Usar contraseñas largas</button>
+
+    <div id="mensaje-final"></div>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+  <script src="../../scripts/firebase-config.js"></script>
+
+  <script>
+    function finalizar(esCorrecto) {
+      const auth = firebase.auth();
+      const db = firebase.firestore();
+      const feedback = document.getElementById('mensaje-final');
+
+      if (!esCorrecto) {
+        feedback.innerHTML = "<p style='color:red'>Incorrecto. Inténtalo de nuevo.</p>";
+        return;
+      }
+
+      auth.onAuthStateChanged(user => {
+        if (user) {
+          // Guardar nota en Firestore (modulo: 'ransomware')
+          db.collection('userScores').doc(user.uid).set({
+            scores: { ransomware: 10 } // Le damos 10 puntos
+          }, { merge: true }).then(() => {
+            feedback.innerHTML = "<h3>¡Módulo Completado! ✅</h3><a href='/resultados.html' class='boton'>Ver mis resultados</a>";
+          });
+        }
+      });
+    }
+  </script>
+</body>
+</html>
