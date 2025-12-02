@@ -2,12 +2,18 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     
-    // Los usuarios solo pueden leer y modificar su propio documento
+    // 1. Reglas para el perfil del usuario (Nombre, apellidos, etc.)
     match /usuarios/{userId} {
-      allow read, update, delete: if request.auth != null && request.auth.uid == userId;
+      // Permitimos crear si estás autenticado
       allow create: if request.auth != null;
+      // Permitimos leer, editar o borrar solo si es TU propio documento
+      allow read, update, delete: if request.auth != null && request.auth.uid == userId;
     }
 
-    //
+    // 2. Reglas para las puntuaciones de los exámenes
+    match /userScores/{userId} {
+      // Permitimos leer y escribir solo en TU propio registro de notas
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
   }
 }

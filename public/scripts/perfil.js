@@ -33,6 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
   
       if (!editando) {
+        // guardar cambios
         editarBtn.disabled = true;
   
         const nuevosDatos = {};
@@ -69,13 +70,16 @@ document.addEventListener("DOMContentLoaded", () => {
   
         editarBtn.textContent = "Editar Perfil";
       } else {
+        // activar edición
         editarBtn.textContent = "Guardar Cambios";
       }
     });
   
+    // cargar datos
     auth.onAuthStateChanged((user) => {
       if (user) {
         mostrarNotificacion("Cargando perfil...");
+        
         const refUsuario = db.collection("usuarios").doc(user.uid);
         const emailSpan = document.getElementById("email");
         if (emailSpan) emailSpan.textContent = user.email;
@@ -91,26 +95,44 @@ document.addEventListener("DOMContentLoaded", () => {
             setVal("apellidos", data.apellidos);
             setVal("telefono", data.telefono);
             setVal("departamento", data.departamento);
-  
-            const progreso = data.progreso || 0;
+          }
+        });
+
+        const refScores = db.collection("userScores").doc(user.uid);
+        refScores.get().then((doc) => {
+            let progreso = 0;
+            if (doc.exists) {
+                const scores = doc.data().scores || {};
+                
+                let completados = 0;
+                if (scores.phishing) completados++;
+                if (scores.ransomware) completados++;
+                if (scores.ingenieria) completados++;
+                
+                progreso = Math.floor((completados / 3) * 100);
+            }
+            
+            // actualización de la barra
             const titulo = document.getElementById("titulo-progreso");
             const barra = document.getElementById("barra-progreso");
             if (titulo) titulo.textContent = `Mi progreso (${progreso}%)`;
             if (barra) barra.style.width = progreso + "%";
-  
+            
             mostrarNotificacion("Perfil cargado.");
-          }
+        }).catch(err => {
+            console.error("Error cargando progreso:", err);
         });
+
       } else {
         window.location.href = "/login.html";
       }
     });
   
+    // cerrar sesión
     logoutBtn.addEventListener("click", (e) => {
       e.preventDefault();
       auth.signOut().then(() => {
         window.location.href = "/login.html";
       });
     });
-  });
-  
+});
