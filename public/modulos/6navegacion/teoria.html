@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Módulo 6: Navegación Segura - NoHaxx</title>
+  <link rel="stylesheet" href="../../style.css">
+  <style>
+    body { background-color: #f4f4f4; }
+    .lms-container { display: flex; max-width: 1200px; margin: 2rem auto; background: white; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border-radius: 8px; overflow: hidden; min-height: 650px; }
+    .lms-sidebar { width: 25%; background-color: #f8f9fa; border-right: 1px solid #ddd; padding: 20px; }
+    .lms-menu-item { padding: 12px 15px; margin-bottom: 8px; color: #555; border-radius: 5px; cursor: not-allowed; opacity: 0.6; transition: all 0.2s; }
+    .lms-menu-item.unlocked { cursor: pointer; opacity: 1; }
+    .lms-menu-item.active { background-color: #009688; /* Verde azulado para Navegación */ color: white; font-weight: bold; opacity: 1; }
+    .lms-content { width: 75%; padding: 40px; display: flex; flex-direction: column; position: relative; }
+    .course-step { display: none; animation: fadeIn 0.5s; }
+    .course-step.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    
+    /* Interactividad WiFi */
+    .wifi-list { border: 1px solid #ccc; border-radius: 5px; overflow: hidden; margin-top:10px; }
+    .wifi-item { padding: 15px; border-bottom: 1px solid #eee; cursor: pointer; display: flex; justify-content: space-between; }
+    .wifi-item:hover { background-color: #f0f0f0; }
+    .wifi-item:last-child { border-bottom: none; }
+    
+    .nav-btn { margin-top: auto; padding: 10px 25px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; background: #009688; color: white; float: right; }
+    .nav-btn:disabled { background: #ccc; cursor: not-allowed; }
+  </style>
+</head>
+<body>
+  <header><div class="logo">NoHaxx</div><div class="top-buttons"><a href="../../modulos.html">Salir</a></div></header>
+
+  <div class="lms-container">
+    <aside class="lms-sidebar">
+      <h3>🌍 Índice Navegación</h3>
+      <div class="lms-menu-item unlocked active" onclick="goStep(0)">1. Redes Públicas</div>
+      <div class="lms-menu-item" id="menu-1">2. HTTPS y Descargas</div>
+      <div class="lms-menu-item" id="menu-2">3. Redes Sociales</div>
+      <div class="lms-menu-item" id="menu-3">4. Resumen</div>
+    </aside>
+
+    <main class="lms-content">
+      <div class="course-step active">
+        <h2>1. El Peligro de las Redes Públicas</h2>
+        <p>Estás en una cafetería o aeropuerto. ¿A qué red te conectas? Elige la segura:</p>
+        <div class="wifi-list">
+          <div class="wifi-item" onclick="checkWifi(false)">📶 Aeropuerto_FREE_WIFI (Abierta)</div>
+          <div class="wifi-item" onclick="checkWifi(false)">📶 Starbucks_Guest (Abierta)</div>
+          <div class="wifi-item" onclick="checkWifi(true)">🔒 Mi_Datos_Moviles (4G/5G) / VPN</div>
+        </div>
+        <p id="wifi-feedback" style="font-weight:bold; margin-top:10px;"></p>
+        <button class="nav-btn" id="btn-1" disabled onclick="nextStep()">Siguiente</button>
+      </div>
+
+      <div class="course-step">
+        <h2>2. HTTPS y Descargas</h2>
+        <p>Al navegar, busca siempre el candado 🔒 (HTTPS). Significa que la comunicación está cifrada.</p>
+        <p><strong>Descargas:</strong> Nunca bajes software de sitios "no oficiales" o botones de descarga verdes gigantes que parpadean.</p>
+        <button class="nav-btn" onclick="nextStep()">Entendido</button>
+      </div>
+
+      <div class="course-step">
+        <h2>3. Oversharing (Compartir de más)</h2>
+        <p>Lo que subes a internet, se queda en internet. Los atacantes usan tus fotos para adivinar contraseñas o hacer ingeniería social.</p>
+        <ul>
+          <li>🚫 No subas fotos de tu escritorio con papeles visibles.</li>
+          <li>🚫 No publiques que estás de vacaciones hasta que vuelvas.</li>
+        </ul>
+        <button class="nav-btn" onclick="nextStep()">Siguiente</button>
+      </div>
+
+      <div class="course-step">
+        <h2>4. ¡Módulo Terminado!</h2>
+        <p>Has completado el temario. Recuerda navegar siempre por HTTPS y evitar WiFis públicas.</p>
+        
+        <div class="video-box" style="background:#e0f2f1; border:1px solid #b2dfdb; padding:15px; margin-top:20px; margin-bottom:20px; border-radius:5px;">
+          <h4>📺 Vídeo Recomendado (2 min)</h4>
+          <a href="https://www.youtube.com/watch?v=cjSNVxtXY-U" target="_blank" style="color:#00796b; text-decoration:none; font-weight:bold;">▶️ Ver: Consejos de navegación segura</a>
+        </div>
+
+        <a href="examen.html" class="nav-btn" style="text-decoration:none; text-align:center;">Ir al Examen Final</a>
+      </div>
+
+      <div class="course-step">
+        <h2>4. ¡Módulo Terminado!</h2>
+        <p>Has completado el temario del último módulo.</p>
+        <a href="examen.html" class="nav-btn" style="text-decoration:none; text-align:center;">Ir al Examen Final</a>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    let current = 0;
+    const steps = document.querySelectorAll('.course-step');
+    const menus = document.querySelectorAll('.lms-menu-item');
+
+    function showStep(n) {
+      steps.forEach(s => s.classList.remove('active'));
+      menus.forEach(m => m.classList.remove('active'));
+      steps[n].classList.add('active');
+      menus[n].classList.add('active');
+      if(n > 0) menus[n].classList.add('unlocked');
+    }
+
+    function nextStep() {
+      current++;
+      if(current >= steps.length) current = steps.length - 1;
+      showStep(current);
+    }
+    
+    function goStep(n) {
+        if(menus[n].classList.contains('unlocked')) {
+            current = n;
+            showStep(n);
+        }
+    }
+
+    function checkWifi(isSafe) {
+      const fb = document.getElementById('wifi-feedback');
+      if(isSafe) {
+        fb.style.color = "green";
+        fb.innerText = "✅ Correcto. Usa tus datos o una VPN. Las WiFis públicas son inseguras.";
+        document.getElementById('btn-1').disabled = false;
+      } else {
+        fb.style.color = "red";
+        fb.innerText = "❌ Peligro. En redes abiertas, cualquiera puede ver tu tráfico.";
+      }
+    }
+  </script>
+</body>
+</html>

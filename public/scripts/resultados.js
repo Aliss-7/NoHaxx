@@ -8,6 +8,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const rankingEl = document.getElementById('rankingPosition');
   const logoutBtn = document.getElementById('logoutBtn');
 
+  const TOTAL_MODULOS_POSIBLES = 6; 
+  const PUNTOS_POR_MODULO = 10;
+  const PUNTUACION_MAXIMA = TOTAL_MODULOS_POSIBLES * PUNTOS_POR_MODULO; // 60 puntos
+
   auth.onAuthStateChanged(async (user) => {
     if (!user) {
       window.location.href = "login.html";
@@ -16,22 +20,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
     userNameEl.innerText = `Hola, ${user.email}`;
 
-    // puntuaciones del usuario actual
+    // puntuaciones
     const docRef = db.collection('userScores').doc(user.uid);
     const docSnap = await docRef.get();
-
-    let miPuntuacionTotal = 0;
 
     if (docSnap.exists) {
       const data = docSnap.data();
       const scores = data.scores || {};
+      const puntosBrutos = Object.values(scores).reduce((a, b) => a + b, 0);
 
-      miPuntuacionTotal = Object.values(scores).reduce((a, b) => a + b, 0);
+      let notaFinal = Math.round((puntosBrutos / PUNTUACION_MAXIMA) * 100);
+      
+      if (notaFinal > 100) notaFinal = 100;
 
-      // mostrar puntuación total
-      totalScoreEl.innerText = `${miPuntuacionTotal}/60`;
+      totalScoreEl.innerText = `${notaFinal}/100`;
+      
+      if(notaFinal < 50) totalScoreEl.style.color = "red";
+      else if(notaFinal >= 80) totalScoreEl.style.color = "green";
 
-      // desglose por módulos
       moduleScoresEl.innerHTML = '';
       if (Object.keys(scores).length > 0) {
         for (const [module, score] of Object.entries(scores)) {
@@ -47,7 +53,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
     } else {
-      totalScoreEl.innerText = "0/30";
+      totalScoreEl.innerText = "0/100";
       moduleScoresEl.innerText = "No se han encontrado resultados.";
     }
 
@@ -59,15 +65,14 @@ document.addEventListener("DOMContentLoaded", () => {
       allScoresSnap.forEach(doc => {
         const d = doc.data();
         const sc = d.scores || {};
-        const userTotal = Object.values(sc).reduce((a, b) => a + b, 0);
+        const rawTotal = Object.values(sc).reduce((a, b) => a + b, 0);
+        const finalScore = Math.round((rawTotal / PUNTUACION_MAXIMA) * 100);
         
-        allUsers.push({ uid: doc.id, totalScore: userTotal });
+        allUsers.push({ uid: doc.id, finalScore: finalScore });
       });
 
-      // ordenar
-      allUsers.sort((a, b) => b.totalScore - a.totalScore);
+      allUsers.sort((a, b) => b.finalScore - a.finalScore);
 
-      // mi posición
       const position = allUsers.findIndex(u => u.uid === user.uid) + 1;
       
       if (position > 0) {
@@ -82,7 +87,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // cerrar sesión
   if (logoutBtn) {
     logoutBtn.addEventListener('click', () => {
       auth.signOut().then(() => {

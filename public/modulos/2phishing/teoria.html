@@ -6,316 +6,118 @@
   <title>Módulo 2: Phishing - NoHaxx</title>
   <link rel="stylesheet" href="../../style.css">
   <style>
-    /* --- ESTILOS GENERALES --- */
     body { background-color: #f4f4f4; }
-
-    .lms-container {
-      display: flex;
-      max-width: 1200px;
-      margin: 2rem auto;
-      background: white;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-      border-radius: 8px;
-      overflow: hidden;
-      min-height: 650px;
-    }
-
-    /* BARRA LATERAL */
-    .lms-sidebar {
-      width: 25%;
-      background-color: #f8f9fa;
-      border-right: 1px solid #ddd;
-      padding: 20px;
-    }
+    .lms-container { display: flex; max-width: 1200px; margin: 2rem auto; background: white; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border-radius: 8px; overflow: hidden; min-height: 650px; }
+    .lms-sidebar { width: 25%; background-color: #f8f9fa; border-right: 1px solid #ddd; padding: 20px; }
     .lms-sidebar h3 { font-size: 1.1rem; border-bottom: 2px solid #0f1e40; padding-bottom: 10px; margin-bottom: 20px; }
-    .lms-menu-item {
-      padding: 12px 15px; margin-bottom: 8px; color: #555; border-radius: 5px; cursor: not-allowed; opacity: 0.6; /* Bloqueado por defecto */
-      font-size: 0.95rem; transition: all 0.2s;
-    }
-    .lms-menu-item.unlocked { cursor: pointer; opacity: 1; } /* Desbloqueado */
+    .lms-menu-item { padding: 12px 15px; margin-bottom: 8px; color: #555; border-radius: 5px; cursor: not-allowed; opacity: 0.6; font-size: 0.95rem; transition: all 0.2s; }
+    .lms-menu-item.unlocked { cursor: pointer; opacity: 1; }
     .lms-menu-item.active { background-color: #0f1e40; color: white; font-weight: bold; opacity: 1; }
     .lms-menu-item.completed::after { content: " ✓"; color: #4caf50; font-weight: bold; }
-
-    /* CONTENIDO */
     .lms-content { width: 75%; padding: 40px; display: flex; flex-direction: column; position: relative; }
     .course-step { display: none; animation: fadeIn 0.5s; }
     .course-step.active { display: block; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-    /* ELEMENTOS INTERACTIVOS (Juego) */
-    .interactive-item {
-      background: #fff; border: 2px solid #ddd; padding: 15px; margin: 10px 0; border-radius: 8px; cursor: pointer; transition: 0.3s;
-    }
+    
+    .interactive-item { background: #fff; border: 2px solid #ddd; padding: 15px; margin: 10px 0; border-radius: 8px; cursor: pointer; transition: 0.3s; }
     .interactive-item:hover { border-color: #0f1e40; background: #f0f8ff; }
     .interactive-item.checked { border-color: #28a745; background: #d4edda; color: #155724; }
-    .interactive-item.checked::after { content: " ✅"; float: right; }
-
-    /* TARJETAS DE TIPOS (Paso 3) */
-    .card-interactiva {
-      background: #fff; border: 1px solid #ccc; padding: 20px; border-radius: 8px; cursor: pointer; min-width: 200px; flex: 1; transition: 0.3s;
-    }
-    .card-interactiva:hover { transform: translateY(-5px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+    .card-interactiva { background: #fff; border: 1px solid #ccc; padding: 20px; border-radius: 8px; cursor: pointer; min-width: 200px; flex: 1; transition: 0.3s; }
     .card-interactiva.visto { border: 2px solid #28a745; background-color: #e8f5e9; }
-
-    /* EMAIL FAKE (Paso 4) */
     .email-simulacion { border: 1px solid #ccc; border-radius: 5px; background: #fff; padding: 20px; margin: 20px 0; font-family: sans-serif; }
     .fake-link { color: blue; text-decoration: underline; cursor: help; font-weight: bold; padding: 2px 5px; border-radius: 3px; }
-    .fake-link:hover { background-color: yellow; } /* Feedback visual al pasar ratón */
+    .fake-link:hover { background-color: yellow; }
+    .fake-link:hover::after { content: "⚠️ URL REAL: http://hacker-site.tk"; position: absolute; background: #d9534f; color: #fff; padding: 5px 10px; border-radius: 4px; font-size: 0.8rem; margin-left: 10px; z-index: 100; }
     
-    /* TOOLTIP */
-    .fake-link:hover::after {
-      content: "⚠️ URL REAL: http://hacker-site.tk";
-      position: absolute; background: #d9534f; color: #fff; padding: 5px 10px; border-radius: 4px; font-size: 0.8rem; margin-left: 10px; white-space: nowrap; z-index: 100;
-    }
+    .video-box { background: #e3f2fd; border: 1px solid #bbdefb; padding: 15px; margin-top: 20px; border-radius: 5px; }
+    .video-box a { color: #0d47a1; font-weight: bold; text-decoration: none; }
 
-    /* BOTONES DE NAVEGACIÓN */
     .navigation-buttons { margin-top: auto; display: flex; justify-content: space-between; border-top: 1px solid #eee; padding-top: 20px; align-items: center; }
-    .btn-nav { padding: 10px 25px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; font-size: 1rem; transition: background 0.3s; }
+    .btn-nav { padding: 10px 25px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; transition: 0.3s; }
     .btn-prev { background-color: #e0e0e0; color: #333; }
-    
-    /* Botón Siguiente BLOQUEADO */
     .btn-next { background-color: #0f1e40; color: white; }
-    .btn-next:disabled { background-color: #ccc; cursor: not-allowed; opacity: 0.7; }
-
+    .btn-next:disabled { background-color: #ccc; cursor: not-allowed; }
     .instruccion-bloqueo { color: #d9534f; font-size: 0.9rem; font-weight: bold; margin-right: 15px; display: none; }
-    .btn-next:disabled + .instruccion-bloqueo { display: block; } /* Hack CSS: mostrar mensaje si botón disabled */
-
-    .btn-finish { background-color: #28a745; color: white; display: none; text-decoration: none; padding: 10px 25px; border-radius: 5px; font-weight: bold; }
+    .btn-next:disabled + .instruccion-bloqueo { display: block; }
+    .btn-finish { background-color: #28a745; color: white; padding: 10px 25px; text-decoration: none; border-radius: 5px; font-weight: bold; display: none; }
   </style>
 </head>
 <body>
-
-  <header>
-    <div class="logo">NoHaxx</div>
-    <div class="top-buttons">
-      <a href="../../modulos.html">Salir del Módulo</a>
-    </div>
-  </header>
-
+  <header><div class="logo">NoHaxx</div><div class="top-buttons"><a href="../../modulos.html">Salir</a></div></header>
   <div class="lms-container">
-    
     <aside class="lms-sidebar">
-      <h3>📑 Índice del Curso</h3>
+      <h3>📑 Índice: Phishing</h3>
       <div class="lms-menu-item unlocked active" id="menu-0">1. Introducción</div>
-      <div class="lms-menu-item" id="menu-1">2. Anatomía de un Ataque</div>
-      <div class="lms-menu-item" id="menu-2">3. Tipos de Phishing</div>
-      <div class="lms-menu-item" id="menu-3">4. Práctica: Hovering</div>
+      <div class="lms-menu-item" id="menu-1">2. Anatomía</div>
+      <div class="lms-menu-item" id="menu-2">3. Tipos</div>
+      <div class="lms-menu-item" id="menu-3">4. Práctica</div>
       <div class="lms-menu-item" id="menu-4">5. Conclusión</div>
     </aside>
-
     <main class="lms-content">
-
       <div class="course-step active">
         <h2>1. ¿Qué es el Phishing?</h2>
-        <p>El phishing es el arte de engañar a las personas para que compartan información confidencial. A diferencia de los virus, que atacan al software, el phishing ataca a tu mente.</p>
-        <p>Los ciberdelincuentes lanzan un "anzuelo" (generalmente un correo o SMS) esperando que piques. Si lo haces, pueden robar tus contraseñas, tu dinero o los datos de tu empresa.</p>
-        <div style="background: #e3f2fd; padding: 15px; border-radius: 5px;">
-          <strong>💡 Dato clave:</strong> El 90% de los ciberataques exitosos comienzan con un error humano, no con un fallo técnico.
-        </div>
+        <p>Es la técnica de ingeniería social más común. Los ciberdelincuentes suplantan la identidad de organizaciones de confianza (bancos, correos) para robar credenciales.</p>
+        <div style="background: #e3f2fd; padding: 15px; border-radius: 5px;"><strong>💡 Dato:</strong> El 90% de ataques exitosos empiezan aquí.</div>
       </div>
-
       <div class="course-step">
         <h2>2. Detectives de Correo</h2>
-        <p>Para desbloquear el botón "Siguiente", debes encontrar e identificar las <strong>3 señales de alerta</strong> haciendo clic sobre ellas:</p>
-        
+        <p>Encuentra las 3 señales de alerta:</p>
         <div id="activity-2">
-          <div class="interactive-item" onclick="checkItem(2, this)">
-            <strong>🚩 Urgencia o Miedo:</strong> "¡Tu cuenta será eliminada en 24 horas!". Si te meten prisa, sospecha.
-          </div>
-          <div class="interactive-item" onclick="checkItem(2, this)">
-            <strong>🚩 Remitente Extraño:</strong> Dice ser "Netflix", pero el correo es <code>admin@net-flix-update.com</code>.
-          </div>
-          <div class="interactive-item" onclick="checkItem(2, this)">
-            <strong>🚩 Enlaces Trampa:</strong> El texto del enlace no coincide con la dirección web real.
-          </div>
+          <div class="interactive-item" onclick="checkItem(2,this)"><strong>🚩 Urgencia:</strong> "¡Cuenta bloqueada en 24h!"</div>
+          <div class="interactive-item" onclick="checkItem(2,this)"><strong>🚩 Remitente:</strong> "Netflix" desde <code>admin@net-flix.tk</code></div>
+          <div class="interactive-item" onclick="checkItem(2,this)"><strong>🚩 Enlace:</strong> Texto no coincide con destino.</div>
         </div>
       </div>
-
       <div class="course-step">
-        <h2>3. Variantes del Phishing</h2>
-        <p>Haz clic en cada tarjeta para leer su definición y marcarla como "Vista".</p>
-        
-        <div class="tarjetas-container" id="activity-3">
-          <div class="card-interactiva" onclick="checkCard(3, this)">
-            <h4>📱 Smishing</h4>
-            <p>Ataques a través de <strong>SMS</strong>. Muy común con supuestos paquetes de mensajería pendientes.</p>
-          </div>
-          <div class="card-interactiva" onclick="checkCard(3, this)">
-            <h4>📞 Vishing</h4>
-            <p>Ataques por <strong>voz</strong> (llamadas telefónicas). El estafador se hace pasar por un técnico o el banco.</p>
-          </div>
-          <div class="card-interactiva" onclick="checkCard(3, this)">
-            <h4>🎯 Spear Phishing</h4>
-            <p>Ataques <strong>dirigidos</strong> a una persona concreta, usando su nombre y datos reales para ganar confianza.</p>
-          </div>
+        <h2>3. Variantes</h2>
+        <p>Haz clic en cada tipo:</p>
+        <div class="tarjetas-container" style="display:flex; gap:10px;">
+          <div class="card-interactiva" onclick="checkCard(3,this)"><h4>Smishing</h4><p>SMS fraudulentos.</p></div>
+          <div class="card-interactiva" onclick="checkCard(3,this)"><h4>Vishing</h4><p>Llamadas telefónicas engañosas.</p></div>
+          <div class="card-interactiva" onclick="checkCard(3,this)"><h4>Spear Phishing</h4><p>Ataques dirigidos personalizados.</p></div>
         </div>
       </div>
-
       <div class="course-step">
-        <h2>4. La Técnica del "Hovering"</h2>
-        <p>Antes de hacer clic en un enlace, debes pasar el ratón por encima para ver a dónde lleva realmente. ¡A veces lo que ves no es lo que parece!</p>
-        
-        <div style="background: #fff3cd; border: 1px solid #ffeeba; padding: 10px; margin-bottom: 20px;">
-          <strong>Misión:</strong> Pasa el ratón (o toca en móvil) sobre el enlace "Actualizar ahora" dentro del correo falso para descubrir la estafa.
-        </div>
-
+        <h2>4. Técnica "Hovering"</h2>
+        <p>Pasa el ratón sobre el enlace para ver la URL real:</p>
         <div class="email-simulacion">
-          <div class="email-header">
-            <strong>De:</strong> Soporte IT &lt;soporte@empresa-segura.tk&gt;<br>
-            <strong>Asunto:</strong> Cambio de contraseña obligatorio
-          </div>
-          <div class="email-body">
-            <p>Hola,</p>
-            <p>Su contraseña ha caducado. Haga clic abajo para renovarla:</p>
-            <p>
-              <span class="fake-link" onmouseover="unlockStep(4)" onclick="unlockStep(4)">
-                👉 Actualizar ahora
-              </span>
-            </p>
-          </div>
+          <p><strong>De:</strong> Soporte IT<br><strong>Asunto:</strong> Password caducado</p>
+          <p>Haz clic para renovar: <span class="fake-link" onmouseover="unlockStep(4)">👉 Actualizar ahora</span></p>
         </div>
-        <p id="msg-hover" style="color:green; font-weight:bold; display:none;">¡Bien hecho! Has descubierto la URL maliciosa.</p>
+        <p id="msg-hover" style="color:green; display:none; font-weight:bold;">¡Bien! Has visto la URL falsa.</p>
       </div>
-
       <div class="course-step">
-        <h2>5. ¡Módulo Completado!</h2>
-        <p>Has aprendido a identificar las señales de peligro y a verificar enlaces antes de hacer clic.</p>
-        <ul>
-          <li>✅ Sabes detectar la urgencia falsa.</li>
-          <li>✅ Conoces las variantes (SMS, Voz).</li>
-          <li>✅ Dominas el "Hovering".</li>
-        </ul>
-        <p>Estás listo para el examen final.</p>
+        <h2>5. Resumen</h2>
+        <p>Verifica siempre el remitente y los enlaces. Ante la duda, no hagas clic.</p>
+        <div class="video-box">
+          <h4>📺 Vídeo Explicativo (2 min)</h4>
+          <a href="https://www.youtube.com/watch?v=8ktaGnFkOoc" target="_blank">▶️ Ver: ¿Qué es el Phishing? Explicación animada</a>
+        </div>
       </div>
-
       <div class="navigation-buttons">
         <button class="btn-nav btn-prev" id="prevBtn" onclick="changeStep(-1)">Anterior</button>
-        
-        <div style="display:flex; align-items:center;">
-          <span id="bloqueo-msg" class="instruccion-bloqueo">⚠️ Completa las acciones para avanzar</span>
+        <div style="display:flex;align-items:center;">
+          <span id="bloqueo-msg" class="instruccion-bloqueo">⚠️ Completa la acción</span>
           <button class="btn-nav btn-next" id="nextBtn" onclick="changeStep(1)">Siguiente ➜</button>
         </div>
-
-        <a href="examen.html" class="btn-finish" id="finishBtn">Ir al Examen Final</a>
+        <a href="examen.html" class="btn-finish" id="finishBtn">Ir al Examen</a>
       </div>
-
     </main>
   </div>
-
   <script>
-    let currentStep = 0;
-    const totalSteps = 5;
-    
-    // Estado de desbloqueo de cada paso: [Paso1, Paso2, Paso3, Paso4, Paso5]
-    // Paso 1 (Intro) y Paso 5 (Fin) siempre están desbloqueados (true)
-    let stepUnlocked = [true, false, false, false, true]; 
-
-    // Contadores para las actividades
-    let itemsClickedStep2 = 0;
-    let cardsClickedStep3 = 0;
-
-    const steps = document.querySelectorAll('.course-step');
-    const menuItems = document.querySelectorAll('.lms-menu-item');
-    const prevBtn = document.getElementById('prevBtn');
-    const nextBtn = document.getElementById('nextBtn');
-    const finishBtn = document.getElementById('finishBtn');
-    const bloqueoMsg = document.getElementById('bloqueo-msg');
-
-    function updateUI() {
-      // 1. Mostrar el paso actual
-      steps.forEach((step, index) => {
-        step.classList.remove('active');
-        menuItems[index].classList.remove('active');
-        
-        if (index < currentStep) menuItems[index].classList.add('completed');
-        
-        // Gestión del menú (solo clickable si ya pasaste por ahí)
-        if (index <= currentStep || stepUnlocked[index-1]) {
-           menuItems[index].classList.add('unlocked');
-           menuItems[index].onclick = () => goToStep(index);
-        }
-      });
-
-      steps[currentStep].classList.add('active');
-      menuItems[currentStep].classList.add('active');
-
-      // 2. Gestión del botón ANTERIOR
-      prevBtn.style.visibility = (currentStep === 0) ? 'hidden' : 'visible';
-
-      // 3. Gestión del botón SIGUIENTE y FINALIZAR
-      if (currentStep === totalSteps - 1) {
-        nextBtn.style.display = 'none';
-        finishBtn.style.display = 'inline-block';
-        bloqueoMsg.style.display = 'none';
-      } else {
-        nextBtn.style.display = 'inline-block';
-        finishBtn.style.display = 'none';
-        
-        // Bloquear o Desbloquear el botón siguiente
-        if (stepUnlocked[currentStep]) {
-            nextBtn.disabled = false;
-            bloqueoMsg.style.display = 'none';
-        } else {
-            nextBtn.disabled = true;
-            bloqueoMsg.style.display = 'block';
-        }
-      }
+    let currentStep=0; const totalSteps=5; let stepUnlocked=[true,false,false,false,true]; let itemsClicked=0, cardsClicked=0;
+    const steps=document.querySelectorAll('.course-step'), menus=document.querySelectorAll('.lms-menu-item'), prev=document.getElementById('prevBtn'), next=document.getElementById('nextBtn'), finish=document.getElementById('finishBtn'), msg=document.getElementById('bloqueo-msg');
+    function updateUI(){
+      steps.forEach((s,i)=>{s.classList.remove('active'); menus[i].classList.remove('active'); if(i<currentStep) menus[i].classList.add('completed'); if(i<=currentStep||stepUnlocked[i-1]){menus[i].classList.add('unlocked'); menus[i].onclick=()=>goStep(i);}else{menus[i].onclick=null;}});
+      steps[currentStep].classList.add('active'); menus[currentStep].classList.add('active');
+      prev.style.visibility=(currentStep===0)?'hidden':'visible';
+      if(currentStep===totalSteps-1){next.style.display='none'; finish.style.display='inline-block'; msg.style.display='none';}else{next.style.display='inline-block'; finish.style.display='none'; if(stepUnlocked[currentStep]){next.disabled=false; msg.style.display='none';}else{next.disabled=true; msg.style.display='block';}}
     }
-
-    function changeStep(n) {
-      if (n === 1 && !stepUnlocked[currentStep]) return; // Seguridad extra
-      currentStep += n;
-      if (currentStep >= totalSteps) currentStep = totalSteps - 1;
-      if (currentStep < 0) currentStep = 0;
-      updateUI();
-    }
-
-    function goToStep(n) {
-      // Solo permite ir si el paso anterior está desbloqueado
-      if (n > 0 && !stepUnlocked[n-1] && n > currentStep) return;
-      currentStep = n;
-      updateUI();
-    }
-
-    // --- LÓGICA DE LAS ACTIVIDADES ---
-
-    // ACTIVIDAD PASO 2: Clicar 3 elementos
-    function checkItem(stepIndex, element) {
-      if (element.classList.contains('checked')) return; // Ya clicado
-      element.classList.add('checked');
-      itemsClickedStep2++;
-      
-      if (itemsClickedStep2 >= 3) {
-        unlockStep(stepIndex);
-      }
-    }
-
-    // ACTIVIDAD PASO 3: Clicar 3 tarjetas
-    function checkCard(stepIndex, element) {
-      if (element.classList.contains('visto')) return;
-      element.classList.add('visto');
-      cardsClickedStep3++;
-
-      if (cardsClickedStep3 >= 3) {
-        unlockStep(stepIndex);
-      }
-    }
-
-    // FUNCIÓN GENÉRICA PARA DESBLOQUEAR
-    function unlockStep(index) {
-      if (!stepUnlocked[index]) {
-        stepUnlocked[index] = true;
-        
-        // Feedback visual si es el hover del paso 4
-        if (index === 4) {
-            document.getElementById('msg-hover').style.display = 'block';
-        }
-        
-        updateUI(); // Refrescar botones
-      }
-    }
-
-    // Inicializar
+    function changeStep(n){if(n===1&&!stepUnlocked[currentStep])return; currentStep+=n; updateUI();}
+    function goStep(n){if(n>0&&!stepUnlocked[n-1]&&n>currentStep)return; currentStep=n; updateUI();}
+    function unlockStep(i){if(!stepUnlocked[i]){stepUnlocked[i]=true; if(i===4)document.getElementById('msg-hover').style.display='block'; updateUI();}}
+    function checkItem(i,el){if(!el.classList.contains('checked')){el.classList.add('checked'); itemsClicked++; if(itemsClicked>=3)unlockStep(i);}}
+    function checkCard(i,el){if(!el.classList.contains('visto')){el.classList.add('visto'); cardsClicked++; if(cardsClicked>=3)unlockStep(i);}}
     updateUI();
   </script>
 </body>

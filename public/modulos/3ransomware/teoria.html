@@ -6,262 +6,110 @@
   <title>Módulo 3: Ransomware - NoHaxx</title>
   <link rel="stylesheet" href="../../style.css">
   <style>
-    /* ESTILOS LM */
     body { background-color: #f4f4f4; }
     .lms-container { display: flex; max-width: 1200px; margin: 2rem auto; background: white; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border-radius: 8px; overflow: hidden; min-height: 650px; }
-    
     .lms-sidebar { width: 25%; background-color: #f8f9fa; border-right: 1px solid #ddd; padding: 20px; }
     .lms-sidebar h3 { font-size: 1.1rem; border-bottom: 2px solid #0f1e40; padding-bottom: 10px; margin-bottom: 20px; }
     .lms-menu-item { padding: 12px 15px; margin-bottom: 8px; color: #555; border-radius: 5px; cursor: not-allowed; opacity: 0.6; transition: all 0.2s; }
     .lms-menu-item.unlocked { cursor: pointer; opacity: 1; }
-    .lms-menu-item.active { background-color: #d32f2f; /* Rojo para Ransomware */ color: white; font-weight: bold; opacity: 1; }
+    .lms-menu-item.active { background-color: #d32f2f; color: white; font-weight: bold; opacity: 1; }
     .lms-menu-item.completed::after { content: " ✓"; color: #28a745; font-weight: bold; }
-
-    /* Contenido */
     .lms-content { width: 75%; padding: 40px; display: flex; flex-direction: column; position: relative; }
     .course-step { display: none; animation: fadeIn 0.5s; }
     .course-step.active { display: block; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     
-    .caso-card { background: #fff; border: 1px solid #ccc; padding: 15px; border-radius: 8px; cursor: pointer; transition: 0.3s; margin-bottom: 10px; }
-    .caso-card:hover { border-color: #d32f2f; background: #fff5f5; }
-    .caso-card.visto { border-left: 5px solid #d32f2f; background: #f9f9f9; opacity: 0.8; }
-    .caso-card.visto::after { content: " Leído 👁️"; float: right; font-size: 0.8rem; color: #666; }
-
+    .caso-card { background: #fff; border: 1px solid #ccc; padding: 15px; margin-bottom: 10px; cursor: pointer; }
+    .caso-card.visto { border-left: 5px solid #d32f2f; background: #f9f9f9; }
     .simulacion-screen { background: #000; color: #0f0; padding: 20px; border-radius: 5px; font-family: monospace; margin: 15px 0; }
-    .btn-risk { padding: 10px; margin: 5px; border: 1px solid #333; cursor: pointer; background: #eee; width: 100%; text-align: left; }
-    .btn-risk:hover { background: #ddd; }
-    
+    .btn-risk { padding: 10px; width: 100%; margin: 5px 0; cursor: pointer; }
     .proteccion-item { display: flex; align-items: center; background: #e3f2fd; padding: 15px; margin: 10px 0; border-radius: 8px; cursor: pointer; }
-    .proteccion-item input { margin-right: 15px; transform: scale(1.5); }
     .proteccion-item.checked { background-color: #c8e6c9; }
+    
+    .video-box { background: #ffebee; border: 1px solid #ffcdd2; padding: 15px; margin-top: 20px; border-radius: 5px; }
+    .video-box a { color: #b71c1c; font-weight: bold; text-decoration: none; }
 
     .navigation-buttons { margin-top: auto; display: flex; justify-content: space-between; border-top: 1px solid #eee; padding-top: 20px; align-items: center; }
-    .btn-nav { padding: 10px 25px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; transition: 0.3s; }
-    .btn-prev { background: #e0e0e0; }
-    .btn-next { background: #d32f2f; color: white; }
-    .btn-next:disabled { background: #ccc; cursor: not-allowed; }
-    .instruccion-bloqueo { color: #d32f2f; font-weight: bold; margin-right: 15px; display: none; }
+    .btn-nav { padding: 10px 25px; border-radius: 5px; border:none; cursor: pointer; font-weight: bold; }
+    .btn-prev { background: #e0e0e0; } .btn-next { background: #d32f2f; color: white; }
+    .btn-next:disabled { background: #ccc; }
+    .instruccion-bloqueo { color: #d32f2f; margin-right: 15px; display: none; font-weight:bold; font-size:0.9rem;}
     .btn-next:disabled + .instruccion-bloqueo { display: block; }
-    .btn-finish { background: #28a745; color: white; padding: 10px 25px; text-decoration: none; border-radius: 5px; display: none; font-weight: bold; }
+    .btn-finish { background: #28a745; color: white; padding: 10px 25px; border-radius: 5px; display: none; text-decoration: none; font-weight: bold; }
   </style>
 </head>
 <body>
-
-  <header>
-    <div class="logo">NoHaxx</div>
-    <div class="top-buttons">
-      <a href="../../modulos.html">Salir del Módulo</a>
-    </div>
-  </header>
-
+  <header><div class="logo">NoHaxx</div><div class="top-buttons"><a href="../../modulos.html">Salir</a></div></header>
   <div class="lms-container">
     <aside class="lms-sidebar">
-      <h3>🔒 Índice Ransomware</h3>
+      <h3>🔒 Índice: Ransomware</h3>
       <div class="lms-menu-item unlocked active" id="menu-0">1. ¿Qué es?</div>
-      <div class="lms-menu-item" id="menu-1">2. Casos Famosos</div>
-      <div class="lms-menu-item" id="menu-2">3. Riesgos (Simulación)</div>
+      <div class="lms-menu-item" id="menu-1">2. Casos Reales</div>
+      <div class="lms-menu-item" id="menu-2">3. Simulación</div>
       <div class="lms-menu-item" id="menu-3">4. Protección</div>
       <div class="lms-menu-item" id="menu-4">5. Conclusión</div>
     </aside>
-
     <main class="lms-content">
-
       <div class="course-step active">
         <h2>1. El Secuestro Digital</h2>
-        <p>El <strong>Ransomware</strong> es un tipo de malware que "secuestra" tus datos cifrándolos con una clave matemática compleja. Una vez infectado, no puedes abrir tus archivos.</p> 
-        
-        <p>Los criminales exigen un rescate (ransom) económico, generalmente en criptomonedas, a cambio de la clave de descifrado. Sin embargo, <strong>pagar nunca garantiza recuperar los datos</strong>.</p>
-        <div style="background: #ffebee; border-left: 4px solid #d32f2f; padding: 15px;">
-          <strong>⚠️ Impacto:</strong> Puede paralizar hospitales, ayuntamientos y empresas durante semanas.
-        </div>
+        <p>El ransomware cifra tus archivos y pide un rescate. Pagar nunca garantiza recuperarlos.</p>
       </div>
-
       <div class="course-step">
-        <h2>2. Historia del Caos</h2>
-        <p>Para avanzar, haz clic y lee al menos <strong>2 casos reales</strong> que sacudieron el mundo:</p>
-        
-        <div class="caso-card" onclick="checkCase(this)">
-          <h4>🦠 WannaCry (2017)</h4>
-          <p style="display:none; margin-top:10px; color:#555;">Afectó a más de 200,000 ordenadores en 150 países, incluyendo el sistema de salud británico y Telefónica en España. Explotaba una vulnerabilidad de Windows no actualizada.</p>
-        </div>
-
-        <div class="caso-card" onclick="checkCase(this)">
-          <h4>🏭 NotPetya (2017)</h4>
-          <p style="display:none; margin-top:10px; color:#555;">Disfrazado de ransomware, su objetivo real era destruir datos. Causó pérdidas millonarias a la naviera Maersk y empresas farmacéuticas.</p>
-        </div>
-
-        <div class="caso-card" onclick="checkCase(this)">
-          <h4>🍖 JBS Foods (2021)</h4>
-          <p style="display:none; margin-top:10px; color:#555;">La mayor procesadora de carne del mundo pagó 11 millones de dólares en rescate tras verse obligada a detener su producción en EE.UU. y Australia.</p>
-        </div>
+        <h2>2. Casos Famosos</h2>
+        <p>Lee 2 casos:</p>
+        <div class="caso-card" onclick="checkCase(this)"><h4>WannaCry (2017)</h4><p style="display:none">Afectó a 150 países.</p></div>
+        <div class="caso-card" onclick="checkCase(this)"><h4>NotPetya (2017)</h4><p style="display:none">Destrucción de datos masiva.</p></div>
+        <div class="caso-card" onclick="checkCase(this)"><h4>JBS Foods (2021)</h4><p style="display:none">Paralizó la producción de carne.</p></div>
       </div>
-
       <div class="course-step">
         <h2>3. Comportamientos de Riesgo</h2>
-        <p>¿Cómo entra el ransomware? A menudo a través de macros en documentos Office o descargas.</p>
-        <p><strong>SIMULACIÓN:</strong> Te llega un correo con el adjunto <code>Factura_Pendiente.docm</code>. Al abrirlo, Word te pide: "Habilitar contenido (Macros)". ¿Qué haces?</p>
-        
+        <p>Simulación: Archivo <code>Factura.docm</code> pide habilitar macros.</p>
         <div class="simulacion-screen">
-          <p>> DETECTADO ARCHIVO CON MACROS</p>
-          <button class="btn-risk" onclick="riskAction(false)">A) Habilitar contenido para ver la factura.</button>
-          <button class="btn-risk" onclick="riskAction(false)">B) Desactivar el antivirus momentáneamente.</button>
-          <button class="btn-risk" onclick="riskAction(true)">C) Cerrar el archivo y no habilitar nada.</button>
+          <button class="btn-risk" onclick="riskAction(false)">A) Habilitar</button>
+          <button class="btn-risk" onclick="riskAction(true)">B) Cerrar (Correcto)</button>
         </div>
-        <p id="risk-feedback" style="font-weight:bold;"></p>
+        <p id="risk-feedback"></p>
       </div>
-
       <div class="course-step">
         <h2>4. Escudo Defensivo</h2>
-        <p>Selecciona las <strong>3 medidas fundamentales</strong> para protegerte contra el ransomware:</p>
-        
-        <div class="proteccion-item" onclick="toggleProtection(this)">
-          <input type="checkbox" disabled>
-          <span><strong>Backups (Copias de seguridad)</strong> desconectadas de la red (Regla 3-2-1).</span>
-        </div>
-        
-        <div class="proteccion-item" onclick="toggleProtection(this)">
-          <input type="checkbox" disabled>
-          <span><strong>Actualizaciones</strong> del sistema operativo y parches de seguridad.</span>
-        </div>
-
-        <div class="proteccion-item" onclick="toggleProtection(this)">
-          <input type="checkbox" disabled>
-          <span><strong>Antivirus / EDR</strong> actualizado y activo en tiempo real.</span>
-        </div>
+        <p>Marca las 3 claves:</p>
+        <div class="proteccion-item" onclick="toggleProt(this)"><input type="checkbox" disabled> Backups Offline</div>
+        <div class="proteccion-item" onclick="toggleProt(this)"><input type="checkbox" disabled> Actualizaciones</div>
+        <div class="proteccion-item" onclick="toggleProt(this)"><input type="checkbox" disabled> Antivirus</div>
       </div>
-
       <div class="course-step">
         <h2>5. Resumen</h2>
-        <p>¡Excelente! Ahora entiendes la gravedad del ransomware.</p>
-        <ul>
-          <li>🚫 El ransomware cifra archivos y pide dinero.</li>
-          <li>📉 Pagar no es una solución fiable.</li>
-          <li>🛡️ Los backups offline son tu seguro de vida.</li>
-        </ul>
-        <p>Estás preparado para demostrar lo aprendido en el Examen Final.</p>
+        <p>Recuerda: Backups, actualizaciones y desconfianza.</p>
+        <div class="video-box">
+          <h4>📺 Vídeo Recomendado (1 min)</h4>
+          <a href="https://www.youtube.com/watch?v=sd7Ns_ziBPY" target="_blank">▶¿Qué es un ransomware? - Prosegur</a>
+        </div>
       </div>
-
       <div class="navigation-buttons">
         <button class="btn-nav btn-prev" id="prevBtn" onclick="changeStep(-1)">Anterior</button>
         <div style="display:flex; align-items:center;">
-          <span id="bloqueo-msg" class="instruccion-bloqueo">⚠️ Completa la actividad</span>
+          <span id="bloqueo-msg" class="instruccion-bloqueo">⚠️ Completa la tarea</span>
           <button class="btn-nav btn-next" id="nextBtn" onclick="changeStep(1)">Siguiente ➜</button>
         </div>
-        <a href="examen.html" class="btn-finish" id="finishBtn">Ir al Examen Final</a>
+        <a href="examen.html" class="btn-finish" id="finishBtn">Ir al Examen</a>
       </div>
-
     </main>
   </div>
-
   <script>
-    let currentStep = 0;
-    const totalSteps = 5;
-    let stepUnlocked = [true, false, false, false, true]; 
-
-    // Contadores
-    let casesRead = 0;
-    let protectionChecked = 0;
-
-    const steps = document.querySelectorAll('.course-step');
-    const menuItems = document.querySelectorAll('.lms-menu-item');
-    const prevBtn = document.getElementById('prevBtn');
-    const nextBtn = document.getElementById('nextBtn');
-    const finishBtn = document.getElementById('finishBtn');
-    const bloqueoMsg = document.getElementById('bloqueo-msg');
-
-    function updateUI() {
-      steps.forEach((step, index) => {
-        step.classList.remove('active');
-        menuItems[index].classList.remove('active');
-        if (index < currentStep) menuItems[index].classList.add('completed');
-        
-        if (index <= currentStep || stepUnlocked[index-1]) {
-           menuItems[index].classList.add('unlocked');
-           menuItems[index].onclick = () => goToStep(index);
-        } else {
-           menuItems[index].onclick = null;
-        }
-      });
-
-      steps[currentStep].classList.add('active');
-      menuItems[currentStep].classList.add('active');
-
-      prevBtn.style.visibility = (currentStep === 0) ? 'hidden' : 'visible';
-
-      if (currentStep === totalSteps - 1) {
-        nextBtn.style.display = 'none';
-        finishBtn.style.display = 'inline-block';
-        bloqueoMsg.style.display = 'none';
-      } else {
-        nextBtn.style.display = 'inline-block';
-        finishBtn.style.display = 'none';
-        
-        if (stepUnlocked[currentStep]) {
-            nextBtn.disabled = false;
-            bloqueoMsg.style.display = 'none';
-        } else {
-            nextBtn.disabled = true;
-            bloqueoMsg.style.display = 'block';
-        }
-      }
+    let currentStep=0; const totalSteps=5; let stepUnlocked=[true,false,false,false,true]; let casesRead=0, protChecked=0;
+    const steps=document.querySelectorAll('.course-step'), menus=document.querySelectorAll('.lms-menu-item'), prev=document.getElementById('prevBtn'), next=document.getElementById('nextBtn'), finish=document.getElementById('finishBtn'), msg=document.getElementById('bloqueo-msg');
+    function updateUI(){
+      steps.forEach((s,i)=>{s.classList.remove('active'); menus[i].classList.remove('active'); if(i<currentStep)menus[i].classList.add('completed'); if(i<=currentStep||stepUnlocked[i-1]){menus[i].classList.add('unlocked'); menus[i].onclick=()=>goStep(i);}else{menus[i].onclick=null;}});
+      steps[currentStep].classList.add('active'); menus[currentStep].classList.add('active');
+      prev.style.visibility=(currentStep===0)?'hidden':'visible';
+      if(currentStep===totalSteps-1){next.style.display='none'; finish.style.display='inline-block'; msg.style.display='none';}else{next.style.display='inline-block'; finish.style.display='none'; if(stepUnlocked[currentStep]){next.disabled=false; msg.style.display='none';}else{next.disabled=true; msg.style.display='block';}}
     }
-
-    function changeStep(n) {
-      if (n === 1 && !stepUnlocked[currentStep]) return;
-      currentStep += n;
-      if (currentStep >= totalSteps) currentStep = totalSteps - 1;
-      if (currentStep < 0) currentStep = 0;
-      updateUI();
-    }
-
-    function goToStep(n) {
-      if (n > 0 && !stepUnlocked[n-1] && n > currentStep) return;
-      currentStep = n;
-      updateUI();
-    }
-
-    function unlockStep(index) {
-      if (!stepUnlocked[index]) {
-        stepUnlocked[index] = true;
-        updateUI();
-      }
-    }
-
-    function checkCase(element) {
-      const p = element.querySelector('p');
-      if (p.style.display === 'none') {
-        p.style.display = 'block';
-        if (!element.classList.contains('visto')) {
-          element.classList.add('visto');
-          casesRead++;
-          if (casesRead >= 2) unlockStep(1);
-        }
-      }
-    }
-
-    function riskAction(isCorrect) {
-      const feedback = document.getElementById('risk-feedback');
-      if (isCorrect) {
-        feedback.style.color = 'green';
-        feedback.textContent = "✅ ¡Correcto! Las macros son una puerta de entrada común para el malware.";
-        unlockStep(2);
-      } else {
-        feedback.style.color = 'red';
-        feedback.textContent = "❌ Error: Habilitar macros de origen desconocido infectaría el equipo.";
-      }
-    }
-
-    function toggleProtection(element) {
-      const checkbox = element.querySelector('input');
-      if (!checkbox.checked) {
-        checkbox.checked = true;
-        element.classList.add('checked');
-        protectionChecked++;
-        if (protectionChecked >= 3) unlockStep(3); // Desbloquea paso 4
-      }
-    }
-
+    function changeStep(n){if(n===1&&!stepUnlocked[currentStep])return; currentStep+=n; updateUI();}
+    function goStep(n){if(n>0&&!stepUnlocked[n-1]&&n>currentStep)return; currentStep=n; updateUI();}
+    function unlockStep(i){if(!stepUnlocked[i]){stepUnlocked[i]=true; updateUI();}}
+    function checkCase(el){const p=el.querySelector('p'); if(p.style.display==='none'){p.style.display='block'; if(!el.classList.contains('visto')){el.classList.add('visto'); casesRead++; if(casesRead>=2)unlockStep(1);}}}
+    function riskAction(ok){const fb=document.getElementById('risk-feedback'); if(ok){fb.style.color='green'; fb.innerText='✅ Correcto.'; unlockStep(2);}else{fb.style.color='red'; fb.innerText='❌ Error. Macros = Peligro.';}}
+    function toggleProt(el){const ch=el.querySelector('input'); if(!ch.checked){ch.checked=true; el.classList.add('checked'); protChecked++; if(protChecked>=3)unlockStep(3);}}
     updateUI();
   </script>
 </body>

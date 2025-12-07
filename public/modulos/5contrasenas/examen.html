@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Examen Final: Contraseñas</title>
+  <link rel="stylesheet" href="../../style.css">
+</head>
+<body>
+  <header><div class="logo">NoHaxx</div></header>
+  <main class="main-content">
+    <section class="modulo">
+      <h2>🔑 Examen: Gestión de Credenciales</h2>
+      <p>Demuestra que tus llaves digitales están seguras.</p>
+      
+      <div class="pregunta examen" data-correcta="c">
+        <h3>1. Creando una contraseña</h3>
+        <p>Necesitas crear una contraseña nueva para el correo corporativo. ¿Cuál eliges?</p>
+        <button data-respuesta="a">Empresa2025 (Fácil de recordar)</button>
+        <button data-respuesta="b">P@ssword! (Tiene símbolos y mayúsculas)</button>
+        <button data-respuesta="c">MeGustaElCafePorLaMañana!99 (Frase larga y compleja)</button>
+      </div>
+
+      <div class="pregunta examen" data-correcta="b">
+        <h3>2. Doble Factor (2FA)</h3>
+        <p>Al intentar entrar en tu cuenta, el sistema te pide un código extra. ¿Por qué?</p>
+        <button data-respuesta="a">Porque he olvidado la contraseña.</button>
+        <button data-respuesta="b">Es una capa extra de seguridad (algo que sé + algo que tengo).</button>
+        <button data-respuesta="c">Es un error del sistema, debo llamar a IT.</button>
+      </div>
+
+      <div class="pregunta examen" data-correcta="a">
+        <h3>3. Gestión</h3>
+        <p>Tienes 20 cuentas diferentes. ¿Cómo las gestionas?</p>
+        <button data-respuesta="a">Uso un Gestor de Contraseñas (Password Manager).</button>
+        <button data-respuesta="b">Uso la misma contraseña para todo, así no se me olvida.</button>
+        <button data-respuesta="c">Las apunto en un cuaderno en mi cajón.</button>
+      </div>
+
+      <div class="resultado">
+        <p id="puntuacion-examen" style="font-weight:bold; margin-top:20px;"></p>
+        <div id="mensaje-final"></div>
+      </div>
+    </section>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+  <script src="../../scripts/firebase-config.js"></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const preguntas = document.querySelectorAll('.pregunta.examen');
+      const mensajeFinal = document.getElementById('mensaje-final');
+      let aciertos = 0;
+      let contestadas = 0;
+      const total = preguntas.length;
+
+      preguntas.forEach(pregunta => {
+        const botones = pregunta.querySelectorAll('button');
+        botones.forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            if(pregunta.classList.contains('contestada')) return;
+            pregunta.classList.add('contestada');
+            if (e.target.getAttribute('data-respuesta') === pregunta.getAttribute('data-correcta')) {
+              e.target.style.backgroundColor = '#d4edda'; aciertos++;
+            } else { e.target.style.backgroundColor = '#f8d7da'; }
+            contestadas++;
+            if (contestadas === total) finalizar(aciertos);
+          });
+        });
+      });
+
+      function finalizar(nota) {
+        document.getElementById('puntuacion-examen').textContent = `Puntuación: ${nota}/${total}`;
+        if (nota >= 2) {
+           mensajeFinal.innerHTML = "<h3 style='color:green'>¡Aprobado! ✅</h3>";
+           guardarNota(10);
+        } else {
+           mensajeFinal.innerHTML = "<h3 style='color:red'>Suspenso ❌</h3><button onclick='location.reload()' class='boton'>Reintentar</button>";
+        }
+      }
+
+      function guardarNota(puntos) {
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+        auth.onAuthStateChanged(user => {
+          if (user) {
+            db.collection('userScores').doc(user.uid).set({
+              scores: { contrasenas: puntos }
+            }, { merge: true }).then(() => {
+               mensajeFinal.innerHTML += "<br><a href='../../modulos.html' class='boton'>Volver al Menú</a>";
+            });
+          }
+        });
+      }
+    });
+  </script>
+</body>
+</html>

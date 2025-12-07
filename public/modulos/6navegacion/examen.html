@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Examen Final: Navegación</title>
+  <link rel="stylesheet" href="../../style.css">
+</head>
+<body>
+  <header><div class="logo">NoHaxx</div></header>
+  <main class="main-content">
+    <section class="modulo">
+      <h2>🌍 Examen: Navegación Segura</h2>
+      
+      <div class="pregunta examen" data-correcta="b">
+        <h3>1. Trabajo en remoto</h3>
+        <p>Necesitas enviar un archivo confidencial desde una cafetería.</p>
+        <button data-respuesta="a">Uso el WiFi de la cafetería, es más rápido.</button>
+        <button data-respuesta="b">Uso la VPN de la empresa o mis datos móviles.</button>
+        <button data-respuesta="c">Le pido la clave del WiFi al camarero.</button>
+      </div>
+
+      <div class="pregunta examen" data-correcta="a">
+        <h3>2. Candado Web</h3>
+        <p>¿Qué indica el candado (HTTPS) en la barra de dirección?</p>
+        <button data-respuesta="a">Que la conexión entre tú y la web está cifrada.</button>
+        <button data-respuesta="b">Que la página web es 100% legal y no tiene virus.</button>
+        <button data-respuesta="c">Que Google recomienda esa página.</button>
+      </div>
+
+      <div class="resultado">
+        <p id="puntuacion-examen" style="font-weight:bold; margin-top:20px;"></p>
+        <div id="mensaje-final"></div>
+      </div>
+    </section>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+  <script src="../../scripts/firebase-config.js"></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const preguntas = document.querySelectorAll('.pregunta.examen');
+      const mensajeFinal = document.getElementById('mensaje-final');
+      let aciertos = 0;
+      let contestadas = 0;
+      const total = preguntas.length;
+
+      preguntas.forEach(pregunta => {
+        const botones = pregunta.querySelectorAll('button');
+        botones.forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            if(pregunta.classList.contains('contestada')) return;
+            pregunta.classList.add('contestada');
+            if (e.target.getAttribute('data-respuesta') === pregunta.getAttribute('data-correcta')) {
+              e.target.style.backgroundColor = '#d4edda'; aciertos++;
+            } else { e.target.style.backgroundColor = '#f8d7da'; }
+            contestadas++;
+            if (contestadas === total) finalizar(aciertos);
+          });
+        });
+      });
+
+      function finalizar(nota) {
+        document.getElementById('puntuacion-examen').textContent = `Puntuación: ${nota}/${total}`;
+        if (nota >= 1) {
+           mensajeFinal.innerHTML = "<h3 style='color:green'>¡Curso Completado! 🎓</h3><p>Has terminado todos los módulos.</p>";
+           guardarNota(10);
+        } else {
+           mensajeFinal.innerHTML = "<h3 style='color:red'>Suspenso ❌</h3><button onclick='location.reload()' class='boton'>Reintentar</button>";
+        }
+      }
+
+      function guardarNota(puntos) {
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+        auth.onAuthStateChanged(user => {
+          if (user) {
+            db.collection('userScores').doc(user.uid).set({
+              scores: { navegacion: puntos }
+            }, { merge: true }).then(() => {
+               mensajeFinal.innerHTML += "<br><a href='/resultados.html' class='boton'>Ver Certificado / Resultados</a>";
+            });
+          }
+        });
+      }
+    });
+  </script>
+</body>
+</html>
