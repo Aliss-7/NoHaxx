@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Examen Ingeniería Social</title>
+  <title>Examen Final: Ingeniería Social</title>
   <link rel="stylesheet" href="../../style.css">
 </head>
 <body>
@@ -13,61 +13,111 @@
 
   <main class="main-content">
     <section class="modulo">
-      <h2>Examen Final: Ingeniería Social</h2>
-      <p class="pregunta">Te llama alguien diciendo ser del Soporte Técnico  te pide tu contraseña para arreglar un virus urgente. ¿Qué haces?</p>
+      <h2>🎭 Examen: Detecta el Engaño</h2>
+      <p>Resuelve estas 3 situaciones laborales donde alguien intenta manipularte. Elige la acción más segura.</p>
       
-      <div class="opciones-examen">
-        <button onclick="finalizar(false)">A) Se la doy, es una urgencia.</button>
-        <button onclick="finalizar(true)">B) Cuelgo y llamo yo al número oficial de soporte para verificar.</button>
-        <button onclick="finalizar(false)">C) Le doy la contraseña pero luego la cambio rápido.</button>
+      <div class="pregunta examen" data-correcta="b">
+        <h3>Caso 1: La Llamada Urgente</h3>
+        <p>Recibes una llamada de un supuesto "técnico de Microsoft". Dice que tu equipo está emitiendo virus y necesita tu contraseña para detenerlo antes de que bloqueen la red de toda la empresa.</p>
+        <button data-respuesta="a">Se la doy rápidamente para no perjudicar a mis compañeros.</button>
+        <button data-respuesta="b">Desconfío. Cuelgo y llamo al departamento de IT interno para verificar.</button>
+        <button data-respuesta="c">Le pido su número de empleado y luego se la doy.</button>
       </div>
 
-      <div id="mensaje-final"></div>
+      <div class="pregunta examen" data-correcta="c">
+        <h3>Caso 2: La Puerta de Entrada</h3>
+        <p>Llegas a la oficina y, al pasar tu tarjeta, una persona amable cargada con cajas de "pizzas" te pide que le sujetes la puerta porque no tiene manos libres.</p>
+        <button data-respuesta="a">Le sujeto la puerta por educación.</button>
+        <button data-respuesta="b">Le dejo pasar, pero le pregunto a quién viene a ver.</button>
+        <button data-respuesta="c">Le indico que debe llamar a recepción para que le abran desde dentro.</button>
+      </div>
+
+      <div class="pregunta examen" data-correcta="a">
+        <h3>Caso 3: La Curiosidad</h3>
+        <p>Encuentras un pendrive USB en el suelo del parking con una etiqueta que dice "Despidos 2025 y Bonus".</p>
+        <button data-respuesta="a">Lo entrego al departamento de IT sin conectarlo a ningún equipo.</button>
+        <button data-respuesta="b">Lo conecto un momento solo para ver si el archivo es real.</button>
+        <button data-respuesta="c">Me lo llevo a casa y lo pruebo en mi ordenador personal.</button>
+      </div>
+
+      <div class="resultado">
+        <p id="puntuacion-examen" style="font-weight:bold; margin-top:20px;"></p>
+        <div id="mensaje-final"></div>
+      </div>
     </section>
   </main>
 
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
-  
   <script src="../../scripts/firebase-config.js"></script>
 
   <script>
-    function finalizar(esCorrecto) {
-      const auth = firebase.auth();
-      const db = firebase.firestore();
-      const feedback = document.getElementById('mensaje-final');
+    document.addEventListener("DOMContentLoaded", () => {
+      const preguntas = document.querySelectorAll('.pregunta.examen');
+      const puntuacionTxt = document.getElementById('puntuacion-examen');
+      const mensajeFinal = document.getElementById('mensaje-final');
+      
+      let aciertos = 0;
+      let contestadas = 0;
+      const total = preguntas.length;
 
-      if (!esCorrecto) {
-        feedback.innerHTML = "<p style='color:red; font-weight:bold;'>❌ Incorrecto. Jamás des tu contraseña por teléfono.</p>";
-        return;
+      preguntas.forEach(pregunta => {
+        const botones = pregunta.querySelectorAll('button');
+        botones.forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            if(pregunta.classList.contains('contestada')) return;
+            pregunta.classList.add('contestada');
+
+            const respuestaUser = e.target.getAttribute('data-respuesta');
+            const respuestaCorrecta = pregunta.getAttribute('data-correcta');
+
+            if (respuestaUser === respuestaCorrecta) {
+              e.target.style.backgroundColor = '#d4edda';
+              e.target.style.borderColor = '#c3e6cb';
+              aciertos++;
+            } else {
+              e.target.style.backgroundColor = '#f8d7da';
+              e.target.style.borderColor = '#f5c6cb';
+            }
+            
+            contestadas++;
+
+            if (contestadas === total) {
+              finalizarExamen(aciertos);
+            }
+          });
+        });
+      });
+
+      function finalizarExamen(nota) {
+        puntuacionTxt.textContent = `Tu puntuación: ${nota}/${total}`;
+        const aprobado = nota >= 2; 
+
+        if (aprobado) {
+           mensajeFinal.innerHTML = "<h3 style='color:green'>¡Manipulación Detectada! ✅</h3><p>Has superado el módulo.</p>";
+           guardarNota(10);
+        } else {
+           mensajeFinal.innerHTML = "<h3 style='color:red'>Has caído en la trampa ❌</h3><p>La ingeniería social es sutil. Repasa los tipos de engaño.</p><button onclick='location.reload()' class='boton'>Reintentar</button>";
+        }
       }
 
-      //  si correcto se guarda la nota
-      feedback.innerHTML = "<p style='color:orange;'>Guardando tu progreso...</p>";
+      function guardarNota(puntos) {
+        const auth = firebase.auth();
+        const db = firebase.firestore();
 
-      auth.onAuthStateChanged(user => {
-        if (user) {
-          // se guarda bajo la clave 'ingenieria'
-          db.collection('userScores').doc(user.uid).set({
-            scores: { ingenieria: 10 } 
-          }, { merge: true })
-          .then(() => {
-            feedback.innerHTML = `
-              <h3 style='color:green'>¡Correcto! Módulo Superado ✅</h3>
-              <p>Has completado el itinerario formativo.</p>
-              <a href='/resultados.html' class='boton'>Ver Certificado / Resultados</a>
-            `;
-          })
-          .catch((error) => {
-            console.error("Error:", error);
-            feedback.textContent = "Error al guardar: " + error.message;
-          });
-        } else {
-          feedback.textContent = "Error: No estás logueado.";
-        }
-      });
-    }
+        auth.onAuthStateChanged(user => {
+          if (user) {
+
+            db.collection('userScores').doc(user.uid).set({
+              scores: { ingenieria: puntos }
+            }, { merge: true }).then(() => {
+               mensajeFinal.innerHTML += "<br><a href='../../modulos.html' class='boton' style='margin-top:10px'>Volver a Módulos</a>";
+            });
+          }
+        });
+      }
+    });
   </script>
 </body>
 </html>

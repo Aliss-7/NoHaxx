@@ -5,10 +5,10 @@
   
   firebase.auth().onAuthStateChanged((user) => {
     if (user) {
-      // Ocultar botón Login
+      // ocultar botón Login
       if (loginLink) loginLink.style.display = "none";
   
-      // Añadir botón Módulos si está logueado
+      // añadir botón Módulos si está logueado
       if (!document.getElementById("modulos-link")) {
         const modulosLink = document.createElement("a");
         modulosLink.href = "/modulos.html";
@@ -17,7 +17,7 @@
         navButtons.insertBefore(modulosLink, navButtons.firstChild);
       }
     } else {
-      // Mostrar botón Comenzar solo si no hay sesión
+      // mostrar botón Comenzar si no hay sesión
       comenzarSection.style.display = "block";
       comenzarBtn.addEventListener("click", (e) => {
         e.preventDefault();
