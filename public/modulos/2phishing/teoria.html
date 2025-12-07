@@ -5,42 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Módulo 2: Phishing - NoHaxx</title>
   <link rel="stylesheet" href="../../style.css">
-  <style>
-    body { background-color: #f4f4f4; }
-    .lms-container { display: flex; max-width: 1200px; margin: 2rem auto; background: white; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border-radius: 8px; overflow: hidden; min-height: 650px; }
-    .lms-sidebar { width: 25%; background-color: #f8f9fa; border-right: 1px solid #ddd; padding: 20px; }
-    .lms-sidebar h3 { font-size: 1.1rem; border-bottom: 2px solid #0f1e40; padding-bottom: 10px; margin-bottom: 20px; }
-    .lms-menu-item { padding: 12px 15px; margin-bottom: 8px; color: #555; border-radius: 5px; cursor: not-allowed; opacity: 0.6; font-size: 0.95rem; transition: all 0.2s; }
-    .lms-menu-item.unlocked { cursor: pointer; opacity: 1; }
-    .lms-menu-item.active { background-color: #0f1e40; color: white; font-weight: bold; opacity: 1; }
-    .lms-menu-item.completed::after { content: " ✓"; color: #4caf50; font-weight: bold; }
-    .lms-content { width: 75%; padding: 40px; display: flex; flex-direction: column; position: relative; }
-    .course-step { display: none; animation: fadeIn 0.5s; }
-    .course-step.active { display: block; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-    
-    .interactive-item { background: #fff; border: 2px solid #ddd; padding: 15px; margin: 10px 0; border-radius: 8px; cursor: pointer; transition: 0.3s; }
-    .interactive-item:hover { border-color: #0f1e40; background: #f0f8ff; }
-    .interactive-item.checked { border-color: #28a745; background: #d4edda; color: #155724; }
-    .card-interactiva { background: #fff; border: 1px solid #ccc; padding: 20px; border-radius: 8px; cursor: pointer; min-width: 200px; flex: 1; transition: 0.3s; }
-    .card-interactiva.visto { border: 2px solid #28a745; background-color: #e8f5e9; }
-    .email-simulacion { border: 1px solid #ccc; border-radius: 5px; background: #fff; padding: 20px; margin: 20px 0; font-family: sans-serif; }
-    .fake-link { color: blue; text-decoration: underline; cursor: help; font-weight: bold; padding: 2px 5px; border-radius: 3px; }
-    .fake-link:hover { background-color: yellow; }
-    .fake-link:hover::after { content: "⚠️ URL REAL: http://hacker-site.tk"; position: absolute; background: #d9534f; color: #fff; padding: 5px 10px; border-radius: 4px; font-size: 0.8rem; margin-left: 10px; z-index: 100; }
-    
-    .video-box { background: #e3f2fd; border: 1px solid #bbdefb; padding: 15px; margin-top: 20px; border-radius: 5px; }
-    .video-box a { color: #0d47a1; font-weight: bold; text-decoration: none; }
-
-    .navigation-buttons { margin-top: auto; display: flex; justify-content: space-between; border-top: 1px solid #eee; padding-top: 20px; align-items: center; }
-    .btn-nav { padding: 10px 25px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; transition: 0.3s; }
-    .btn-prev { background-color: #e0e0e0; color: #333; }
-    .btn-next { background-color: #0f1e40; color: white; }
-    .btn-next:disabled { background-color: #ccc; cursor: not-allowed; }
-    .instruccion-bloqueo { color: #d9534f; font-size: 0.9rem; font-weight: bold; margin-right: 15px; display: none; }
-    .btn-next:disabled + .instruccion-bloqueo { display: block; }
-    .btn-finish { background-color: #28a745; color: white; padding: 10px 25px; text-decoration: none; border-radius: 5px; font-weight: bold; display: none; }
-  </style>
 </head>
 <body>
   <header><div class="logo">NoHaxx</div><div class="top-buttons"><a href="../../modulos.html">Salir</a></div></header>

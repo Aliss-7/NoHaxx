@@ -5,51 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Módulo 5: Contraseñas - NoHaxx</title>
   <link rel="stylesheet" href="../../style.css">
-  <style>
-    body { background-color: #f4f4f4; }
-    .lms-container { display: flex; max-width: 1200px; margin: 2rem auto; background: white; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border-radius: 8px; overflow: hidden; min-height: 650px; }
-    
-    .lms-sidebar { width: 25%; background-color: #f8f9fa; border-right: 1px solid #ddd; padding: 20px; }
-    .lms-sidebar h3 { font-size: 1.1rem; border-bottom: 2px solid #0f1e40; padding-bottom: 10px; margin-bottom: 20px; }
-    .lms-menu-item { padding: 12px 15px; margin-bottom: 8px; color: #555; border-radius: 5px; cursor: not-allowed; opacity: 0.6; transition: all 0.2s; }
-    .lms-menu-item.unlocked { cursor: pointer; opacity: 1; }
-    .lms-menu-item.active { background-color: #e91e63; /* Rosa/Fucsia para Contraseñas */ color: white; font-weight: bold; opacity: 1; }
-    .lms-menu-item.completed::after { content: " ✓"; color: #28a745; font-weight: bold; }
-
-    .lms-content { width: 75%; padding: 40px; display: flex; flex-direction: column; position: relative; }
-    .course-step { display: none; animation: fadeIn 0.5s; }
-    .course-step.active { display: block; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-    .password-game-container {
-      background: #333; color: #0f0; padding: 30px; border-radius: 10px; text-align: center; margin: 20px 0; font-family: monospace;
-    }
-    .password-display { font-size: 2rem; margin-bottom: 20px; background: #000; padding: 10px; border: 1px solid #555; }
-    .game-buttons { display: flex; justify-content: center; gap: 20px; }
-    .game-btn { padding: 10px 30px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; font-size: 1.2rem; transition: 0.2s; }
-    .btn-weak { background: #f44336; color: white; }
-    .btn-weak:hover { background: #d32f2f; }
-    .btn-strong { background: #4caf50; color: white; }
-    .btn-strong:hover { background: #388e3c; }
-    #game-feedback { margin-top: 15px; min-height: 20px; font-weight: bold; }
-
-    .methods-grid { display: flex; gap: 15px; margin-top: 20px; }
-    .method-card { flex: 1; border: 1px solid #ddd; padding: 15px; border-radius: 8px; text-align: center; cursor: pointer; transition: 0.3s; }
-    .method-card:hover { border-color: #e91e63; background: #fce4ec; }
-    .method-card.visto { background: #f8bbd0; border-color: #e91e63; }
-    .method-icon { font-size: 2rem; display: block; margin-bottom: 10px; }
-
-    .error-item { background: #ffebee; border-left: 5px solid #f44336; padding: 10px; margin-bottom: 10px; }
-
-    .navigation-buttons { margin-top: auto; display: flex; justify-content: space-between; border-top: 1px solid #eee; padding-top: 20px; align-items: center; }
-    .btn-nav { padding: 10px 25px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; transition: 0.3s; }
-    .btn-prev { background: #e0e0e0; }
-    .btn-next { background: #e91e63; color: white; }
-    .btn-next:disabled { background: #ccc; cursor: not-allowed; }
-    .instruccion-bloqueo { color: #e91e63; font-weight: bold; margin-right: 15px; display: none; }
-    .btn-next:disabled + .instruccion-bloqueo { display: block; }
-    .btn-finish { background: #28a745; color: white; padding: 10px 25px; text-decoration: none; border-radius: 5px; display: none; font-weight: bold; }
-  </style>
 </head>
 <body>
 

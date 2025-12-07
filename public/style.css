@@ -1,3 +1,6 @@
+/* =========================================
+   ESTILOS BASE
+   ========================================= */
 body {
   margin: 0;
   font-family: 'Arial', sans-serif;
@@ -7,6 +10,9 @@ body {
   min-height: 100vh;
 }
 
+/* =========================================
+   CABECERA
+   ========================================= */
 header {
   display: flex;
   justify-content: space-between;
@@ -39,18 +45,28 @@ header {
   background-color: #555;
 }
 
-.top-buttons a:focus {
-  outline: 2px dashed #0f1e40;
-  outline-offset: 3px;
-}
-
+/* =========================================
+   ESTRUCTURA PRINCIPAL
+   ========================================= */
 main {
   padding: 40px 20px;
   text-align: center;
 }
 
-.acciones {
-  margin: 30px 0;
+.main-content {
+  max-width: 1000px;
+  margin: 4rem auto;
+  background-color: #fff;
+  padding: 3rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  text-align: center;
+}
+
+.main-content h1, .main-content h2 {
+  color: #000;
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
 }
 
 .boton {
@@ -62,12 +78,17 @@ main {
   font-weight: bold;
   text-decoration: none;
   display: inline-block;
+  cursor: pointer;
+  transition: background 0.3s;
 }
 
 .boton:hover {
   background-color: #eee;
 }
 
+/* =========================================
+   PÁGINA DE INICIO
+   ========================================= */
 .bloques {
   display: flex;
   justify-content: center;
@@ -86,34 +107,18 @@ main {
   min-width: 200px;
 }
 
-.bloque h3 {
-  margin-top: 0;
-  margin-bottom: 10px;
+.acciones {
+  margin: 30px 0;
 }
 
-.main-content {
-  max-width: 700px;
-  margin: 6rem auto;
-  background-color: #fff;
-  padding: 2.5rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  text-align: center;
-}
-
-.main-content h1 {
-  color: #000;
-  font-size: 2rem;
-  margin-bottom: 1.5rem;
-}
-
-#login-form input[type="email"],
-#login-form input[type="password"],
-#registro-form input[type="email"],
-#registro-form input[type="password"],
-#registro-form input[type="text"],
-#registro-form input[type="tel"],
-#registro-form input[type="file"] {
+/* =========================================
+   FORMULARIOS
+   ========================================= */
+input[type="email"],
+input[type="password"],
+input[type="text"],
+input[type="tel"],
+textarea {
   width: 100%;
   padding: 12px;
   margin: 10px 0;
@@ -122,27 +127,24 @@ main {
   font-size: 1rem;
   background-color: #f0f0f0;
   color: #000;
-  transition: border-color 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+  box-sizing: border-box;
 }
 
-#login-form input:focus,
-#registro-form input:focus {
+input:focus, textarea:focus {
   outline: none;
   border-color: #0f1e40;
   background-color: #e6f0ff;
-  box-shadow: 0 0 5px #0f1e40aa;
 }
 
-#login-form label,
-#registro-form label {
+label {
   display: block;
   font-size: 0.95rem;
   text-align: left;
   margin: 10px 0 5px;
 }
 
-#login-btn,
-#registro-form button[type="submit"] {
+button[type="submit"], #login-btn {
   padding: 10px 20px;
   font-size: 1rem;
   background-color: transparent;
@@ -156,8 +158,7 @@ main {
   width: 100%;
 }
 
-#login-btn:hover,
-#registro-form button[type="submit"]:hover {
+button[type="submit"]:hover, #login-btn:hover {
   background-color: #000;
   color: white;
 }
@@ -171,27 +172,11 @@ main {
   border-bottom: 1px dotted #666;
 }
 
-#registrate:hover {
-  color: #000;
-  border-bottom: 1px solid #000;
-}
-
 #mensaje-error {
   color: red;
   margin-top: 1rem;
   font-size: 0.9rem;
-  text-align: center;
 }
-
-.mensaje-error-corto {
-  color: red;
-  font-size: 0.85rem;
-  margin-top: 4px;
-  min-height: 18px;
-  text-align: left;
-}
-
-/* Página de Contacto */
 
 .contacto-container {
   max-width: 700px;
@@ -203,135 +188,250 @@ main {
   text-align: left;
 }
 
-.contacto-container h1 {
-  font-size: 2rem;
-  color: #000;
-  margin-bottom: 1.5rem;
-  text-align: center;
+/* =========================================
+   DASHBOARD Y LISTA DE MÓDULOS
+   ========================================= */
+.lista-modulos {
+  list-style: none;
+  padding: 0;
+  text-align: left;
 }
 
-.contacto-container label {
+.lista-modulos li {
+  margin-bottom: 15px;
+}
+
+.lista-modulos a {
   display: block;
-  margin-bottom: 0.5rem;
+  padding: 15px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  text-decoration: none;
+  color: #333;
   font-weight: bold;
-  color: #000;
+  transition: 0.3s;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
 }
 
-.contacto-container input,
-.contacto-container textarea {
-  width: 100%;
-  padding: 12px;
-  margin-bottom: 1.5rem;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  font-size: 1rem;
-  background-color: #f0f0f0;
-  color: #000;
-  transition: border-color 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-.contacto-container input:focus,
-.contacto-container textarea:focus {
-  outline: none;
+.lista-modulos a:hover {
   border-color: #0f1e40;
-  background-color: #e6f0ff;
-  box-shadow: 0 0 5px #0f1e40aa;
+  transform: translateX(5px);
 }
 
-.contacto-container button {
-  padding: 10px 20px;
-  font-size: 1rem;
-  background-color: transparent;
-  border: 2px solid #000;
-  color: #000;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: bold;
-  transition: all 0.3s ease;
-  width: 100%;
-}
-
-.contacto-container button:hover {
-  background-color: #000;
-  color: white;
-}
-
-.mensaje-enviado {
-  color: green;
-  margin-top: 1rem;
-  font-size: 0.95rem;
-  text-align: center;
-}
-
-/* Responsive para Contacto */
-@media (max-width: 768px) {
-  .contacto-container {
-    margin: 2rem 1rem;
-    padding: 2rem 1rem;
-  }
-}
-
-.dashboard-container {
-  max-width: 700px;
-  margin: auto;
-  padding: 2rem;
-  background-color: #fff;
-  border-radius: 1rem;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-}
-
-.dashboard-container h1 {
-  text-align: center;
-  margin-bottom: 2rem;
-}
-
-#puntos-modulo p {
-  margin: 0.5rem 0;
-}
-
-
-/* Responsive: móviles y tablets */
-@media (max-width: 768px) {
-  header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
-  }
-  .top-buttons {
-    width: 100%;
-    justify-content: flex-start;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-  .top-buttons a {
-    flex: 1 1 auto;
-    text-align: center;
-    padding: 10px 0;
-  }
-  main {
-    padding: 20px 10px;
-  }
-  .main-content {
-    margin: 3rem 1rem;
-    padding: 2rem 1rem;
-    max-width: 100%;
-  }
-  .bloques {
-    flex-direction: column;
-    gap: 20px;
-  }
-  .bloque {
-    max-width: 100%;
-    min-width: auto;
-  }
-}
-
-/* Estilo para módulos bloqueados */
 .bloqueado {
   opacity: 0.6;
-  pointer-events: auto;
+  pointer-events: auto; /* Permitimos clic para mostrar alerta */
   background-color: #e0e0e0 !important;
   color: #666 !important;
-  border-color: #999 !important;
   cursor: not-allowed;
+}
+
+/* =========================================
+   ESTILOS LMS
+   ========================================= */
+.lms-container {
+  display: flex;
+  max-width: 1200px;
+  margin: 2rem auto;
+  background: white;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  border-radius: 8px;
+  overflow: hidden;
+  min-height: 650px;
+}
+
+.lms-sidebar {
+  width: 25%;
+  background-color: #f8f9fa;
+  border-right: 1px solid #ddd;
+  padding: 20px;
+  text-align: left;
+}
+
+.lms-sidebar h3 {
+  font-size: 1.1rem;
+  border-bottom: 2px solid #0f1e40;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.lms-menu-item {
+  padding: 12px 15px;
+  margin-bottom: 8px;
+  color: #555;
+  border-radius: 5px;
+  cursor: not-allowed;
+  opacity: 0.6;
+  transition: all 0.2s;
+  font-size: 0.95rem;
+}
+
+.lms-menu-item.unlocked {
+  cursor: pointer;
+  opacity: 1;
+}
+
+.lms-menu-item.active {
+  background-color: #0f1e40;
+  color: white;
+  font-weight: bold;
+  opacity: 1;
+}
+
+.lms-menu-item.completed::after {
+  content: " ✓";
+  color: #4caf50;
+  font-weight: bold;
+}
+
+.lms-content {
+  width: 75%;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  text-align: left;
+}
+
+.course-step {
+  display: none;
+  animation: fadeIn 0.5s;
+}
+
+.course-step.active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Cajas de Video */
+.video-box {
+  background: #e3f2fd;
+  border: 1px solid #90caf9;
+  padding: 15px;
+  margin-top: 20px;
+  border-radius: 5px;
+}
+.video-box a {
+  color: #1565c0;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.navigation-buttons {
+  margin-top: auto;
+  display: flex;
+  justify-content: space-between;
+  border-top: 1px solid #eee;
+  padding-top: 20px;
+  align-items: center;
+}
+
+.btn-nav {
+  padding: 10px 25px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.btn-prev { background: #e0e0e0; color: #333; }
+.btn-next { background: #0f1e40; color: white; }
+.btn-next:disabled { background: #ccc; cursor: not-allowed; }
+.btn-finish { background: #28a745; color: white; text-decoration: none; display: none; }
+
+.instruccion-bloqueo {
+  color: #d32f2f;
+  font-weight: bold;
+  margin-right: 15px;
+  display: none;
+  font-size: 0.9rem;
+}
+.btn-next:disabled + .instruccion-bloqueo { display: block; }
+
+.definition-box { background-color: #e3f2fd; border-left: 5px solid #2196f3; padding: 20px; margin: 20px 0; font-style: italic; }
+.cia-container, .ods-grid, .tarjetas-container, .methods-grid { display: flex; gap: 20px; margin-top: 20px; flex-wrap: wrap; }
+.cia-card, .ods-card, .card-interactiva, .method-card { flex: 1; padding: 20px; border: 1px solid #ddd; border-radius: 8px; cursor: pointer; transition: 0.3s; min-width: 200px; text-align: center; }
+.cia-card:hover, .ods-card:hover, .card-interactiva:hover { box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+.cia-card.visto, .card-interactiva.visto, .method-card.visto { background-color: #e8f5e9; border-color: #28a745; }
+
+.interactive-item { background: #fff; border: 2px solid #ddd; padding: 15px; margin: 10px 0; border-radius: 8px; cursor: pointer; }
+.interactive-item.checked { background: #d4edda; border-color: #28a745; }
+
+.email-simulacion { border: 1px solid #ccc; padding: 20px; background: #fff; border-radius: 5px; margin: 20px 0; }
+.fake-link { color: blue; text-decoration: underline; cursor: help; font-weight: bold; }
+.fake-link:hover { background-color: yellow; }
+
+.password-game-container { background: #333; color: #0f0; padding: 30px; border-radius: 10px; text-align: center; margin: 20px 0; font-family: monospace; }
+.game-buttons { display: flex; justify-content: center; gap: 20px; margin-top: 20px; }
+.game-btn { padding: 10px 30px; cursor: pointer; font-weight: bold; border-radius: 5px; border: none; }
+.btn-weak { background: #f44336; color: white; }
+.btn-strong { background: #4caf50; color: white; }
+
+.wifi-list { border: 1px solid #ccc; border-radius: 5px; overflow: hidden; margin-top:10px; }
+.wifi-item { padding: 15px; border-bottom: 1px solid #eee; cursor: pointer; display: flex; justify-content: space-between; }
+.wifi-item:hover { background-color: #f0f0f0; }
+
+/* =========================================
+   ESTILOS PARA EXÁMENES
+   ========================================= */
+.pregunta.examen {
+  background: #f9f9f9;
+  border: 1px solid #eee;
+  padding: 25px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  text-align: left;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+}
+
+.pregunta.examen h3 {
+  margin-top: 0;
+  color: #0f1e40;
+  border-bottom: 2px solid #ddd;
+  padding-bottom: 10px;
+  margin-bottom: 15px;
+}
+
+.pregunta.examen button {
+  display: block;
+  width: 100%;
+  text-align: left;
+  margin: 10px 0;
+  padding: 15px;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.2s;
+  font-size: 1rem;
+}
+
+.pregunta.examen button:hover {
+  background-color: #e3f2fd;
+  border-color: #2196f3;
+}
+
+/* =========================================
+   RESPONSIVE
+   ========================================= */
+@media (max-width: 768px) {
+  header { flex-direction: column; align-items: flex-start; gap: 10px; }
+  .top-buttons { width: 100%; justify-content: flex-start; flex-wrap: wrap; }
+  main { padding: 20px 10px; }
+  .main-content { margin: 2rem 1rem; padding: 1.5rem; max-width: 100%; }
+  
+  /* LMS Móvil */
+  .lms-container { flex-direction: column; min-height: auto; }
+  .lms-sidebar { width: 100%; border-right: none; border-bottom: 1px solid #ddd; }
+  .lms-content { width: 100%; padding: 20px; }
+  
+  .bloques { flex-direction: column; }
+  .bloque { max-width: 100%; }
 }
