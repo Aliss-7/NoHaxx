@@ -109,7 +109,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (scores.ransomware) completados++;
                 if (scores.ingenieria) completados++;
                 
-                progreso = Math.floor((completados / 3) * 100);
+                progreso = Math.floor((completados / 6) * 100);
             }
             
             // actualización de la barra

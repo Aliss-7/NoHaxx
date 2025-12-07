@@ -2,69 +2,67 @@ document.addEventListener("DOMContentLoaded", () => {
   const auth = firebase.auth();
   const db = firebase.firestore();
 
-  // referencias a los enlaces del HTML
-  const linkMod1 = document.getElementById("phishing-link");
-  const linkMod2 = document.getElementById("ransomware-link");
-  const linkMod3 = document.getElementById("ingenieria-link");
+  const links = {
+    intro: document.getElementById("intro-link"),
+    phishing: document.getElementById("phishing-link"),
+    ransomware: document.getElementById("ransomware-link"),
+    ingenieria: document.getElementById("ingenieria-link"),
+    contrasenas: document.getElementById("contrasenas-link"),
+    navegacion: document.getElementById("navegacion-link")
+  };
 
-  // URLs de destino
-  const urlMod1 = "modulos/phishing/teoria.html";
-  const urlMod2 = "modulos/ransomware/teoria.html";
-  const urlMod3 = "modulos/ingenieria/teoria.html";
+  const urls = {
+    intro: "modulos/1introduccion/teoria.html",
+    phishing: "modulos/2phishing/teoria.html",
+    ransomware: "modulos/3ransomware/teoria.html",
+    ingenieria: "modulos/4ingenieria/teoria.html",
+    contrasenas: "modulos/5contrasenas/teoria.html",
+    navegacion: "modulos/6navegacion/teoria.html"
+  };
 
-  // función para bloquear un módulo
-  const bloquear = (elemento) => {
-    if (elemento) {
-      elemento.href = "#";
-      elemento.classList.add("bloqueado"); // añade estilo gris
-      // añadir candado si no lo tiene
-      if (!elemento.innerHTML.includes("🔒")) {
-        elemento.innerHTML += " 🔒";
-      }
-      elemento.onclick = (e) => {
-        e.preventDefault();
-        alert("🔒 ¡Alto ahí! Debes completar el módulo anterior para desbloquear este.");
-      };
+  // Función de bloqueo
+  const bloquear = (el) => {
+    if (el) {
+      el.href = "#";
+      el.classList.add("bloqueado");
+      if (!el.innerText.includes("🔒")) el.innerText += " 🔒";
+      el.onclick = (e) => { e.preventDefault(); alert("🔒 Completa el módulo anterior para desbloquear."); };
     }
   };
 
-  // función para desbloquear
-  const desbloquear = (elemento, url) => {
-    if (elemento) {
-      elemento.href = url;
-      elemento.classList.remove("bloqueado");
-      elemento.innerHTML = elemento.innerHTML.replace(" 🔒", ""); // quitar candado
-      elemento.onclick = null; // quitar alerta
+  // Función de desbloqueo
+  const desbloquear = (el, url) => {
+    if (el) {
+      el.href = url;
+      el.classList.remove("bloqueado");
+      el.innerText = el.innerText.replace(" 🔒", "");
+      el.onclick = null;
     }
   };
 
   auth.onAuthStateChanged(async (user) => {
     if (user) {
-      // módulo 1 abierto, resto bloqueados
-      desbloquear(linkMod1, urlMod1);
-      bloquear(linkMod2);
-      bloquear(linkMod3);
+      // 1 Intro abierta resto cerrado
+      desbloquear(links.intro, urls.intro);
+      bloquear(links.phishing);
+      bloquear(links.ransomware);
+      bloquear(links.ingenieria);
+      bloquear(links.contrasenas);
+      bloquear(links.navegacion);
 
-      // consultar progreso en Firestore
       try {
-        const docRef = db.collection("userScores").doc(user.uid);
-        const docSnap = await docRef.get();
-
+        const docSnap = await db.collection("userScores").doc(user.uid).get();
         if (docSnap.exists) {
-          const data = docSnap.data();
-          const scores = data.scores || {};
+          const s = docSnap.data().scores || {};
 
-          if (scores.phishing && scores.phishing >= 5) {
-            desbloquear(linkMod2, urlMod2);
-          }
-
-          if (scores.ransomware && scores.ransomware >= 5) {
-            desbloquear(linkMod3, urlMod3);
-          }
+          // cadena de desbloqueo
+          if (s.introduccion >= 5) desbloquear(links.phishing, urls.phishing);
+          if (s.phishing >= 5) desbloquear(links.ransomware, urls.ransomware);
+          if (s.ransomware >= 5) desbloquear(links.ingenieria, urls.ingenieria);
+          if (s.ingenieria >= 5) desbloquear(links.contrasenas, urls.contrasenas);
+          if (s.contrasenas >= 5) desbloquear(links.navegacion, urls.navegacion);
         }
-      } catch (error) {
-        console.error("Error al leer progreso:", error);
-      }
+      } catch (error) { console.error("Error:", error); }
     } else {
       window.location.href = "login.html";
     }

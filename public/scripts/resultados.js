@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
       miPuntuacionTotal = Object.values(scores).reduce((a, b) => a + b, 0);
 
       // mostrar puntuación total
-      totalScoreEl.innerText = `${miPuntuacionTotal}/30`;
+      totalScoreEl.innerText = `${miPuntuacionTotal}/60`;
 
       // desglose por módulos
       moduleScoresEl.innerHTML = '';
