@@ -3,11 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Módulo 1: Fundamentos - NoHaxx</title>
+  <title>Módulo 1: Introducción - NoHaxx</title>
   <link rel="stylesheet" href="../../style.css">
 </head>
 <body>
-  <header><div class="logo">NoHaxx</div><div class="top-buttons"><a href="../../modulos.html">Salir</a></div></header>
+  <header>
+    <div class="logo">NoHaxx</div>
+    <div class="top-buttons">
+      <a href="../../modulos.html">Salir del Módulo</a>
+    </div>
+  </header>
+
   <div class="lms-container">
     <aside class="lms-sidebar">
       <h3>🛡️ Índice: Introducción</h3>
@@ -17,75 +23,373 @@
       <div class="lms-menu-item" id="menu-3">4. ODS</div>
       <div class="lms-menu-item" id="menu-4">5. Conclusiones</div>
     </aside>
+
     <main class="lms-content">
+
       <div class="course-step active">
-        <h2>1. ¿Qué es la Ciberseguridad?</h2>
-        <p>Según la norma <strong>ISO/IEC 27032</strong>, es la "preservación de la confidencialidad, integridad y disponibilidad de la información en el Ciberespacio".</p>
-        <div class="definition-box">"La capacidad de proteger o defender el uso del ciberespacio de ataques cibernéticos." — NIST</div>
-        <p>Los datos son el activo más valioso de la empresa. Su pérdida implica daños legales y reputacionales.</p>
-      </div>
-      <div class="course-step">
-        <h2>2. Los Pilares: La Tríada CID</h2>
-        <p>Haz clic para descubrir los tres pilares:</p>
-        <div class="cia-container">
-          <div class="cia-card" onclick="checkCIA(this)"><h4>🔒 Confidencialidad</h4><p>Solo personas autorizadas acceden a los datos.</p></div>
-          <div class="cia-card" onclick="checkCIA(this)"><h4>✅ Integridad</h4><p>La información no ha sido alterada sin permiso.</p></div>
-          <div class="cia-card" onclick="checkCIA(this)"><h4>⏱️ Disponibilidad</h4><p>La información está accesible cuando se necesita.</p></div>
-        </div>
-      </div>
-      <div class="course-step">
-        <h2>3. El Panorama de Amenazas</h2>
-        <p>Clasificación principal:</p>
-        <ul>
-          <li><strong>Cibercrimen:</strong> Motivación económica (Ransomware).</li>
-          <li><strong>Hacktivismo:</strong> Motivación ideológica.</li>
-          <li><strong>Amenaza Interna:</strong> Empleados descontentos o errores humanos (80% de los casos).</li>
-        </ul>
-      </div>
-      <div class="course-step">
-        <h2>4. Ciberseguridad y Agenda 2030</h2>
-        <p>Relación con los ODS. Haz clic en ellos:</p>
-        <div class="ods-grid">
-          <div class="ods-card ods-9" onclick="checkODS(this)"><div class="ods-icon">ODS 9</div><div><strong>Industria e Innovación</strong><p>Infraestructuras digitales seguras.</p></div></div>
-          <div class="ods-card ods-16" onclick="checkODS(this)"><div class="ods-icon">ODS 16</div><div><strong>Paz y Justicia</strong><p>Combate contra el cibercrimen.</p></div></div>
-        </div>
-      </div>
-      <div class="course-step">
-        <h2>5. Conclusiones del Módulo</h2>
-        <p>Has aprendido que el error humano es la principal vulnerabilidad y que la seguridad protege la CID.</p>
+        <h2>Definición y Alcance</h2>
         
-        <div class="video-box">
-          <h4>📺 Vídeo de Repaso (1 min)</h4>
-          <p>Refuerza lo aprendido con este breve resumen:</p>
-          <a href="https://www.youtube.com/watch?v=Z8_ADuJXczM" target="_blank">▶️ Ver: ¿Qué es la ciberseguridad?</a>
+        <p>Los términos <strong>Seguridad de la Información</strong> y <strong>Ciberseguridad</strong>, aunque a menudo se usan indistintamente, en el ámbito académico es fundamental precisarlos. Según la norma internacional 
+          <span class="tooltip" data-tooltip="Estándar internacional que proporciona directrices para mejorar el estado de la ciberseguridad.">ISO/IEC 27032</span>, 
+          la ciberseguridad se define como:</p>
+        
+        <blockquote style="border-left:4px solid #2196f3; padding-left:15px; color:#555; font-style:italic;">
+          "La preservación de la confidencialidad, integridad y disponibilidad de la información en el Ciberespacio".
+        </blockquote>
+
+        <button class="btn-reveal" onclick="revelar('bloque-extra-1', this)">
+          Hay un matiz importante...
+        </button>
+
+        <div id="bloque-extra-1" style="display:none;" class="reveal-content">
+          <div class="definition-box" style="margin-top:20px; background-color: #e3f2fd; border-left: 5px solid #2196f3; padding: 20px;">
+            <p><strong>💡 Ciberseguridad vs. Seguridad de la Información</strong></p>
+            <p>Aquí está la clave técnica: La <strong>Seguridad de la Información (<span class="tooltip" data-tooltip="Estándar para Sistemas de Gestión de Seguridad de la Información (SGSI). Protege datos en cualquier formato.">ISO 27001</span>)</strong> protege los datos en cualquier soporte (incluso papeles en un cajón). La <strong>Ciberseguridad</strong> se enfoca exclusivamente en la protección de activos digitales y redes.</p>
+          </div>
+
+          <button class="btn-reveal" onclick="revelar('bloque-extra-2', this)">
+            ¿Qué activos protegemos?
+          </button>
         </div>
 
-        <p style="margin-top:20px">Estás listo para el cuestionario.</p>
-      </div>
-      <div class="navigation-buttons">
-        <button class="btn-nav btn-prev" id="prevBtn" onclick="changeStep(-1)">Anterior</button>
-        <div style="display:flex; align-items:center;">
-          <span id="bloqueo-msg" class="instruccion-bloqueo">⚠️ Completa la actividad</span>
-          <button class="btn-nav btn-next" id="nextBtn" onclick="changeStep(1)">Siguiente ➜</button>
+        <div id="bloque-extra-2" style="display:none;" class="reveal-content">
+          <p>El <span class="tooltip" data-tooltip="National Institute of Standards and Technology. Agencia de EE.UU. de referencia en ciberseguridad.">NIST</span> amplía el concepto a la defensa activa. Una estrategia integral protege tres tipos de activos críticos:</p>
+          <ul style="text-align: left; background: #f9f9f9; padding: 20px 40px; border-radius: 8px; border: 1px solid #eee;">
+            <li>🖥️ <strong>Infraestructura:</strong> Ordenadores, servidores, redes y dispositivos móviles.</li>
+            <li>☁️ <strong>Servicios:</strong> Software, aplicaciones en la nube y sistemas operativos.</li>
+            <li>📂 <strong>Información:</strong> Datos personales, propiedad intelectual y secretos comerciales.</li>
+          </ul>
         </div>
-        <a href="examen.html" class="btn-finish" id="finishBtn">Ir al Cuestionario</a>
       </div>
+
+      <div class="course-step">
+        <h2>Los Pilares: La Tríada CID</h2>
+        
+        <p>El modelo <strong>CID</strong> (o CIA en inglés) es la piedra angular de la seguridad según la familia de normas ISO/IEC 27000. Para que un sistema sea seguro, debe cumplir simultáneamente estas tres propiedades.</p>
+
+        <div style="text-align: center; margin: 30px 0;">
+          <img src="../../img/triada.png" alt="Esquema de la Tríada CID" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+        </div>
+
+        <p><strong>Haz clic en cada pilar de la ciberseguridad para conocer su definición:</strong></p>
+
+        <div class="cia-container" style="display: flex; gap: 20px;">
+          <div class="cia-card" onclick="checkCIA(this)" style="flex:1; padding:20px; border:1px solid #ddd; cursor:pointer; text-align:center;">
+            <h4>🔒 Confidencialidad</h4>
+            <p style="display:none; font-size:0.9rem; margin-top:10px; color:#555;">Garantiza que la información sea privada y no pueda ser accedida por personas no autorizadas.</p>
+          </div>
+          
+          <div class="cia-card" onclick="checkCIA(this)" style="flex:1; padding:20px; border:1px solid #ddd; cursor:pointer; text-align:center;">
+            <h4>✅ Integridad</h4>
+            <p style="display:none; font-size:0.9rem; margin-top:10px; color:#555;">Asegura que los datos sean precisos y confiables, y que no hayan sido manipulados o alterados de forma no autorizada.</p>
+          </div>
+          
+          <div class="cia-card" onclick="checkCIA(this)" style="flex:1; padding:20px; border:1px solid #ddd; cursor:pointer; text-align:center;">
+            <h4>⏱️ Disponibilidad</h4>
+            <p style="display:none; font-size:0.9rem; margin-top:10px; color:#555;">Garantiza que los datos y los sistemas estén accesibles para los usuarios legítimos cuando los necesiten.</p>
+          </div>
+        </div>
+
+        <button class="btn-reveal" onclick="revelar('bloque-cid-ataques', this)">
+          ¿Qué ocurre cuando fallan?
+        </button>
+
+        <div id="bloque-cid-ataques" style="display:none;" class="reveal-content">
+          <div style="margin-top:30px; background:#fafafa; padding:20px; border-radius:10px; border:1px solid #eee;">
+            <h3>Vulneración de los Pilares</h3>
+            <p>Cada pilar tiene su contrapartida maliciosa:</p>
+            
+            <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:15px; text-align:left; margin-top:15px;">
+              
+              <div style="background:#e3f2fd; padding:15px; border-radius:8px; border-top: 4px solid #2196f3;">
+                <strong style="color:#1565c0; display:block; margin-bottom:5px;">⚠️ Filtración</strong>
+                <span style="font-size:0.85rem">Acceso no autorizado. <br><em>Ej: Robo de contraseñas o espionaje industrial.</em></span>
+              </div>
+
+              <div style="background:#e8f5e9; padding:15px; border-radius:8px; border-top: 4px solid #4caf50;">
+                <strong style="color:#2e7d32; display:block; margin-bottom:5px;">⚠️ Alteración</strong>
+                <span style="font-size:0.85rem">Modificación de datos. <br><em>Ej: Cambiar el IBAN de una factura o inyectar código en una web.</em></span>
+              </div>
+
+              <div style="background:#fff3e0; padding:15px; border-radius:8px; border-top: 4px solid #ff9800;">
+                <strong style="color:#ef6c00; display:block; margin-bottom:5px;">⚠️ Interrupción</strong>
+                <span style="font-size:0.85rem">Negación de servicio. <br><em>Ej: Ataques DDoS o Ransomware (secuestro de acceso).</em></span>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="course-step">
+        <h2>El Panorama de Amenazas</h2>
+        <p>El panorama de amenazas esta en constante evolución. Siguiendo el criterio de <span class="tooltip" data-tooltip="Agencia de la Unión Europea para la Ciberseguridad.">ENISA</span>, clasificamos a los actores por su <strong>motivación</strong>.</p>
+        
+        <p><strong>Explora los 4 perfiles para analizarlos:</strong></p>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+          <div class="interactive-item" onclick="checkThreat(this)">
+            <div style="font-size: 1.5rem;">💰</div>
+            <strong>Cibercrimen</strong>
+            <p style="font-size: 0.9rem; display: none; margin-top: 10px;">Buscan <strong>dinero</strong>. Es la amenaza más común (Ransomware, Phishing). No es personal, es un negocio.</p>
+          </div>
+
+          <div class="interactive-item" onclick="checkThreat(this)">
+            <div style="font-size: 1.5rem;">📢</div>
+            <strong>Hacktivismo</strong>
+            <p style="font-size: 0.9rem; display: none; margin-top: 10px;">Buscan <strong>protesta o visibilidad</strong>. Atacan por ideología política o social (DDoS, defacement).</p>
+          </div>
+
+          <div class="interactive-item" onclick="checkThreat(this)">
+            <div style="font-size: 1.5rem;">🕵️‍♂️</div>
+            <strong>Ciberespionaje</strong>
+            <p style="font-size: 0.9rem; display: none; margin-top: 10px;">Buscan <strong>información estratégica</strong>. Patrocinados por estados para robar propiedad intelectual o secretos.</p>
+          </div>
+
+          <div class="interactive-item" onclick="checkThreat(this)">
+            <div style="font-size: 1.5rem;">🏢</div>
+            <strong>Amenaza Interna</strong>
+            <p style="font-size: 0.9rem; display: none; margin-top: 10px;">Proviene de dentro de la organización. Puede ser un empleado desleal o un error humano.</p>
+          </div>
+        </div>
+
+        <button class="btn-reveal" onclick="revelar('bloque-amenaza-humana', this)" style="margin-top:20px;">
+          ¿Cuál es la amenaza más peligrosa?
+        </button>
+
+        <div id="bloque-amenaza-humana" style="display:none;" class="reveal-content">
+          <div style="background-color: #fff3e0; border-left: 5px solid #ff9800; padding: 20px; margin-top: 20px;">
+            <h3>El Factor Humano: TÚ</h3>
+            <p>A pesar de que los hackers con altas habilidades técnicas suelen ser vistos con miedo, las estadísticas del informe <strong>Verizon DBIR</strong> indican que más del <strong>80% de las brechas</strong> involucran el elemento humano.</p>
+            <ul>
+              <li><strong>Negligencia:</strong> Uso de contraseñas débiles o compartir credenciales.</li>
+              <li><strong>Error:</strong> Enviar un archivo confidencial a la persona equivocada.</li>
+              <li><strong>Ingeniería Social:</strong> Caer en trampas de manipulación.</li>
+            </ul>
+            <p>Por ello, <strong>el usuario concienciado es la mejor defensa.</strong></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="course-step">
+        <h2>Ciberseguridad y Agenda 2030</h2>
+        <p>La transformación digital es un motor clave para el desarrollo mundial, pero la dependencia de lo digital trae consigo riesgos asociados. La ONU reconoce que <strong>no hay desarrollo sostenible sin un ciberespacio seguro</strong>.</p>
+        <p>Tu papel en la ciberseguridad contribuye directamente a dos Objetivos de Desarrollo Sostenible (ODS). Haz clic para descubrir cómo:</p>
+        <div class="ods-grid" style="display:grid; grid-template-columns: 1fr 1fr; gap:20px;">
+          <div class="ods-card ods-9" onclick="checkODS(this)" style="border:1px solid #ccc; padding:20px; cursor:pointer; background:#fff; border-radius:10px; transition:0.3s;">
+            <div style="display:flex; align-items:center; gap:15px; margin-bottom:10px;">
+              <div class="ods-icon" style="color:#fd6925; font-size:2.5rem; font-weight:bold;">9</div>
+              <h4 style="margin:0; color:#333;">Industria e Innovación</h4>
+            </div>
+            <p style="font-size:0.9rem; color:#555;"><strong>Meta:</strong> Desarrollar infraestructuras resilientes.</p>
+            <div class="ods-detail" style="display:none; margin-top:15px; border-top:1px solid #eee; padding-top:10px; font-size:0.85rem;">
+              La ciberseguridad protege las <span class="tooltip" data-tooltip="Sistemas esenciales (energía, agua, hospitales, transporte) cuya interrupción tendría un grave impacto en la seguridad, la salud o la economía del país.">Infraestructuras Críticas</span>. Sin ella, la innovación tecnológica colapsaría ante sabotajes y ataques.
+            </div>
+          </div>
+
+          <div class="ods-card ods-16" onclick="checkODS(this)" style="border:1px solid #ccc; padding:20px; cursor:pointer; background:#fff; border-radius:10px; transition:0.3s;">
+            <div style="display:flex; align-items:center; gap:15px; margin-bottom:10px;">
+              <div class="ods-icon" style="color:#00689d; font-size:2.5rem; font-weight:bold;">16</div>
+              <h4 style="margin:0; color:#333;">Paz, Justicia e Instituciones</h4>
+            </div>
+            <p style="font-size:0.9rem; color:#555;"><strong>Meta:</strong> Reducir las corrientes financieras ilícitas.</p>
+            <div class="ods-detail" style="display:none; margin-top:15px; border-top:1px solid #eee; padding-top:10px; font-size:0.85rem;">
+              Combate el <strong>cibercrimen organizado</strong> y protege la <span class="tooltip" data-tooltip="El derecho de cada persona a probar quién es en el entorno digital de forma segura y privada.">Identidad Digital</span> de los ciudadanos, garantizando instituciones fiables.
+            </div>
+          </div>
+
+        </div>
+
+        <button class="btn-reveal" onclick="revelar('bloque-impacto-real', this)" style="margin-top:30px;">
+          ¿Cómo influyo YO en esto? (Efecto Mariposa)
+        </button>
+
+        <div id="bloque-impacto-real" style="display:none;" class="reveal-content">
+          <div style="background-color: #e8f5e9; border-left: 5px solid #4caf50; padding: 20px; margin-top: 20px; border-radius:5px;">
+            <h3>Tu impacto es real</h3>
+            <p>Podrías pensar: <em>"Soy solo un empleado, mi contraseña no importa a la ONU"</em>. Pero te equivocas:</p>
+            <ul>
+              <li>Si tu equipo es infectado, puede formar parte de una <span class="tooltip" data-tooltip="Red de ordenadores infectados (zombies) controlados remotamente por un ciberdelincuente para lanzar ataques masivos sin que los dueños lo sepan.">Botnet</span> usada para atacar hospitales o redes eléctricas.</li>
+              <li>Si te roban credenciales, pueden usarse para blanquear dinero que financia el crimen global.</li>
+            </ul>
+            <p style="margin-top:15px;"><strong>Conclusión:</strong> La Ciberseguridad es Responsabilidad Social Corporativa (RSC).</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="course-step">
+        <h2>Síntesis y Competencias Adquiridas</h2>
+        
+        <p>A lo largo de este módulo introductorio, hemos establecido las bases de la seguridad digital. Lejos de ser un problema puramente técnico, la ciberseguridad se configura como un desafío <strong>multidisciplinar</strong> que requiere una gestión integral de riesgos.</p>
+
+        <p>Para afrontar el cuestionario de evaluación, es crucial que interiorices los siguientes <strong>tres pilares estratégicos</strong>:</p>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin: 30px 0;">
+          
+          <div style="background: #fff; border-top: 4px solid #2196f3; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
+            <h4 style="color: #1565c0; margin-top: 0;">1. Precisión Terminológica</h4>
+            <p style="font-size: 0.9rem; color: #555;">
+              Hemos separado la <strong>Ciberseguridad</strong> (protección de activos en el ciberespacio, ISO/IEC 27032) de la <strong>Seguridad de la Información</strong> (protección del dato en cualquier soporte, ISO 27001).
+            </p>
+          </div>
+
+          <div style="background: #fff; border-top: 4px solid #4caf50; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
+            <h4 style="color: #2e7d32; margin-top: 0;">2. El Modelo CID</h4>
+            <p style="font-size: 0.9rem; color: #555;">
+              La seguridad no es un estado binario (seguro/no seguro), sino el cumplimiento simultáneo de la <strong>Confidencialidad, Integridad y Disponibilidad</strong>. El fallo en uno solo de estos vértices compromete todo el sistema.
+            </p>
+          </div>
+
+          <div style="background: #fff; border-top: 4px solid #ff9800; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
+            <h4 style="color: #ef6c00; margin-top: 0;">3. La importancia del individuo</h4>
+            <p style="font-size: 0.9rem; color: #555;">
+              La tecnología es robusta, pero el factor humano es el vector de ataque predominante (>80% de brechas). La concienciación individual impacta directamente en la <strong>Agenda 2030</strong> (ODS 9 y 16).
+            </p>
+          </div>
+
+        </div>
+
+        <div style="background-color: #f5f5f5; border-left: 5px solid #607d8b; padding: 20px; margin-bottom: 30px;">
+        </p>
+          La ciberseguridad ha dejado de ser una función exclusiva del departamento de TI para convertirse en una responsabilidad transversal. La resiliencia de la organización depende de la capacidad de cada empleado para identificar anomalías y proteger los activos de información.</p>
+        </div>
+
+        <div class="video-box" style="background:#e3f2fd; padding:15px; border-radius:5px; margin-top: 20px;">
+          <div class="video-responsive" style="position:relative; padding-bottom:56.25%; height:0; overflow:hidden; border-radius: 5px;">
+            <iframe src="https://www.youtube.com/embed/6pfBS8Qy_UI" style="position:absolute; top:0; left:0; width:100%; height:100%; border:0;" allowfullscreen></iframe>
+          </div>
+        </div>
+
+        <p style="margin-top:20px; text-align: center; font-weight: bold;">¿Preparado para el test?</p>
+      </div>
+
     </main>
   </div>
+
   <script>
-    let currentStep=0; const totalSteps=5; let stepUnlocked=[true,false,true,false,true]; let ciaClicked=0, odsClicked=0;
-    const steps=document.querySelectorAll('.course-step'), menuItems=document.querySelectorAll('.lms-menu-item'), prevBtn=document.getElementById('prevBtn'), nextBtn=document.getElementById('nextBtn'), finishBtn=document.getElementById('finishBtn'), bloqueoMsg=document.getElementById('bloqueo-msg');
-    function updateUI(){
-      steps.forEach((s,i)=>{ s.classList.remove('active'); menuItems[i].classList.remove('active'); if(i<currentStep) menuItems[i].classList.add('completed'); if(i<=currentStep||stepUnlocked[i-1]){menuItems[i].classList.add('unlocked'); menuItems[i].onclick=()=>goToStep(i);}else{menuItems[i].onclick=null;} });
-      steps[currentStep].classList.add('active'); menuItems[currentStep].classList.add('active');
-      prevBtn.style.visibility=(currentStep===0)?'hidden':'visible';
-      if(currentStep===totalSteps-1){ nextBtn.style.display='none'; finishBtn.style.display='inline-block'; bloqueoMsg.style.display='none'; }else{ nextBtn.style.display='inline-block'; finishBtn.style.display='none'; if(stepUnlocked[currentStep]){nextBtn.disabled=false; bloqueoMsg.style.display='none';}else{nextBtn.disabled=true; bloqueoMsg.style.display='block';} }
+    let currentStep = 0;
+    const totalSteps = 5;
+    let stepUnlocked = [true, false, false, false, true]; 
+    let ciaClicked = 0;
+    let threatsClicked = 0;
+    let odsClicked = 0;
+
+    const steps = document.querySelectorAll('.course-step');
+    const menuItems = document.querySelectorAll('.lms-menu-item');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const finishBtn = document.getElementById('finishBtn');
+    const bloqueoMsg = document.getElementById('bloqueo-msg');
+
+    function updateUI() {
+      steps.forEach((step, index) => {
+        step.classList.remove('active');
+        menuItems[index].classList.remove('active');
+        
+        if (index < currentStep) menuItems[index].classList.add('completed');
+        
+        if (index <= currentStep || stepUnlocked[index-1]) {
+           menuItems[index].classList.add('unlocked');
+           menuItems[index].onclick = () => goToStep(index);
+        } else {
+           menuItems[index].onclick = null;
+        }
+      });
+
+      steps[currentStep].classList.add('active');
+      menuItems[currentStep].classList.add('active');
+
+      prevBtn.style.visibility = (currentStep === 0) ? 'hidden' : 'visible';
+
+      if (currentStep === totalSteps - 1) {
+        nextBtn.style.display = 'none';
+        finishBtn.style.display = 'inline-block';
+        bloqueoMsg.style.display = 'none';
+      } else {
+        nextBtn.style.display = 'inline-block';
+        finishBtn.style.display = 'none';
+        
+        if (stepUnlocked[currentStep]) {
+            nextBtn.disabled = false;
+            bloqueoMsg.style.display = 'none';
+        } else {
+            nextBtn.disabled = true;
+            bloqueoMsg.style.display = 'block';
+        }
+      }
     }
-    function changeStep(n){ if(n===1 && !stepUnlocked[currentStep]) return; currentStep+=n; if(currentStep>=totalSteps) currentStep=totalSteps-1; if(currentStep<0)currentStep=0; updateUI(); }
-    function goToStep(n){ if(n>0 && !stepUnlocked[n-1] && n>currentStep)return; currentStep=n; updateUI(); }
-    function unlockStep(i){ if(!stepUnlocked[i]){ stepUnlocked[i]=true; updateUI(); } }
-    function checkCIA(el){ if(!el.classList.contains('visto')){ el.classList.add('visto'); ciaClicked++; if(ciaClicked>=3) unlockStep(1); } }
-    function checkODS(el){ if(!el.classList.contains('checked')){ el.classList.add('checked'); odsClicked++; if(odsClicked>=2) unlockStep(3); } }
+
+    function changeStep(n) {
+      if (n === 1 && !stepUnlocked[currentStep]) return;
+      currentStep += n;
+      if (currentStep >= totalSteps) currentStep = totalSteps - 1;
+      if (currentStep < 0) currentStep = 0;
+      updateUI();
+    }
+
+    function goToStep(n) {
+      if (n > 0 && !stepUnlocked[n-1] && n > currentStep) return;
+      currentStep = n;
+      updateUI();
+    }
+
+    function unlockStep(index) {
+      if (!stepUnlocked[index]) {
+        stepUnlocked[index] = true;
+        updateUI();
+      }
+    }
+
+    function revelar(id, boton) {
+      const bloque = document.getElementById(id);
+      bloque.style.display = "block"; 
+      boton.style.display = "none";   
+      bloque.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    function checkCIA(el) {
+      const p = el.querySelector('p');
+      if (p.style.display === 'none') {
+        p.style.display = 'block';
+        if (!el.classList.contains('visto')) {
+          el.classList.add('visto');
+          ciaClicked++;
+          if (ciaClicked >= 3) unlockStep(1); 
+        }
+      }
+    }
+
+    function checkThreat(el) {
+      const p = el.querySelector('p');
+      if (p.style.display === 'none') {
+        p.style.display = 'block';
+        
+        if (!el.classList.contains('checked')) {
+          el.classList.add('checked'); 
+          el.style.backgroundColor = "#e8f5e9"; 
+          el.style.borderColor = "#4caf50";
+          threatsClicked++;
+          
+          if (threatsClicked >= 3) unlockStep(2); 
+        }
+      }
+    }
+
+    function checkODS(el) {
+      const detail = el.querySelector('.ods-detail');
+      if (detail.style.display === 'none') {
+        detail.style.display = 'block';
+        el.style.borderColor = el.classList.contains('ods-9') ? '#fd6925' : '#00689d'; // Color del borde al activar
+        el.style.backgroundColor = "#fafafa";
+
+        if (!el.classList.contains('checked')) {
+          el.classList.add('checked');
+          odsClicked++;
+          if (odsClicked >= 2) unlockStep(3); 
+        }
+      }
+    }
+
     updateUI();
   </script>
 </body>

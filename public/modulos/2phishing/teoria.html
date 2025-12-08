@@ -7,81 +7,232 @@
   <link rel="stylesheet" href="../../style.css">
 </head>
 <body>
-  <header><div class="logo">NoHaxx</div><div class="top-buttons"><a href="../../modulos.html">Salir</a></div></header>
+  <header>
+    <div class="logo">NoHaxx</div>
+    <div class="top-buttons">
+      <a href="../../modulos.html">Salir del Módulo</a>
+    </div>
+  </header>
+
   <div class="lms-container">
     <aside class="lms-sidebar">
       <h3>📑 Índice: Phishing</h3>
-      <div class="lms-menu-item unlocked active" id="menu-0">1. Introducción</div>
-      <div class="lms-menu-item" id="menu-1">2. Anatomía</div>
-      <div class="lms-menu-item" id="menu-2">3. Tipos</div>
-      <div class="lms-menu-item" id="menu-3">4. Práctica</div>
+      <div class="lms-menu-item unlocked active" id="menu-0">1. Definición Técnica</div>
+      <div class="lms-menu-item" id="menu-1">2. Anatomía del Engaño</div>
+      <div class="lms-menu-item" id="menu-2">3. Vectores de Ataque</div>
+      <div class="lms-menu-item" id="menu-3">4. Práctica: Hovering</div>
       <div class="lms-menu-item" id="menu-4">5. Conclusión</div>
     </aside>
+
     <main class="lms-content">
+
       <div class="course-step active">
-        <h2>1. ¿Qué es el Phishing?</h2>
-        <p>Es la técnica de ingeniería social más común. Los ciberdelincuentes suplantan la identidad de organizaciones de confianza (bancos, correos) para robar credenciales.</p>
-        <div style="background: #e3f2fd; padding: 15px; border-radius: 5px;"><strong>💡 Dato:</strong> El 90% de ataques exitosos empiezan aquí.</div>
+        <h2>1. ¿Qué es realmente el Phishing?</h2>
+        <p>En términos de ciberseguridad, el Phishing no es solo "un correo falso". Es un ataque basado en la 
+          <span class="tooltip" data-tooltip="Técnica de manipulación psicológica que explota errores humanos para obtener información privada.">Ingeniería Social</span> 
+          que utiliza la suplantación de identidad o 
+          <span class="tooltip" data-tooltip="Spoofing: El acto de disfrazar una comunicación de una fuente desconocida como si fuera de una fuente conocida y confiable.">Spoofing</span>.
+        </p>
+        
+        <div class="definition-box" style="border-left-color: #0f1e40; background-color: #e8eaf6;">
+          "Un intento fraudulento de obtener información sensible (credenciales, datos bancarios) haciéndose pasar por una entidad confiable en una comunicación electrónica." — INCIBE
+        </div>
+
+        <button class="btn-reveal" onclick="revelar('bloque-extra-1', this)">
+          ¿Por qué sigue funcionando hoy en día? 👇
+        </button>
+
+        <div id="bloque-extra-1" style="display:none;" class="reveal-content">
+          <p>A diferencia de un virus que ataca al software, el Phishing ataca al <strong>"Sistema Operativo Humano"</strong>.</p>
+          <ul style="text-align: left; background: #fff; padding: 20px 40px; border-radius: 8px; border: 1px solid #ccc;">
+            <li>🧠 <strong>Sesgo de Autoridad:</strong> Tendemos a obedecer correos que parecen venir de un "Jefe" o un "Banco".</li>
+            <li>⚡ <strong>Urgencia:</strong> El miedo a perder una cuenta o no recibir un paquete anula nuestro pensamiento crítico.</li>
+          </ul>
+          <p style="text-align:center; margin-top:20px; color:#0f1e40; font-weight:bold;">Continúa para aprender a detectarlo.</p>
+        </div>
       </div>
+
       <div class="course-step">
-        <h2>2. Detectives de Correo</h2>
-        <p>Encuentra las 3 señales de alerta:</p>
+        <h2>2. Anatomía de un Ataque</h2>
+        <p>Los analistas de seguridad identifican tres indicadores de compromiso (IoC) comunes. Encuéntralos en este ejemplo:</p>
+        
         <div id="activity-2">
-          <div class="interactive-item" onclick="checkItem(2,this)"><strong>🚩 Urgencia:</strong> "¡Cuenta bloqueada en 24h!"</div>
-          <div class="interactive-item" onclick="checkItem(2,this)"><strong>🚩 Remitente:</strong> "Netflix" desde <code>admin@net-flix.tk</code></div>
-          <div class="interactive-item" onclick="checkItem(2,this)"><strong>🚩 Enlace:</strong> Texto no coincide con destino.</div>
+          <div class="interactive-item" onclick="checkItem(2,this)">
+            <strong>🚩 Manipulación Emocional (Urgencia):</strong> "¡Acción requerida en 24h o su cuenta será eliminada!"
+          </div>
+          <div class="interactive-item" onclick="checkItem(2,this)">
+            <strong>🚩 Spoofing de Dominio:</strong> El remitente dice "Soporte Microsoft", pero el correo es <code>admin@micro-soft-security.tk</code>.
+          </div>
+          <div class="interactive-item" onclick="checkItem(2,this)">
+            <strong>🚩 Payload Malicioso:</strong> Un enlace o archivo adjunto diseñado para ejecutar código o robar datos.
+          </div>
         </div>
       </div>
+
       <div class="course-step">
-        <h2>3. Variantes</h2>
-        <p>Haz clic en cada tipo:</p>
-        <div class="tarjetas-container" style="display:flex; gap:10px;">
-          <div class="card-interactiva" onclick="checkCard(3,this)"><h4>Smishing</h4><p>SMS fraudulentos.</p></div>
-          <div class="card-interactiva" onclick="checkCard(3,this)"><h4>Vishing</h4><p>Llamadas telefónicas engañosas.</p></div>
-          <div class="card-interactiva" onclick="checkCard(3,this)"><h4>Spear Phishing</h4><p>Ataques dirigidos personalizados.</p></div>
+        <h2>3. Vectores de Ataque (Variantes)</h2>
+        <p>El phishing evoluciona adaptándose a nuevas tecnologías. Haz clic para conocer las variantes más peligrosas:</p>
+        
+        <div class="tarjetas-container" style="display:flex; gap:15px; flex-wrap:wrap;">
+          <div class="card-interactiva" onclick="checkCard(3,this)">
+            <h4>📱 Smishing</h4>
+            <p>Phishing vía <strong>SMS</strong>. Muy efectivo porque confiamos más en el móvil que en el PC. (Ej: Paquetes de Correos falsos).</p>
+          </div>
+          <div class="card-interactiva" onclick="checkCard(3,this)">
+            <h4>📞 Vishing</h4>
+            <p>Phishing por <strong>Voz</strong> (Voice). Llamadas fraudulentas suplantando a técnicos o entidades bancarias.</p>
+          </div>
+          <div class="card-interactiva" onclick="checkCard(3,this)">
+            <h4>🎯 Spear Phishing</h4>
+            <p>Ataque <strong>dirigido</strong>. El atacante investiga a la víctima (RRSS, LinkedIn) para personalizar el mensaje y hacerlo creíble.</p>
+          </div>
         </div>
       </div>
+
       <div class="course-step">
-        <h2>4. Técnica "Hovering"</h2>
-        <p>Pasa el ratón sobre el enlace para ver la URL real:</p>
+        <h2>4. Análisis Forense: Técnica "Hovering"</h2>
+        <p>La defensa más efectiva es inspeccionar la <span class="tooltip" data-tooltip="Uniform Resource Locator: La dirección web exacta. Ejemplo: https://www.google.com">URL</span> de destino antes de hacer clic.</p>
+        <p><strong>Ejercicio:</strong> Pasa el cursor sobre el enlace para revelar el destino real oculto.</p>
+        
         <div class="email-simulacion">
-          <p><strong>De:</strong> Soporte IT<br><strong>Asunto:</strong> Password caducado</p>
-          <p>Haz clic para renovar: <span class="fake-link" onmouseover="unlockStep(4)">👉 Actualizar ahora</span></p>
+          <p><strong>De:</strong> Seguridad Corporativa<br><strong>Asunto:</strong> Cambio de credenciales obligatorio</p>
+          <hr>
+          <p>Estimado usuario,</p>
+          <p>Su contraseña caduca hoy. Para evitar el bloqueo, acceda al portal:</p>
+          <p>
+            <span class="fake-link" onmouseover="unlockStep(4)">
+              👉 https://portal-empresa.com/login
+            </span>
+          </p>
         </div>
-        <p id="msg-hover" style="color:green; display:none; font-weight:bold;">¡Bien! Has visto la URL falsa.</p>
+        <p id="msg-hover" style="color:green; display:none; font-weight:bold;">✅ ¡Detectado! La URL real no coincide con el texto.</p>
       </div>
+
       <div class="course-step">
-        <h2>5. Resumen</h2>
-        <p>Verifica siempre el remitente y los enlaces. Ante la duda, no hagas clic.</p>
+        <h2>5. Resumen Ejecutivo</h2>
+        <p>El Phishing es la puerta de entrada para ataques más graves como el Ransomware. La verificación es tu mejor defensa.</p>
+        
         <div class="video-box">
-          <h4>📺 Vídeo Explicativo (2 min)</h4>
-          <a href="https://www.youtube.com/watch?v=8ktaGnFkOoc" target="_blank">▶️ Ver: ¿Qué es el Phishing? Explicación animada</a>
+          <h4>📺 Vídeo Oficial OSI (2 min)</h4>
+          <p>Repaso de conceptos clave por la Oficina de Seguridad del Internauta:</p>
+          <div class="video-responsive">
+            <iframe src="https://www.youtube.com/embed/p0m5f5-pMZI" title="Qué es el Phishing - OSI" allowfullscreen></iframe>
+          </div>
         </div>
+
+        <p style="margin-top:20px">Completa el examen para demostrar tu competencia.</p>
       </div>
+
       <div class="navigation-buttons">
         <button class="btn-nav btn-prev" id="prevBtn" onclick="changeStep(-1)">Anterior</button>
         <div style="display:flex;align-items:center;">
-          <span id="bloqueo-msg" class="instruccion-bloqueo">⚠️ Completa la acción</span>
+          <span id="bloqueo-msg" class="instruccion-bloqueo">⚠️ Completa la actividad</span>
           <button class="btn-nav btn-next" id="nextBtn" onclick="changeStep(1)">Siguiente ➜</button>
         </div>
         <a href="examen.html" class="btn-finish" id="finishBtn">Ir al Examen</a>
       </div>
+
     </main>
   </div>
+
   <script>
-    let currentStep=0; const totalSteps=5; let stepUnlocked=[true,false,false,false,true]; let itemsClicked=0, cardsClicked=0;
-    const steps=document.querySelectorAll('.course-step'), menus=document.querySelectorAll('.lms-menu-item'), prev=document.getElementById('prevBtn'), next=document.getElementById('nextBtn'), finish=document.getElementById('finishBtn'), msg=document.getElementById('bloqueo-msg');
-    function updateUI(){
-      steps.forEach((s,i)=>{s.classList.remove('active'); menus[i].classList.remove('active'); if(i<currentStep) menus[i].classList.add('completed'); if(i<=currentStep||stepUnlocked[i-1]){menus[i].classList.add('unlocked'); menus[i].onclick=()=>goStep(i);}else{menus[i].onclick=null;}});
-      steps[currentStep].classList.add('active'); menus[currentStep].classList.add('active');
-      prev.style.visibility=(currentStep===0)?'hidden':'visible';
-      if(currentStep===totalSteps-1){next.style.display='none'; finish.style.display='inline-block'; msg.style.display='none';}else{next.style.display='inline-block'; finish.style.display='none'; if(stepUnlocked[currentStep]){next.disabled=false; msg.style.display='none';}else{next.disabled=true; msg.style.display='block';}}
+    let currentStep = 0;
+    const totalSteps = 5;
+    let stepUnlocked = [true, false, false, false, true]; 
+    let itemsClicked = 0;
+    let cardsClicked = 0;
+
+    const steps = document.querySelectorAll('.course-step');
+    const menuItems = document.querySelectorAll('.lms-menu-item');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const finishBtn = document.getElementById('finishBtn');
+    const bloqueoMsg = document.getElementById('bloqueo-msg');
+
+    function updateUI() {
+      steps.forEach((step, index) => {
+        step.classList.remove('active');
+        menuItems[index].classList.remove('active');
+        
+        if (index < currentStep) menuItems[index].classList.add('completed');
+        
+        if (index <= currentStep || stepUnlocked[index-1]) {
+           menuItems[index].classList.add('unlocked');
+           menuItems[index].onclick = () => goToStep(index);
+        } else {
+           menuItems[index].onclick = null;
+        }
+      });
+
+      steps[currentStep].classList.add('active');
+      menuItems[currentStep].classList.add('active');
+
+      prevBtn.style.visibility = (currentStep === 0) ? 'hidden' : 'visible';
+
+      if (currentStep === totalSteps - 1) {
+        nextBtn.style.display = 'none';
+        finishBtn.style.display = 'inline-block';
+        bloqueoMsg.style.display = 'none';
+      } else {
+        nextBtn.style.display = 'inline-block';
+        finishBtn.style.display = 'none';
+        
+        if (stepUnlocked[currentStep]) {
+            nextBtn.disabled = false;
+            bloqueoMsg.style.display = 'none';
+        } else {
+            nextBtn.disabled = true;
+            bloqueoMsg.style.display = 'block';
+        }
+      }
     }
-    function changeStep(n){if(n===1&&!stepUnlocked[currentStep])return; currentStep+=n; updateUI();}
-    function goStep(n){if(n>0&&!stepUnlocked[n-1]&&n>currentStep)return; currentStep=n; updateUI();}
-    function unlockStep(i){if(!stepUnlocked[i]){stepUnlocked[i]=true; if(i===4)document.getElementById('msg-hover').style.display='block'; updateUI();}}
-    function checkItem(i,el){if(!el.classList.contains('checked')){el.classList.add('checked'); itemsClicked++; if(itemsClicked>=3)unlockStep(i);}}
-    function checkCard(i,el){if(!el.classList.contains('visto')){el.classList.add('visto'); cardsClicked++; if(cardsClicked>=3)unlockStep(i);}}
+
+    function changeStep(n) {
+      if (n === 1 && !stepUnlocked[currentStep]) return;
+      currentStep += n;
+      if (currentStep >= totalSteps) currentStep = totalSteps - 1;
+      if (currentStep < 0) currentStep = 0;
+      updateUI();
+    }
+
+    function goToStep(n) {
+      if (n > 0 && !stepUnlocked[n-1] && n > currentStep) return;
+      currentStep = n;
+      updateUI();
+    }
+
+    function unlockStep(index) {
+      if (!stepUnlocked[index]) {
+        stepUnlocked[index] = true;
+        updateUI();
+      }
+    }
+
+    // --- REVELADO PROGRESIVO ---
+    function revelar(id, boton) {
+      const bloque = document.getElementById(id);
+      bloque.style.display = "block"; 
+      boton.style.display = "none";   
+      bloque.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    // --- ACTIVIDADES ---
+    function checkItem(i,el){
+      if(!el.classList.contains('checked')){
+        el.classList.add('checked'); 
+        itemsClicked++; 
+        if(itemsClicked>=3) unlockStep(i);
+      }
+    }
+    
+    function checkCard(i,el){
+      if(!el.classList.contains('visto')){
+        el.classList.add('visto'); 
+        cardsClicked++; 
+        if(cardsClicked>=3) unlockStep(i);
+      }
+    }
+
     updateUI();
   </script>
 </body>
