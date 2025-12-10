@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Examen Final: Introducción - NoHaxx</title>
+  <link rel="stylesheet" href="../../style.css">
+  <style>
+    /* Estilos específicos para el Examen Gamificado */
+    .exam-step {
+      display: none;
+      animation: fadeIn 0.5s;
+    }
+    .exam-step.active {
+      display: block;
+    }
+    
+    /* Tarjetas de Selección (Opciones) */
+    .option-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin-top: 20px;
+    }
+    
+    .option-card {
+      background: #fff;
+      border: 2px solid #ddd;
+      padding: 20px;
+      border-radius: 10px;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.2s;
+    }
+    
+    .option-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      border-color: #aaa;
+    }
+    
+    .option-card.selected {
+      background-color: #e3f2fd;
+      border-color: #2196f3;
+      font-weight: bold;
+    }
+
+    /* Feedback visual (Acierto/Error) al corregir */
+    .option-card.correct {
+      background-color: #e8f5e9 !important;
+      border-color: #4caf50 !important;
+      color: #2e7d32;
+    }
+    .option-card.incorrect {
+      background-color: #ffebee !important;
+      border-color: #f44336 !important;
+      opacity: 0.7;
+    }
+
+    /* Barra de progreso */
+    .progress-container {
+      background-color: #f0f0f0;
+      height: 10px;
+      border-radius: 5px;
+      margin-bottom: 30px;
+      overflow: hidden;
+    }
+    .progress-bar {
+      height: 100%;
+      background-color: #0f1e40;
+      width: 0%;
+      transition: width 0.3s;
+    }
+
+    /* Botón Siguiente */
+    .btn-next-question {
+      background-color: #0f1e40;
+      color: white;
+      padding: 12px 30px;
+      border: none;
+      border-radius: 5px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 20px;
+      display: none; /* Se oculta hasta que respondes */
+      float: right;
+    }
+    .btn-next-question:hover { background-color: #2c3e50; }
+
+    /* Estilos Resultad */
+    .score-circle {
+      width: 150px; height: 150px;
+      border-radius: 50%;
+      background: #0f1e40;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      margin: 20px auto;
+      font-size: 2.5rem;
+      font-weight: bold;
+    }
+    .score-label { font-size: 1rem; font-weight: normal; opacity: 0.8; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">NoHaxx</div>
+    <div class="top-buttons">
+      <a href="../../modulos.html">Salir (Sin guardar)</a>
+    </div>
+  </header>
+
+  <main class="main-content">
+    
+    <div class="progress-container">
+      <div class="progress-bar" id="progress-bar"></div>
+    </div>
+
+    <div class="exam-step active" id="q1">
+      <span class="tag">Pregunta 1/6</span>
+      <h2>Estás protegiendo los <strong>papeles confidenciales</strong> guardados en un archivador físico bajo llave en la oficina.</h2>
+      <p>¿Qué normativa o concepto se aplica aquí?</p>
+      
+      <div class="option-grid" id="opt-q1">
+        <div class="option-card" onclick="selectOption(1, 'a', this)">
+          <strong>Ciberseguridad</strong>
+          <p>ISO/IEC 27032</p>
+        </div>
+        <div class="option-card" onclick="selectOption(1, 'b', this)">
+          <strong>Seguridad de la Información</strong>
+          <p>ISO 27001</p>
+        </div>
+      </div>
+      <button class="btn-next-question" onclick="nextQuestion(1)">Confirmar</button>
+    </div>
+
+    <div class="exam-step" id="q2">
+      <span class="tag">Pregunta 2/6</span>
+      <h2>Un hospital sufre un ataque. Los historiales médicos <strong>no han sido robados</strong> (nadie los ha leído) y <strong>son correctos</strong> (no han cambiado datos).</h2>
+      <p>Sin embargo, los médicos <strong>no pueden abrir el sistema</strong> para consultarlos. 
+      <h3>¿Qué pilar ha caído?</h3>
+      
+      <div class="option-grid" id="opt-q2">
+        <div class="option-card" onclick="selectOption(2, 'a', this)">
+          <h3>Confidencialidad</h3>
+        </div>
+        <div class="option-card" onclick="selectOption(2, 'b', this)">
+          <h3>Integridad</h3>
+        </div>
+        <div class="option-card" onclick="selectOption(2, 'c', this)">
+          <h3>Disponibilidad</h3>
+        </div>
+      </div>
+      <button class="btn-next-question" onclick="nextQuestion(2)">Confirmar</button>
+    </div>
+
+    <div class="exam-step" id="q3">
+      <span class="tag">Pregunta 3/6</span>
+      <h2>La web de un ministerio ha sido modificada. Ahora muestra mensajes de <strong>protesta política</strong> contra una nueva ley climática. No piden dinero.</h2>
+      <p>¿Quién está detrás?</p>
+
+      <div class="option-grid" id="opt-q3">
+        <div class="option-card" onclick="selectOption(3, 'a', this)">
+          <div style="font-size: 2rem;"><strong>Cibercrimen</strong></div>
+        </div>
+        <div class="option-card" onclick="selectOption(3, 'b', this)">
+          <div style="font-size: 2rem;"><strong>Hacktivismo</strong></div>
+        </div>
+        <div class="option-card" onclick="selectOption(3, 'c', this)">
+          <div style="font-size: 2rem;"><strong>Ciberespionaje</strong></div>
+        </div>
+      </div>
+      <button class="btn-next-question" onclick="nextQuestion(3)">Confirmar</button>
+    </div>
+
+    <div class="exam-step" id="q4">
+      <span class="tag">Pregunta 4/6</span>
+      <h2>¿Qué tipo de amenaza consiste en <strong>cifrar</strong> tus datos y exigir un pago para devolvértelos?</h2>
+
+      <div class="option-grid" id="opt-q4">
+        <div class="option-card" onclick="selectOption(4, 'a', this)">
+          <h3>DDoS</h3>
+          <p>Denegación de Servicio</p>
+        </div>
+        <div class="option-card" onclick="selectOption(4, 'b', this)">
+          <h3>Phishing</h3>
+          <p>Ingeniería Social</p>
+        </div>
+        <div class="option-card" onclick="selectOption(4, 'c', this)">
+          <h3>Ransomware</h3>
+          <p>Secuestro de datos</p>
+        </div>
+      </div>
+      <button class="btn-next-question" onclick="nextQuestion(4)">Confirmar</button>
+    </div>
+
+    <div class="exam-step" id="q5">
+      <span class="tag">Pregunta 5/6</span>
+      <h2>Si proteges la <strong>Identidad Digital</strong> de los ciudadanos para evitar fraudes y garantizar elecciones limpias, ¿a qué ODS contribuyes?</h2>
+      <div class="option-grid" id="opt-q5">
+        <div class="option-card" onclick="selectOption(5, 'a', this)">
+          <div style="color:#fd6925; font-size: 2rem; font-weight:bold;">ODS 9</div>
+          Industria e Innovación
+        </div>
+        <div class="option-card" onclick="selectOption(5, 'b', this)">
+          <div style="color:#00689d; font-size: 2rem; font-weight:bold;">ODS 16</div>
+          Paz, Justicia e Instituciones
+        </div>
+      </div>
+      <button class="btn-next-question" onclick="nextQuestion(5)">Confirmar</button>
+    </div>
+
+    <div class="exam-step" id="q6">
+      <span class="tag">Pregunta 6/6</span>
+      <h2>Analiza esta situación y detecta el error:</h2>
+      <blockquote style="background:#f9f9f9; padding:15px; border-left:4px solid #f44336; font-style:italic;">
+        "Juan ha hecho backup de sus archivos importantes. Para no perder el disco duro externo, lo ha dejado <strong>conectado siempre</strong> al puerto USB de su ordenador."
+      </blockquote>
+      <p>¿Es esto una buena práctica?</p>
+
+      <div class="option-grid" id="opt-q6">
+        <div class="option-card" onclick="selectOption(6, 'a', this)">
+          <strong>SÍ</strong>. Así la copia es automática y rápida.
+        </div>
+        <div class="option-card" onclick="selectOption(6, 'b', this)">
+          <strong>NO</strong>. Si entra un Ransomware, cifrará también la copia conectada.
+        </div>
+      </div>
+      <button class="btn-next-question" onclick="nextQuestion(6)">Confirmar</button>
+    </div>
+
+    <div class="exam-step" id="final-screen" style="text-align: center;">
+      <h2>Resultados del Examen</h2>
+      <div id="loading-results">Calculando nota...</div>
+      
+      <div id="results-content" style="display:none;">
+        <div class="score-circle">
+          <span id="final-score">0</span>
+          <span class="score-label">Puntos</span>
+        </div>
+        <h3 id="final-msg"></h3>
+        <p id="final-detail"></p>
+        
+        <div style="margin-top:30px;">
+          <button onclick="location.reload()" class="boton" id="btn-retry" style="display:none; background:#f44336; color:white; border:none;">Reintentar</button>
+          <a href="../../modulos.html" class="boton" id="btn-continue" style="display:none;">Volver a Módulos</a>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+  <script src="../../scripts/firebase-config.js"></script>
+
+  <script>
+    // --- Configuración del Examen ---
+    // Respuestas correctas: 
+    // 1: b (Seg. Info), 2: c (Disponibilidad), 3: b (Hacktivismo), 4: c (Ransomware), 5: b (ODS 16), 6: b (No dejar conectado)
+    const correctAnswers = { 1: 'b', 2: 'c', 3: 'b', 4: 'c', 5: 'b', 6: 'b' };
+    let userAnswers = {};
+    const totalQuestions = 6;
+    let currentQ = 1;
+
+    // --- Lógica Visual ---
+    function selectOption(qNum, value, cardElement) {
+      // Guardar respuesta
+      userAnswers[qNum] = value;
+      
+      // Actualizar UI: Quitar seleccionado de otros y poner al actual
+      const parent = document.getElementById(`opt-q${qNum}`);
+      const cards = parent.querySelectorAll('.option-card');
+      cards.forEach(c => c.classList.remove('selected'));
+      cardElement.classList.add('selected');
+      
+      // Mostrar botón confirmar
+      const btn = document.querySelector(`#q${qNum} .btn-next-question`);
+      btn.style.display = 'inline-block';
+    }
+
+    function nextQuestion(current) {
+      // 1. Validar si acertó (Feedback visual inmediato opcional, aquí pasamos a la siguiente)
+      // Para hacerlo más gamificado, NO les decimos si fallaron hasta el final, o avanzamos.
+      
+      // Barra de progreso
+      const progress = (current / totalQuestions) * 100;
+      document.getElementById('progress-bar').style.width = `${progress}%`;
+
+      // Ocultar actual
+      document.getElementById(`q${current}`).classList.remove('active');
+
+      if (current < totalQuestions) {
+        // Mostrar siguiente
+        document.getElementById(`q${current + 1}`).classList.add('active');
+        currentQ++;
+      } else {
+        // Fin del examen
+        calculateAndSave();
+      }
+    }
+
+    function calculateAndSave() {
+      document.getElementById('final-screen').classList.add('active');
+      
+      let hits = 0;
+      for (let i = 1; i <= totalQuestions; i++) {
+        if (userAnswers[i] === correctAnswers[i]) hits++;
+      }
+      
+      // Nota sobre 10
+      // 6 aciertos = 10
+      // Regla de 3: (hits * 10) / 6
+      const finalScore = Math.round((hits * 10) / totalQuestions);
+      const passed = hits >= 4; // Aprobar con 4/6 (66%)
+
+      // Mostrar resultados
+      const resultsDiv = document.getElementById('results-content');
+      const loadingDiv = document.getElementById('loading-results');
+      const scoreTxt = document.getElementById('final-score');
+      const msgTxt = document.getElementById('final-msg');
+      const detailTxt = document.getElementById('final-detail');
+      const btnRetry = document.getElementById('btn-retry');
+      const btnCont = document.getElementById('btn-continue');
+
+      loadingDiv.style.display = 'none';
+      resultsDiv.style.display = 'block';
+      scoreTxt.innerText = finalScore;
+
+      if (passed) {
+        msgTxt.innerText = "¡Enhorabuena! 🎓";
+        msgTxt.style.color = "green";
+        detailTxt.innerText = `Has acertado ${hits} de ${totalQuestions} preguntas. Has completado los fundamentos.`;
+        btnCont.style.display = "inline-block";
+        
+        // Guardar en Firebase
+        saveToFirebase(10); // Guardamos 10 puntos por completar (o finalScore si prefieres nota exacta)
+      } else {
+        msgTxt.innerText = "Necesitas repasar";
+        msgTxt.style.color = "#d32f2f";
+        detailTxt.innerText = `Has acertado ${hits} de ${totalQuestions}. Necesitas al menos 4 aciertos para aprobar.`;
+        btnRetry.style.display = "inline-block";
+      }
+    }
+
+    function saveToFirebase(score) {
+      const auth = firebase.auth();
+      const db = firebase.firestore();
+
+      auth.onAuthStateChanged(user => {
+        if (user) {
+          db.collection('userScores').doc(user.uid).set({
+            scores: { introduccion: score }
+          }, { merge: true }).then(() => {
+            console.log("Nota guardada");
+          }).catch(err => {
+            console.error("Error al guardar:", err);
+            alert("Error de conexión al guardar la nota.");
+          });
+        }
+      });
+    }
+  </script>
+</body>
+</html>

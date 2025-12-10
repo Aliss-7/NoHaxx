@@ -16,10 +16,11 @@ document.addEventListener("DOMContentLoaded", () => {
     if (el) {
       el.href = "#";
       el.classList.add("bloqueado");
+      el.classList.remove("aprobado");
       if (!el.innerText.includes("🔒")) el.innerText += " 🔒";
       el.onclick = (e) => {
         e.preventDefault();
-        alert("🔒 Debes aprobar el módulo anterior para acceder.");
+        alert("🔒 Debes aprobar el módulo anterior para acceder a este.");
       };
     }
   };
@@ -34,13 +35,20 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
+  const marcarAprobado = (key) => {
+    const el = document.getElementById(config[key].id);
+    if (el) {
+      el.classList.add("aprobado");
+    }
+  };
+
   auth.onAuthStateChanged(async (user) => {
     if (!user) {
       window.location.href = "login.html";
       return;
     }
 
-    // intro abierta el resto cerrado
+    // Intro abierto resto cerrado
     desbloquear("intro");
     bloquear("phishing");
     bloquear("ransomware");
@@ -49,18 +57,49 @@ document.addEventListener("DOMContentLoaded", () => {
     bloquear("navegacion");
 
     try {
+      // Leer puntuaciones de Firebase
       const docRef = db.collection("userScores").doc(user.uid);
       const docSnap = await docRef.get();
 
       if (docSnap.exists) {
         const s = docSnap.data().scores || {};
 
-        // desbloqueo en cadena
-        if (s.introduccion >= 5) desbloquear("phishing");
-        if (s.phishing >= 5) desbloquear("ransomware");
-        if (s.ransomware >= 5) desbloquear("ingenieria");
-        if (s.ingenieria >= 5) desbloquear("contrasenas");
-        if (s.contrasenas >= 5) desbloquear("navegacion");
+        // Lógica de Aprobado
+        
+        // Si se aprueba Introducción
+        if (s.introduccion >= 5) {
+            marcarAprobado("intro");
+            desbloquear("phishing");
+        }
+
+        // Si se aprueba Phishing
+        if (s.phishing >= 5) {
+            marcarAprobado("phishing");
+            desbloquear("ransomware");
+        }
+
+        // Si se aprueba Ransomware
+        if (s.ransomware >= 5) {
+            marcarAprobado("ransomware");
+            desbloquear("ingenieria");
+        }
+
+        // Si se aprueba Ingeniería Social
+        if (s.ingenieria >= 5) {
+            marcarAprobado("ingenieria");
+            desbloquear("contrasenas");
+        }
+
+        // Si se aprueba Contraseñas
+        if (s.contrasenas >= 5) {
+            marcarAprobado("contrasenas");
+            desbloquear("navegacion");
+        }
+
+        // Si se aprueba Navegación
+        if (s.navegacion >= 5) {
+            marcarAprobado("navegacion");
+        }
       }
     } catch (error) {
       console.error("Error al leer progreso:", error);
