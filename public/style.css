@@ -707,3 +707,101 @@ button[type="submit"]:hover, #login-btn:hover {
   .puzzle-left .puzzle-item { border-right: 2px solid #ddd; border-top-right-radius: 8px; border-bottom-right-radius: 8px; }
   .puzzle-right .puzzle-item { border-left: 2px solid #ddd; border-top-left-radius: 8px; border-bottom-left-radius: 8px; }
 }
+
+
+/* =========================================================================
+   ESTILOS ESPECÍFICOS MÓDULO INTRODUCCIÓN
+   ========================================================================= */
+
+/* Mejoras para Tooltips interactivos */
+.tooltip {
+  /* Sobrescribe o añade transición al tooltip base */
+  transition: color 0.3s, border-bottom-color 0.3s;
+}
+
+.tooltip.viewed {
+  border-bottom-style: solid;
+  border-bottom-color: #4caf50;
+  color: #4caf50; /* Cambia a verde cuando se ha visto */
+}
+
+/* Alineación para bloques desplegables */
+.reveal-content .definition-box, 
+.reveal-content p, 
+.reveal-content ul {
+  text-align: center;
+}
+
+.reveal-content ul {
+  display: inline-block;
+  text-align: left; 
+}
+
+.threat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.threat-card {
+  background: #fff;
+  border: 1px solid #ddd;
+  padding: 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.2s;
+  position: relative;
+}
+
+.threat-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.threat-card.viewed {
+  border: 2px solid #4caf50;
+  background-color: #f1f8e9;
+}
+
+/* Estilos para Checklists */
+.checklist-container {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.check-item {
+  padding: 15px;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.check-item:hover {
+  background-color: #f9f9f9;
+}
+
+.check-item input {
+  transform: scale(1.5);
+  pointer-events: none;
+}
+
+/* Mensaje de error */
+#bloqueo-msg {
+  color: #d32f2f;
+  font-weight: bold;
+  margin-right: 15px;
+  display: none;
+  font-size: 0.85rem;
+  background: #ffebee;
+  padding: 5px 10px;
+  border-radius: 4px;
+  border: 1px solid #ffcdd2;
+}
+

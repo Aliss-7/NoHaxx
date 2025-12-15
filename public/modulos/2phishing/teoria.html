@@ -5,6 +5,126 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Módulo 2: Phishing - NoHaxx</title>
   <link rel="stylesheet" href="../../style.css">
+  <style>
+    /* --- ESTILOS GENERALES Y TOOLTIPS --- */
+    .tooltip {
+      border-bottom: 2px dashed #2196f3;
+      cursor: help;
+      position: relative;
+      transition: all 0.3s ease;
+      font-weight: bold;
+      color: #0d47a1;
+    }
+    .tooltip.viewed {
+      border-bottom-style: solid !important;
+      border-bottom-color: #4caf50 !important;
+      color: #2e7d32 !important;
+      background-color: #e8f5e9;
+    }
+    .btn-reveal {
+      background-color: #fff; color: #0f1e40; border: 2px solid #0f1e40;
+      padding: 10px 20px; border-radius: 20px; cursor: pointer; font-weight: bold;
+      display: block; margin: 20px auto; transition: 0.3s;
+    }
+    .btn-reveal:hover { background-color: #0f1e40; color: white; }
+    .btn-reveal.viewed { display: none; }
+    .reveal-content { animation: slideDown 0.5s ease-out; }
+    @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+    
+    /* CAJAS DE INFORMACIÓN (NUEVO) */
+    .info-box { background: #e3f2fd; border-left: 5px solid #2196f3; padding: 15px; margin: 15px 0; border-radius: 4px; }
+    .alert-box { background: #ffebee; border-left: 5px solid #f44336; padding: 15px; margin: 15px 0; border-radius: 4px; color: #c62828; }
+    .tip-box { background: #fff3e0; border-left: 5px solid #ff9800; padding: 15px; margin: 15px 0; border-radius: 4px; }
+    .stat-box { background: #f1f8e9; border: 1px solid #c5e1a5; padding: 15px; text-align: center; font-weight: bold; color: #33691e; border-radius: 8px; margin-bottom: 15px; }
+
+    /* TABLAS (NUEVO) */
+    .comparison-table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.9rem; }
+    .comparison-table th, .comparison-table td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+    .comparison-table th { background-color: #0f1e40; color: white; }
+    .comparison-table tr:nth-child(even) { background-color: #f9f9f9; }
+
+    /* --- SIMULACIÓN CORREO --- */
+    .email-simulation {
+      border: 1px solid #ddd; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+      margin: 20px 0; background: #fff; overflow: hidden;
+    }
+    .email-header { background: #f5f5f5; padding: 15px; border-bottom: 1px solid #eee; }
+    .email-body { padding: 20px; color: #333; }
+    .fake-link { color: #0056b3; text-decoration: underline; cursor: help; font-weight: bold; }
+    
+    .interactive-item { cursor: pointer; padding: 10px; border-radius: 5px; transition: 0.2s; border: 1px solid transparent; }
+    .interactive-item:hover { background-color: #f0f0f0; border-color: #ccc; }
+    .interactive-item.viewed { background-color: #ffebee !important; border-color: #ef5350; }
+
+    /* --- DESPLEGABLES --- */
+    details { background: #fff; border: 1px solid #ddd; border-radius: 5px; margin-bottom: 10px; overflow: hidden; }
+    summary { padding: 15px; cursor: pointer; font-weight: bold; background: #f5f5f5; outline: none; list-style: none; display: flex; justify-content: space-between; align-items: center; }
+    summary::after { content: '+'; font-size: 1.2rem; }
+    details[open] summary::after { content: '-'; }
+    details[open] summary { background: #e3f2fd; color: #0d47a1; }
+    details p, details div { padding: 15px; margin: 0; border-top: 1px solid #ddd; }
+
+    /* --- SIMULACIONES ESPECÍFICAS --- */
+    /* SMS */
+    .sms-container { background-color: #fff; border: 1px solid #ddd; border-radius: 15px; max-width: 350px; margin: 20px auto; padding: 10px; font-family: sans-serif; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+    .sms-header { text-align: center; color: #888; font-size: 0.8rem; margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 5px; }
+    .sms-bubble { background-color: #e5e5ea; color: #000; border-radius: 15px; padding: 10px 15px; position: relative; margin-bottom: 10px; display: inline-block; text-align: left; }
+    .sms-bubble::before { content: ""; position: absolute; left: -7px; bottom: 8px; width: 20px; height: 20px; background: #e5e5ea; border-bottom-right-radius: 15px; z-index: -1; }
+    
+    /* Llamada */
+    .call-screen { background: linear-gradient(135deg, #2c3e50 0%, #000000 100%); color: white; border-radius: 20px; max-width: 280px; margin: 20px auto; padding: 30px 20px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.4); }
+    .caller-icon { font-size: 4rem; margin-bottom: 10px; }
+    .caller-name { font-size: 1.4rem; font-weight: bold; margin-bottom: 5px; }
+    .caller-status { font-size: 0.9rem; opacity: 0.7; margin-bottom: 30px; letter-spacing: 1px; }
+    .call-actions { display: flex; justify-content: space-around; }
+    .btn-call { width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; box-shadow: 0 4px 10px rgba(0,0,0,0.3); cursor: pointer; transition: transform 0.2s; }
+    .btn-call:hover { transform: scale(1.1); }
+    .btn-decline { background: #ff3b30; } .btn-accept { background: #4cd964; }
+
+    /* Email Corporativo */
+    .corp-email { border: 1px solid #ccc; background: #fff; padding: 20px; border-radius: 5px; text-align: left; margin: 20px 0; border-left: 5px solid #ff9800; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+
+    /* --- VIDEOS Y ESTADOS --- */
+    .video-status { margin-top: 15px; padding: 10px; border-radius: 5px; font-weight: bold; text-align: center; background: #f5f5f5; border: 1px solid #ddd; }
+    .video-status.completed { background: #e8f5e9; color: #2e7d32; border-color: #c8e6c9; }
+    .video-status.watching { background: #e3f2fd; color: #0277bd; border-color: #b3e5fc; }
+
+    /* --- MINIJUEGO --- */
+    .game-scenario-box { background: #fff; border: 2px solid #eee; border-radius: 8px; padding: 30px; margin-top: 10px; text-align: center; max-width: 800px; margin: 0 auto; }
+    .game-scenario-box.viewed { border-color: #4caf50; background-color: #f1f8e9; }
+    .scenario-display { background: #e3f2fd; color: #0d47a1; padding: 20px; border-radius: 5px; font-weight: bold; font-size: 1.2rem; margin-bottom: 30px; border-left: 6px solid #2196f3; min-height: 80px; display: flex; align-items: center; justify-content: center; gap: 15px; }
+    .btn-game-opt { margin: 10px; background: white; border: 2px solid #0f1e40; color: #0f1e40; padding: 12px 20px; border-radius: 5px; cursor: pointer; font-weight: bold; transition: 0.2s; font-size: 1rem; }
+    .btn-game-opt:hover { background: #0f1e40; color: white; transform: translateY(-2px); }
+
+    /* --- CARRUSEL Y HOVER --- */
+    .carousel-container { position: relative; max-width: 700px; margin: 0 auto; }
+    .email-slide { display: none; animation: fadeIn 0.5s; }
+    .email-slide.active { display: block; }
+    .fake-window { background: #fff; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); overflow: hidden; text-align: left; }
+    .window-bar { background: #e0e0e0; padding: 8px 15px; border-bottom: 1px solid #ccc; display: flex; gap: 6px; align-items: center; }
+    .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+    .dot.red { background: #ff5f56; } .dot.yellow { background: #ffbd2e; } .dot.green { background: #27c93f; }
+    .fake-email-meta { background: #f9f9f9; padding: 15px; border-bottom: 1px solid #eee; font-size: 0.9rem; }
+    .fake-email-body { padding: 30px; font-family: 'Arial', sans-serif; color: #333; }
+    .netflix-style .logo { color: #e50914; font-weight: bold; font-size: 1.5rem; letter-spacing: 2px; margin-bottom: 20px; }
+    .netflix-style .btn { background: #e50914; color: white; padding: 10px 20px; text-decoration: none; border-radius: 3px; display: inline-block; margin-top: 15px; }
+    .drive-style .logo { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; font-weight: 500; font-size: 1.2rem; color: #5f6368; }
+    .drive-style .file-box { border: 1px solid #ddd; padding: 15px; border-radius: 5px; display: flex; gap: 15px; align-items: center; background: #f8f9fa; }
+    .drive-style .btn { background: #1a73e8; color: white; padding: 10px 20px; text-decoration: none; border-radius: 4px; display: inline-block; margin-top: 15px; }
+    .prize-style { text-align: center; }
+    .prize-style h1 { color: #ff9800; font-size: 1.8rem; margin: 0; }
+    .prize-style .btn { background: #4caf50; color: white; padding: 15px 30px; font-size: 1.2rem; font-weight: bold; border-radius: 50px; text-decoration: none; display: inline-block; margin-top: 20px; }
+    .carousel-controls { display: flex; justify-content: space-between; align-items: center; margin-top: 20px; }
+    .nav-arrow { background: #0f1e40; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: bold; }
+    .nav-arrow:disabled { background: #ccc; cursor: not-allowed; }
+    
+    .hover-target { display: inline-block; padding: 10px 20px; background-color: #fff3e0; color: #e65100; border: 2px dashed #ff9800; border-radius: 5px; margin: 10px 0; cursor: help; transition: all 0.3s; }
+    .hover-target:hover { background-color: #ffebee; color: #c62828; border-color: #f44336; }
+    .hover-target.viewed { background-color: #e8f5e9 !important; border-color: #4caf50 !important; color: #2e7d32 !important; }
+    .hover-reveal { font-family: monospace; background: #333; color: #0f0; padding: 5px 10px; border-radius: 4px; font-size: 0.9rem; display: none; margin-top: 5px; }
+    .checklist-container { background: #fff; padding: 0; list-style: none; text-align: left; }
+    .check-item { padding: 15px; border-bottom: 1px solid #eee; display: flex; align-items: center; gap: 15px; }
+  </style>
 </head>
 <body>
   <header>
@@ -16,118 +136,342 @@
 
   <div class="lms-container">
     <aside class="lms-sidebar">
-      <h3>📑 Índice: Phishing</h3>
-      <div class="lms-menu-item unlocked active" id="menu-0">1. Definición Técnica</div>
+      <h3>Phishing</h3>
+      <div class="lms-menu-item unlocked active" id="menu-0">1. ¿Qué es?</div>
       <div class="lms-menu-item" id="menu-1">2. Anatomía del Engaño</div>
-      <div class="lms-menu-item" id="menu-2">3. Vectores de Ataque</div>
-      <div class="lms-menu-item" id="menu-3">4. Práctica: Hovering</div>
-      <div class="lms-menu-item" id="menu-4">5. Conclusión</div>
+      <div class="lms-menu-item" id="menu-2">3. Tipos de Ataque</div>
+      <div class="lms-menu-item" id="menu-3">4. Casos Reales</div>
+      <div class="lms-menu-item" id="menu-4">5. Práctica: Hovering</div>
+      <div class="lms-menu-item" id="menu-5">6. Resumen</div>
     </aside>
 
     <main class="lms-content">
 
-      <div class="course-step active">
-        <h2>1. ¿Qué es realmente el Phishing?</h2>
-        <p>En términos de ciberseguridad, el Phishing no es solo "un correo falso". Es un ataque basado en la 
-          <span class="tooltip" data-tooltip="Técnica de manipulación psicológica que explota errores humanos para obtener información privada.">Ingeniería Social</span> 
-          que utiliza la suplantación de identidad o 
-          <span class="tooltip" data-tooltip="Spoofing: El acto de disfrazar una comunicación de una fuente desconocida como si fuera de una fuente conocida y confiable.">Spoofing</span>.
-        </p>
+      <div class="course-step active" id="step-0">
+        <h2>Definición de Phishing</h2>
+        <div class="stat-box">💡 Sabías que... El 90% de los ciberataques comienzan con un correo de phishing.</div>
+        <p>El <strong>Phishing</strong> no ataca al software de un ordenador, ataca a la parte más vulnerable: <strong>el ser humano</strong>.</p>        
         
-        <div class="definition-box" style="border-left-color: #0f1e40; background-color: #e8eaf6;">
-          "Un intento fraudulento de obtener información sensible (credenciales, datos bancarios) haciéndose pasar por una entidad confiable en una comunicación electrónica." — INCIBE
-        </div>
+        
 
-        <button class="btn-reveal" onclick="revelar('bloque-extra-1', this)">
-          ¿Por qué sigue funcionando hoy en día? 👇
+        <p>Se define como una técnica de <span class="tooltip required-interaction" data-tooltip="Manipulación psicológica para que las personas realicen acciones o divulguen información confidencial." onmouseover="markInteraction(this)">Ingeniería Social</span> utilizada por ciberdelincuentes para obtener información confidencial (como contraseñas o datos bancarios) haciéndose pasar por una entidad confiable.</p>
+        <button class="btn-reveal required-interaction" onclick="revelar('bloque-extra-1', this)">
+          ¿Por qué funciona tan bien?
         </button>
 
         <div id="bloque-extra-1" style="display:none;" class="reveal-content">
-          <p>A diferencia de un virus que ataca al software, el Phishing ataca al <strong>"Sistema Operativo Humano"</strong>.</p>
-          <ul style="text-align: left; background: #fff; padding: 20px 40px; border-radius: 8px; border: 1px solid #ccc;">
-            <li>🧠 <strong>Sesgo de Autoridad:</strong> Tendemos a obedecer correos que parecen venir de un "Jefe" o un "Banco".</li>
-            <li>⚡ <strong>Urgencia:</strong> El miedo a perder una cuenta o no recibir un paquete anula nuestro pensamiento crítico.</li>
-          </ul>
-          <p style="text-align:center; margin-top:20px; color:#0f1e40; font-weight:bold;">Continúa para aprender a detectarlo.</p>
-        </div>
-      </div>
-
-      <div class="course-step">
-        <h2>2. Anatomía de un Ataque</h2>
-        <p>Los analistas de seguridad identifican tres indicadores de compromiso (IoC) comunes. Encuéntralos en este ejemplo:</p>
-        
-        <div id="activity-2">
-          <div class="interactive-item" onclick="checkItem(2,this)">
-            <strong>🚩 Manipulación Emocional (Urgencia):</strong> "¡Acción requerida en 24h o su cuenta será eliminada!"
+          <div class="definition-box">
+            <p><strong>El Factor Psicológico</strong></p>
+            <p>Los atacantes explotan dos debilidades humanas básicas:</p>
+            <ul>
+              <li><strong>Urgencia/Miedo:</strong> "¡Tu cuenta será eliminada en 24h!" -> Nos hace actuar sin pensar.</li>
+              <li><strong>Autoridad:</strong> "Soy el CEO y necesito esto ya" -> Tendemos a obedecer a superiores.</li>
+              <li><strong>Codicia:</strong> "Has ganado un iPhone" -> La ilusión nos ciega.</li>
+            </ul>
           </div>
-          <div class="interactive-item" onclick="checkItem(2,this)">
-            <strong>🚩 Spoofing de Dominio:</strong> El remitente dice "Soporte Microsoft", pero el correo es <code>admin@micro-soft-security.tk</code>.
-          </div>
-          <div class="interactive-item" onclick="checkItem(2,this)">
-            <strong>🚩 Payload Malicioso:</strong> Un enlace o archivo adjunto diseñado para ejecutar código o robar datos.
+          <div class="tip-box">
+            <strong>Consejo:</strong> Si un correo te hace sentir pánico o euforia, detente. Es probable que sea un engaño.
           </div>
         </div>
       </div>
 
-      <div class="course-step">
-        <h2>3. Vectores de Ataque (Variantes)</h2>
-        <p>El phishing evoluciona adaptándose a nuevas tecnologías. Haz clic para conocer las variantes más peligrosas:</p>
+      <div class="course-step" id="step-1">
+        <h2>Anatomía de un Correo Malicioso</h2>
+        <p>Aunque suele ser por correo, se distingue por ser un ataque dirigido y personalizado. Para aprender a detectarlos debes diseccionar uno.</p>
         
-        <div class="tarjetas-container" style="display:flex; gap:15px; flex-wrap:wrap;">
-          <div class="card-interactiva" onclick="checkCard(3,this)">
-            <h4>📱 Smishing</h4>
-            <p>Phishing vía <strong>SMS</strong>. Muy efectivo porque confiamos más en el móvil que en el PC. (Ej: Paquetes de Correos falsos).</p>
-          </div>
-          <div class="card-interactiva" onclick="checkCard(3,this)">
-            <h4>📞 Vishing</h4>
-            <p>Phishing por <strong>Voz</strong> (Voice). Llamadas fraudulentas suplantando a técnicos o entidades bancarias.</p>
-          </div>
-          <div class="card-interactiva" onclick="checkCard(3,this)">
-            <h4>🎯 Spear Phishing</h4>
-            <p>Ataque <strong>dirigido</strong>. El atacante investiga a la víctima (RRSS, LinkedIn) para personalizar el mensaje y hacerlo creíble.</p>
-          </div>
+        <button class="btn-reveal required-interaction" onclick="revelar('bloque-simulacion', this)">
+          ¿Cómo los detectamos? 👇
+        </button>
+
+        <div id="bloque-simulacion" style="display:none;" class="reveal-content">
+            <p>A continuación verás una simulación de un correo real.</p>
+            <p><strong>Haz clic en los 3 elementos sospechosos para identificarlos:</strong></p>
+
+            <div class="email-simulation">
+              <div class="email-header">
+                <div class="interactive-item required-interaction" onclick="checkSimulation(this)">
+                  <strong>🚩 1. Remitente Sospechoso (Spoofing)</strong>
+                  <div style="font-size:0.9rem; margin-top:5px;">De: <code>Soporte PayPal &lt;security@paypa1-update.com&gt;</code></div>
+                  <p style="display:none; color:#d32f2f; font-size:0.85rem;">¡Fíjate! Dice "Paypa1" con un número 1. No es el dominio oficial.</p>
+                </div>
+              </div>
+              <div class="email-body">
+                <div class="interactive-item required-interaction" onclick="checkSimulation(this)">
+                  <strong>🚩 2. Urgencia y Amenaza</strong>
+                  <p>Estimado cliente, hemos detectado actividad inusual. <strong>Si no verifica su cuenta en 2 horas, será suspendida permanentemente.</strong></p>
+                  <p style="display:none; color:#d32f2f; font-size:0.85rem;">Los bancos nunca te amenazan con plazos tan cortos por email.</p>
+                </div>
+                
+                <br>
+                
+                <div class="interactive-item required-interaction" onclick="checkSimulation(this)">
+                  <strong>🚩 3. Enlace Oculto</strong>
+                  <p>Haga clic aquí para verificar: <span class="fake-link" title="security@paypa1-update.com">www.paypal.com/login</span></p>
+                  <p style="display:none; color:#d32f2f; font-size:0.85rem;">El texto dice "paypal.com", pero al poner el ratón encima ves que te lleva a "paypa1-update.com".</p>
+                </div>
+              </div>
+            </div>
         </div>
       </div>
+    </div>
 
-      <div class="course-step">
-        <h2>4. Análisis Forense: Técnica "Hovering"</h2>
-        <p>La defensa más efectiva es inspeccionar la <span class="tooltip" data-tooltip="Uniform Resource Locator: La dirección web exacta. Ejemplo: https://www.google.com">URL</span> de destino antes de hacer clic.</p>
-        <p><strong>Ejercicio:</strong> Pasa el cursor sobre el enlace para revelar el destino real oculto.</p>
+      <div class="course-step" id="step-2">
+        <h2>1. Smishing (SMS)</h2>
+        <div class="info-box"><strong>Definición:</strong> Phishing a través de mensajes de texto (SMS). Combina "SMS" + "Phishing".</div>
+        <p>Aprovecha que confiamos más en las notificaciones del móvil y que en las pantallas pequeñas es más difícil verificar las URLs.</p>
         
-        <div class="email-simulacion">
-          <p><strong>De:</strong> Seguridad Corporativa<br><strong>Asunto:</strong> Cambio de credenciales obligatorio</p>
-          <hr>
-          <p>Estimado usuario,</p>
-          <p>Su contraseña caduca hoy. Para evitar el bloqueo, acceda al portal:</p>
-          <p>
-            <span class="fake-link" onmouseover="unlockStep(4)">
-              👉 https://portal-empresa.com/login
-            </span>
-          </p>
-        </div>
-        <p id="msg-hover" style="color:green; display:none; font-weight:bold;">✅ ¡Detectado! La URL real no coincide con el texto.</p>
+        <details>
+            <summary>Señales de Alerta 🚩</summary>
+            <ul>
+                <li>Números desconocidos o cortos inusuales.</li>
+                <li>Faltas de ortografía (para evadir filtros antispam).</li>
+                <li>Enlaces acortados (bit.ly, tinyurl) que ocultan el destino.</li>
+                <li>Temas: Paquetes retenidos, Banco bloqueado, Premios.</li>
+            </ul>
+        </details>
+        
+        <details>
+            <summary>Ver Simulación Realista</summary>
+            <div class="sms-container">
+                <div class="sms-header">Ayer 14:30</div>
+                <div class="sms-bubble">
+                    [CORREOS] Su paquete ES-9912 no se ha podido entregar por falta de numero de calle.<br><br>
+                    Actualice sus datos para evitar la devolución: <a href="#" style="color:blue;">http://bit.ly/correos-envio</a>
+                </div>
+            </div>
+            <div class="tip-box" style="text-align:center;">Nunca hagas clic. Ve a la app oficial de Correos y comprueba el seguimiento allí.</div>
+        </details>
+        
+        <p style="margin-top:20px; text-align:center;"><em>Avanza para ver el vídeo.</em></p>
       </div>
 
-      <div class="course-step">
-        <h2>5. Resumen Ejecutivo</h2>
-        <p>El Phishing es la puerta de entrada para ataques más graves como el Ransomware. La verificación es tu mejor defensa.</p>
-        
+      <div class="course-step" id="step-3">
+        <h2>Vídeo: Profundizando en Smishing</h2>
+        <p>Observa cómo funciona este ataque en la vida real.</p>
         <div class="video-box">
-          <h4>📺 Vídeo Oficial OSI (2 min)</h4>
-          <p>Repaso de conceptos clave por la Oficina de Seguridad del Internauta:</p>
           <div class="video-responsive">
-            <iframe src="https://www.youtube.com/embed/p0m5f5-pMZI" title="Qué es el Phishing - OSI" allowfullscreen></iframe>
+            <div id="player-smishing"></div>
           </div>
+          <div id="status-smishing" class="video-status watching">👁️ Detectando visualización... (Debes terminar el vídeo)</div>
         </div>
+      </div>
 
-        <p style="margin-top:20px">Completa el examen para demostrar tu competencia.</p>
+      <div class="course-step" id="step-4">
+        <h2>2. Vishing (Llamadas de Voz)</h2>
+        <div class="info-box"><strong>Definición:</strong> Voice Phishing. Engaños a través de llamadas telefónicas.</div>
+        <p>El atacante te llama suplantando a un técnico de Microsoft, tu banco, una operadora o incluso RRHH. Buscan tus datos o que instales un software de control remoto (AnyDesk, TeamViewer).</p>
+        
+        <details>
+            <summary>El "Modus Operandi" 📞</summary>
+            <p>A menudo usan <strong>Caller ID Spoofing</strong> para que en tu pantalla aparezca el nombre real de tu banco ("Banco Santander", "BBVA") aunque te llamen desde otro país.</p>
+            
+            <p><strong>Guión Típico:</strong> "Hola, le llamamos del departamento de fraude. Hemos detectado un cargo de 500€ en Rusia. Para cancelarlo, necesito que me dicte el código que acaba de recibir por SMS".</p>
+        </details>
+        
+        <details>
+            <summary>Simulación de Pantalla</summary>
+            <div class="call-screen">
+                <div class="caller-icon">🏦</div>
+                <div class="caller-name">Soporte Banco</div>
+                <div class="caller-status">Llamando...</div>
+                <div class="call-actions">
+                    <div class="btn-call btn-decline" onclick="alert('¡Bien hecho! Colgar es lo seguro.')">⛔</div>
+                    <div class="btn-call btn-accept" onclick="alert('¡Cuidado! Nunca aceptes sin verificar.')">📞</div>
+                </div>
+            </div>
+        </details>
+      </div>
+
+      <div class="course-step" id="step-5">
+        <h2>Vídeo: Alerta Vishing</h2>
+        <p>Aprende a identificar las llamadas fraudulentas.</p>
+        <div class="video-box">
+          <div class="video-responsive">
+            <div id="player-vishing"></div>
+          </div>
+          <div id="status-vishing" class="video-status watching">👁️ Detectando visualización... (Debes terminar el vídeo)</div>
+        </div>
+      </div>
+
+      <div class="course-step" id="step-6">
+        <h2>3. Spear Phishing</h2>
+        <div class="info-box"><strong>Diferencia clave:</strong> El Phishing es masivo. El Spear Phishing es dirigido a TI.</div>
+        
+        <p>Es mucho más peligroso porque es <strong>personalizado</strong>. El atacante ha investigado tus redes sociales (LinkedIn, Instagram) para conocer a tus compañeros, tu puesto y tus hobbies.</p>
+        
+        
+
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>Característica</th>
+                    <th>Phishing Masivo</th>
+                    <th>Spear Phishing</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Saludo</strong></td>
+                    <td>"Estimado Cliente"</td>
+                    <td>"Hola Juan,"</td>
+                </tr>
+                <tr>
+                    <td><strong>Contenido</strong></td>
+                    <td>Genérico (Netflix, Banco)</td>
+                    <td>Específico (Factura proveedor X, Proyecto Y)</td>
+                </tr>
+                <tr>
+                    <td><strong>Objetivo</strong></td>
+                    <td>Cualquiera que caiga</td>
+                    <td>Tú o tu empresa específicamente</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <details>
+            <summary>Ejemplo Corporativo (Fraude del CEO)</summary>
+            <div class="corp-email">
+                <strong>De:</strong> Director General (ceo@empresa-holding.com)<br>
+                <strong>Para:</strong> Juan Pérez (Contabilidad)<br>
+                <strong>Asunto:</strong> Transferencia Confidencial<br>
+                <hr>
+                <p>Hola Juan, necesito que realices una transferencia urgente a este nuevo proveedor antes de las 14:00 para cerrar el contrato. Adjunto factura. No lo comentes con nadie aún, es confidencial.</p>
+            </div>
+            <div class="alert-box">Si tu jefe te pide algo urgente y confidencial que se salta los procedimientos habituales... <strong>¡Sospecha!</strong> Llama para confirmar.</div>
+        </details>
+      </div>
+
+      <div class="course-step" id="step-7">
+        <h2>Vídeo: ¿Qué es el Phishing y Spear Phishing?</h2>
+        <div class="video-box">
+          <div class="video-responsive">
+            <div id="player-phishing"></div>
+          </div>
+          <div id="status-phishing" class="video-status watching">👁️ Detectando visualización... (Debes terminar el vídeo)</div>
+        </div>
+      </div>
+
+      <div class="course-step" id="step-8">
+        <h2>Entrenamiento Práctico</h2>
+        <div class="game-scenario-box required-interaction" id="game-container">
+            <h3>Identifica la Amenaza</h3>
+            <p>Lee la situación y selecciona qué tipo de ataque es para avanzar.</p>
+            <div class="scenario-display"><span id="scenario-icon">📩</span> <span id="scenario-text">Cargando...</span></div>
+            <div style="display:flex; justify-content:center; flex-wrap:wrap;">
+                <button class="btn-game-opt" onclick="playGame('smishing')">Smishing</button>
+                <button class="btn-game-opt" onclick="playGame('vishing')">Vishing</button>
+                <button class="btn-game-opt" onclick="playGame('spear')">Spear Phishing</button>
+            </div>
+            <p id="game-feedback" style="margin-top:15px; font-weight:bold; min-height:24px;"></p>
+        </div>
+      </div>
+
+      <div class="course-step" id="step-9">
+        <h2>Casos Reales: Galería del Engaño</h2>
+        <p>Los ciberdelincuentes suelen repetir las mismas plantillas. Analiza estos 3 ejemplos visuales.</p>
+        <p style="font-size:0.9rem; color:#666;">Usa las flechas para navegar por los casos.</p>
+
+        <div class="carousel-container required-interaction" id="carousel-interaction">
+            
+            <div class="email-slide active" id="case-1">
+                <div class="fake-window">
+                    <div class="window-bar"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div>
+                    <div class="fake-email-meta">
+                        <strong>De:</strong> Netflix Support &lt;alert@netfl1x-verify-payment.com&gt;<br>
+                        <strong>Asunto:</strong> ⚠️ Actualice su método de pago inmediatamente
+                    </div>
+                    <div class="fake-email-body netflix-style">
+                        <div class="logo">NETFLIX</div>
+                        <p>Estimado suscriptor,</p>
+                        <p>Lamentamos informarle que su último pago ha sido rechazado. Su suscripción se cancelará en 24 horas si no actualiza su tarjeta.</p>
+                        <a href="javascript:void(0)" onclick="alert('Es un enlace falso. Fíjate en el remitente: netfl1x (con un 1).')" class="btn">ACTUALIZAR PAGO</a>
+                    </div>
+                </div>
+                <p style="text-align:center; font-weight:bold; margin-top:10px;">Caso 1: Streaming falso</p>
+            </div>
+
+            <div class="email-slide" id="case-2">
+                <div class="fake-window">
+                    <div class="window-bar"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div>
+                    <div class="fake-email-meta">
+                        <strong>De:</strong> Google Drive Share &lt;no-reply@googIe-drive-security.net&gt;<br>
+                        <strong>Asunto:</strong> "Nóminas_2024.pdf" compartido contigo
+                    </div>
+                    <div class="fake-email-body drive-style">
+                        <div class="logo">📂 Google Drive</div>
+                        <p>El departamento de RRHH ha compartido el siguiente documento contigo:</p>
+                        <div class="file-box">
+                            <span style="font-size:2rem;">📄</span>
+                            <div>
+                                <strong>Nóminas_Revisión_2025.pdf</strong><br>
+                                <small>2.4 MB</small>
+                            </div>
+                        </div>
+                        <p>Para visualizarlo, inicia sesión con tu cuenta corporativa.</p>
+                        <a href="javascript:void(0)" onclick="alert('¡Cuidado! Nunca inicies sesión desde un enlace de correo inesperado.')" class="btn">Abrir Documento</a>
+                    </div>
+                </div>
+                <p style="text-align:center; font-weight:bold; margin-top:10px;">Caso 2: Documento Trampa</p>
+            </div>
+
+            <div class="email-slide" id="case-3">
+                <div class="fake-window">
+                    <div class="window-bar"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div>
+                    <div class="fake-email-meta">
+                        <strong>De:</strong> Amazon Rewards &lt;winner@free-gifts-today.xyz&gt;<br>
+                        <strong>Asunto:</strong> 🎁 ¡FELICIDADES! Has ganado un iPhone 15
+                    </div>
+                    <div class="fake-email-body prize-style">
+                        <h1>¡ERES EL GANADOR! 🎉</h1>
+                        <p>Has sido seleccionado al azar entre 1.000.000 de usuarios.</p>
+                        <p>Tu iPhone 15 Pro está reservado.</p>
+                        <p><strong>Solo paga los gastos de envío (1.99€)</strong></p>
+                        <a href="javascript:void(0)" onclick="alert('Nadie regala iPhones. Solo quieren tu tarjeta para cobrarte el envío y robarte.')" class="btn">RECLAMAR PREMIO</a>
+                    </div>
+                </div>
+                <p style="text-align:center; font-weight:bold; margin-top:10px;">Caso 3: El premio inexistente</p>
+            </div>
+
+            <div class="carousel-controls">
+                <button class="nav-arrow" id="btn-prev-case" onclick="changeCase(-1)" disabled>⬅ Anterior</button>
+                <span class="case-counter" id="case-counter">1 / 3</span>
+                <button class="nav-arrow" id="btn-next-case" onclick="changeCase(1)">Siguiente ➡</button>
+            </div>
+        </div>
+      </div>
+
+      <div class="course-step" id="step-10">
+        <h2>Práctica: Hovering</h2>
+        <div class="info-box">En PC, pasa el ratón por encima de los enlaces sin hacer clic. En móvil, mantén pulsado el enlace hasta que salga la ventana emergente.</div>
+        <div style="background:#fff3e0; padding:20px; text-align:center; border-radius:8px;">
+          <p><strong>EJERCICIO:</strong> Encuentra el destino real de este botón:</p>
+          <div class="hover-target required-interaction" onmouseover="revealUrl(this)">👉 ACCEDER A MI BANCO</div>
+          <div id="url-reveal-box" class="hover-reveal">Destino: http://www.robo-datos-bancarios.ru/login</div>
+        </div>
+      </div>
+
+      <div class="course-step" id="step-11">
+        <h2>Resumen Ejecutivo</h2>
+        
+        <ul class="checklist-container">
+          <li class="check-item">🛑 <strong>PARA:</strong> Controla la urgencia.</li>
+          <li class="check-item">🔍 <strong>MIRA:</strong> Verifica remitente y enlaces.</li>
+          <li class="check-item">📞 <strong>LLAMA:</strong> Canales oficiales.</li>
+        </ul>
+        <div class="video-box">
+          <h4>📺 Repaso Final (INCIBE)</h4>
+          <div class="video-responsive">
+            <div id="player-summary"></div>
+          </div>
+          <div id="status-summary" class="video-status watching">👁️ Detectando visualización...</div>
+        </div>
       </div>
 
       <div class="navigation-buttons">
         <button class="btn-nav btn-prev" id="prevBtn" onclick="changeStep(-1)">Anterior</button>
         <div style="display:flex;align-items:center;">
-          <span id="bloqueo-msg" class="instruccion-bloqueo">⚠️ Completa la actividad</span>
-          <button class="btn-nav btn-next" id="nextBtn" onclick="changeStep(1)">Siguiente ➜</button>
+          <span id="bloqueo-msg"></span>
+          <button class="btn-nav btn-next" id="nextBtn" onclick="tryNextStep()">Siguiente ➜</button>
         </div>
         <a href="examen.html" class="btn-finish" id="finishBtn">Ir al Examen</a>
       </div>
@@ -135,13 +479,74 @@
     </main>
   </div>
 
-  <script>
-    let currentStep = 0;
-    const totalSteps = 5;
-    let stepUnlocked = [true, false, false, false, true]; 
-    let itemsClicked = 0;
-    let cardsClicked = 0;
+  <script src="https://www.youtube.com/iframe_api"></script>
 
+<script>
+    let currentStep = 0;
+    const totalSteps = 12;
+    let stepUnlocked = new Array(totalSteps).fill(false);
+    stepUnlocked[0] = true;
+
+    // MAPAS DE NAVEGACIÓN
+    const menuMap = [0, 1, 2, 2, 2, 2, 2, 2, 2, 3, 4, 5];
+    const stepMap = [0, 1, 2, 9, 10, 11];
+
+    // JUEGO
+    const scenarios = [
+      { text: "SMS: 'Paquete retenido...'", type: 'smishing', icon: '📱' },
+      { text: "Llamada grabada: 'Tarjeta bloqueada...'", type: 'vishing', icon: '📞' },
+      { text: "Correo con tu nombre: 'Factura urgente...'", type: 'spear', icon: '🎯' }
+    ];
+    let gameIndex = 0;
+    let currentCase = 1; const totalCases = 3; let viewedCases = [true, false, false];
+
+    // YOUTUBE PLAYERS
+    var players = {};
+    // Estados de video (false = no visto, true = visto)
+    var videoStatus = { smishing: false, vishing: false, phishing: false, summary: false };
+
+    function onYouTubeIframeAPIReady() {
+        createPlayer('player-smishing', 'A13q5YCCaM4', 'smishing');
+        createPlayer('player-vishing', 'rz_C3X-S8Fo', 'vishing');
+        createPlayer('player-phishing', 'q2oC3XunbS0', 'phishing');
+        createPlayer('player-summary', 'uhzV5-iFb5E', 'summary');
+    }
+
+    function createPlayer(elementId, videoId, key) {
+        players[key] = new YT.Player(elementId, {
+            videoId: videoId,
+            events: {
+                'onStateChange': function(event) { onPlayerStateChange(event, key); }
+            }
+        });
+    }
+
+    function onPlayerStateChange(event, key) {
+        // YT.PlayerState.ENDED = 0
+        if (event.data === 0) {
+            markVideoComplete(key);
+        }
+    }
+
+    function markVideoComplete(key) {
+        if (!videoStatus[key]) {
+            videoStatus[key] = true;
+            const statusDiv = document.getElementById(`status-${key}`);
+            if (statusDiv) {
+                statusDiv.textContent = "✅ Vídeo completado. Puedes avanzar.";
+                statusDiv.classList.remove('watching');
+                statusDiv.classList.add('completed');
+            }
+            // Forzar actualización de UI si estamos en ese paso
+            if(checkCurrentStepCompletion()) {
+                document.getElementById('bloqueo-msg').style.display = 'none';
+                // Si es el último paso, desbloquear botón final
+                if(currentStep === totalSteps - 1) updateUI();
+            }
+        }
+    }
+
+    // --- UTILS UI ---
     const steps = document.querySelectorAll('.course-step');
     const menuItems = document.querySelectorAll('.lms-menu-item');
     const prevBtn = document.getElementById('prevBtn');
@@ -150,90 +555,144 @@
     const bloqueoMsg = document.getElementById('bloqueo-msg');
 
     function updateUI() {
-      steps.forEach((step, index) => {
-        step.classList.remove('active');
-        menuItems[index].classList.remove('active');
-        
-        if (index < currentStep) menuItems[index].classList.add('completed');
-        
-        if (index <= currentStep || stepUnlocked[index-1]) {
-           menuItems[index].classList.add('unlocked');
-           menuItems[index].onclick = () => goToStep(index);
-        } else {
-           menuItems[index].onclick = null;
+      const activeMenuIndex = menuMap[currentStep];
+      menuItems.forEach((menu, index) => {
+        menu.classList.remove('active', 'completed', 'unlocked');
+        menu.onclick = null;
+        if (index === activeMenuIndex) menu.classList.add('active', 'unlocked');
+        else if (index < activeMenuIndex || (stepMap[index] !== undefined && stepUnlocked[stepMap[index]])) {
+          menu.classList.add('unlocked', 'completed');
+          menu.onclick = () => goToStep(stepMap[index]);
         }
       });
-
-      steps[currentStep].classList.add('active');
-      menuItems[currentStep].classList.add('active');
-
+      steps.forEach((step, index) => {
+        if (index === currentStep) step.classList.add('active'); else step.classList.remove('active');
+      });
+      
       prevBtn.style.visibility = (currentStep === 0) ? 'hidden' : 'visible';
-
+      
+      // Control botón final
       if (currentStep === totalSteps - 1) {
         nextBtn.style.display = 'none';
-        finishBtn.style.display = 'inline-block';
-        bloqueoMsg.style.display = 'none';
-      } else {
-        nextBtn.style.display = 'inline-block';
-        finishBtn.style.display = 'none';
-        
-        if (stepUnlocked[currentStep]) {
-            nextBtn.disabled = false;
-            bloqueoMsg.style.display = 'none';
+        if (checkCurrentStepCompletion()) {
+             finishBtn.style.display = 'inline-block'; finishBtn.style.pointerEvents = 'auto'; finishBtn.style.opacity = '1'; finishBtn.textContent = "Ir al Examen";
         } else {
-            nextBtn.disabled = true;
-            bloqueoMsg.style.display = 'block';
+             finishBtn.style.display = 'inline-block'; finishBtn.style.pointerEvents = 'none'; finishBtn.style.opacity = '0.5'; finishBtn.textContent = "Termina el vídeo";
         }
+      } else {
+        nextBtn.style.display = 'inline-block'; finishBtn.style.display = 'none';
       }
+      bloqueoMsg.style.display = 'none';
+      
+      // Pausar videos al cambiar de paso
+      pauseAllVideos();
     }
 
-    function changeStep(n) {
-      if (n === 1 && !stepUnlocked[currentStep]) return;
-      currentStep += n;
-      if (currentStep >= totalSteps) currentStep = totalSteps - 1;
-      if (currentStep < 0) currentStep = 0;
-      updateUI();
+    function pauseAllVideos() {
+        Object.values(players).forEach(p => {
+            if(p && typeof p.pauseVideo === 'function') p.pauseVideo();
+        });
     }
 
-    function goToStep(n) {
-      if (n > 0 && !stepUnlocked[n-1] && n > currentStep) return;
-      currentStep = n;
-      updateUI();
-    }
-
-    function unlockStep(index) {
-      if (!stepUnlocked[index]) {
-        stepUnlocked[index] = true;
-        updateUI();
-      }
-    }
-
-    // --- REVELADO PROGRESIVO ---
-    function revelar(id, boton) {
-      const bloque = document.getElementById(id);
-      bloque.style.display = "block"; 
-      boton.style.display = "none";   
-      bloque.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
-
-    // --- ACTIVIDADES ---
-    function checkItem(i,el){
-      if(!el.classList.contains('checked')){
-        el.classList.add('checked'); 
-        itemsClicked++; 
-        if(itemsClicked>=3) unlockStep(i);
-      }
-    }
+    function goToStep(n) { if (n >= 0 && n < totalSteps && stepUnlocked[n]) { currentStep = n; updateUI(); } }
+    function changeStep(n) { if (n < 0) { currentStep += n; if (currentStep < 0) currentStep = 0; updateUI(); } }
     
-    function checkCard(i,el){
-      if(!el.classList.contains('visto')){
-        el.classList.add('visto'); 
-        cardsClicked++; 
-        if(cardsClicked>=3) unlockStep(i);
+    function tryNextStep() {
+      if (checkCurrentStepCompletion()) {
+        stepUnlocked[currentStep + 1] = true; currentStep++; updateUI();
+      } else {
+        bloqueoMsg.textContent = "⚠️ Completa la interacción o ve el vídeo entero.";
+        bloqueoMsg.style.display = "block";
       }
     }
 
+    function checkCurrentStepCompletion() {
+        // Verificar interacciones manuales
+        const currentDiv = document.getElementById(`step-${currentStep}`);
+        const pendingItems = currentDiv.querySelectorAll('.required-interaction:not(.viewed)');
+        if (pendingItems.length > 0) return false;
+
+        // Verificar videos específicos por paso
+        // Paso 3 = Smishing Video
+        if (currentStep === 3 && !videoStatus.smishing) return false;
+        // Paso 5 = Vishing Video
+        if (currentStep === 5 && !videoStatus.vishing) return false;
+        // Paso 7 = Phishing Video
+        if (currentStep === 7 && !videoStatus.phishing) return false;
+        // Paso 11 = Summary Video
+        if (currentStep === 11 && !videoStatus.summary) return false;
+
+        return true;
+    }
+
+    function markInteraction(element) {
+      if (!element.classList.contains('viewed')) {
+        element.classList.add('viewed');
+        if (checkCurrentStepCompletion()) bloqueoMsg.style.display = 'none';
+      }
+    }
+
+    function revelar(id, boton) { document.getElementById(id).style.display = "block"; boton.style.display = "none"; boton.classList.add('viewed'); if(checkCurrentStepCompletion()) bloqueoMsg.style.display='none'; }
+    function checkSimulation(el) {
+    var textoOculto = el.querySelector('p[style*="display:none"]');
+    if (textoOculto) {
+        textoOculto.style.display = 'block';
+    }
+
+    if (!el.classList.contains('viewed')) {
+        el.classList.add('viewed');
+        el.style.backgroundColor = "#ffebee";
+        el.style.borderColor = "#ef5350";
+        
+        if (checkCurrentStepCompletion()) {
+            bloqueoMsg.style.display = 'none';
+        }
+    }
+}
+    function markCard(el) { if (!el.classList.contains('viewed')) { el.classList.add('viewed'); el.style.backgroundColor = "#e8f5e9"; el.style.borderColor = "#4caf50"; if (checkCurrentStepCompletion()) bloqueoMsg.style.display = 'none'; } }
+
+    // JUEGO & CARRUSEL
+    function loadScenario() { if(gameIndex < scenarios.length) { document.getElementById('scenario-text').innerText = scenarios[gameIndex].text; document.getElementById('scenario-icon').innerText = scenarios[gameIndex].icon; } }
+    function playGame(answer) {
+       const current = scenarios[gameIndex]; const feedback = document.getElementById('game-feedback');
+       if(answer === current.type) {
+           feedback.style.color = 'green'; feedback.innerText = "✅ Correcto"; gameIndex++;
+           if(gameIndex < scenarios.length) setTimeout(() => { loadScenario(); feedback.innerText = ""; }, 1000);
+           else {
+               setTimeout(() => {
+                   document.getElementById('scenario-text').innerText = "¡Completado!"; document.getElementById('scenario-icon').innerText = "🛡️";
+                   feedback.innerText = "Entrenamiento finalizado.";
+                   const container = document.getElementById('game-container');
+                   if(!container.classList.contains('viewed')) { container.classList.add('viewed'); if(checkCurrentStepCompletion()) bloqueoMsg.style.display = 'none'; }
+               }, 1000);
+           }
+       } else { feedback.style.color = '#d32f2f'; feedback.innerText = "❌ Incorrecto"; }
+    }
+
+    function changeCase(n) {
+        const nextIndex = currentCase + n;
+        if(nextIndex > 0 && nextIndex <= totalCases) {
+            document.getElementById(`case-${currentCase}`).classList.remove('active');
+            currentCase = nextIndex;
+            document.getElementById(`case-${currentCase}`).classList.add('active');
+            viewedCases[currentCase - 1] = true;
+            document.getElementById('case-counter').textContent = `${currentCase} / ${totalCases}`;
+            document.getElementById('btn-prev-case').disabled = (currentCase === 1);
+            document.getElementById('btn-next-case').disabled = (currentCase === totalCases);
+            if(viewedCases.every(Boolean)) {
+                const container = document.getElementById('carousel-interaction');
+                if(!container.classList.contains('viewed')) { container.classList.add('viewed'); if(checkCurrentStepCompletion()) bloqueoMsg.style.display = 'none'; }
+            }
+        }
+    }
+
+    function revealUrl(el) {
+      document.getElementById('url-reveal-box').style.display = 'block';
+      if (!el.classList.contains('viewed')) { el.classList.add('viewed'); if(checkCurrentStepCompletion()) bloqueoMsg.style.display = 'none'; }
+    }
+
+    loadScenario();
     updateUI();
-  </script>
+</script>
 </body>
 </html>
