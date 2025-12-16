@@ -102,14 +102,17 @@ document.addEventListener("DOMContentLoaded", () => {
         refScores.get().then((doc) => {
             let progreso = 0;
             if (doc.exists) {
-                const scores = doc.data().scores || {};
-                
-                let completados = 0;
-                if (scores.phishing) completados++;
-                if (scores.ransomware) completados++;
-                if (scores.ingenieria) completados++;
-                
-                progreso = Math.floor((completados / 6) * 100);
+              const scores = doc.data().scores || {};
+    
+              let completados = 0;
+              if (scores.introduccion >= 5) completados++; // Asumiendo que 5 es el umbral de aprobado de modulos.js
+              if (scores.phishing >= 5) completados++;
+              if (scores.ransomware >= 5) completados++;
+              if (scores.ingenieria >= 5) completados++;
+              if (scores.contrasenas >= 5) completados++;
+              if (scores.navegacion >= 5) completados++;
+    
+              progreso = Math.floor((completados / 6) * 100); // 6 es el número total de módulos
             }
             
             // actualización de la barra

@@ -12,8 +12,7 @@ service cloud.firestore {
 
     // Reglas para las puntuaciones de los exámenes
     match /userScores/{userId} {
-      // Permitimos leer y escribir solo en TU propio registro de notas
-      allow read, write: if request.auth != null && request.auth.uid == userId;
+      allow read: if request.auth != null && request.auth.uid == userId;
     }
   }
 }

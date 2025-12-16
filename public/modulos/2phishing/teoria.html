@@ -152,8 +152,6 @@
         <div class="stat-box">💡 Sabías que... El 90% de los ciberataques comienzan con un correo de phishing.</div>
         <p>El <strong>Phishing</strong> no ataca al software de un ordenador, ataca a la parte más vulnerable: <strong>el ser humano</strong>.</p>        
         
-        
-
         <p>Se define como una técnica de <span class="tooltip required-interaction" data-tooltip="Manipulación psicológica para que las personas realicen acciones o divulguen información confidencial." onmouseover="markInteraction(this)">Ingeniería Social</span> utilizada por ciberdelincuentes para obtener información confidencial (como contraseñas o datos bancarios) haciéndose pasar por una entidad confiable.</p>
         <button class="btn-reveal required-interaction" onclick="revelar('bloque-extra-1', this)">
           ¿Por qué funciona tan bien?
@@ -164,9 +162,9 @@
             <p><strong>El Factor Psicológico</strong></p>
             <p>Los atacantes explotan dos debilidades humanas básicas:</p>
             <ul>
-              <li><strong>Urgencia/Miedo:</strong> "¡Tu cuenta será eliminada en 24h!" -> Nos hace actuar sin pensar.</li>
-              <li><strong>Autoridad:</strong> "Soy el CEO y necesito esto ya" -> Tendemos a obedecer a superiores.</li>
-              <li><strong>Codicia:</strong> "Has ganado un iPhone" -> La ilusión nos ciega.</li>
+              <li><strong>Urgencia/Miedo:</strong> "¡Tu cuenta será eliminada en 24h!" -> <strong>Nos hace actuar sin pensar.</strong></li>
+              <li><strong>Autoridad:</strong> "Soy el CEO y necesito esto ya" -> <strong>Tendemos a obedecer a superiores.</strong></li>
+              <li><strong>Codicia:</strong> "Has ganado un iPhone" -> <strong>La ilusión nos ciega.</strong></li>
             </ul>
           </div>
           <div class="tip-box">
@@ -180,12 +178,12 @@
         <p>Aunque suele ser por correo, se distingue por ser un ataque dirigido y personalizado. Para aprender a detectarlos debes diseccionar uno.</p>
         
         <button class="btn-reveal required-interaction" onclick="revelar('bloque-simulacion', this)">
-          ¿Cómo los detectamos? 👇
+          ¿Cómo los detectamos?
         </button>
 
         <div id="bloque-simulacion" style="display:none;" class="reveal-content">
             <p>A continuación verás una simulación de un correo real.</p>
-            <p><strong>Haz clic en los 3 elementos sospechosos para identificarlos:</strong></p>
+            <p><strong>Haz click en los 3 elementos sospechosos para identificarlos:</strong></p>
 
             <div class="email-simulation">
               <div class="email-header">
@@ -206,16 +204,31 @@
                 
                 <div class="interactive-item required-interaction" onclick="checkSimulation(this)">
                   <strong>🚩 3. Enlace Oculto</strong>
-                  <p>Haga clic aquí para verificar: <span class="fake-link" title="security@paypa1-update.com">www.paypal.com/login</span></p>
+                  <p>Haga click aquí para verificar: <span class="fake-link" title="security@paypa1-update.com">www.paypal.com/login</span></p>
                   <p style="display:none; color:#d32f2f; font-size:0.85rem;">El texto dice "paypal.com", pero al poner el ratón encima ves que te lleva a "paypa1-update.com".</p>
                 </div>
               </div>
             </div>
         </div>
       </div>
-    </div>
 
       <div class="course-step" id="step-2">
+        <h2>Tipos de Ataque: Más allá del correo electrónico</h2>
+        <p>Aunque el Phishing tradicional se asocia con el correo electrónico, los atacantes han evolucionado para utilizar cualquier canal de comunicación disponible. Hoy en día, el engaño puede llegar a través de una llamada telefónica, un mensaje de texto o incluso una red social.</p>
+
+        <div class="info-box">
+          <strong>Dato importante:</strong> Independientemente del medio utilizado, el objetivo final es siempre el mismo: manipularte para que entregues información valiosa o instales software malicioso.
+        </div>
+
+        <h3>Principales Variantes</h3>
+        <p>A continuación, exploraremos en detalle cómo funcionan estas tres técnicas representadas en la imagen: <strong>Smishing</strong> (SMS), <strong>Vishing</strong> (Voz) y el peligroso <strong>Spear Phishing</strong> (Ataque dirigido).</p>
+        
+        <div style="text-align: center; margin: 30px 0;">
+          <img src="../../img/Phishingvishingsmishing.png" alt="Phishing, Vishing y Smishing" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+        </div>
+      </div>
+
+      <div class="course-step" id="step-3">
         <h2>1. Smishing (SMS)</h2>
         <div class="info-box"><strong>Definición:</strong> Phishing a través de mensajes de texto (SMS). Combina "SMS" + "Phishing".</div>
         <p>Aprovecha que confiamos más en las notificaciones del móvil y que en las pantallas pequeñas es más difícil verificar las URLs.</p>
@@ -239,30 +252,27 @@
                     Actualice sus datos para evitar la devolución: <a href="#" style="color:blue;">http://bit.ly/correos-envio</a>
                 </div>
             </div>
-            <div class="tip-box" style="text-align:center;">Nunca hagas clic. Ve a la app oficial de Correos y comprueba el seguimiento allí.</div>
-        </details>
-        
-        <p style="margin-top:20px; text-align:center;"><em>Avanza para ver el vídeo.</em></p>
+            <div class="tip-box" style="text-align:center;">Nunca hagas click. Ve a la app oficial de Correos y comprueba el seguimiento allí.</div>
+        </details>        
       </div>
 
-      <div class="course-step" id="step-3">
-        <h2>Vídeo: Profundizando en Smishing</h2>
+      <div class="course-step" id="step-4">
+        <h2>Profundizando en Smishing</h2>
         <p>Observa cómo funciona este ataque en la vida real.</p>
         <div class="video-box">
           <div class="video-responsive">
             <div id="player-smishing"></div>
           </div>
-          <div id="status-smishing" class="video-status watching">👁️ Detectando visualización... (Debes terminar el vídeo)</div>
         </div>
       </div>
 
-      <div class="course-step" id="step-4">
+      <div class="course-step" id="step-5">
         <h2>2. Vishing (Llamadas de Voz)</h2>
         <div class="info-box"><strong>Definición:</strong> Voice Phishing. Engaños a través de llamadas telefónicas.</div>
         <p>El atacante te llama suplantando a un técnico de Microsoft, tu banco, una operadora o incluso RRHH. Buscan tus datos o que instales un software de control remoto (AnyDesk, TeamViewer).</p>
         
         <details>
-            <summary>El "Modus Operandi" 📞</summary>
+            <summary>El "Modus Operandi"</summary>
             <p>A menudo usan <strong>Caller ID Spoofing</strong> para que en tu pantalla aparezca el nombre real de tu banco ("Banco Santander", "BBVA") aunque te llamen desde otro país.</p>
             
             <p><strong>Guión Típico:</strong> "Hola, le llamamos del departamento de fraude. Hemos detectado un cargo de 500€ en Rusia. Para cancelarlo, necesito que me dicte el código que acaba de recibir por SMS".</p>
@@ -270,37 +280,36 @@
         
         <details>
             <summary>Simulación de Pantalla</summary>
+            <p>¿Que harías ante esta situación?</p>
+            <p>Interactua con la llamada</p>
             <div class="call-screen">
                 <div class="caller-icon">🏦</div>
-                <div class="caller-name">Soporte Banco</div>
-                <div class="caller-status">Llamando...</div>
+                <div class="caller-name">BBVA</div>
+                <div class="caller-status">Llamada entrante</div>
                 <div class="call-actions">
-                    <div class="btn-call btn-decline" onclick="alert('¡Bien hecho! Colgar es lo seguro.')">⛔</div>
+                    <div class="btn-call btn-decline" onclick="alert('¡Bien hecho! Colgar es lo seguro.')">📵</div>
                     <div class="btn-call btn-accept" onclick="alert('¡Cuidado! Nunca aceptes sin verificar.')">📞</div>
                 </div>
             </div>
         </details>
       </div>
 
-      <div class="course-step" id="step-5">
-        <h2>Vídeo: Alerta Vishing</h2>
+      <div class="course-step" id="step-6">
+        <h2>Alerta Vishing</h2>
         <p>Aprende a identificar las llamadas fraudulentas.</p>
         <div class="video-box">
           <div class="video-responsive">
             <div id="player-vishing"></div>
           </div>
-          <div id="status-vishing" class="video-status watching">👁️ Detectando visualización... (Debes terminar el vídeo)</div>
         </div>
       </div>
 
-      <div class="course-step" id="step-6">
+      <div class="course-step" id="step-7">
         <h2>3. Spear Phishing</h2>
         <div class="info-box"><strong>Diferencia clave:</strong> El Phishing es masivo. El Spear Phishing es dirigido a TI.</div>
         
         <p>Es mucho más peligroso porque es <strong>personalizado</strong>. El atacante ha investigado tus redes sociales (LinkedIn, Instagram) para conocer a tus compañeros, tu puesto y tus hobbies.</p>
         
-        
-
         <table class="comparison-table">
             <thead>
                 <tr>
@@ -341,21 +350,19 @@
         </details>
       </div>
 
-      <div class="course-step" id="step-7">
-        <h2>Vídeo: ¿Qué es el Phishing y Spear Phishing?</h2>
+      <div class="course-step" id="step-8">
+        <h2>¿Qué es el Phishing?</h2>
         <div class="video-box">
           <div class="video-responsive">
             <div id="player-phishing"></div>
           </div>
-          <div id="status-phishing" class="video-status watching">👁️ Detectando visualización... (Debes terminar el vídeo)</div>
         </div>
       </div>
 
-      <div class="course-step" id="step-8">
-        <h2>Entrenamiento Práctico</h2>
+      <div class="course-step" id="step-9">
+        <h2>Identifica la Amenaza</h2>
         <div class="game-scenario-box required-interaction" id="game-container">
-            <h3>Identifica la Amenaza</h3>
-            <p>Lee la situación y selecciona qué tipo de ataque es para avanzar.</p>
+            <h3>Lee la situación y selecciona qué tipo de ataque es para avanzar.</h3>
             <div class="scenario-display"><span id="scenario-icon">📩</span> <span id="scenario-text">Cargando...</span></div>
             <div style="display:flex; justify-content:center; flex-wrap:wrap;">
                 <button class="btn-game-opt" onclick="playGame('smishing')">Smishing</button>
@@ -366,10 +373,46 @@
         </div>
       </div>
 
-      <div class="course-step" id="step-9">
-        <h2>Casos Reales: Galería del Engaño</h2>
+      <div class="course-step" id="step-10">
+        <h2>Laboratorio de URLs: ¿Dónde harías clic?</h2>
+        <p>Inspecciona las URLs pasando el ratón (o manteniendo pulsado en teléfono móvil).</p>
+        <p><strong>Clica únicamente en la opción que consideres segura</strong> para avanzar.</p>
+  
+        <div class="hover-lab-container" style="display: grid; gap: 20px; margin-top: 20px;">
+    
+          <div class="hover-case" style="background: #fff; padding: 15px; border: 1px solid #ddd; border-radius: 8px; cursor: pointer;" onclick="verificarClick(this, false, '🚨 ¡Peligro! La URL usa un cero en vez de una O (micr0soft). Es una web falsa.')">
+            <strong>Caso A: Soporte Técnico</strong><br>
+            <div class="hover-target required-interaction" onmouseover="revealUrlLab(this, 'http://micr0soft-security-update.com/fix')">
+              🛠️ Actualizar Windows
+            </div>
+          </div>
+
+          <div class="hover-case" style="background: #fff; padding: 15px; border: 1px solid #ddd; border-radius: 8px; cursor: pointer;" onclick="verificarClick(this, false, '🚨 ¡Error! El dominio real es login-portal.xyz, no tu empresa. Es una trampa de RRHH.')">
+            <strong>Caso B: Acceso RRHH</strong><br>
+            <div class="hover-target required-interaction" onmouseover="revealUrlLab(this, 'http://empresa.login-portal.xyz/nominas')">
+              📄 Ver mi Nómina
+            </div>
+          </div>
+
+          <div class="hover-case" style="background: #fff; padding: 15px; border: 1px solid #ddd; border-radius: 8px; cursor: pointer;" onclick="verificarClick(this, true, '✅ ¡Correcto! Es el dominio oficial de Microsoft Office 365 con conexión segura (HTTPS).')">
+            <strong>Caso C: Herramienta Oficial</strong><br>
+            <div class="hover-target required-interaction" onmouseover="revealUrlLab(this, 'https://outlook.office365.com/mail/')">
+              📧 Abrir Outlook
+            </div>
+          </div>
+
+          <div id="url-inspector" style="background: #333; color: #0f0; padding: 15px; border-radius: 5px; font-family: monospace; min-height: 40px; text-align: center;">
+            [Pasa el cursor sobre un botón para inspeccionar la URL]
+          </div>
+
+          <div id="lab-feedback" style="font-weight: bold; text-align: center; padding: 10px; min-height: 24px;"></div>
+        </div>
+      </div>
+
+      <div class="course-step" id="step-11">
+        <h2>Casos Reales</h2>
         <p>Los ciberdelincuentes suelen repetir las mismas plantillas. Analiza estos 3 ejemplos visuales.</p>
-        <p style="font-size:0.9rem; color:#666;">Usa las flechas para navegar por los casos.</p>
+        <p style="font-size:0.9rem; color:#666;">Interactua con los casos y usa las flechas para navegar.</p>
 
         <div class="carousel-container required-interaction" id="carousel-interaction">
             
@@ -433,37 +476,64 @@
             </div>
 
             <div class="carousel-controls">
-                <button class="nav-arrow" id="btn-prev-case" onclick="changeCase(-1)" disabled>⬅ Anterior</button>
+                <button class="nav-arrow" id="btn-prev-case" onclick="changeCase(-1)" disabled>⬅</button>
                 <span class="case-counter" id="case-counter">1 / 3</span>
-                <button class="nav-arrow" id="btn-next-case" onclick="changeCase(1)">Siguiente ➡</button>
+                <button class="nav-arrow" id="btn-next-case" onclick="changeCase(1)">➡</button>
             </div>
         </div>
       </div>
 
-      <div class="course-step" id="step-10">
-        <h2>Práctica: Hovering</h2>
-        <div class="info-box">En PC, pasa el ratón por encima de los enlaces sin hacer clic. En móvil, mantén pulsado el enlace hasta que salga la ventana emergente.</div>
-        <div style="background:#fff3e0; padding:20px; text-align:center; border-radius:8px;">
-          <p><strong>EJERCICIO:</strong> Encuentra el destino real de este botón:</p>
-          <div class="hover-target required-interaction" onmouseover="revealUrl(this)">👉 ACCEDER A MI BANCO</div>
-          <div id="url-reveal-box" class="hover-reveal">Destino: http://www.robo-datos-bancarios.ru/login</div>
+      <div class="course-step" id="step-12">
+        <h2>Síntesis y Competencias del Módulo</h2>
+        <p>A continuación, se presenta un resumen de las habilidades que has adquirido para protegerte.</p>
+
+        <div class="info-box">
+          <strong>Resumen Conceptual:</strong>
+          <p>El Phishing explota el "eslabón más débil" mediante el engaño y la suplantación de identidad para obtener datos sensibles en diversos canales.</p>
         </div>
+
+        <h3>Competencias Adquiridas</h3>
+        <table class="comparison-table">
+          <thead>
+            <tr>
+              <th>Área</th>
+              <th>Habilidad Desarrollada</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Identificación</strong></td>
+              <td>Reconocimiento de remitentes falsos y dominios similares (typosquatting).</td>
+            </tr>
+            <tr>
+              <td><strong>Análisis Técnico</strong></td>
+              <td>Uso de <em>hovering</em> para verificar URLs reales.</td>
+            </tr>
+            <tr>
+              <td><strong>Detección Psicológica</strong></td>
+              <td>Identificación de disparadores como urgencia, miedo o autoridad.</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
 
-      <div class="course-step" id="step-11">
-        <h2>Resumen Ejecutivo</h2>
+      <div class="course-step" id="step-13">
+        <h2>Síntesis y Competencias del Módulo</h2>
         
-        <ul class="checklist-container">
-          <li class="check-item">🛑 <strong>PARA:</strong> Controla la urgencia.</li>
-          <li class="check-item">🔍 <strong>MIRA:</strong> Verifica remitente y enlaces.</li>
-          <li class="check-item">📞 <strong>LLAMA:</strong> Canales oficiales.</li>
-        </ul>
+        <div class="tip-box">
+          <h4>💡 Regla de Oro: PARA, MIRA, LLAMA</h4>
+          <ul style="list-style: none; padding-left: 0;">
+            <li><strong>PARA:</strong> No actúes bajo presión emocional o urgencia.</li>
+            <li><strong>MIRA:</strong> Inspecciona enlaces y remitentes minuciosamente.</li>
+            <li><strong>LLAMA:</strong> Ante la duda, usa un canal oficial conocido.</li>
+          </ul>
+        </div>
+
         <div class="video-box">
-          <h4>📺 Repaso Final (INCIBE)</h4>
+          <h4>Repaso Final</h4>
           <div class="video-responsive">
             <div id="player-summary"></div>
           </div>
-          <div id="status-summary" class="video-status watching">👁️ Detectando visualización...</div>
         </div>
       </div>
 
@@ -483,26 +553,24 @@
 
 <script>
     let currentStep = 0;
-    const totalSteps = 12;
+    const totalSteps = 14;
     let stepUnlocked = new Array(totalSteps).fill(false);
     stepUnlocked[0] = true;
 
-    // MAPAS DE NAVEGACIÓN
-    const menuMap = [0, 1, 2, 2, 2, 2, 2, 2, 2, 3, 4, 5];
-    const stepMap = [0, 1, 2, 9, 10, 11];
+    const menuMap = [0, 1, 2, 2, 2, 2, 2, 2, 2, 3, 4, 4, 5, 5];
+    const stepMap = [0, 1, 2, 9, 10, 12];
 
-    // JUEGO
+    // JUEGO - Añadidos iconos faltantes
     const scenarios = [
-      { text: "SMS: 'Paquete retenido...'", type: 'smishing', icon: '📱' },
-      { text: "Llamada grabada: 'Tarjeta bloqueada...'", type: 'vishing', icon: '📞' },
-      { text: "Correo con tu nombre: 'Factura urgente...'", type: 'spear', icon: '🎯' }
+      { text: "SMS: 'Paquete retenido...'", type: 'smishing', icon: ''},
+      { text: "Llamada grabada: 'Tarjeta bloqueada...'", type: 'vishing', icon: ''},
+      { text: "Correo con tu nombre: 'Factura urgente...'", type: 'spear', icon: ''}
     ];
     let gameIndex = 0;
     let currentCase = 1; const totalCases = 3; let viewedCases = [true, false, false];
 
     // YOUTUBE PLAYERS
     var players = {};
-    // Estados de video (false = no visto, true = visto)
     var videoStatus = { smishing: false, vishing: false, phishing: false, summary: false };
 
     function onYouTubeIframeAPIReady() {
@@ -522,7 +590,6 @@
     }
 
     function onPlayerStateChange(event, key) {
-        // YT.PlayerState.ENDED = 0
         if (event.data === 0) {
             markVideoComplete(key);
         }
@@ -533,20 +600,16 @@
             videoStatus[key] = true;
             const statusDiv = document.getElementById(`status-${key}`);
             if (statusDiv) {
-                statusDiv.textContent = "✅ Vídeo completado. Puedes avanzar.";
                 statusDiv.classList.remove('watching');
                 statusDiv.classList.add('completed');
             }
-            // Forzar actualización de UI si estamos en ese paso
             if(checkCurrentStepCompletion()) {
                 document.getElementById('bloqueo-msg').style.display = 'none';
-                // Si es el último paso, desbloquear botón final
-                if(currentStep === totalSteps - 1) updateUI();
+                updateUI();
             }
         }
     }
 
-    // --- UTILS UI ---
     const steps = document.querySelectorAll('.course-step');
     const menuItems = document.querySelectorAll('.lms-menu-item');
     const prevBtn = document.getElementById('prevBtn');
@@ -558,33 +621,32 @@
       const activeMenuIndex = menuMap[currentStep];
       menuItems.forEach((menu, index) => {
         menu.classList.remove('active', 'completed', 'unlocked');
-        menu.onclick = null;
-        if (index === activeMenuIndex) menu.classList.add('active', 'unlocked');
-        else if (index < activeMenuIndex || (stepMap[index] !== undefined && stepUnlocked[stepMap[index]])) {
-          menu.classList.add('unlocked', 'completed');
-          menu.onclick = () => goToStep(stepMap[index]);
+        if (index === activeMenuIndex) {
+            menu.classList.add('active', 'unlocked');
+        } else if (index < activeMenuIndex || (stepMap[index] !== undefined && stepUnlocked[stepMap[index]])) {
+            menu.classList.add('unlocked', 'completed');
+            menu.onclick = () => goToStep(stepMap[index]);
         }
       });
+
       steps.forEach((step, index) => {
         if (index === currentStep) step.classList.add('active'); else step.classList.remove('active');
       });
       
       prevBtn.style.visibility = (currentStep === 0) ? 'hidden' : 'visible';
       
-      // Control botón final
       if (currentStep === totalSteps - 1) {
         nextBtn.style.display = 'none';
+        finishBtn.style.display = 'inline-block';
         if (checkCurrentStepCompletion()) {
-             finishBtn.style.display = 'inline-block'; finishBtn.style.pointerEvents = 'auto'; finishBtn.style.opacity = '1'; finishBtn.textContent = "Ir al Examen";
+             finishBtn.style.pointerEvents = 'auto'; finishBtn.style.opacity = '1'; finishBtn.textContent = "Ir al Examen";
         } else {
-             finishBtn.style.display = 'inline-block'; finishBtn.style.pointerEvents = 'none'; finishBtn.style.opacity = '0.5'; finishBtn.textContent = "Termina el vídeo";
+             finishBtn.style.pointerEvents = 'none'; finishBtn.style.opacity = '0.5'; finishBtn.textContent = "Termina el vídeo";
         }
       } else {
         nextBtn.style.display = 'inline-block'; finishBtn.style.display = 'none';
       }
       bloqueoMsg.style.display = 'none';
-      
-      // Pausar videos al cambiar de paso
       pauseAllVideos();
     }
 
@@ -606,21 +668,46 @@
       }
     }
 
+    function revealUrlLab(el, url) {
+      const inspector = document.getElementById('url-inspector');
+      inspector.innerText = "Destino real: " + url;
+      if (!el.classList.contains('viewed')) {
+        el.classList.add('viewed');
+        markInteraction(el);
+      }
+    }
+
+    function verificarClick(elemento, esCorrecto, mensaje) {
+      const feedback = document.getElementById('lab-feedback');
+      document.querySelectorAll('.hover-case').forEach(c => {
+        c.style.borderColor = "#ddd";
+        c.style.backgroundColor = "#fff";
+      });
+
+      if (esCorrecto) {
+        elemento.style.borderColor = "#4caf50";
+        elemento.style.backgroundColor = "#e8f5e9";
+        feedback.style.color = "green";
+        feedback.innerText = mensaje;
+        markInteraction(elemento);
+      } else {
+        elemento.style.borderColor = "#f44336";
+        elemento.style.backgroundColor = "#ffebee";
+        feedback.style.color = "red";
+        feedback.innerText = mensaje;
+      }
+    }
+
     function checkCurrentStepCompletion() {
-        // Verificar interacciones manuales
         const currentDiv = document.getElementById(`step-${currentStep}`);
+        if (!currentDiv) return true;
         const pendingItems = currentDiv.querySelectorAll('.required-interaction:not(.viewed)');
         if (pendingItems.length > 0) return false;
 
-        // Verificar videos específicos por paso
-        // Paso 3 = Smishing Video
-        if (currentStep === 3 && !videoStatus.smishing) return false;
-        // Paso 5 = Vishing Video
-        if (currentStep === 5 && !videoStatus.vishing) return false;
-        // Paso 7 = Phishing Video
-        if (currentStep === 7 && !videoStatus.phishing) return false;
-        // Paso 11 = Summary Video
-        if (currentStep === 11 && !videoStatus.summary) return false;
+        if (currentStep === 4 && !videoStatus.smishing) return false;
+        if (currentStep === 6 && !videoStatus.vishing) return false;
+        if (currentStep === 8 && !videoStatus.phishing) return false;
+        if (currentStep === 13 && !videoStatus.summary) return false;
 
         return true;
     }
@@ -628,42 +715,51 @@
     function markInteraction(element) {
       if (!element.classList.contains('viewed')) {
         element.classList.add('viewed');
-        if (checkCurrentStepCompletion()) bloqueoMsg.style.display = 'none';
+        if (checkCurrentStepCompletion()) {
+            bloqueoMsg.style.display = 'none';
+            updateUI();
+        }
       }
     }
 
-    function revelar(id, boton) { document.getElementById(id).style.display = "block"; boton.style.display = "none"; boton.classList.add('viewed'); if(checkCurrentStepCompletion()) bloqueoMsg.style.display='none'; }
-    function checkSimulation(el) {
-    var textoOculto = el.querySelector('p[style*="display:none"]');
-    if (textoOculto) {
-        textoOculto.style.display = 'block';
+    function revelar(id, boton) { 
+        document.getElementById(id).style.display = "block"; 
+        boton.style.display = "none"; 
+        boton.classList.add('viewed'); 
+        if(checkCurrentStepCompletion()) updateUI(); 
     }
 
-    if (!el.classList.contains('viewed')) {
-        el.classList.add('viewed');
-        el.style.backgroundColor = "#ffebee";
-        el.style.borderColor = "#ef5350";
-        
-        if (checkCurrentStepCompletion()) {
-            bloqueoMsg.style.display = 'none';
+    function checkSimulation(el) {
+        var textoOculto = el.querySelector('p[style*="display:none"]');
+        if (textoOculto) textoOculto.style.display = 'block';
+        if (!el.classList.contains('viewed')) {
+            el.classList.add('viewed');
+            el.style.backgroundColor = "#ffebee";
+            el.style.borderColor = "#ef5350";
+            if (checkCurrentStepCompletion()) updateUI();
         }
     }
-}
-    function markCard(el) { if (!el.classList.contains('viewed')) { el.classList.add('viewed'); el.style.backgroundColor = "#e8f5e9"; el.style.borderColor = "#4caf50"; if (checkCurrentStepCompletion()) bloqueoMsg.style.display = 'none'; } }
 
-    // JUEGO & CARRUSEL
-    function loadScenario() { if(gameIndex < scenarios.length) { document.getElementById('scenario-text').innerText = scenarios[gameIndex].text; document.getElementById('scenario-icon').innerText = scenarios[gameIndex].icon; } }
+    function loadScenario() { 
+        if(gameIndex < scenarios.length) { 
+            document.getElementById('scenario-text').innerText = scenarios[gameIndex].text; 
+            document.getElementById('scenario-icon').innerText = scenarios[gameIndex].icon; 
+        } 
+    }
+
     function playGame(answer) {
        const current = scenarios[gameIndex]; const feedback = document.getElementById('game-feedback');
        if(answer === current.type) {
            feedback.style.color = 'green'; feedback.innerText = "✅ Correcto"; gameIndex++;
-           if(gameIndex < scenarios.length) setTimeout(() => { loadScenario(); feedback.innerText = ""; }, 1000);
-           else {
+           if(gameIndex < scenarios.length) {
+               setTimeout(() => { loadScenario(); feedback.innerText = ""; }, 1000);
+           } else {
                setTimeout(() => {
-                   document.getElementById('scenario-text').innerText = "¡Completado!"; document.getElementById('scenario-icon').innerText = "🛡️";
+                   document.getElementById('scenario-text').innerText = "¡Completado!"; 
+                   document.getElementById('scenario-icon').innerText = "🛡️";
                    feedback.innerText = "Entrenamiento finalizado.";
                    const container = document.getElementById('game-container');
-                   if(!container.classList.contains('viewed')) { container.classList.add('viewed'); if(checkCurrentStepCompletion()) bloqueoMsg.style.display = 'none'; }
+                   markInteraction(container);
                }, 1000);
            }
        } else { feedback.style.color = '#d32f2f'; feedback.innerText = "❌ Incorrecto"; }
@@ -680,15 +776,9 @@
             document.getElementById('btn-prev-case').disabled = (currentCase === 1);
             document.getElementById('btn-next-case').disabled = (currentCase === totalCases);
             if(viewedCases.every(Boolean)) {
-                const container = document.getElementById('carousel-interaction');
-                if(!container.classList.contains('viewed')) { container.classList.add('viewed'); if(checkCurrentStepCompletion()) bloqueoMsg.style.display = 'none'; }
+                markInteraction(document.getElementById('carousel-interaction'));
             }
         }
-    }
-
-    function revealUrl(el) {
-      document.getElementById('url-reveal-box').style.display = 'block';
-      if (!el.classList.contains('viewed')) { el.classList.add('viewed'); if(checkCurrentStepCompletion()) bloqueoMsg.style.display = 'none'; }
     }
 
     loadScenario();

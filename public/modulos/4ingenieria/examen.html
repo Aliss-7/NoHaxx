@@ -51,72 +51,11 @@
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
   <script src="../../scripts/firebase-config.js"></script>
+  <script src="../../scripts/examenes.js"></script>
 
   <script>
     document.addEventListener("DOMContentLoaded", () => {
-      const preguntas = document.querySelectorAll('.pregunta.examen');
-      const puntuacionTxt = document.getElementById('puntuacion-examen');
-      const mensajeFinal = document.getElementById('mensaje-final');
-      
-      let aciertos = 0;
-      let contestadas = 0;
-      const total = preguntas.length;
-
-      preguntas.forEach(pregunta => {
-        const botones = pregunta.querySelectorAll('button');
-        botones.forEach(btn => {
-          btn.addEventListener('click', (e) => {
-            if(pregunta.classList.contains('contestada')) return;
-            pregunta.classList.add('contestada');
-
-            const respuestaUser = e.target.getAttribute('data-respuesta');
-            const respuestaCorrecta = pregunta.getAttribute('data-correcta');
-
-            if (respuestaUser === respuestaCorrecta) {
-              e.target.style.backgroundColor = '#d4edda';
-              e.target.style.borderColor = '#c3e6cb';
-              aciertos++;
-            } else {
-              e.target.style.backgroundColor = '#f8d7da';
-              e.target.style.borderColor = '#f5c6cb';
-            }
-            
-            contestadas++;
-
-            if (contestadas === total) {
-              finalizarExamen(aciertos);
-            }
-          });
-        });
-      });
-
-      function finalizarExamen(nota) {
-        puntuacionTxt.textContent = `Tu puntuación: ${nota}/${total}`;
-        const aprobado = nota >= 2; 
-
-        if (aprobado) {
-           mensajeFinal.innerHTML = "<h3 style='color:green'>¡Manipulación Detectada! ✅</h3><p>Has superado el módulo.</p>";
-           guardarNota(10);
-        } else {
-           mensajeFinal.innerHTML = "<h3 style='color:red'>Has caído en la trampa ❌</h3><p>La ingeniería social es sutil. Repasa los tipos de engaño.</p><button onclick='location.reload()' class='boton'>Reintentar</button>";
-        }
-      }
-
-      function guardarNota(puntos) {
-        const auth = firebase.auth();
-        const db = firebase.firestore();
-
-        auth.onAuthStateChanged(user => {
-          if (user) {
-
-            db.collection('userScores').doc(user.uid).set({
-              scores: { ingenieria: puntos }
-            }, { merge: true }).then(() => {
-               mensajeFinal.innerHTML += "<br><a href='../../modulos.html' class='boton' style='margin-top:10px'>Volver a Módulos</a>";
-            });
-          }
-        });
-      }
+      iniciarExamen('ingenieria', 3, 2);
     });
   </script>
 </body>

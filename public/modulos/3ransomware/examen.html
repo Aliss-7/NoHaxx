@@ -8,42 +8,32 @@
 <body>
   <main class="main-content">
     <h2>Examen Final: Ransomware</h2>
-    <p>Pregunta: ¿Cuál es la medida más efectiva para recuperar tus datos sin pagar un rescate?</p>
     
-    <button onclick="finalizar(false)">Tener un buen antivirus</button>
-    <button onclick="finalizar(true)">Tener copias de seguridad (Backups) actualizadas</button>
-    <button onclick="finalizar(false)">Usar contraseñas largas</button>
+    <div class="pregunta examen" data-correcta="b">
+      <p>Pregunta: ¿Cuál es la medida más efectiva para recuperar tus datos sin pagar un rescate?</p>
+      
+      <button data-respuesta="a">Tener un buen antivirus</button>
+      <button data-respuesta="b">Tener copias de seguridad (Backups) actualizadas</button>
+      <button data-respuesta="c">Usar contraseñas largas</button>
+    </div>
 
-    <div id="mensaje-final"></div>
+    <div class="resultado">
+        <p id="puntuacion-examen" style="font-weight:bold; margin-top:20px;"></p>
+        <div id="mensaje-final"></div>
+    </div>
   </main>
 
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
   <script src="../../scripts/firebase-config.js"></script>
+  <script src="../../scripts/examenes.js"></script>
 
   <script>
-    function finalizar(esCorrecto) {
-      const auth = firebase.auth();
-      const db = firebase.firestore();
-      const feedback = document.getElementById('mensaje-final');
-
-      if (!esCorrecto) {
-        feedback.innerHTML = "<p style='color:red'>Incorrecto. Inténtalo de nuevo.</p>";
-        return;
-      }
-
-      auth.onAuthStateChanged(user => {
-        if (user) {
-          // Guardar nota en Firestore (modulo: 'ransomware')
-          db.collection('userScores').doc(user.uid).set({
-            scores: { ransomware: 10 } // Le damos 10 puntos
-          }, { merge: true }).then(() => {
-            feedback.innerHTML = "<h3>¡Módulo Completado! ✅</h3><a href='/resultados.html' class='boton'>Ver mis resultados</a>";
-          });
-        }
-      });
-    }
+    document.addEventListener("DOMContentLoaded", () => {
+      // Módulo Ransomware: 1 pregunta, 1 acierto para aprobar
+      iniciarExamen('ransomware', 1, 1);
+    });
   </script>
 </body>
 </html>

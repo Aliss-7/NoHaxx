@@ -38,53 +38,11 @@
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
   <script src="../../scripts/firebase-config.js"></script>
+  <script src="../../scripts/examenes.js"></script>
 
   <script>
     document.addEventListener("DOMContentLoaded", () => {
-      const preguntas = document.querySelectorAll('.pregunta.examen');
-      const mensajeFinal = document.getElementById('mensaje-final');
-      let aciertos = 0;
-      let contestadas = 0;
-      const total = preguntas.length;
-
-      preguntas.forEach(pregunta => {
-        const botones = pregunta.querySelectorAll('button');
-        botones.forEach(btn => {
-          btn.addEventListener('click', (e) => {
-            if(pregunta.classList.contains('contestada')) return;
-            pregunta.classList.add('contestada');
-            if (e.target.getAttribute('data-respuesta') === pregunta.getAttribute('data-correcta')) {
-              e.target.style.backgroundColor = '#d4edda'; aciertos++;
-            } else { e.target.style.backgroundColor = '#f8d7da'; }
-            contestadas++;
-            if (contestadas === total) finalizar(aciertos);
-          });
-        });
-      });
-
-      function finalizar(nota) {
-        document.getElementById('puntuacion-examen').textContent = `Puntuación: ${nota}/${total}`;
-        if (nota >= 1) {
-           mensajeFinal.innerHTML = "<h3 style='color:green'>¡Curso Completado! 🎓</h3><p>Has terminado todos los módulos.</p>";
-           guardarNota(10);
-        } else {
-           mensajeFinal.innerHTML = "<h3 style='color:red'>Suspenso ❌</h3><button onclick='location.reload()' class='boton'>Reintentar</button>";
-        }
-      }
-
-      function guardarNota(puntos) {
-        const auth = firebase.auth();
-        const db = firebase.firestore();
-        auth.onAuthStateChanged(user => {
-          if (user) {
-            db.collection('userScores').doc(user.uid).set({
-              scores: { navegacion: puntos }
-            }, { merge: true }).then(() => {
-               mensajeFinal.innerHTML += "<br><a href='/resultados.html' class='boton'>Ver Certificado / Resultados</a>";
-            });
-          }
-        });
-      }
+      iniciarExamen('navegacion', 2, 1);
     });
   </script>
 </body>
