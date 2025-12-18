@@ -1,60 +1,290 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Examen Phishing</title>
-  <link rel="stylesheet" href="../../style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador de Respuesta a Incidentes - NoHaxx</title>
+    <link rel="stylesheet" href="../../style.css">
+    <style>
+        .examen-step { display: none; animation: fadeIn 0.5s; }
+        .examen-step.active { display: block; }
+        
+        /* Escritorio Virtual */
+        .desktop-shell {
+            background: #f4f7f6;
+            border: 2px solid #0f1e40;
+            border-radius: 15px;
+            padding: 25px;
+            min-height: 550px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        /* Ventanas Simuladas */
+        .window-sim {
+            background: white; border: 1px solid #ccc; border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1); overflow: hidden; margin-bottom: 20px;
+        }
+        .window-header { background: #0f1e40; color: white; padding: 10px 15px; font-size: 0.9rem; }
+
+        /* VirusTotal Simulator */
+        .vt-body { padding: 20px; text-align: center; }
+        .vt-input-area { display: flex; gap: 10px; margin: 15px 0; }
+        .vt-input { flex: 1; padding: 10px; border: 1px solid #0070f3; font-family: monospace; }
+        
+        /* Botones de Respuesta (Neutrales) */
+        .action-grid { display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 20px; }
+        .btn-quiz {
+            padding: 15px; border: 1px solid #ddd; border-radius: 8px;
+            background: #fff; cursor: pointer; text-align: left;
+            font-size: 1rem; transition: background 0.2s;
+        }
+        .btn-quiz:hover { background: #f0f4ff; border-color: #0f1e40; }
+
+        /* Estilo para el correo interactivo del Caso 9 */
+        .interactive-mail { border: 1px solid #eee; padding: 15px; background: #fafafa; }
+        .hover-link { color: #1a73e8; text-decoration: underline; cursor: help; font-weight: bold; }
+        .url-tooltip { 
+            background: #333; color: #fff; padding: 5px 10px; font-family: monospace; 
+            font-size: 0.8rem; display: none; margin-top: 10px; text-align: center; border-radius: 4px;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    </style>
 </head>
 <body>
-  <header>
-    <div class="logo">NoHaxx</div>
-  </header>
+    <header>
+        <div class="logo">NoHaxx</div>
+        <div class="top-buttons">
+            <a href="../../modulos.html" class="boton-salir">Abandonar</a>
+        </div>
+    </header>
 
-  <main class="main-content">
-    <section class="modulo">
-      <h2>📋 Parte 3: Examen Final Phishing</h2>
-      <p>Responde a estas preguntas para completar el módulo. Necesitas acertar al menos 2 de 3 para aprobar.</p>
+    <main class="main-content">
+        <span class="progress-text" id="step-counter" style="font-weight: bold; display:block; margin-bottom:10px;">Misión 1 de 10</span>
 
-      <div class="pregunta examen" data-correcta="c">
-        <p>1. Recibes un correo del “departamento de IT” pidiéndote tu contraseña para una verificación urgente. ¿Qué haces?</p>
-        <button data-respuesta="a">Se la envías, para evitar problemas</button>
-        <button data-respuesta="b">Ignoras el correo pero no haces nada más</button>
-        <button data-respuesta="c">Lo reportas y no respondes</button>
-      </div>
+        <div class="desktop-shell">
+            
+            <div class="examen-step active" id="q-0">
+                <h2>Caso 1: Notificación Urgente</h2>
+                <div class="window-sim">
+                    <div class="window-header">Outlook Corporativo</div>
+                    <div style="padding:15px;">
+                        <strong>De:</strong> Soporte &lt;seguridad@noreply-nohaxx.net&gt;<br>
+                        <strong>Asunto:</strong> ¡ACCESO BLOQUEADO! Verifique su identidad
+                        <hr>
+                        <p>Su cuenta será desactivada en 15 minutos por actividad inusual. Haga clic aquí para evitarlo.</p>
+                    </div>
+                </div>
+                <p>¿Qué decisión tomas?</p>
+                <div class="action-grid">
+                    <button class="btn-quiz" onclick="recordAnswer(0, 'a')">Reportar: La urgencia extrema y el dominio .net son señales claras de Phishing.</button>
+                    <button class="btn-quiz" onclick="recordAnswer(0, 'b')">Acceder: Debo evitar que mi cuenta sea bloqueada.</button>
+                </div>
+            </div>
 
-      <div class="pregunta examen" data-correcta="b">
-        <p>2. ¿Qué detalle técnico puede ayudarte a detectar un intento de phishing?</p>
-        <button data-respuesta="a">El mensaje viene en formato HTML</button>
-        <button data-respuesta="b">El enlace real no coincide con el texto del enlace</button>
-        <button data-respuesta="c">El correo contiene imágenes de buena calidad</button>
-      </div>
+            <div class="examen-step" id="q-1">
+                <h2>Caso 2: El Analista de URLs</h2>
+                <div class="info-box">
+                    <strong>¿Qué es una Base de Datos Reputacional?</strong> Es un sitio como <strong>VirusTotal</strong> que recopila información de miles de empresas de seguridad. Al poner una URL, nos dice si otros ya la han marcado como peligrosa.
+                </div>
+                <p>Analiza esta URL sospechosa: <code>http://login-verificar-perfil.xyz/seguridad</code></p>
+                
+                <div class="window-sim">
+                    <div class="window-header" style="background:#0070f3;">Simulador de VirusTotal</div>
+                    <div class="vt-body">
+                        <div class="vt-input-area">
+                            <input type="text" id="vt-input" class="vt-input" placeholder="Pegue la URL sospechosa aquí...">
+                            <button class="boton" onclick="runVTScan()">Escanear</button>
+                        </div>
+                        <div id="vt-result" style="display:none; color:red; font-weight:bold;">
+                            🚩 RESULTADO: 60/70 motores marcan este sitio como MALICIOSO.
+                        </div>
+                    </div>
+                </div>
+                <div id="vt-actions" style="display:none;" class="action-grid">
+                    <button class="btn-quiz" onclick="recordAnswer(1, 'a')">Reportar: El análisis confirma que es una web de Phishing.</button>
+                    <button class="btn-quiz" onclick="recordAnswer(1, 'b')">Ignorar: Confío en que el navegador la bloqueará.</button>
+                </div>
+            </div>
 
-      <div class="pregunta examen" data-correcta="a">
-        <p>3. ¿Cuál de las siguientes acciones es más segura?</p>
-        <button data-respuesta="a">Entrar al sitio escribiendo la URL tú mismo</button>
-        <button data-respuesta="b">Acceder a través del enlace del correo</button>
-        <button data-respuesta="c">Preguntar al remitente si el enlace es legítimo</button>
-      </div>
+            <div class="examen-step" id="q-2">
+                <h2>Caso 3: SMS de Paquetería</h2>
+                <div class="window-sim" style="max-width:300px; margin: 0 auto;">
+                    <div class="window-header" style="background:#333;">Mensaje Nuevo</div>
+                    <div style="padding:15px; background:#e5e5ea; border-radius:10px; margin:10px;">
+                        [CORREOS] Falta el número de calle para su entrega. Actualice aquí: <strong>bit.ly/envio-pendiente</strong>
+                    </div>
+                </div>
+                <div class="action-grid">
+                    <button class="btn-quiz" onclick="recordAnswer(2, 'a')">Acceder: Estoy esperando un paquete y no quiero que lo devuelvan.</button>
+                    <button class="btn-quiz" onclick="recordAnswer(2, 'b')">Ignorar: Es una estafa; Correos no usa enlaces bit.ly para pedir datos.</button>
+                </div>
+            </div>
 
-      <div class="resultado">
-        <p id="puntuacion-examen" style="font-weight:bold; margin-top:20px;"></p>
-        <div id="mensaje-final"></div>
-      </div>
-    </section>
-  </main>
+            <div class="examen-step" id="q-3">
+                <h2>Caso 4: Cambio de Contraseña Real</h2>
+                <div class="window-sim">
+                    <div class="window-header">Portal Interno NoHaxx</div>
+                    <div style="padding:15px;">
+                        <p>Tu contraseña corporativa caduca en 5 días. Cámbiala en el portal de autoservicio oficial: <strong>https://portal.nohaxx.com/seguridad</strong></p>
+                    </div>
+                </div>
+                <div class="action-grid">
+                    <button class="btn-quiz" onclick="recordAnswer(3, 'a')">Realizar el cambio: La URL es el dominio oficial HTTPS de la empresa.</button>
+                    <button class="btn-quiz" onclick="recordAnswer(3, 'b')">Reportar: Ningún sistema debería pedirme cambiar la contraseña por correo.</button>
+                </div>
+            </div>
 
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+            <div class="examen-step" id="q-4">
+                <h2>Caso 5: Llamada de "Técnico"</h2>
+                <p>Llamada: "Hola, soy de Microsoft. Tu IP está infectada. Necesito que me dicte el código SMS que te he enviado para desinfectar tu red".</p>
+                <div class="action-grid">
+                    <button class="btn-quiz" onclick="recordAnswer(4, 'a')">Colgar: Las empresas nunca llaman para pedir códigos de seguridad personales.</button>
+                    <button class="btn-quiz" onclick="recordAnswer(4, 'b')">Colaborar: Si es de Microsoft, debe ser verdad.</button>
+                </div>
+            </div>
 
-  <script src="../../scripts/firebase-config.js"></script>
-  <script src="../../scripts/examenes.js"></script>
+            <div class="examen-step" id="q-5">
+                <h2>Caso 6: El Favor del CEO</h2>
+                <p>Un correo de tu director te pide una transferencia urgente y confidencial para un nuevo cliente. Dice que "no llames a nadie por discreción".</p>
+                <div class="action-grid">
+                    <button class="btn-quiz" onclick="recordAnswer(5, 'a')">Obedecer: Es mi superior y la operación es discreta.</button>
+                    <button class="btn-quiz" onclick="recordAnswer(5, 'b')">Desconfiar: Es el "Fraude del CEO", usa la jerarquía y el secreto para engañar.</button>
+                </div>
+            </div>
 
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      iniciarExamen('phishing', 3, 2);
-    });
-  </script>
+            <div class="examen-step" id="q-6">
+                <h2>Caso 7: Invitación a Reunión</h2>
+                <div class="window-sim">
+                    <div class="window-header">Microsoft Teams</div>
+                    <div style="padding:15px;">
+                        <strong>Juan Pérez</strong> te ha invitado a una reunión:<br>
+                        <em>"Revisión de objetivos"</em><br>
+                        Enlace: <strong>https://teams.microsoft.com/l/meetup-join/123...</strong>
+                    </div>
+                </div>
+                <div class="action-grid">
+                    <button class="btn-quiz" onclick="recordAnswer(6, 'a')">Aceptar: Es un enlace oficial de Teams y un compañero conocido.</button>
+                    <button class="btn-quiz" onclick="recordAnswer(6, 'b')">Reportar: No confío en ningún enlace de reunión externo.</button>
+                </div>
+            </div>
+
+            <div class="examen-step" id="q-7">
+                <h2>Caso 8: Error en URL</h2>
+                <p>Entras a una web y la dirección es <code>https://www.g0ogle.com</code> (con un cero). ¿Qué está pasando?</p>
+                <div class="action-grid">
+                    <button class="btn-quiz" onclick="recordAnswer(7, 'a')">Typosquatting: Usar caracteres similares para engañar al ojo.</button>
+                    <button class="btn-quiz" onclick="recordAnswer(7, 'b')">Spear Phishing: Ataque dirigido a un departamento concreto.</button>
+                </div>
+            </div>
+
+            <div class="examen-step" id="q-8">
+                <h2>Caso 9: Investigación de Campo</h2>
+                <p>Has recibido un correo de "Seguridad Microsoft". Antes de decidir, <strong>pasa el ratón (o mantén pulsado) sobre el enlace</strong> para inspeccionarlo.</p>
+                
+                <div class="window-sim">
+                    <div class="window-header">Bandeja de Entrada</div>
+                    <div class="interactive-mail">
+                        <p>Su sesión ha expirado en la región de Europa. Por favor, vuelva a conectarse para evitar el cierre de sesión:</p>
+                        <a class="hover-link" onmouseover="showUrl(true)" onmouseout="showUrl(false)">RECONECTAR CUENTA AHORA</a>
+                        <div id="url-tooltip-9" class="url-tooltip">Destino: http://microsoft.login-update-server.net/verify</div>
+                    </div>
+                </div>
+                
+                <div class="action-grid">
+                    <button class="btn-quiz" onclick="recordAnswer(8, 'a')">REPORTAR: El enlace real no va a microsoft.com, sino a un servidor .net externo.</button>
+                    <button class="btn-quiz" onclick="recordAnswer(8, 'b')">RECONECTAR: El texto dice que es para evitar el cierre de sesión.</button>
+                </div>
+            </div>
+
+            <div class="examen-step" id="q-9">
+                <h2>Caso 10: Seguridad Diaria</h2>
+                <p>Ante una duda de seguridad real en tu puesto de trabajo, ¿qué debes aplicar?</p>
+                <div class="action-grid">
+                    <button class="btn-quiz" onclick="recordAnswer(9, 'a')">PARA, MIRA y LLAMA por un canal oficial conocido.</button>
+                    <button class="btn-quiz" onclick="recordAnswer(9, 'b')">Confiar en los filtros de seguridad y hacer clic rápido.</button>
+                </div>
+            </div>
+
+            <div class="examen-step" id="step-final">
+                <h1>Simulación Finalizada</h1>
+                <p id="final-stats" style="font-size:1.4rem; font-weight:bold;"></p>
+                <div id="firebase-msg"></div>
+            </div>
+
+        </div>
+    </main>
+
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+    <script src="../../scripts/firebase-config.js"></script>
+
+    <script>
+        let current = 0;
+        let answers = [];
+        // Correctas: q0:a, q1:a, q2:b, q3:a, q4:a, q5:b, q6:a, q7:a, q8:a, q9:a
+        const correctOnes = ['a', 'a', 'b', 'a', 'a', 'b', 'a', 'a', 'a', 'a'];
+        const total = 10;
+
+        function recordAnswer(idx, val) {
+            answers[idx] = val;
+            if (current < total - 1) {
+                document.getElementById(`q-${current}`).classList.remove('active');
+                current++;
+                document.getElementById(`q-${current}`).classList.add('active');
+                document.getElementById('step-counter').innerText = `Misión ${current + 1} de 10`;
+            } else {
+                showResults();
+            }
+        }
+
+        function runVTScan() {
+            const val = document.getElementById('vt-input').value.trim();
+            if (val.includes('login-verificar')) {
+                document.getElementById('vt-result').style.display = "block";
+                document.getElementById('vt-actions').style.display = "grid";
+            } else {
+                alert("URL incorrecta. Copie la de arriba.");
+            }
+        }
+
+        function showUrl(visible) {
+            document.getElementById('url-tooltip-9').style.display = visible ? 'block' : 'none';
+        }
+
+        function showResults() {
+            document.getElementById(`q-${current}`).classList.remove('active');
+            document.getElementById('step-final').classList.add('active');
+            
+            let aciertos = 0;
+            answers.forEach((ans, i) => { if(ans === correctOnes[i]) aciertos++; });
+
+            const statsText = document.getElementById('final-stats');
+            if (aciertos >= 8) {
+                statsText.innerText = `✅ ¡Aprobado! Has resuelto ${aciertos}/10 correctamente.`;
+                statsText.style.color = "green";
+                saveScore(10);
+            } else {
+                statsText.innerText = `❌ No superado (${aciertos}/10 aciertos).`;
+                statsText.style.color = "red";
+                document.getElementById('firebase-msg').innerHTML = "<p>Necesitas al menos 8 aciertos.</p><br><a href='teoria.html' class='boton'>Reintentar</a>";
+            }
+        }
+
+        function saveScore(nota) {
+            const auth = firebase.auth();
+            const db = firebase.firestore();
+            auth.onAuthStateChanged(user => {
+                if (user) {
+                    db.collection('userScores').doc(user.uid).set({
+                        scores: { phishing: nota }
+                    }, { merge: true }).then(() => {
+                        document.getElementById('firebase-msg').innerHTML = "<h3 style='color:green'>Puntuación registrada en tu perfil.</h3><br><a href='../../modulos.html' class='boton'>Volver al Menú</a>";
+                    });
+                }
+            });
+        }
+    </script>
 </body>
 </html>

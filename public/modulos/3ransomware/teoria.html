@@ -1,85 +1,297 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Módulo 3: Ransomware - NoHaxx</title>
-  <link rel="stylesheet" href="../../style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Módulo 3: Ransomware Pro - NoHaxx</title>
+    <link rel="stylesheet" href="../../style.css">
+    <style>
+        :root {
+            --primary-dark: #0f1e40;
+            --accent-gold: #c5a059;
+            --accent-red: #ff4d4d;
+            --accent-green: #2ecc71;
+        }
+
+        .lms-content { max-width: 900px; }
+
+        /* Estilo Uniforme de Botones */
+        .boton, .btn-desplegar, .btn-nav {
+            background-color: var(--primary-dark);
+            color: white; border: none; padding: 12px 20px; border-radius: 5px;
+            cursor: pointer; font-weight: bold; transition: 0.3s;
+        }
+        .boton:hover, .btn-desplegar:hover { background-color: var(--accent-gold); }
+        .btn-nav:disabled { background-color: #ccc; cursor: not-allowed; opacity: 0.5; }
+
+        /* Pantalla de Ordenador Dividida */
+        .split-screen-computer {
+            display: flex; background: #333; border: 4px solid #555; border-radius: 10px;
+            height: 400px; overflow: hidden; margin: 20px 0; box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        .ui-side, .code-side { flex: 1; display: flex; flex-direction: column; position: relative; }
+        .ui-side { background: #fff; border-right: 2px solid #333; }
+        .code-side { background: #1a1a1a; color: #0f0; }
+        .window-header-sim { padding: 8px; font-size: 0.7rem; background: #eee; color: #333; border-bottom: 1px solid #ccc; font-family: sans-serif; }
+        .ui-body, .code-body { padding: 20px; flex-grow: 1; overflow: hidden; }
+        .code-body { font-family: 'Courier New', monospace; font-size: 0.75rem; line-height: 1.4; opacity: 0.8; }
+
+        /* Animaciones Corrupción */
+        .corrupting-ui { filter: blur(1px) contrast(200%); color: #f00 !important; background: #ffebee; transition: 2s; }
+        .glitch-code { animation: code-glitch 0.1s infinite; color: #ff4d4d !important; }
+        @keyframes code-glitch { 0% { transform: translate(0); } 50% { transform: translate(1px, -1px); opacity: 0.8; } 100% { transform: translate(-1px, 1px); } }
+
+        /* Tooltips Interactivos */
+        .tooltip-tech { color: #007bff; text-decoration: underline dotted; cursor: help; position: relative; font-weight: bold; transition: color 0.3s; }
+        .tooltip-tech.reviewed { color: var(--accent-green) !important; text-decoration: underline solid; }
+        .tooltip-tech::after {
+            content: attr(data-tooltip); position: absolute; bottom: 125%; left: 50%; transform: translateX(-50%);
+            background-color: #333; color: #fff; padding: 10px; border-radius: 6px; font-size: 0.85rem;
+            white-space: normal; width: 250px; display: none; z-index: 1000; box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+        .tooltip-tech:hover::after { display: block; }
+
+        /* Desplegables */
+        .info-desplegable { background: white; border-radius: 8px; border: 1px solid #ddd; margin: 15px 0; overflow: hidden; }
+        .btn-desplegar { width: 100%; text-align: left; display: flex; justify-content: space-between; border-radius: 0; }
+        .contenido-oculto { display: none; padding: 20px; border-top: 2px solid var(--accent-gold); }
+
+        .stat-box { background:#f1f8e9; border-left: 5px solid #4caf50; padding:15px; border-radius:5px; margin: 10px 0; }
+        #bloqueo-msg { color: var(--accent-red); font-size: 0.9rem; font-weight: bold; margin-bottom: 10px; }
+
+        /* Red */
+        .net-node { font-size: 2rem; transition: 0.5s; color: #aaa; }
+        .net-node.infected { color: var(--accent-red); text-shadow: 0 0 10px #f00; transform: scale(1.2); }
+        .net-link { color: #444; font-weight: bold; }
+        .net-link.active { color: var(--accent-red); animation: pulse-red 1s infinite; }
+        @keyframes pulse-red { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+        
+        .video-status { font-weight: bold; color: var(--accent-gold); margin-top: 5px; font-size: 0.85rem; }
+    </style>
 </head>
 <body>
-  <header><div class="logo">NoHaxx</div><div class="top-buttons"><a href="../../modulos.html">Salir</a></div></header>
-  <div class="lms-container">
-    <aside class="lms-sidebar">
-      <h3>🔒 Índice: Ransomware</h3>
-      <div class="lms-menu-item unlocked active" id="menu-0">1. ¿Qué es?</div>
-      <div class="lms-menu-item" id="menu-1">2. Casos Reales</div>
-      <div class="lms-menu-item" id="menu-2">3. Simulación</div>
-      <div class="lms-menu-item" id="menu-3">4. Protección</div>
-      <div class="lms-menu-item" id="menu-4">5. Conclusión</div>
-    </aside>
-    <main class="lms-content">
-      <div class="course-step active">
-        <h2>1. El Secuestro Digital</h2>
-        <p>El ransomware cifra tus archivos y pide un rescate. Pagar nunca garantiza recuperarlos.</p>
-      </div>
-      <div class="course-step">
-        <h2>2. Casos Famosos</h2>
-        <p>Lee 2 casos:</p>
-        <div class="caso-card" onclick="checkCase(this)"><h4>WannaCry (2017)</h4><p style="display:none">Afectó a 150 países.</p></div>
-        <div class="caso-card" onclick="checkCase(this)"><h4>NotPetya (2017)</h4><p style="display:none">Destrucción de datos masiva.</p></div>
-        <div class="caso-card" onclick="checkCase(this)"><h4>JBS Foods (2021)</h4><p style="display:none">Paralizó la producción de carne.</p></div>
-      </div>
-      <div class="course-step">
-        <h2>3. Comportamientos de Riesgo</h2>
-        <p>Simulación: Archivo <code>Factura.docm</code> pide habilitar macros.</p>
-        <div class="simulacion-screen">
-          <button class="btn-risk" onclick="riskAction(false)">A) Habilitar</button>
-          <button class="btn-risk" onclick="riskAction(true)">B) Cerrar (Correcto)</button>
-        </div>
-        <p id="risk-feedback"></p>
-      </div>
-      <div class="course-step">
-        <h2>4. Escudo Defensivo</h2>
-        <p>Marca las 3 claves:</p>
-        <div class="proteccion-item" onclick="toggleProt(this)"><input type="checkbox" disabled> Backups Offline</div>
-        <div class="proteccion-item" onclick="toggleProt(this)"><input type="checkbox" disabled> Actualizaciones</div>
-        <div class="proteccion-item" onclick="toggleProt(this)"><input type="checkbox" disabled> Antivirus</div>
-      </div>
-      <div class="course-step">
-        <h2>5. Resumen</h2>
-        <p>Recuerda: Backups, actualizaciones y desconfianza.</p>
-        <div class="video-box">
-          <h4>📺 Vídeo Recomendado (1 min)</h4>
-          <div class="video-responsive"></div>
-          <a href="https://www.youtube.com/watch?v=sd7Ns_ziBPY" title="_blank">¿Qué es un ransomware?allowfullscreen></iframe>
-        </div>
-      </div>
-      <div class="navigation-buttons">
-        <button class="btn-nav btn-prev" id="prevBtn" onclick="changeStep(-1)">Anterior</button>
-        <div style="display:flex; align-items:center;">
-          <span id="bloqueo-msg" class="instruccion-bloqueo">⚠️ Completa la tarea</span>
-          <button class="btn-nav btn-next" id="nextBtn" onclick="changeStep(1)">Siguiente ➜</button>
-        </div>
-        <a href="examen.html" class="btn-finish" id="finishBtn">Ir al Examen</a>
-      </div>
-    </main>
-  </div>
-  <script>
-    let currentStep=0; const totalSteps=5; let stepUnlocked=[true,false,false,false,true]; let casesRead=0, protChecked=0;
-    const steps=document.querySelectorAll('.course-step'), menus=document.querySelectorAll('.lms-menu-item'), prev=document.getElementById('prevBtn'), next=document.getElementById('nextBtn'), finish=document.getElementById('finishBtn'), msg=document.getElementById('bloqueo-msg');
-    function updateUI(){
-      steps.forEach((s,i)=>{s.classList.remove('active'); menus[i].classList.remove('active'); if(i<currentStep)menus[i].classList.add('completed'); if(i<=currentStep||stepUnlocked[i-1]){menus[i].classList.add('unlocked'); menus[i].onclick=()=>goStep(i);}else{menus[i].onclick=null;}});
-      steps[currentStep].classList.add('active'); menus[currentStep].classList.add('active');
-      prev.style.visibility=(currentStep===0)?'hidden':'visible';
-      if(currentStep===totalSteps-1){next.style.display='none'; finish.style.display='inline-block'; msg.style.display='none';}else{next.style.display='inline-block'; finish.style.display='none'; if(stepUnlocked[currentStep]){next.disabled=false; msg.style.display='none';}else{next.disabled=true; msg.style.display='block';}}
-    }
-    function changeStep(n){if(n===1&&!stepUnlocked[currentStep])return; currentStep+=n; updateUI();}
-    function goStep(n){if(n>0&&!stepUnlocked[n-1]&&n>currentStep)return; currentStep=n; updateUI();}
-    function unlockStep(i){if(!stepUnlocked[i]){stepUnlocked[i]=true; updateUI();}}
-    function checkCase(el){const p=el.querySelector('p'); if(p.style.display==='none'){p.style.display='block'; if(!el.classList.contains('visto')){el.classList.add('visto'); casesRead++; if(casesRead>=2)unlockStep(1);}}}
-    function riskAction(ok){const fb=document.getElementById('risk-feedback'); if(ok){fb.style.color='green'; fb.innerText='✅ Correcto.'; unlockStep(2);}else{fb.style.color='red'; fb.innerText='❌ Error. Macros = Peligro.';}}
-    function toggleProt(el){const ch=el.querySelector('input'); if(!ch.checked){ch.checked=true; el.classList.add('checked'); protChecked++; if(protChecked>=3)unlockStep(3);}}
-    updateUI();
-  </script>
+    <header><div class="logo">NoHaxx</div><div class="top-buttons"><a href="../../modulos.html">Salir</a></div></header>
+
+    <div class="lms-container">
+        <aside class="lms-sidebar">
+            <h3>Ransomware</h3>
+            <div class="lms-menu-item unlocked active" id="menu-0">1. ¿Qué es?</div>
+            <div class="lms-menu-item" id="menu-1">2. Anatomía</div>
+            <div class="lms-menu-item" id="menu-2">3. El Engaño</div>
+            <div class="lms-menu-item" id="menu-3">4. Casos Reales</div>
+            <div class="lms-menu-item" id="menu-4">5. Protección</div>
+            <div class="lms-menu-item" id="menu-5">6. Crisis</div>
+        </aside>
+
+        <main class="lms-content">
+            <div class="course-step active" id="step-0" data-required="1">
+                <h2 style="color: var(--primary-dark);">Ransomware</h2>    
+                <div class="concept-card">
+                    <p>Imagina que un extraño entra en tu oficina, mete todos tus documentos en una <strong>caja fuerte de alta seguridad</strong> y se marcha llevándose la única combinación que existe. Luego, te deja una nota diciendo que solo te dará la combinación si le pagas una gran suma de dinero.</p>
+                </div>
+                <div class="info-desplegable">
+                    <button class="btn-desplegar" onclick="toggleInfo(this, 0)">¿Qué es el Ransomware en el mundo digital?<span>▼</span></button>
+                    <div class="contenido-oculto">
+                        <p>El delincuente usa un programa (malware) que bloquea tus archivos. El "candado" es digital y se llama <strong>cifrado</strong>. Sin la clave, tus fotos y proyectos son solo un montón de símbolos ilegibles.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="course-step" id="step-1" data-required="3">
+                <h2 style="color: var(--primary-dark);">Definiendo el "Cifrado"</h2>
+                <div class="concept-card">
+                    <p>El Cifrado es un proceso matemático que transforma información legible en un código secreto. El atacante usa algoritmos de 
+                    <span class="tooltip-tech" data-tooltip="Método que usa un par de claves: una pública para cerrar y una privada para abrir." onmouseover="markReviewed(this, 1)">Cifrado Asimétrico</span>.</p>
+                </div>
+                <div class="info-desplegable" style="margin-top:25px;">
+                    <button class="btn-desplegar" onclick="toggleInfo(this, 1)">¿Por qué no podemos simplemente "romper" el candado? <span>▼</span></button>
+                    <div class="contenido-oculto">
+                        <p>Los algoritmos modernos como el <span class="tooltip-tech" data-tooltip="Estándar de Cifrado Avanzado de 256 bits usado por bancos y gobiernos." onmouseover="markReviewed(this, 1)">AES-256</span> son tan potentes que el ordenador más rápido tardaría millones de años en probar todas las combinaciones.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="course-step" id="step-2" data-required="1">
+                <h2 style="color: var(--primary-dark);">Anatomía: ¿Cómo actúa?</h2>
+                <div class="split-screen-computer">
+                    <div class="ui-side">
+                        <div class="ui-body" id="doc-view">
+                            <h3>FACTURA #4502</h3>
+                            <p id="ui-text">Empresa Ejemplo S.L.<br>Importe: 45.000€</p>
+                            <div id="ui-stamp" style="border:1px solid #ccc; padding:5px; width:fit-content;">PENDIENTE</div>
+                        </div>
+                    </div>
+                    <div class="code-side">
+                        <div class="code-body" id="code-view">
+                            <div id="hex-grid">0x50 0x4B 0x03 0x04 0x14 0x00 0x06 0x00 0x08...</div>
+                        </div>
+                    </div>
+                </div>
+                <button class="boton" onclick="ejecutarAtaqueDual(this)">INICIAR CIFRADO MALICIOSO</button>
+                <div id="tech-note" style="display:none;" class="stat-box">El Ransomware no borra el archivo, lo corrompe para que sea ilegible sin la llave.</div>
+            </div>
+
+            <div class="course-step" id="step-3" data-required="1">
+                <h2 style="color: var(--primary-dark);">Movimiento Lateral</h2>
+                <div class="computer-screen" style="background: #1a1a1a; padding: 20px; text-align: center; border-radius:10px;">
+                    <div id="network-sim" style="display: flex; justify-content: space-around; align-items: center; min-height: 150px;">
+                        <div class="net-node" id="node-1">💻<br><small style="color:white">Tu PC</small></div>
+                        <div class="net-link" id="link-1" style="color:white">---------</div>
+                        <div class="net-node" id="node-2">💻<br><small style="color:white">Compañero</small></div>
+                        <div class="net-link" id="link-2" style="color:white">---------</div>
+                        <div class="net-node" id="node-3">🗄️<br><small style="color:white">Servidor</small></div>
+                    </div>
+                    <button class="boton" onclick="simularMovimientoLateral(this)">Simular Salto de Red</button>
+                </div>
+                <div id="lateral-note" style="display:none;" class="stat-box">El virus usa tu conexión para saltar de un equipo a otro hasta cifrar el servidor central.</div>
+            </div>
+
+            <div class="course-step" id="step-4" data-required="1">
+                <h2 style="color: var(--primary-dark);">Funcionamiento y Extorsión</h2>
+                <div class="video-box" style="margin: 20px 0; text-align: center;">
+                    <div id="player-ransomware"></div>
+                    <div id="status-video" class="video-status">⏳ Ve el video completo para desbloquear el avance.</div>
+                </div>
+                <div class="info-desplegable">
+                    <button class="btn-desplegar" onclick="toggleInfo(this, 4)">Además, existe la "Doble Extorsión" <span>▼</span></button>
+                    <div class="contenido-oculto">
+                        <p>Primero <strong>roban</strong> tus datos confidenciales y luego los <strong>cifran</strong>. Amenazan con publicarlos si no pagas.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="course-step" id="step-5" data-required="1">
+                <h2 style="color: var(--primary-dark);">Misión: Inspección de Extensión</h2>
+                <p>Identifica la verdadera naturaleza del archivo antes de abrirlo.</p>
+                <div style="display: flex; align-items: center; gap: 20px; background: white; padding: 15px; border-radius: 8px; border: 1px solid #ddd;">
+                    <img src="https://cdn-icons-png.flaticon.com/512/337/337941.png" width="50">
+                    <div>
+                        <strong id="display-name" style="color:#333">Factura_2024.pdf</strong>
+                        <button class="boton" onclick="analizarExtension(this)" style="display:block; margin-top:5px; font-size:0.7rem; padding:5px 10px;">Análisis Forense</button>
+                    </div>
+                </div>
+                <p id="extension-feedback" style="margin-top:10px; font-size:0.9rem; font-weight:bold;"></p>
+            </div>
+
+            <div class="navigation-buttons">
+                <button class="btn-nav btn-prev" id="prevBtn" onclick="changeStep(-1)">Anterior</button>
+                <div style="display:flex; flex-direction:column; align-items:center;">
+                    <span id="bloqueo-msg">⚠️ Completa la interacción para continuar</span>
+                    <button class="btn-nav btn-next" id="nextBtn" onclick="tryNextStep()" disabled>Siguiente ➜</button>
+                </div>
+                <a href="examen.html" class="btn-finish" id="finishBtn" style="display:none; text-decoration:none;">Ir al Examen</a>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <script>
+        let currentStep = 0;
+        const totalSteps = 6; 
+        let interactionsDone = new Array(totalSteps).fill(0);
+        let player;
+
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('player-ransomware', {
+                height: '315', width: '100%', videoId: 'sd7Ns_ziBPY',
+                events: { 'onStateChange': onPlayerStateChange }
+            });
+        }
+
+        function onPlayerStateChange(event) {
+            if (event.data === YT.PlayerState.ENDED) {
+                document.getElementById('status-video').innerText = "✅ Video completado.";
+                document.getElementById('status-video').style.color = "var(--accent-green)";
+                interactionsDone[4]++;
+                validarBotonSiguiente();
+            }
+        }
+
+        function updateUI() {
+            document.querySelectorAll('.course-step').forEach((s, i) => s.classList.toggle('active', i === currentStep));
+            document.getElementById('prevBtn').style.visibility = currentStep === 0 ? 'hidden' : 'visible';
+            document.getElementById('nextBtn').style.display = currentStep === totalSteps - 1 ? 'none' : 'block';
+            document.getElementById('finishBtn').style.display = currentStep === totalSteps - 1 ? 'inline-block' : 'none';
+            if (player && player.pauseVideo) player.pauseVideo();
+            validarBotonSiguiente();
+            window.scrollTo(0,0);
+        }
+
+        function validarBotonSiguiente() {
+            const stepEl = document.getElementById(`step-${currentStep}`);
+            if (!stepEl) return;
+            const required = parseInt(stepEl.dataset.required || 0);
+            const btn = document.getElementById('nextBtn');
+            if (interactionsDone[currentStep] >= required) {
+                btn.disabled = false;
+                document.getElementById('bloqueo-msg').style.display = "none";
+            } else {
+                btn.disabled = true;
+                document.getElementById('bloqueo-msg').style.display = "block";
+            }
+        }
+
+        function toggleInfo(btn, stepIdx) {
+            const content = btn.nextElementSibling;
+            if (content.style.display !== "block") {
+                content.style.display = "block";
+                interactionsDone[stepIdx]++;
+                validarBotonSiguiente();
+            }
+        }
+
+        function markReviewed(el, stepIdx) {
+            if (!el.classList.contains('reviewed')) {
+                el.classList.add('reviewed');
+                interactionsDone[stepIdx]++;
+                validarBotonSiguiente();
+            }
+        }
+
+        function ejecutarAtaqueDual(btn) {
+            btn.disabled = true;
+            document.getElementById('doc-view').classList.add('corrupting-ui');
+            setTimeout(() => {
+                document.getElementById('tech-note').style.display = "block";
+                interactionsDone[2]++;
+                validarBotonSiguiente();
+            }, 2000);
+        }
+
+        function simularMovimientoLateral(btn) {
+            btn.disabled = true;
+            document.getElementById('node-1').classList.add('infected');
+            setTimeout(() => {
+                document.getElementById('link-1').classList.add('active');
+                setTimeout(() => {
+                    document.getElementById('node-2').classList.add('infected');
+                    setTimeout(() => {
+                        document.getElementById('link-2').classList.add('active');
+                        setTimeout(() => {
+                            document.getElementById('node-3').classList.add('infected');
+                            document.getElementById('lateral-note').style.display = "block";
+                            interactionsDone[3]++;
+                            validarBotonSiguiente();
+                        }, 800);
+                    }, 800);
+                }, 800);
+            }, 800);
+        }
+
+        function analizarExtension(btn) {
+            btn.disabled = true;
+            setTimeout(() => {
+                document.getElementById('display-name').innerHTML = "Factura_2024.pdf<span style='color:red; font-weight:bold;'>.exe</span>";
+                document.getElementById('extension-feedback').innerHTML = "🚨 ¡PELIGRO DETECTADO! Es un ejecutable (.exe).";
+                interactionsDone[5]++;
+                validarBotonSiguiente();
+            }, 1000);
+        }
+
+        function changeStep(n) { currentStep += n; updateUI(); }
+        function tryNextStep() { if(!document.getElementById('nextBtn').disabled) changeStep(1); }
+
+        updateUI();
+    </script>
 </body>
 </html>
