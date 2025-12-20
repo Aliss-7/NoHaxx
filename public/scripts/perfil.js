@@ -127,7 +127,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
       } else {
-        window.location.href = "/login.html";
+        window.location.href = "login.html";
       }
     });
   
@@ -135,7 +135,7 @@ document.addEventListener("DOMContentLoaded", () => {
     logoutBtn.addEventListener("click", (e) => {
       e.preventDefault();
       auth.signOut().then(() => {
-        window.location.href = "/login.html";
+        window.location.href = "login.html";
       });
     });
 });

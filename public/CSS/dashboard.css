@@ -1,0 +1,59 @@
+/* =========================================================================
+   DASHBOARD Y LISTA DE MÓDULOS
+   ========================================================================= */
+.lista-modulos {
+  list-style: none;
+  padding: 0;
+  text-align: left;
+}
+
+.lista-modulos li {
+  margin-bottom: 15px;
+}
+
+.lista-modulos a {
+  display: block;
+  padding: 15px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-left: 4px solid #0f1e40; /* Estilo por defecto */
+  border-radius: 8px;
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+  transition: 0.3s;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.lista-modulos a:hover {
+  border-color: #0f1e40;
+  transform: translateX(5px);
+}
+
+/* Estado de Módulos */
+.lista-modulos a.bloqueado {
+  opacity: 0.6;
+  pointer-events: auto;
+  background-color: #e0e0e0 !important;
+  color: #666 !important;
+  cursor: not-allowed;
+  border-left: 4px solid #666;
+}
+
+.lista-modulos a.aprobado {
+  border-left: 6px solid #4caf50 !important;
+  background-color: #e8f5e9 !important;
+  color: #2e7d32 !important;
+  transition: all 0.3s ease;
+}
+
+.lista-modulos a.aprobado:hover {
+  background-color: #c8e6c9 !important;
+  transform: translateX(5px);
+}
+
+.lista-modulos a.aprobado::after {
+  content: " ✅";
+  float: right;
+  font-weight: bold;
+}

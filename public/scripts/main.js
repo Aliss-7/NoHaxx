@@ -21,7 +21,7 @@
       comenzarSection.style.display = "block";
       comenzarBtn.addEventListener("click", (e) => {
         e.preventDefault();
-        window.location.href = "/login.html";
+        window.location.href = "login.html";
       });
     }
   });

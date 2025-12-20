@@ -1,0 +1,76 @@
+/* =========================================================================
+   FORMULARIOS (LOGIN, REGISTRO, CONTACTO)
+   ========================================================================= */
+input[type="email"],
+input[type="password"],
+input[type="text"],
+input[type="tel"],
+textarea {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  background-color: #f0f0f0;
+  color: #000;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+  box-sizing: border-box;
+}
+
+input:focus, textarea:focus {
+  outline: none;
+  border-color: #0f1e40;
+  background-color: #e6f0ff;
+}
+
+label {
+  display: block;
+  font-size: 0.95rem;
+  text-align: left;
+  margin: 10px 0 5px;
+}
+
+button[type="submit"], #login-btn {
+  padding: 10px 20px;
+  font-size: 1rem;
+  background-color: transparent;
+  border: 2px solid #000;
+  color: #000;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 15px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  width: 100%;
+}
+
+button[type="submit"]:hover, #login-btn:hover {
+  background-color: #000;
+  color: white;
+}
+
+#registrate {
+  display: inline-block;
+  margin-top: 16px;
+  font-size: 0.9rem;
+  color: #000;
+  text-decoration: none;
+  border-bottom: 1px dotted #666;
+}
+
+#mensaje-error {
+  color: red;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+
+.contacto-container {
+  max-width: 700px;
+  margin: 4rem auto;
+  background-color: #ffffff;
+  padding: 2.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  text-align: left;
+}

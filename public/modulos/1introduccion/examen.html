@@ -4,111 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Examen Final: Introducción - NoHaxx</title>
-  <link rel="stylesheet" href="../../style.css">
-  <style>
-    /* Estilos específicos para el Examen Gamificado */
-    .exam-step {
-      display: none;
-      animation: fadeIn 0.5s;
-    }
-    .exam-step.active {
-      display: block;
-    }
-    
-    /* Tarjetas de Selección (Opciones) */
-    .option-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 15px;
-      margin-top: 20px;
-    }
-    
-    .option-card {
-      background: #fff;
-      border: 2px solid #ddd;
-      padding: 20px;
-      border-radius: 10px;
-      cursor: pointer;
-      text-align: center;
-      transition: all 0.2s;
-    }
-    
-    .option-card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-      border-color: #aaa;
-    }
-    
-    .option-card.selected {
-      background-color: #e3f2fd;
-      border-color: #2196f3;
-      font-weight: bold;
-    }
 
-    /* Feedback visual (Acierto/Error) al corregir */
-    .option-card.correct {
-      background-color: #e8f5e9 !important;
-      border-color: #4caf50 !important;
-      color: #2e7d32;
-    }
-    .option-card.incorrect {
-      background-color: #ffebee !important;
-      border-color: #f44336 !important;
-      opacity: 0.7;
-    }
-
-    /* Barra de progreso */
-    .progress-container {
-      background-color: #f0f0f0;
-      height: 10px;
-      border-radius: 5px;
-      margin-bottom: 30px;
-      overflow: hidden;
-    }
-    .progress-bar {
-      height: 100%;
-      background-color: #0f1e40;
-      width: 0%;
-      transition: width 0.3s;
-    }
-
-    /* Botón Siguiente */
-    .btn-next-question {
-      background-color: #0f1e40;
-      color: white;
-      padding: 12px 30px;
-      border: none;
-      border-radius: 5px;
-      font-weight: bold;
-      cursor: pointer;
-      margin-top: 20px;
-      display: none; /* Se oculta hasta que respondes */
-      float: right;
-    }
-    .btn-next-question:hover { background-color: #2c3e50; }
-
-    /* Estilos Resultad */
-    .score-circle {
-      width: 150px; height: 150px;
-      border-radius: 50%;
-      background: #0f1e40;
-      color: white;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      margin: 20px auto;
-      font-size: 2.5rem;
-      font-weight: bold;
-    }
-    .score-label { font-size: 1rem; font-weight: normal; opacity: 0.8; }
-  </style>
+  <link rel="stylesheet" href="../../CSS/base.css">
+  <link rel="stylesheet" href="../../CSS/examenes.css">
 </head>
 <body>
   <header>
     <div class="logo">NoHaxx</div>
     <div class="top-buttons">
-      <a href="../../modulos.html">Salir (Sin guardar)</a>
+      <a href="../../Pantallas/modulos.html">Salir (Sin guardar)</a>
     </div>
   </header>
 
@@ -245,7 +149,7 @@
         
         <div style="margin-top:30px;">
           <button onclick="location.reload()" class="boton" id="btn-retry" style="display:none; background:#f44336; color:white; border:none;">Reintentar</button>
-          <a href="../../modulos.html" class="boton" id="btn-continue" style="display:none;">Volver a Módulos</a>
+          <a href="../../Pantallas/modulos.html" class="boton" id="btn-continue" style="display:none;">Volver a Módulos</a>
         </div>
       </div>
     </div>
@@ -255,114 +159,9 @@
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+
   <script src="../../scripts/firebase-config.js"></script>
+  <script src="../../scripts/examen_intro.js"></script>
 
-  <script>
-    // --- Configuración del Examen ---
-    // Respuestas correctas: 
-    // 1: b (Seg. Info), 2: c (Disponibilidad), 3: b (Hacktivismo), 4: c (Ransomware), 5: b (ODS 16), 6: b (No dejar conectado)
-    const correctAnswers = { 1: 'b', 2: 'c', 3: 'b', 4: 'c', 5: 'b', 6: 'b' };
-    let userAnswers = {};
-    const totalQuestions = 6;
-    let currentQ = 1;
-
-    // --- Lógica Visual ---
-    function selectOption(qNum, value, cardElement) {
-      // Guardar respuesta
-      userAnswers[qNum] = value;
-      
-      // Actualizar UI: Quitar seleccionado de otros y poner al actual
-      const parent = document.getElementById(`opt-q${qNum}`);
-      const cards = parent.querySelectorAll('.option-card');
-      cards.forEach(c => c.classList.remove('selected'));
-      cardElement.classList.add('selected');
-      
-      // Mostrar botón confirmar
-      const btn = document.querySelector(`#q${qNum} .btn-next-question`);
-      btn.style.display = 'inline-block';
-    }
-
-    function nextQuestion(current) {
-      // 1. Validar si acertó (Feedback visual inmediato opcional, aquí pasamos a la siguiente)
-      // Para hacerlo más gamificado, NO les decimos si fallaron hasta el final, o avanzamos.
-      
-      // Barra de progreso
-      const progress = (current / totalQuestions) * 100;
-      document.getElementById('progress-bar').style.width = `${progress}%`;
-
-      // Ocultar actual
-      document.getElementById(`q${current}`).classList.remove('active');
-
-      if (current < totalQuestions) {
-        // Mostrar siguiente
-        document.getElementById(`q${current + 1}`).classList.add('active');
-        currentQ++;
-      } else {
-        // Fin del examen
-        calculateAndSave();
-      }
-    }
-
-    function calculateAndSave() {
-      document.getElementById('final-screen').classList.add('active');
-      
-      let hits = 0;
-      for (let i = 1; i <= totalQuestions; i++) {
-        if (userAnswers[i] === correctAnswers[i]) hits++;
-      }
-      
-      // Nota sobre 10
-      // 6 aciertos = 10
-      // Regla de 3: (hits * 10) / 6
-      const finalScore = Math.round((hits * 10) / totalQuestions);
-      const passed = hits >= 4; // Aprobar con 4/6 (66%)
-
-      // Mostrar resultados
-      const resultsDiv = document.getElementById('results-content');
-      const loadingDiv = document.getElementById('loading-results');
-      const scoreTxt = document.getElementById('final-score');
-      const msgTxt = document.getElementById('final-msg');
-      const detailTxt = document.getElementById('final-detail');
-      const btnRetry = document.getElementById('btn-retry');
-      const btnCont = document.getElementById('btn-continue');
-
-      loadingDiv.style.display = 'none';
-      resultsDiv.style.display = 'block';
-      scoreTxt.innerText = finalScore;
-
-      if (passed) {
-        msgTxt.innerText = "¡Enhorabuena! 🎓";
-        msgTxt.style.color = "green";
-        detailTxt.innerText = `Has acertado ${hits} de ${totalQuestions} preguntas. Has completado los fundamentos.`;
-        btnCont.style.display = "inline-block";
-        
-        // Guardar en Firebase
-        saveToFirebase(10); // Guardamos 10 puntos por completar (o finalScore si prefieres nota exacta)
-      } else {
-        msgTxt.innerText = "Necesitas repasar";
-        msgTxt.style.color = "#d32f2f";
-        detailTxt.innerText = `Has acertado ${hits} de ${totalQuestions}. Necesitas al menos 4 aciertos para aprobar.`;
-        btnRetry.style.display = "inline-block";
-      }
-    }
-
-    function saveToFirebase(score) {
-      const auth = firebase.auth();
-      const db = firebase.firestore();
-
-      auth.onAuthStateChanged(user => {
-        if (user) {
-          db.collection('userScores').doc(user.uid).set({
-            scores: { introduccion: score }
-          }, { merge: true }).then(() => {
-            console.log("Nota guardada");
-          }).catch(err => {
-            console.error("Error al guardar:", err);
-            alert("Error de conexión al guardar la nota.");
-          });
-        }
-      });
-    }
-  </script>
 </body>
 </html>

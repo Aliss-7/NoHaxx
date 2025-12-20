@@ -1,0 +1,113 @@
+/* =========================================================================
+   ESTILOS BASE
+   ========================================================================= */
+body {
+  margin: 0;
+  font-family: 'Arial', sans-serif;
+  background-color: #f7f9fb;
+  color: #000;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+
+/* =========================================================================
+   CABECERA
+   ========================================================================= */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #f4f4f4;
+  border-bottom: 1px solid #ccc;
+}
+
+.logo {
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.top-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.top-buttons a {
+  text-decoration: none;
+  background-color: #333;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.top-buttons a:hover {
+  background-color: #555;
+}
+
+/* =========================================================================
+   ESTRUCTURA PRINCIPAL Y CONTENEDORES
+   ========================================================================= */
+main {
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.main-content {
+  max-width: 1000px;
+  margin: 4rem auto;
+  background-color: #fff;
+  padding: 3rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  text-align: center;
+}
+
+.main-content h1, .main-content h2 {
+  color: #000;
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Botones Generales */
+.boton {
+  padding: 12px 24px;
+  background-color: #fff;
+  color: #000;
+  border: 2px solid #000;
+  border-radius: 8px;
+  font-weight: bold;
+  text-decoration: none;
+  display: inline-block;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.boton:hover {
+  background-color: #eee;
+}
+
+
+/* =========================================================================
+   RESPONSIVE
+   ========================================================================= */
+@media (max-width: 768px) {
+  header { flex-direction: column; align-items: flex-start; gap: 10px; }
+  .top-buttons { width: 100%; justify-content: flex-start; flex-wrap: wrap; }
+  main { padding: 20px 10px; }
+  .main-content { margin: 2rem 1rem; padding: 1.5rem; max-width: 100%; }
+  
+  /* LMS Móvil */
+  .lms-container { flex-direction: column; min-height: auto; }
+  .lms-sidebar { width: 100%; border-right: none; border-bottom: 1px solid #ddd; }
+  .lms-content { width: 100%; padding: 20px; }
+  
+  .bloques { flex-direction: column; }
+  .bloque { max-width: 100%; }
+
+  /* Puzzle Móvil */
+  .puzzle-container { grid-template-columns: 1fr; }
+  .puzzle-left .puzzle-item { border-right: 2px solid #ddd; border-top-right-radius: 8px; border-bottom-right-radius: 8px; }
+  .puzzle-right .puzzle-item { border-left: 2px solid #ddd; border-top-left-radius: 8px; border-bottom-left-radius: 8px; }
+}
