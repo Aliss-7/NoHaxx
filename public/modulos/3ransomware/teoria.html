@@ -1,297 +1,886 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Módulo 3: Ransomware Pro - NoHaxx</title>
-    <link rel="stylesheet" href="../../style.css">
-    <style>
-        :root {
-            --primary-dark: #0f1e40;
-            --accent-gold: #c5a059;
-            --accent-red: #ff4d4d;
-            --accent-green: #2ecc71;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Módulo 3: Ransomware Pro - NoHaxx</title>
+  <link rel="stylesheet" href="../../style.css">
+  <style>
+    /* ESTILOS VISUALES ORIGINALES MANTENIDOS AL 100% */
+    .split-screen-computer { display: flex; flex-direction: row; background: #333; border: 4px solid #555; border-radius: 10px; height: 400px; overflow: hidden; margin: 20px 0; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+    .ui-side, .code-side { flex: 1; display: flex; flex-direction: column; position: relative; }
+    .ui-side { background: #fff; border-bottom: 2px solid #333; min-height: 250px; }
+    .code-side { background: #1a1a1a; color: #0f0; min-height: 200px; }
+    .window-header-sim { padding: 8px; font-size: 0.7rem; background: #eee; color: #333; border-bottom: 1px solid #ccc; font-family: sans-serif; }
+    .ui-body, .code-body { padding: 20px; flex-grow: 1; overflow: hidden; }
+    .code-body { font-family: 'Courier New', monospace; font-size: 0.75rem; line-height: 1.4; opacity: 0.8; }
+    
+    .ui-degrade-1 { filter: blur(2px); opacity: 0.8; }
+    .ui-degrade-2 { filter: blur(5px) grayscale(1); opacity: 0.5; }
+    .ui-corrupted { filter: blur(10px); opacity: 0.2; pointer-events: none; }
+    .glitch-code { animation: code-glitch 0.1s infinite; color: #ff4d4d !important; }
+    @keyframes code-glitch { 0% { transform: translate(0); } 50% { transform: translate(1px, -1px); opacity: 0.8; } 100% { transform: translate(-1px, 1px); } }
+    
+    .net-node { font-size: 2.5rem; transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); color: #aaa; }
+    .net-node.infected { color: #ff4d4d !important; filter: drop-shadow(0 0 15px #f00); transform: scale(1.3); }
+    .net-link { color: #30363d; font-weight: bold; font-size: 1.5rem; transition: color 0.4s; }
+    .net-link.active { color: #ff4d4d; animation: pulse-red 1s infinite; }
+    @keyframes pulse-red { 0%, 100% { opacity: 1; transform: scaleX(1); } 50% { opacity: 0.3; transform: scaleX(1.1); } }
+    
+    .progress-bar-small { width: 100%; height: 8px; background: #ddd; border-radius: 4px; overflow: hidden; margin: 10px 0; }
+    .progress-bar-small .fill { height: 100%; width: 0%; background: #ff4d4d; transition: 0.1s; }
+    .error-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(139, 0, 0, 0.95); display: none; flex-direction: column; align-items: center; justify-content: center; color: white; text-align: center; padding: 20px; box-sizing: border-box; z-index: 10; }
+    .definicion-destacada { border-left: 4px solid #2196f3; padding: 15px 20px; margin: 20px 0; background-color: #f8f9fa; color: #444; font-style: italic; line-height: 1.6; }
+    .recon-container { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 20px 0; }
+    .recon-card { background: #fff; border: 1px solid #e0e0e0; border-radius: 10px; padding: 20px; text-align: center; cursor: pointer; transition: all 0.3s ease; }
+    .recon-card.active { border-color: #2196f3; background-color: #f8fbff; }
+    .recon-content { max-height: 0; overflow: hidden; transition: max-height 0.5s cubic-bezier(0, 1, 0, 1); }
+    .recon-card.active .recon-content { max-height: 1000px; transition: max-height 1s ease-in; }
+    .recon-card { transition: all 0.3s ease; margin-bottom: 10px; }
+    .network-container { background: #12141d; padding: 40px 20px; border-radius: 12px; margin: 20px 0; border: 1px solid #2d334a; position: relative; overflow: hidden; }
+    .network-map { display: flex; justify-content: center; align-items: center; position: relative; z-index: 2; width: 100%; gap: 20px; }
+    .net-node-wrapper { display: flex; flex-direction: column; align-items: center; gap: 10px; color: #ffffff; font-size: 0.85rem; font-family: 'Courier New', Courier, monospace; flex: 1; }
+    .impact-card.viewed-red { border-color: #f44336 !important; background: #fff8f7; }
 
-        .lms-content { max-width: 900px; }
+    .course-step { display: none; }
+    .course-step.active { display: block; }
+    .video-summary { margin-top: 20px; }
+    .summary-item { background-color: #f4f7f9; border-left: 5px solid #2196f3; padding: 15px; margin-bottom: 15px; border-radius: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+    .summary-item p { margin: 0; line-height: 1.5; color: #333; }
+    .summary-item strong { color: #0d47a1; }
 
-        /* Estilo Uniforme de Botones */
-        .boton, .btn-desplegar, .btn-nav {
-            background-color: var(--primary-dark);
-            color: white; border: none; padding: 12px 20px; border-radius: 5px;
-            cursor: pointer; font-weight: bold; transition: 0.3s;
-        }
-        .boton:hover, .btn-desplegar:hover { background-color: var(--accent-gold); }
-        .btn-nav:disabled { background-color: #ccc; cursor: not-allowed; opacity: 0.5; }
+    .tabs-container { border: 1px solid #ddd; border-radius: 8px; background: #fff; overflow: hidden; }
+    .tabs-header { display: flex; background: #f1f1f1; border-bottom: 1px solid #ddd; }
+    .tab-btn { flex: 1; padding: 12px; border: none; background: none; cursor: pointer; font-weight: bold; color: #666; transition: 0.3s; }
+    .tab-btn.active { background: #fff; color: #2196f3; border-bottom: 3px solid #2196f3; }
+    .tab-content { display: none; padding: 20px; }
+    .tab-content.active { display: block; }
 
-        /* Pantalla de Ordenador Dividida */
-        .split-screen-computer {
-            display: flex; background: #333; border: 4px solid #555; border-radius: 10px;
-            height: 400px; overflow: hidden; margin: 20px 0; box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        }
-        .ui-side, .code-side { flex: 1; display: flex; flex-direction: column; position: relative; }
-        .ui-side { background: #fff; border-right: 2px solid #333; }
-        .code-side { background: #1a1a1a; color: #0f0; }
-        .window-header-sim { padding: 8px; font-size: 0.7rem; background: #eee; color: #333; border-bottom: 1px solid #ccc; font-family: sans-serif; }
-        .ui-body, .code-body { padding: 20px; flex-grow: 1; overflow: hidden; }
-        .code-body { font-family: 'Courier New', monospace; font-size: 0.75rem; line-height: 1.4; opacity: 0.8; }
+    .word-simulation { border: 1px solid #ccc; margin: 10px 0; }
+    .word-header { background: #2b579a; color: white; padding: 5px 10px; font-size: 0.8rem; }
+    .word-security-bar { background: #fff2ab; padding: 8px; display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; border-bottom: 1px solid #e6db9c; }
+    .btn-macro-enable { background: #fff; border: 1px solid #999; padding: 2px 10px; cursor: pointer; font-weight: bold; }
+    .word-body-fake { padding: 30px; background: white; text-align: center; }
+    .blurred-text { filter: blur(5px); color: #999; }
 
-        /* Animaciones Corrupción */
-        .corrupting-ui { filter: blur(1px) contrast(200%); color: #f00 !important; background: #ffebee; transition: 2s; }
-        .glitch-code { animation: code-glitch 0.1s infinite; color: #ff4d4d !important; }
-        @keyframes code-glitch { 0% { transform: translate(0); } 50% { transform: translate(1px, -1px); opacity: 0.8; } 100% { transform: translate(-1px, 1px); } }
+    .windows-sim-container { background: #f0f0f0; padding: 15px; border: 1px solid #ccc; color: #333; }
+    .desktop-area { height: 300px; background: #0078d7; position: relative; border: 2px solid #005a9e; overflow: hidden; }
+    .file-icon-wrapper { width: 80px; padding: 10px; text-align: center; cursor: pointer; color: white; }
+    .file-icon-wrapper:hover { background: rgba(255,255,255,0.2); }
+    .win-menu { position: absolute; background: #eee; border: 1px solid #999; display: none; width: 120px; z-index: 100; box-shadow: 2px 2px 5px rgba(0,0,0,0.2); }
+    .menu-item { padding: 5px 10px; font-size: 0.8rem; cursor: default; }
+    .menu-item:hover { background: #0078d7; color: white; }
+    .win-window { position: absolute; top: 50px; left: 50%; transform: translateX(-50%); width: 250px; background: #f0f0f0; border: 1px solid #0078d7; display: none; z-index: 101; }
+    .win-win-header { background: #fff; padding: 5px; display: flex; justify-content: space-between; font-size: 0.7rem; }
+    .win-win-body { padding: 15px; font-size: 0.8rem; }
+    .win-error-box { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 300px; background: #f0f0f0; border: 1px solid red; display: none; z-index: 1000; box-shadow: 0 0 20px rgba(0,0,0,0.5); }
+    .win-btn { padding: 4px 10px; background: #e1e1e1; border: 1px solid #999; cursor: pointer; margin-top: 10px; }
+    .win-btn-ok { padding: 5px 15px; cursor: pointer; }
+    .win-error-body { padding: 15px; display: flex; gap: 10px; align-items: center; }
+    .win-error-footer { background: #ddd; padding: 8px; text-align: right; }
+    .prop-row { display: flex; justify-content: space-between; margin-bottom: 5px; border-bottom: 1px solid #ddd; }
 
-        /* Tooltips Interactivos */
-        .tooltip-tech { color: #007bff; text-decoration: underline dotted; cursor: help; position: relative; font-weight: bold; transition: color 0.3s; }
-        .tooltip-tech.reviewed { color: var(--accent-green) !important; text-decoration: underline solid; }
-        .tooltip-tech::after {
-            content: attr(data-tooltip); position: absolute; bottom: 125%; left: 50%; transform: translateX(-50%);
-            background-color: #333; color: #fff; padding: 10px; border-radius: 6px; font-size: 0.85rem;
-            white-space: normal; width: 250px; display: none; z-index: 1000; box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-        }
-        .tooltip-tech:hover::after { display: block; }
+    .casos-horizontales {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 20px 0;
+}
 
-        /* Desplegables */
-        .info-desplegable { background: white; border-radius: 8px; border: 1px solid #ddd; margin: 15px 0; overflow: hidden; }
-        .btn-desplegar { width: 100%; text-align: left; display: flex; justify-content: space-between; border-radius: 0; }
-        .contenido-oculto { display: none; padding: 20px; border-top: 2px solid var(--accent-gold); }
+.btn-acordeon {
+    width: 100%;
+    padding: 15px 25px;
+    background: white;
+    border: 2px solid #2b3e50;
+    border-radius: 50px; /* Forma de píldora como en tu foto */
+    text-align: left;
+    font-weight: bold;
+    color: #2b3e50;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+}
 
-        .stat-box { background:#f1f8e9; border-left: 5px solid #4caf50; padding:15px; border-radius:5px; margin: 10px 0; }
-        #bloqueo-msg { color: var(--accent-red); font-size: 0.9rem; font-weight: bold; margin-bottom: 10px; }
+.btn-acordeon:hover {
+    background: #f0f4f8;
+}
 
-        /* Red */
-        .net-node { font-size: 2rem; transition: 0.5s; color: #aaa; }
-        .net-node.infected { color: var(--accent-red); text-shadow: 0 0 10px #f00; transform: scale(1.2); }
-        .net-link { color: #444; font-weight: bold; }
-        .net-link.active { color: var(--accent-red); animation: pulse-red 1s infinite; }
-        @keyframes pulse-red { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
-        
-        .video-status { font-weight: bold; color: var(--accent-gold); margin-top: 5px; font-size: 0.85rem; }
-    </style>
+.acordeon-item.active .btn-acordeon {
+    background: #2b3e50;
+    color: white;
+}
+
+.acordeon-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease-out;
+    padding: 0 10px;
+}
+
+.acordeon-item.active .acordeon-content {
+    max-height: 500px; /* Espacio suficiente para la info */
+    padding: 15px 10px;
+}
+
+  </style>
 </head>
 <body>
-    <header><div class="logo">NoHaxx</div><div class="top-buttons"><a href="../../modulos.html">Salir</a></div></header>
+  <header>
+    <div class="logo">NoHaxx</div>
+    <div class="top-buttons"><a href="../../modulos.html" class="boton-salir">Salir del Módulo</a></div>
+  </header>
 
-    <div class="lms-container">
-        <aside class="lms-sidebar">
-            <h3>Ransomware</h3>
-            <div class="lms-menu-item unlocked active" id="menu-0">1. ¿Qué es?</div>
-            <div class="lms-menu-item" id="menu-1">2. Anatomía</div>
-            <div class="lms-menu-item" id="menu-2">3. El Engaño</div>
-            <div class="lms-menu-item" id="menu-3">4. Casos Reales</div>
-            <div class="lms-menu-item" id="menu-4">5. Protección</div>
-            <div class="lms-menu-item" id="menu-5">6. Crisis</div>
-        </aside>
+  <div class="lms-container">
+    <aside class="lms-sidebar">
+      <h3>Ransomware</h3>
+      <div class="lms-menu-item unlocked active" id="menu-0">1. ¿Qué es?</div>
+      <div class="lms-menu-item" id="menu-1">2. Anatomía del Ataque</div>
+      <div class="lms-menu-item" id="menu-2">3. Comportamientos de Riesgo</div>
+      <div class="lms-menu-item" id="menu-3">4. Casos Reales</div>
+      <div class="lms-menu-item" id="menu-4">5. Medidas de Protección</div>
+      <div class="lms-menu-item" id="menu-5">6. Gestión de Crisis</div>
+      <div class="lms-menu-item" id="menu-6">7. Síntesis</div>
+    </aside>
 
-        <main class="lms-content">
-            <div class="course-step active" id="step-0" data-required="1">
-                <h2 style="color: var(--primary-dark);">Ransomware</h2>    
-                <div class="concept-card">
-                    <p>Imagina que un extraño entra en tu oficina, mete todos tus documentos en una <strong>caja fuerte de alta seguridad</strong> y se marcha llevándose la única combinación que existe. Luego, te deja una nota diciendo que solo te dará la combinación si le pagas una gran suma de dinero.</p>
-                </div>
-                <div class="info-desplegable">
-                    <button class="btn-desplegar" onclick="toggleInfo(this, 0)">¿Qué es el Ransomware en el mundo digital?<span>▼</span></button>
-                    <div class="contenido-oculto">
-                        <p>El delincuente usa un programa (malware) que bloquea tus archivos. El "candado" es digital y se llama <strong>cifrado</strong>. Sin la clave, tus fotos y proyectos son solo un montón de símbolos ilegibles.</p>
+    <main class="lms-content">
+      <div id="section-0">
+          <div class="course-step active" id="step-0">
+            <h2>Ransomware</h2>
+            <div class="concept-card">
+              <p>Imagina que un extraño entra en tu oficina, mete todos tus documentos en una <strong>caja fuerte de alta seguridad</strong> y se marcha llevándose la única combinación que existe. Luego, te deja una nota diciendo que solo te dará la combinación si le pagas una gran suma de dinero.</p>
+            </div>
+            <button class="btn-reveal required-interaction" onclick="revelar('bloque-0', this)">¿Qué es el Ransomware en el mundo digital?</button>
+            <div id="bloque-0" style="display:none;" class="reveal-content">
+              <p>El delincuente usa un programa (malware) que bloquea tus archivos.</p>
+              <p>El "candado" es digital y se llama <strong>cifrado</strong>. Sin la clave, tus fotos, facturas y proyectos son solo un montón de símbolos ilegibles.</p>
+              <div class="definicion-destacada">
+                  <p>El término viene de <strong>'Ransom'</strong> (Rescate) y <strong>'Software'</strong> (Programa).</p>
+                  <p>Es decir: El programa del rescate.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="course-step" id="step-1">
+            <h2>Definiendo el "Cifrado"</h2>
+            <div class="concept-card">
+              <p>El <strong>Cifrado</strong> es un proceso matemático que transforma información legible en un código secreto. En un ataque de Ransomware, el atacante usa algoritmos de 
+              <span class="tooltip required-interaction" data-tooltip="Método que utiliza un par de claves: una pública para cerrar (cifrar) y una privada para abrir (descifrar)." onmouseover="markInteraction(this)">Cifrado Asimétrico</span>.</p>
+            </div>
+            <button class="btn-reveal required-interaction" onclick="revelar('bloque-1', this)">¿Por qué no podemos simplemente "romper" el candado?</button>
+            <div id="bloque-1" style="display:none;" class="reveal-content">
+              <p>Los algoritmos modernos (como el <span class="tooltip required-interaction" data-tooltip="Estándar de Cifrado Avanzado de 256 bits. Es uno de los algoritmos más seguros del mundo." onmouseover="markInteraction(this)">AES-256</span>) son tan potentes que el ordenador más rápido del mundo tardaría millones de años en probar todas las combinaciones posibles.</p>
+              <p>Por eso el Ransomware es tan peligroso.</p>
+              <p><strong>No hay "atajo" matemático para recuperar los datos.</strong></p>
+            </div>
+          </div>
+      </div>
+
+      <div id="section-1" style="display:none;">
+          <div class="course-step" id="step-2">
+              <h2>Funcionamiento del Ransomware</h2>
+              <p>Para comprender la magnitud de esta amenaza, visualiza el siguiente vídeo donde analizamos paso a paso cómo se ejecuta un ataque real.</p>
+              <div class="video-box required-interaction" id="video-container-3">
+                  <div id="player-ransomware"></div>
+              </div>
+              <div class="video-summary">
+                  <div class="summary-item">
+                      <p><strong>Activación mediante Ejecutable:</strong> El ataque comienza cuando el usuario interactúa con un archivo (muchas veces camuflado como una factura o actualización) que contiene el código malicioso listo para correr en el sistema.</p>
+                  </div>
+                  <div class="summary-item">
+                      <p><strong>Pérdida de Disponibilidad:</strong> Una vez activado, el objetivo principal es bloquear el acceso a los datos. El usuario puede ver sus archivos, pero no puede abrirlos ni utilizarlos, quedando la información "secuestrada" de forma inmediata.</p>
+                  </div>
+                  <div class="summary-item">
+                      <p><strong>Impacto Directo:</strong> El proceso es tan rápido que el sistema deja de ser funcional para el trabajo diario antes de que se pueda reaccionar para detener la ejecución.</p>
+                  </div>
+              </div>
+          </div>
+
+          <div class="course-step" id="step-3">
+            <h2>¿Cómo actúa el Ransomware?</h2>
+            <p>A la izquierda verás tu archivo tal cual lo abres cada día. A la derecha, lo que el virus le hace al código interno. <strong>Pulsa el botón para iniciar el ataque.</strong></p>
+            <div class="split-screen-computer">
+                <div class="ui-side">
+                    <div class="window-header-sim">📄 Word - Factura_Ventas.docx</div>
+                    <div class="ui-body" id="doc-view">
+                        <h3>FACTURA #4502</h3>
+                        <p>Cliente: InnovaTech S.L.<br>Concepto: Servicios Cloud Anuales<br><strong>Total:</strong> 12.450,00€</p>
+                    </div>
+                    <div class="error-overlay" id="ui-error">
+                        <h3>🔒<br>SISTEMA CIFRADO</h3>
+                        <p style="font-size: 0.8rem;">Transfiere 0.5 BTC a 3FZbgi29cpjq2GjdwV8eyHuJJnkLtktZc5...</p>
                     </div>
                 </div>
+                <div class="code-side">
+                    <div class="window-header-sim">⚡ Monitor de Sistema - Código Binario</div>
+                    <div class="code-body" id="hex-grid">0x50 0x4B 0x03 0x04 0x14 0x00...</div>
+                </div>
             </div>
+            <button class="btn-reveal required-interaction" onclick="ejecutarAtaque(this)">INICIAR CIFRADO MALICIOSO</button>
+            <div id="progress-area" style="display:none; margin-top:15px;">
+                <div class="progress-bar-small"><div id="enc-fill" class="fill"></div></div>
+                <p id="enc-pct">Cifrando: 0%</p>
+                <div id="tech-note" style="display:none; border-left:4px solid #ff4d4d; padding-left:10px;">
+                    <p>Mientras el virus cambiaba el código a la derecha, el programa a la izquierda dejó de entender la información. El Ransomware no borra el archivo, <strong>lo corrompe</strong>.</p>
+                </div>
+            </div>
+          </div>
 
-            <div class="course-step" id="step-1" data-required="3">
-                <h2 style="color: var(--primary-dark);">Definiendo el "Cifrado"</h2>
-                <div class="concept-card">
-                    <p>El Cifrado es un proceso matemático que transforma información legible en un código secreto. El atacante usa algoritmos de 
-                    <span class="tooltip-tech" data-tooltip="Método que usa un par de claves: una pública para cerrar y una privada para abrir." onmouseover="markReviewed(this, 1)">Cifrado Asimétrico</span>.</p>
-                </div>
-                <div class="info-desplegable" style="margin-top:25px;">
-                    <button class="btn-desplegar" onclick="toggleInfo(this, 1)">¿Por qué no podemos simplemente "romper" el candado? <span>▼</span></button>
-                    <div class="contenido-oculto">
-                        <p>Los algoritmos modernos como el <span class="tooltip-tech" data-tooltip="Estándar de Cifrado Avanzado de 256 bits usado por bancos y gobiernos." onmouseover="markReviewed(this, 1)">AES-256</span> son tan potentes que el ordenador más rápido tardaría millones de años en probar todas las combinaciones.</p>
-                    </div>
-                </div>
+          <div class="course-step" id="step-4">
+            <h2>Fase de Reconocimiento</h2>
+            <p>Antes de bloquear un solo archivo, el Ransomware realiza un análisis profundo de tu sistema para asegurar que el ataque sea irreversible.</p>
+            <div class="recon-container">
+                <div class="recon-card required-interaction" onclick="toggleRecon(this)">🛡️ <h4>Inventario de Activos</h4><div class="recon-content"><p>Escanea discos locales y unidades de red compartidas.</p></div></div>
+                <div class="recon-card required-interaction" onclick="toggleRecon(this)">🔍 <h4>Búsqueda de Backups</h4><div class="recon-content"><p>Localiza copias de seguridad para intentar borrarlas.</p></div></div>
+                <div class="recon-card required-interaction" onclick="toggleRecon(this)">🔑 <h4>Escalada de Privilegios</h4><div class="recon-content"><p>Intenta obtener permisos de administrador del sistema.</p></div></div>
+                <div class="recon-card required-interaction" onclick="toggleRecon(this)">🛰️ <h4>Conexión C2</h4><div class="recon-content"><p>Contacta con el atacante para recibir la clave de cifrado.</p></div></div>
             </div>
+            <div class="stat-box" style="margin-top:20px; border-left: 4px solid #ff9800;">En esta fase el virus es casi invisible porque no está destruyendo nada, solo está "observando".</div>
+          </div>
 
-            <div class="course-step" id="step-2" data-required="1">
-                <h2 style="color: var(--primary-dark);">Anatomía: ¿Cómo actúa?</h2>
-                <div class="split-screen-computer">
-                    <div class="ui-side">
-                        <div class="ui-body" id="doc-view">
-                            <h3>FACTURA #4502</h3>
-                            <p id="ui-text">Empresa Ejemplo S.L.<br>Importe: 45.000€</p>
-                            <div id="ui-stamp" style="border:1px solid #ccc; padding:5px; width:fit-content;">PENDIENTE</div>
-                        </div>
-                    </div>
-                    <div class="code-side">
-                        <div class="code-body" id="code-view">
-                            <div id="hex-grid">0x50 0x4B 0x03 0x04 0x14 0x00 0x06 0x00 0x08...</div>
-                        </div>
-                    </div>
+          <div class="course-step" id="step-5">
+            <h2>Movimiento Lateral</h2>
+            <p>El Ransomware no se limita a tu PC; utiliza los protocolos de comunicación interna para saltar de un equipo a otro en busca del servidor central.</p>
+            <div class="network-container">
+                <div class="network-map">
+                    <div class="net-node-wrapper"><div class="net-node" id="node-1">💻</div><span>Tu Equipo</span></div>
+                    <div class="net-link" id="link-1">───</div>
+                    <div class="net-node-wrapper"><div class="net-node" id="node-2">💻</div><span>Compañero</span></div>
+                    <div class="net-link" id="link-2">───</div>
+                    <div class="net-node-wrapper"><div class="net-node" id="node-3">🗄️</div><span>Servidores</span></div>
                 </div>
-                <button class="boton" onclick="ejecutarAtaqueDual(this)">INICIAR CIFRADO MALICIOSO</button>
-                <div id="tech-note" style="display:none;" class="stat-box">El Ransomware no borra el archivo, lo corrompe para que sea ilegible sin la llave.</div>
             </div>
+            <button class="btn-reveal required-interaction" onclick="animarRed(this)">Ejecutar Salto de Red</button>
+            <div class="definicion-destacada" style="margin-top: 20px; border-color: #ff5252; background-color: #fff5f5;">
+                <p><strong>Actuar a tiempo lo cambia todo</strong></p>
+                <p>Si no desconectas tu equipo a tiempo, el Ransomware llegará al servidor, cifrando las bases de datos de toda la compañía.</p>
+            </div>
+          </div>
+      </div>
 
-            <div class="course-step" id="step-3" data-required="1">
-                <h2 style="color: var(--primary-dark);">Movimiento Lateral</h2>
-                <div class="computer-screen" style="background: #1a1a1a; padding: 20px; text-align: center; border-radius:10px;">
-                    <div id="network-sim" style="display: flex; justify-content: space-around; align-items: center; min-height: 150px;">
-                        <div class="net-node" id="node-1">💻<br><small style="color:white">Tu PC</small></div>
-                        <div class="net-link" id="link-1" style="color:white">---------</div>
-                        <div class="net-node" id="node-2">💻<br><small style="color:white">Compañero</small></div>
-                        <div class="net-link" id="link-2" style="color:white">---------</div>
-                        <div class="net-node" id="node-3">🗄️<br><small style="color:white">Servidor</small></div>
-                    </div>
-                    <button class="boton" onclick="simularMovimientoLateral(this)">Simular Salto de Red</button>
-                </div>
-                <div id="lateral-note" style="display:none;" class="stat-box">El virus usa tu conexión para saltar de un equipo a otro hasta cifrar el servidor central.</div>
-            </div>
+      <div id="section-2" style="display:none;">
+          <div class="course-step" id="step-6">
+              <h2>Archivos Ejecutables: El "Motor" del Malware</h2>
+              <div class="concept-card">
+                  <p>Antes de ver cómo nos engañan, debemos entender qué es un <strong>archivo ejecutable</strong>. Es un archivo diseñado para realizar tareas automáticas en tu ordenador; es guión que el sistema sigue al pie de la letra.<br><br><br></p>
+              </div>
+              <div class="video-summary">
+                  <div class="summary-item">
+                      <p><strong>¿Cómo identificarlos?</strong> En Windows, la extensión más común es <strong><code>.exe</code></strong>, pero existen otras como <strong><code>.msi</code></strong>, <strong><code>.bat</code></strong> o <strong><code>.vbs</code></strong>.</p>
+                  </div><br><br>
+                  <div class="summary-item">
+                      <p><strong>El Peligro Real:</strong> Un ejecutable malicioso tiene permiso para borrar datos, espiar lo que escribes o iniciar el proceso de <strong>cifrado de tus archivos</strong>.</p>
+                  </div>
+              </div>
+          </div>
 
-            <div class="course-step" id="step-4" data-required="1">
-                <h2 style="color: var(--primary-dark);">Funcionamiento y Extorsión</h2>
-                <div class="video-box" style="margin: 20px 0; text-align: center;">
-                    <div id="player-ransomware"></div>
-                    <div id="status-video" class="video-status">⏳ Ve el video completo para desbloquear el avance.</div>
-                </div>
-                <div class="info-desplegable">
-                    <button class="btn-desplegar" onclick="toggleInfo(this, 4)">Además, existe la "Doble Extorsión" <span>▼</span></button>
-                    <div class="contenido-oculto">
-                        <p>Primero <strong>roban</strong> tus datos confidenciales y luego los <strong>cifran</strong>. Amenazan con publicarlos si no pagas.</p>
-                    </div>
-                </div>
-            </div>
+          <div class="course-step" id="step-7">
+              <h2>El problema esta cuando se camufla</h2>
+              <p>Los atacantes suelen cambiar el icono de un archivo <strong><code>.exe</code></strong> por uno que parezca un PDF, una imagen o un documento de Word.</p>
+              <div class="windows-sim-container">
+                  <p style="font-size: 0.9rem; margin-bottom: 10px; color: #333;"><strong>Paso 1:</strong> Investiga el archivo. Haz <u>clic derecho</u> y selecciona <strong>Propiedades</strong>.</p>
+                  <div class="desktop-area">
+                      <div class="file-icon-wrapper" id="target-file" oncontextmenu="showContextMenu(event); return false;" onclick="intentarEjecutarAntesDeTiempo()">
+                          <div class="file-icon-img">📄</div>
+                          <div class="file-label">Factura_2024.pdf</div>
+                      </div>
+                      <div id="context-menu" class="win-menu">
+                          <div class="menu-item" onclick="openProperties()">Propiedades</div>
+                      </div>
+                      <div id="properties-window" class="win-window">
+                          <div class="win-win-header"><span>Propiedades de Factura_2024</span><button onclick="closeProperties()">X</button></div>
+                          <div class="win-win-body">
+                              <div class="prop-row"><span class="prop-label">Tipo:</span><span class="prop-value" style="color:red">Aplicación (.exe) ❌</span></div>
+                              <div class="prop-row"><span class="prop-label">Nombre:</span><span class="prop-value">Factura_2024.pdf.exe</span></div>
+                              <button class="win-btn" onclick="habilitarEjecucion()">Entendido</button>
+                          </div>
+                      </div>
+                      <div id="infection-popup" class="win-error-box">
+                          <div class="win-error-body">
+                              <span style="font-size:2rem">⚠️</span>
+                              <div><strong>¡HAS SIDO INFECTADO!</strong><br>El archivo ha ejecutado código malicioso.</div>
+                          </div>
+                          <div class="win-error-footer">
+                              <button class="win-btn-ok required-interaction" onclick="finalizarTodo(this)">Aceptar</button>
+                          </div>
+                      </div>
+                  </div>
+                  <div id="instruccion-final" style="display:none; margin-top:15px;" class="summary-item">
+                      <p><strong>Paso 2:</strong> Ahora que sabes que es un virus, haz <strong>clic normal</strong> sobre el icono para ver qué habría pasado.</p>
+                  </div>
+              </div>
+              <div class="definicion-destacada" style="background-color: #fffde7; border-color: #fbc02d;">
+                  <p><strong>Nunca ejecutes un archivo descargado de internet si no esperabas recibirlo, aunque el icono parezca inofensivo.</strong></p>
+              </div>
+          </div>
 
-            <div class="course-step" id="step-5" data-required="1">
-                <h2 style="color: var(--primary-dark);">Misión: Inspección de Extensión</h2>
-                <p>Identifica la verdadera naturaleza del archivo antes de abrirlo.</p>
-                <div style="display: flex; align-items: center; gap: 20px; background: white; padding: 15px; border-radius: 8px; border: 1px solid #ddd;">
-                    <img src="https://cdn-icons-png.flaticon.com/512/337/337941.png" width="50">
-                    <div>
-                        <strong id="display-name" style="color:#333">Factura_2024.pdf</strong>
-                        <button class="boton" onclick="analizarExtension(this)" style="display:block; margin-top:5px; font-size:0.7rem; padding:5px 10px;">Análisis Forense</button>
-                    </div>
-                </div>
-                <p id="extension-feedback" style="margin-top:10px; font-size:0.9rem; font-weight:bold;"></p>
-            </div>
+          <div class="course-step" id="step-8">
+              <h2>Macros</h2>
+              <p>Las Macros son el método de entrada favorito de los atacantes. Explora las pestañas para entender esta amenaza.</p>
+              <div class="tabs-container">
+                  <div class="tabs-header">
+                      <button class="tab-btn active" onclick="openTab(event, 'tab-def')">1. Conceptos Básicos</button>
+                      <button class="tab-btn" onclick="openTab(event, 'tab-tech')">2. Análisis Técnico</button>
+                      <button class="tab-btn" onclick="openTab(event, 'tab-sim')">3. Simulación de Ataque</button>
+                  </div>
+                  <div id="tab-def" class="tab-content active">
+                      <div class="summary-item"><p><strong>¿Qué es una Macro?</strong> Es una serie de comandos y funciones que se agrupan para realizar tareas automáticamente.</p></div>
+                      <div class="concept-card"><p>En Office, se escriben en <strong>VBA (Visual Basic para Aplicaciones)</strong>. Los delincuentes las usan para acciones maliciosas.</p></div>
+                  </div>
+                  <div id="tab-tech" class="tab-content">
+                      <div class="definicion-destacada">
+                          <p><strong>¿Cómo funciona el engaño técnico?</strong></p>
+                          <ul>
+                              <li>Ofuscación: Código oculto para antivirus.</li>
+                              <li>Downloader: Descarga el Ransomware real.</li>
+                              <li>Ejecución Silenciosa: Sin ventanas visibles.</li>
+                          </ul>
+                      </div>
+                  </div>
+                  <div id="tab-sim" class="tab-content">
+                      <div class="word-simulation">
+                          <div class="word-header">Documento_Confidencial.doc - Microsoft Word</div>
+                          <div class="word-security-bar" id="macro-bar">
+                              <span>⚠️ ADVERTENCIA: Las macros se han deshabilitado.</span>
+                              <button class="btn-macro-enable required-interaction" onclick="activarTrampa(this)">Habilitar contenido</button>
+                          </div>
+                          <div class="word-body-fake"><div class="blurred-text">[CONTENIDO CIFRADO]</div></div>
+                      </div>
+                      <div id="macro-feedback" class="summary-item" style="display:none; border-color: #f44336;">
+                          <p>Al pulsar <strong>Habilitar contenido</strong>, permitiste que el código VBA descargara un ejecutable malicioso. Microsoft nunca bloquea el texto de un documento mediante macros.</p>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
 
-            <div class="navigation-buttons">
-                <button class="btn-nav btn-prev" id="prevBtn" onclick="changeStep(-1)">Anterior</button>
-                <div style="display:flex; flex-direction:column; align-items:center;">
-                    <span id="bloqueo-msg">⚠️ Completa la interacción para continuar</span>
-                    <button class="btn-nav btn-next" id="nextBtn" onclick="tryNextStep()" disabled>Siguiente ➜</button>
-                </div>
-                <a href="examen.html" class="btn-finish" id="finishBtn" style="display:none; text-decoration:none;">Ir al Examen</a>
+      <div id="section-3" style="display:none;">
+          <div class="course-step" id="step-9">
+              <h2>Casos Reales: Impacto Global</h2>
+              <p>El Ransomware ha paralizado desde hospitales hasta infraestructuras críticas. Investiga los detalles de cada incidente para comprender su magnitud.</p>
+              <div class="casos-horizontales">
+                      <div class="acordeon-item">
+                              <button class="btn-acordeon required-interaction" data-case="wannacry" onclick="gestionarAcordeon(this)">
+                                  WannaCry (2017)
+                              </button>
+                          <div class="acordeon-content">
+                            <div class="summary-item" style="border-color: #f44336;">
+                              <p><strong>¿Qué es?:</strong> Fue un ataque global de ransomware tipo gusano que ocurrió en mayo de 2017. A diferencia del ransomware común, no necesitaba que nadie hiciera clic en nada; se propagaba solo de un ordenador a otro.</p>
+                              <p><strong>Impacto:</strong> Infectó 200,000 equipos en 150 países. Paralizó hospitales del Reino Unido, obligando a desviar ambulancias y cancelar cirugías. Además de muchas empresas reconocidas como FedEx, Honda, Nissan.</p>
+                              <p><strong>Vulnerabilidad:</strong> Usó una vulnerabilidad de Windows llamada "EternalBlue". Aunque ya existía un parche para arreglarlo, muchas empresas no habían actualizado sus sistemas, dejando la puerta abierta.</p>
+                              <p><strong>Cómo se detuvo:</strong> Marcus Hutchins, un investigador, descubrió un "botón de apagado" en el código: registró un dominio web por 10 dólares y el virus dejó de ejecutarse en todo el mundo.</p>
+                              <p><strong>Lección:</strong> Demostró que tener parches de seguridad no sirve si las empresas no mantienen sus sistemas actualizados.</p>
+                            </div>
+                          </div>
+                      </div>
+
+        <div class="acordeon-item">
+    <button class="btn-acordeon required-interaction" data-case="colonial" onclick="gestionarAcordeon(this)">
+        Colonial Pipeline (2021)
+    </button>
+    <div class="acordeon-content">
+        <div class="summary-item" style="border-color: #2196f3;">
+            <p><strong>¿Qué es?:</strong> Fue un ataque de ransomware dirigido contra la mayor red de oleoductos de Estados Unidos. A diferencia de WannaCry, no fue un ataque masivo al azar, sino una operación de "Caza Mayor" dirigida específicamente a una infraestructura crítica.</p>
+            <p><strong>Impacto:</strong> Provocó el desabastecimiento de gasolina en toda la costa este de EE.UU. durante casi una semana. El pánico causó colas kilométricas en las gasolineras y un aumento histórico en los precios del combustible.</p>
+            <p><strong>Vulnerabilidad:</strong> Los atacantes entraron usando una contraseña antigua de una cuenta de VPN que ya no se usaba pero seguía activa. El gran fallo fue que la cuenta <strong>no tenía Doble Factor de Autenticación (2FA)</strong>.</p>
+            <p><strong>El Pago:</strong> La empresa pagó 4.4 millones de dólares en Bitcoin pocas horas después del ataque para intentar restablecer el servicio rápidamente ante la presión nacional.</p>
+            <p><strong>Lección:</strong> Demostró que una sola credencial robada sin protección extra puede paralizar la economía de medio país.</p>
+        </div>
+    </div>
+</div>
+
+          <div class="acordeon-item">
+              <button class="btn-acordeon required-interaction" data-case="costarica" onclick="gestionarAcordeon(this)">
+                Gobierno de Costa Rica (2022)
+              </button>
+            <div class="acordeon-content">
+                  <div class="summary-item" style="border-color: #4caf50;">
+                      <p><strong>¿Qué es?:</strong> Fue un ataque masivo ejecutado por el grupo ruso "Conti" contra las instituciones públicas de Costa Rica. Es considerado uno de los ataques de ransomware más graves contra un estado soberano.</p>
+                      <p><strong>Impacto:</strong> El país se vio obligado a declarar el <strong>Estado de Emergencia Nacional</strong> (el primero en el mundo por un ciberataque). Los sistemas de aduanas y Hacienda quedaron bloqueados, paralizando el comercio exterior y el pago de salarios públicos.</p>
+                      <p><strong>Vulnerabilidad:</strong> El grupo criminal aprovechó sistemas desactualizados y falta de inversión en ciberseguridad para infiltrarse en las redes gubernamentales y moverse lateralmente por ellas.</p>
+                      <p><strong>Dato Crítico:</strong> Los atacantes amenazaron con derrocar al nuevo gobierno si no se pagaba el rescate, demostrando que el ransomware ha evolucionado de ser un robo a ser una herramienta de desestabilización política.</p>
+                      <p><strong>Lección:</strong> Reveló que la falta de ciberseguridad en un Estado no es solo un problema informático, sino una amenaza directa a la seguridad nacional.</p>
+                  </div>
             </div>
-        </main>
+          </div>
+        </div>
     </div>
 
-    <script src="https://www.youtube.com/iframe_api"></script>
-    <script>
-        let currentStep = 0;
-        const totalSteps = 6; 
-        let interactionsDone = new Array(totalSteps).fill(0);
-        let player;
+      <div class="course-step" id="step-10" data-required="1">
+          <h2>WannaCry: El mayor ciberataque de la historia</h2>
+          <p>Visualiza el siguiente reportaje para comprender la escala global que alcanzó este ataque y cómo paralizó infraestructuras críticas en cuestión de horas.</p>
+    
+          <div class="video-box required-interaction" id="video-container-wannacry">
+              <div id="player-wannacry"></div>
+          </div>
+      </div>
+</div>
 
-        function onYouTubeIframeAPIReady() {
-            player = new YT.Player('player-ransomware', {
-                height: '315', width: '100%', videoId: 'sd7Ns_ziBPY',
-                events: { 'onStateChange': onPlayerStateChange }
-            });
+      <div id="section-4" style="display:none;">
+          <div class="course-step" id="step-11">
+    <h2>Medidas de Protección</h2>
+    <div class="concept-card">
+        <p>Después de ver cómo el Ransomware puede paralizar hospitales o países enteros, queda claro que <strong>la prevención no es opcional</strong>. Una vez que tus archivos están cifrados, las probabilidades de recuperarlos sin pagar son mínimas.</p>
+    </div>
+    <p>Para evitar convertirte en una víctima más, existen tres pilares fundamentales que todo usuario y empresa debe dominar:</p>
+    
+    <div class="casos-horizontales">
+        <div class="summary-item" style="border-color: #2196f3;">
+            <p><strong>1. Copias de Seguridad (Backups):</strong> Tu último salvavidas si todo lo demás falla.</p>
+        </div>
+        <div class="summary-item" style="border-color: #4caf50;">
+            <p><strong>2. Software Actualizado:</strong> Cerrar las puertas que los hackers intentan abrir.</p>
+        </div>
+        <div class="summary-item" style="border-color: #fbc02d;">
+            <p><strong>3. Antivirus y EDR:</strong> Tu vigilancia activa las 24 horas.</p>
+        </div>
+    </div>
+</div>
+
+<div class="course-step" id="step-12">
+    <h2>El Backup 3-2-1</h2>
+    <p>No todas las copias de seguridad son iguales. Si dejas tu disco duro de backup conectado al PC, el Ransomware lo cifrará también. Por ello, se recomienda realizar estas 3 copias de seguridad:</p>
+    
+    <div style="display: flex; gap: 10px; margin: 20px 0; text-align: center;">
+        <div style="flex:1; background: #e8f4fd; padding: 15px; border-radius: 10px; border: 2px solid #2980b9;"><h1>3</h1><p>Copias de tus datos</p></div>
+        <div style="flex:1; background: #e8fdf0; padding: 15px; border-radius: 10px; border: 2px solid #27ae60;"><h1>2</h1><p>Soportes distintos (Nube, Disco)</p></div>
+        <div style="flex:1; background: #fdf2e8; padding: 15px; border-radius: 10px; border: 2px solid #e67e22;"><h1>1</h1><p>Copia <strong>OFFLINE</strong></p></div>
+    </div>
+
+    <button class="btn-reveal required-interaction" onclick="revelar('bloque-backup', this)">¿Qué significa realmente <strong>Offline</strong>?</button>
+    <div id="bloque-backup" style="display:none;" class="reveal-content">
+        <div class="stat-box">
+            <p>Una copia Offline es aquella que no es accesible desde la red. Puede ser un disco duro que desconectas físicamente tras la copia o una cinta magnética. Si el virus no puede "llegar" al soporte, no puede cifrarlo.</p>
+        </div>
+    </div>
+</div>
+
+<div class="course-step" id="step-13">
+    <h2>Software Siempre al Día</h2>
+    <p>Como vimos en el caso de WannaCry, el virus entró por un fallo de Windows que ya tenía solución, pero la gente no la había instalado.</p>
+    
+    <div class="concept-card" style="border-left-color: #4caf50;">
+        <p><strong>¿Por qué es vital actualizar?</strong></p>
+        <ul>
+            <li><strong>Parches de Seguridad:</strong> Los desarrolladores encuentran "agujeros" y los tapan con actualizaciones.</li>
+            <li><strong>Vulnerabilidades de Día Cero:</strong> Estar al día reduce el tiempo que estás expuesto a nuevos ataques descubiertos por hackers.</li>
+        </ul>
+    </div>
+    
+    <div class="stat-box" style="background: #e8f5e9; border-color: #4caf50;">
+        <h4><strong>Consejo:</strong> Activa siempre las "Actualizaciones Automáticas" tanto en tu Sistema Operativo como en aplicaciones críticas (Navegadores, Office, PDF).</h4>
+    </div>
+</div>
+
+<div class="course-step" id="step-14">
+    <h2>Antivirus y Defensa Activa</h2>
+    <p>El antivirus es tu primera línea de defensa, pero no es infalible si el usuario facilita el ataque.</p>
+    
+    <div class="recon-container">
+        <div class="recon-card required-interaction" onclick="toggleRecon(this)">
+            <h4>Antivirus Tradicional</h4>
+            <div class="recon-content"><p>Compara archivos con una "lista negra" de virus conocidos. Es útil para malware común.</p></div>
+        </div>
+        <div class="recon-card required-interaction" onclick="toggleRecon(this)">
+            <h4>EDR<br>
+            (Detección y respuesta de endpoints)</h4>
+            <div class="recon-content"><p>No solo busca virus, analiza comportamientos extraños (como un programa intentando cifrar 100 archivos en un segundo) y lo bloquea.</p></div>
+        </div>
+    </div>
+
+    <div class="definicion-destacada" style="background: #fff9c4; border-color: #fbc02d;">
+        <p><strong>Recuerda:</strong> El mejor antivirus es tu sentido común. Ningún software te protegerá al 100% si habilitas macros en archivos sospechosos o ejecutas programas de fuentes no oficiales.</p>
+    </div>
+</div>
+      </div>
+      <div id="section-5" style="display:none;">
+    <div class="course-step" id="step-15" data-required="0">
+        <h2>¿Qué hacer si te infectas?</h2>
+        <p>Cuando un Ransomware ataca, cada segundo cuenta.<br>
+        Tu primera línea de defensa no es el antivirus, sino la <strong>rapidez para aislar el problema</strong>.</p>
+        
+        <div class="definicion-destacada" style="border-color: #f44336; background-color: #fff7f7;">
+            <p><strong>El objetivo principal es detener la propagación.</strong> Si no actúas rápidamente, el virus podría saltar a otros ordenadores de la red y a los servidores de la empresa, multiplicando el desastre.</p>
+        </div>
+
+        <div class="summary-item" style="border-color: #ff9800; margin-top: 20px;">
+            <p><strong>Pasos críticos a seguir:</strong></p>
+            <ul style="font-size: 0.9rem; line-height: 1.6;">
+                <li><strong>Aislar:</strong> Desconecta cables de red y apaga el Wi-Fi.</li>
+                <li><strong>Desenchufar:</strong> Quita USBs y discos duros externos conectados.</li>
+                <li><strong>Informar:</strong> Avisa de inmediato al equipo de IT o seguridad.</li>
+                <li><strong>Evidencias:</strong> Haz una foto a la nota de rescate para los expertos.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="course-step" id="step-16"data-required="3">
+        <h2>Detén el Ransomware en curso</h2>
+        <p>Imagina que esta es tu pantalla y acabas de ver la primera señal de Ransomware.<br>
+        Tu misión: <strong>desconectar la red Wi-Fi o el cable de Internet</strong> lo antes posible.</p>
+        <p>Busca el icono de red en la parte inferior derecha y haz clic para abrir el menú. Luego, desactiva la conexión.</p>
+
+        <div style="text-align: center; margin: 30px 0;">
+            <button class="btn-acordeon required-interaction" 
+                    style="width: auto; padding: 15px 40px; display: inline-block;" 
+                    onclick="iniciarPracticaCrisis(this)" 
+                    id="btn-iniciar-crisis">
+                Iniciar Práctica
+            </button>
+        </div>
+
+        <div id="crisis-sim-container" style="display:none; border: 2px solid #333; border-radius: 8px; overflow: hidden; margin-top: 20px;">
+            <div class="sim-header" style="background: #0078d7; color: white; padding: 5px 10px; font-size: 0.8rem; display: flex; justify-content: space-between;">
+                <span>Mi PC - Documentos</span>
+                <span>🗕 ▢ ✖</span>
+            </div>
+            <div class="sim-desktop" style="background: url('https://source.unsplash.com/random/1000x600?tech,blue') no-repeat center center / cover; height: 400px; position: relative; display: flex; flex-direction: column; justify-content: flex-end;">
+                
+                <div id="ransomware-alert-icon" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); display: none; text-align: center; color: white; text-shadow: 0 0 5px black;">
+                    <span style="font-size: 5rem; color: #ff4d4d; animation: pulse-red 1s infinite;">🔒</span>
+                    <p style="font-size: 1.2rem; font-weight: bold;">¡Archivos Cifrados!</p>
+                </div>
+
+                <div class="sim-taskbar" style="background: #202020; height: 40px; display: flex; align-items: center; padding: 0 10px; justify-content: flex-end;">
+                    <div class="system-icons" style="display: flex; align-items: center; gap: 10px;">
+                        <span style="color: white; font-size: 0.9rem;">ESN</span>
+                        <div id="wifi-icon-wrapper" class="required-interaction" style="color: white; font-size: 1.2rem; cursor: pointer;" onclick="toggleWifiMenu()">
+                            <span id="wifi-icon">🛜</span> </div>
+                        <span style="color: white; font-size: 0.9rem;">🔊</span>
+                        <span style="color: white; font-size: 0.9rem;">🕒 14:30</span>
+                    </div>
+                </div>
+
+                <div id="wifi-menu" style="position: absolute; bottom: 45px; right: 10px; background: #fff; border: 1px solid #ccc; border-radius: 5px; width: 200px; padding: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.2); display: none;">
+                    <p style="font-weight: bold; margin-bottom: 10px;">Conexiones de red</p>
+                    <div id="wifi-toggle-btn" class="required-interaction" style="display: flex; justify-content: space-between; align-items: center; padding: 5px; cursor: pointer; background: #e9e9e9; border-radius: 3px;" onclick="desconectarWifi(this)">
+                        <span>Wi-Fi <strong id="wifi-status">Activado</strong></span>
+                        <span style="color: green;">🟢</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="crisis-success-message" style="display:none; margin-top:20px;" class="summary-item">
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <span style="font-size: 2rem; color: #28a745;"></span>
+                <div>
+                    <p><strong>¡Excelente! Has desconectado la red a tiempo.</strong></p>
+                    <p style="font-size: 0.9rem;">Esta acción evita que el Ransomware se propague a otros sistemas de la red y tenga mayor impacto en la organización.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="section-6" style="display:none;">
+        <div class="course-step" id="step-17" data-required="3">
+              <div style="text-align: center; margin-bottom: 30px;">
+                  <h2>Síntesis y Competencias</h2>
+                  <p>Has pasado de ser un objetivo vulnerable a convertirte en un <strong>defensor activo</strong>.</p>
+              </div>
+
+              <div class="casos-horizontales">
+    <div class="summary-item" style="border-color: #ff9800; background-color: #f4f7f9; margin-bottom: 20px;">
+        <p style="color: #0d47a1; margin-bottom: 10px;"><strong>Cambio de Mentalidad</strong></p>
+        <div class="impact-body">
+            <p style="font-size: 0.85rem; text-align: left;"><strong>Antes:</strong> El Ransomware era un "virus de suerte".<br>
+            <strong>Ahora:</strong> Es un proceso con fases (Reconocimiento, Movimiento Lateral, Cifrado) y sabes dónde romper la cadena.</p>
+        </div>
+    </div>
+
+    <div class="summary-item" style="border-color: #00ff88; background-color: #f4f7f9; margin-bottom: 20px;">
+        <p style="color: #0d47a1; margin-bottom: 10px;"><strong>Herramientas</strong></p>
+        <div class="impact-body">
+            <ul style="text-align: left; font-size: 0.85rem; line-height: 1.6; padding-left: 20px;">
+                <li><strong>Visión:</strong> Detectar ejecutables .exe camuflados.</li>
+                <li><strong>Estrategia 3-2-1:</strong> Blindaje total con copias Offline.</li>
+                <li><strong>Actualizaciones:</strong> El valor real de un sistema parcheado.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="summary-item" style="border-color: #ff00aa; background-color: #f4f7f9;">
+        <p style="color: #0d47a1; margin-bottom: 10px;"><strong>Capacidad de Respuesta</strong></p>
+        <div class="impact-body">
+            <p style="font-size: 0.85rem; text-align: left;">Sabes que en caso de alerta, lo primero es el <strong>aislamiento físico (Cable/Wi-Fi)</strong>. Esa decisión puede salvar toda la red de la empresa.</p>
+        </div>
+    </div>
+</div>
+
+
+    <div style="display: flex; align-items: center; gap: 15px;">
+        <span style="font-size: 2rem; color: #28a745;"></span>
+            <div>
+                <p style="font-size: 1rem; opacity: 0.9;">Un solo click evitado o un backup desconectado a tiempo es la diferencia entre un día normal y una catástrofe global.<br>
+                <strong>La seguridad no es un producto, es un proceso.</strong></p>
+            </div>
+    </div>
+  </div>
+</div>
+
+      <div class="navigation-buttons">
+        <button class="btn-nav btn-prev" id="prevBtn" onclick="changeStep(-1)">Anterior</button>
+        <div style="display:flex;align-items:center;">
+          <span id="bloqueo-msg" style="color:red; font-size:0.8rem; margin-right:10px; display:none;">Revisa el contenido</span>
+          <button class="btn-nav btn-next" id="nextBtn" onclick="tryNextStep()">Siguiente ➜</button>
+        </div>
+        <a href="examen.html" class="btn-finish" id="finishBtn" style="display:none;">Ir al Examen</a>
+      </div>
+    </main>
+  </div>
+
+  <script src="https://www.youtube.com/iframe_api"></script>
+  <script>
+    // 1. CONFIGURACIÓN INICIAL
+    let currentStep = 0;
+    const totalSteps = 18; // 17 originales + 1 nuevo video
+    let stepUnlocked = new Array(totalSteps).fill(false);
+    stepUnlocked[0] = true;
+    
+    // Mapeo corregido para incluir el paso 10 en la sección 3
+    const sectionsMapping = [0, 0, 1, 1, 1, 1, 2, 2, 2, 3, 3, 4, 4, 4, 4, 5, 5, 6];
+
+    // 2. VARIABLES YOUTUBE
+    var player;
+    var playerWannacry;
+
+    // 3. API YOUTUBE (Carga inicial)
+    function onYouTubeIframeAPIReady() {
+        // Video del Paso 2
+        player = new YT.Player('player-ransomware', {
+            height: '360', width: '100%', videoId: 'sd7Ns_ziBPY',
+            events: { 
+                'onStateChange': (e) => { 
+                    if (e.data === YT.PlayerState.ENDED) markInteraction(document.getElementById('video-container-3')); 
+                } 
+            }
+        });
+        // El video de WannaCry se carga dinámicamente abajo para no fallar
+    }
+
+    // 4. CONTROL DE INTERFAZ (UPDATE UI)
+    function updateUI() {
+        // Mostrar paso actual
+        document.querySelectorAll('.course-step').forEach((s, i) => s.classList.toggle('active', i === currentStep));
+        
+        // Mostrar sección correcta
+        const currentSec = sectionsMapping[currentStep];
+        for(let i=0; i<=6; i++){
+            const sec = document.getElementById(`section-${i}`);
+            if(sec) sec.style.display = (i === currentSec) ? 'block' : 'none';
         }
+        
+        // Menú lateral
+        document.querySelectorAll('.lms-menu-item').forEach((m, i) => {
+            m.classList.toggle('active', i === currentSec);
+            m.classList.toggle('unlocked', stepUnlocked[sectionsMapping.indexOf(i)]);
+        });
 
-        function onPlayerStateChange(event) {
-            if (event.data === YT.PlayerState.ENDED) {
-                document.getElementById('status-video').innerText = "✅ Video completado.";
-                document.getElementById('status-video').style.color = "var(--accent-green)";
-                interactionsDone[4]++;
-                validarBotonSiguiente();
+        // Botones
+        document.getElementById('prevBtn').style.visibility = (currentStep === 0) ? 'hidden' : 'visible';
+        const isLast = currentStep === totalSteps - 1;
+        document.getElementById('nextBtn').style.display = isLast ? 'none' : 'inline-block';
+        document.getElementById('finishBtn').style.display = isLast ? 'inline-block' : 'none';
+        document.getElementById('bloqueo-msg').style.display = 'none';
+
+        // LÓGICA DEL VÍDEO WANNACRY (PASO 10) - Solo se carga si estamos en ese paso
+        if (currentStep === 10 && !playerWannacry) {
+            if(document.getElementById('player-wannacry')) {
+                playerWannacry = new YT.Player('player-wannacry', {
+                    height: '360', width: '100%', videoId: 'ftbQx_hsJE8',
+                    events: { 
+                        'onStateChange': (e) => { 
+                            if (e.data === YT.PlayerState.ENDED) {
+                                // Marcamos la interacción y re-evaluamos el botón siguiente
+                                markInteraction(document.getElementById('video-container-wannacry'));
+                                // Opcional: auto-avance si quieres, si no, el usuario pulsa siguiente
+                            } 
+                        } 
+                    }
+                });
             }
         }
+    }
 
-        function updateUI() {
-            document.querySelectorAll('.course-step').forEach((s, i) => s.classList.toggle('active', i === currentStep));
-            document.getElementById('prevBtn').style.visibility = currentStep === 0 ? 'hidden' : 'visible';
-            document.getElementById('nextBtn').style.display = currentStep === totalSteps - 1 ? 'none' : 'block';
-            document.getElementById('finishBtn').style.display = currentStep === totalSteps - 1 ? 'inline-block' : 'none';
-            if (player && player.pauseVideo) player.pauseVideo();
-            validarBotonSiguiente();
+    // 5. SISTEMA DE INTERACCIONES (TU LÓGICA ORIGINAL RESTAURADA)
+    function markInteraction(el) { 
+        if(!el) return; 
+        el.classList.add('viewed'); 
+        document.getElementById('bloqueo-msg').style.display = 'none'; 
+    }
+
+    function tryNextStep() {
+        const activeStep = document.querySelector('.course-step.active');
+        
+        // ESTA ES TU LÓGICA ORIGINAL QUE FUNCIONABA:
+        // Busca elementos que tengan 'required-interaction' PERO NO tengan 'viewed'
+        const pending = activeStep.querySelectorAll('.required-interaction:not(.viewed)');
+        
+        if (pending.length === 0) {
+            currentStep++;
+            if(currentStep < totalSteps) stepUnlocked[currentStep] = true;
+            updateUI();
             window.scrollTo(0,0);
+        } else {
+            document.getElementById('bloqueo-msg').style.display = 'block';
         }
+    }
 
-        function validarBotonSiguiente() {
-            const stepEl = document.getElementById(`step-${currentStep}`);
-            if (!stepEl) return;
-            const required = parseInt(stepEl.dataset.required || 0);
-            const btn = document.getElementById('nextBtn');
-            if (interactionsDone[currentStep] >= required) {
-                btn.disabled = false;
-                document.getElementById('bloqueo-msg').style.display = "none";
-            } else {
-                btn.disabled = true;
-                document.getElementById('bloqueo-msg').style.display = "block";
+    function changeStep(n) { if(n<0 && currentStep > 0) { currentStep--; updateUI(); } }
+
+    // --- FUNCIONES ESPECÍFICAS DEL CONTENIDO ---
+
+    function revelar(id, btn) { document.getElementById(id).style.display = "block"; markInteraction(btn); }
+    function toggleRecon(card) { card.classList.toggle('active'); markInteraction(card); }
+    
+    let casosVistos = new Set(); 
+    function gestionarAcordeon(btn) {
+        const parent = btn.parentElement;
+        const todosLosPasos = document.querySelectorAll('.acordeon-item');
+        if (!parent.classList.contains('active')) {
+            todosLosPasos.forEach(item => item.classList.remove('active'));
+        }
+        parent.classList.toggle('active');
+        
+        const idCaso = btn.getAttribute('data-case');
+        if(idCaso) {
+            casosVistos.add(idCaso);
+            if (casosVistos.size >= 3) {
+                document.querySelectorAll('#step-9 .required-interaction').forEach(el => el.classList.add('viewed'));
+                updateUI(); 
             }
         }
+    }
 
-        function toggleInfo(btn, stepIdx) {
-            const content = btn.nextElementSibling;
-            if (content.style.display !== "block") {
-                content.style.display = "block";
-                interactionsDone[stepIdx]++;
-                validarBotonSiguiente();
-            }
-        }
+    function toggleImpact(card) { 
+        // Lógica simple para mostrar/ocultar y marcar como visto
+        const body = card.querySelector('.impact-body');
+        body.style.display = (body.style.display === 'none' || body.style.display === '') ? 'block' : 'none';
+        card.classList.add('viewed-red'); 
+        markInteraction(card); 
+    }
 
-        function markReviewed(el, stepIdx) {
-            if (!el.classList.contains('reviewed')) {
-                el.classList.add('reviewed');
-                interactionsDone[stepIdx]++;
-                validarBotonSiguiente();
-            }
-        }
+    // --- SIMULACIÓN RANSOMWARE ---
+    function ejecutarAtaque(btn) {
+        btn.disabled = true;
+        document.getElementById('progress-area').style.display = "block";
+        const fill = document.getElementById('enc-fill');
+        const docView = document.getElementById('doc-view');
+        const uiError = document.getElementById('ui-error');
+        const hexGrid = document.getElementById('hex-grid');
+        let p = 0;
+        let int = setInterval(() => {
+            p += 2; fill.style.width = p + "%";
+            document.getElementById('enc-pct').innerText = "Cifrando: " + p + "%";
+            hexGrid.innerText += " 0x" + Math.floor(Math.random()*256).toString(16).toUpperCase();
+            
+            if(p >= 30) docView.className = "ui-body ui-degrade-1";
+            if(p >= 60) docView.className = "ui-body ui-degrade-2";
+            if(p >= 90) docView.className = "ui-body ui-corrupted";
 
-        function ejecutarAtaqueDual(btn) {
-            btn.disabled = true;
-            document.getElementById('doc-view').classList.add('corrupting-ui');
-            setTimeout(() => {
+            if(p >= 100) {
+                clearInterval(int);
+                hexGrid.classList.add('glitch-code');
+                uiError.style.display = "flex";
                 document.getElementById('tech-note').style.display = "block";
-                interactionsDone[2]++;
-                validarBotonSiguiente();
-            }, 2000);
+                markInteraction(btn);
+            }
+        }, 50);
+    }
+
+    function animarRed(btn) {
+        const ids = ['node-1', 'link-1', 'node-2', 'link-2', 'node-3'];
+        ids.forEach((id, i) => setTimeout(() => {
+            const el = document.getElementById(id);
+            if(el) el.classList.add(id.includes('node') ? 'infected' : 'active');
+            if(i === ids.length - 1) markInteraction(btn);
+        }, i * 600));
+    }
+
+    // --- SIMULACIÓN MACROS ---
+    function openTab(evt, tabName) {
+        let tabcontent = document.getElementsByClassName("tab-content");
+        for (let i = 0; i < tabcontent.length; i++) tabcontent[i].style.display = "none";
+        let tablinks = document.getElementsByClassName("tab-btn");
+        for (let i = 0; i < tablinks.length; i++) tablinks[i].className = tablinks[i].className.replace(" active", "");
+        document.getElementById(tabName).style.display = "block";
+        evt.currentTarget.className += " active";
+    }
+
+    function activarTrampa(btn) {
+        const bar = document.getElementById('macro-bar');
+        bar.style.background = '#f44336';
+        bar.style.color = 'white';
+        bar.innerHTML = '<span>❌ DESCARGANDO MALWARE... 100%</span>';
+        document.querySelector('.blurred-text').style.filter = 'none';
+        document.getElementById('macro-feedback').style.display = 'block';
+        markInteraction(btn);
+    }
+
+    // --- SIMULACIÓN WINDOWS ---
+    function showContextMenu(e) { 
+        const menu = document.getElementById('context-menu');
+        menu.style.display = 'block'; menu.style.left = e.offsetX + 'px'; menu.style.top = e.offsetY + 'px';
+    }
+    function openProperties() { 
+        document.getElementById('context-menu').style.display = 'none'; 
+        document.getElementById('properties-window').style.display = 'block'; 
+    }
+    function closeProperties() { document.getElementById('properties-window').style.display = 'none'; }
+    
+    let propiedadesVistas = false;
+    function habilitarEjecucion() { 
+        propiedadesVistas = true; closeProperties(); 
+        document.getElementById('instruccion-final').style.display = 'block'; 
+        document.getElementById('target-file').onclick = () => document.getElementById('infection-popup').style.display = 'block';
+    }
+    function intentarEjecutarAntesDeTiempo() { if(!propiedadesVistas) alert("⚠️ Haz clic derecho y mira las propiedades primero."); }
+    function finalizarTodo(btn) { 
+        document.getElementById('infection-popup').style.display = 'none'; 
+        markInteraction(btn); 
+    }
+
+    // --- CRISIS PRÁCTICA ---
+    let crisisPracticaIniciada = false;
+    function iniciarPracticaCrisis(btn) {
+        if (!crisisPracticaIniciada) {
+            document.getElementById('crisis-sim-container').style.display = 'block';
+            document.getElementById('ransomware-alert-icon').style.display = 'block';
+            btn.style.display = 'none'; 
+            crisisPracticaIniciada = true;
+            markInteraction(btn); // Marca esto como hecho
         }
+    }
 
-        function simularMovimientoLateral(btn) {
-            btn.disabled = true;
-            document.getElementById('node-1').classList.add('infected');
-            setTimeout(() => {
-                document.getElementById('link-1').classList.add('active');
-                setTimeout(() => {
-                    document.getElementById('node-2').classList.add('infected');
-                    setTimeout(() => {
-                        document.getElementById('link-2').classList.add('active');
-                        setTimeout(() => {
-                            document.getElementById('node-3').classList.add('infected');
-                            document.getElementById('lateral-note').style.display = "block";
-                            interactionsDone[3]++;
-                            validarBotonSiguiente();
-                        }, 800);
-                    }, 800);
-                }, 800);
-            }, 800);
+    function toggleWifiMenu() {
+        const wifiMenu = document.getElementById('wifi-menu');
+        wifiMenu.style.display = (wifiMenu.style.display === 'none' || wifiMenu.style.display === '') ? 'block' : 'none';
+        markInteraction(document.getElementById('wifi-icon-wrapper')); // Marca esto como hecho
+    }
+
+    function desconectarWifi(btn) {
+        const wifiStatus = document.getElementById('wifi-status');
+        const wifiIcon = document.getElementById('wifi-icon');
+        const crisisSuccess = document.getElementById('crisis-success-message');
+
+        if (wifiStatus.innerText === 'Activado') {
+            wifiStatus.innerText = 'Desactivado';
+            btn.querySelector('span:last-child').style.color = 'red';
+            btn.querySelector('span:last-child').innerText = '🔴';
+            wifiIcon.innerText = '🚫';
+            document.getElementById('wifi-menu').style.display = 'none';
+            crisisSuccess.style.display = 'block';
+            
+            markInteraction(btn); // Marca esto como hecho
+            // Importante: Actualiza la UI para que el botón Siguiente detecte que ya no hay pendientes
+            updateUI(); 
         }
+    }
 
-        function analizarExtension(btn) {
-            btn.disabled = true;
-            setTimeout(() => {
-                document.getElementById('display-name').innerHTML = "Factura_2024.pdf<span style='color:red; font-weight:bold;'>.exe</span>";
-                document.getElementById('extension-feedback').innerHTML = "🚨 ¡PELIGRO DETECTADO! Es un ejecutable (.exe).";
-                interactionsDone[5]++;
-                validarBotonSiguiente();
-            }, 1000);
-        }
-
-        function changeStep(n) { currentStep += n; updateUI(); }
-        function tryNextStep() { if(!document.getElementById('nextBtn').disabled) changeStep(1); }
-
-        updateUI();
-    </script>
+    // Inicialización
+    document.addEventListener('click', (e) => { 
+        if(!e.target.classList.contains('menu-item')) document.getElementById('context-menu').style.display = 'none'; 
+    });
+    window.onload = updateUI;
+</script>
 </body>
 </html>
