@@ -4,52 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Simulador de Respuesta a Incidentes - NoHaxx</title>
-    <link rel="stylesheet" href="../../style.css">
-    <style>
-        .examen-step { display: none; animation: fadeIn 0.5s; }
-        .examen-step.active { display: block; }
-        
-        /* Escritorio Virtual */
-        .desktop-shell {
-            background: #f4f7f6;
-            border: 2px solid #0f1e40;
-            border-radius: 15px;
-            padding: 25px;
-            min-height: 550px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-        }
+    <link rel="stylesheet" href="../../CSS/base.css">
+    <link rel="stylesheet" href="../../CSS/examenes.css">
 
-        /* Ventanas Simuladas */
-        .window-sim {
-            background: white; border: 1px solid #ccc; border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1); overflow: hidden; margin-bottom: 20px;
-        }
-        .window-header { background: #0f1e40; color: white; padding: 10px 15px; font-size: 0.9rem; }
-
-        /* VirusTotal Simulator */
-        .vt-body { padding: 20px; text-align: center; }
-        .vt-input-area { display: flex; gap: 10px; margin: 15px 0; }
-        .vt-input { flex: 1; padding: 10px; border: 1px solid #0070f3; font-family: monospace; }
-        
-        /* Botones de Respuesta (Neutrales) */
-        .action-grid { display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 20px; }
-        .btn-quiz {
-            padding: 15px; border: 1px solid #ddd; border-radius: 8px;
-            background: #fff; cursor: pointer; text-align: left;
-            font-size: 1rem; transition: background 0.2s;
-        }
-        .btn-quiz:hover { background: #f0f4ff; border-color: #0f1e40; }
-
-        /* Estilo para el correo interactivo del Caso 9 */
-        .interactive-mail { border: 1px solid #eee; padding: 15px; background: #fafafa; }
-        .hover-link { color: #1a73e8; text-decoration: underline; cursor: help; font-weight: bold; }
-        .url-tooltip { 
-            background: #333; color: #fff; padding: 5px 10px; font-family: monospace; 
-            font-size: 0.8rem; display: none; margin-top: 10px; text-align: center; border-radius: 4px;
-        }
-
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-    </style>
 </head>
 <body>
     <header>
@@ -220,71 +177,7 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
     <script src="../../scripts/firebase-config.js"></script>
 
-    <script>
-        let current = 0;
-        let answers = [];
-        // Correctas: q0:a, q1:a, q2:b, q3:a, q4:a, q5:b, q6:a, q7:a, q8:a, q9:a
-        const correctOnes = ['a', 'a', 'b', 'a', 'a', 'b', 'a', 'a', 'a', 'a'];
-        const total = 10;
+    <script src="../../scripts/examen_phishing.js"></script>
 
-        function recordAnswer(idx, val) {
-            answers[idx] = val;
-            if (current < total - 1) {
-                document.getElementById(`q-${current}`).classList.remove('active');
-                current++;
-                document.getElementById(`q-${current}`).classList.add('active');
-                document.getElementById('step-counter').innerText = `Misión ${current + 1} de 10`;
-            } else {
-                showResults();
-            }
-        }
-
-        function runVTScan() {
-            const val = document.getElementById('vt-input').value.trim();
-            if (val.includes('login-verificar')) {
-                document.getElementById('vt-result').style.display = "block";
-                document.getElementById('vt-actions').style.display = "grid";
-            } else {
-                alert("URL incorrecta. Copie la de arriba.");
-            }
-        }
-
-        function showUrl(visible) {
-            document.getElementById('url-tooltip-9').style.display = visible ? 'block' : 'none';
-        }
-
-        function showResults() {
-            document.getElementById(`q-${current}`).classList.remove('active');
-            document.getElementById('step-final').classList.add('active');
-            
-            let aciertos = 0;
-            answers.forEach((ans, i) => { if(ans === correctOnes[i]) aciertos++; });
-
-            const statsText = document.getElementById('final-stats');
-            if (aciertos >= 8) {
-                statsText.innerText = `✅ ¡Aprobado! Has resuelto ${aciertos}/10 correctamente.`;
-                statsText.style.color = "green";
-                saveScore(10);
-            } else {
-                statsText.innerText = `❌ No superado (${aciertos}/10 aciertos).`;
-                statsText.style.color = "red";
-                document.getElementById('firebase-msg').innerHTML = "<p>Necesitas al menos 8 aciertos.</p><br><a href='teoria.html' class='boton'>Reintentar</a>";
-            }
-        }
-
-        function saveScore(nota) {
-            const auth = firebase.auth();
-            const db = firebase.firestore();
-            auth.onAuthStateChanged(user => {
-                if (user) {
-                    db.collection('userScores').doc(user.uid).set({
-                        scores: { phishing: nota }
-                    }, { merge: true }).then(() => {
-                        document.getElementById('firebase-msg').innerHTML = "<h3 style='color:green'>Puntuación registrada en tu perfil.</h3><br><a href='../../modulos.html' class='boton'>Volver al Menú</a>";
-                    });
-                }
-            });
-        }
-    </script>
 </body>
 </html>

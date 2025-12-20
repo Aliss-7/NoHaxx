@@ -1,43 +1,30 @@
-// public/scripts/features/examen_intro.js
-
-// --- Configuración del Examen ---
-// Respuestas correctas: 
-// 1: b (Seg. Info), 2: c (Disponibilidad), 3: b (Hacktivismo), 4: c (Ransomware), 5: b (ODS 16), 6: b (No dejar conectado)
 const correctAnswers = { 1: 'b', 2: 'c', 3: 'b', 4: 'c', 5: 'b', 6: 'b' };
 let userAnswers = {};
 const totalQuestions = 6;
 let currentQ = 1;
 
-// --- Lógica Visual ---
 function selectOption(qNum, value, cardElement) {
-  // Guardar respuesta
   userAnswers[qNum] = value;
   
-  // Actualizar UI: Quitar seleccionado de otros y poner al actual
   const parent = document.getElementById(`opt-q${qNum}`);
   const cards = parent.querySelectorAll('.option-card');
   cards.forEach(c => c.classList.remove('selected'));
   cardElement.classList.add('selected');
   
-  // Mostrar botón confirmar
   const btn = document.querySelector(`#q${qNum} .btn-next-question`);
   btn.style.display = 'inline-block';
 }
 
 function nextQuestion(current) {
-  // Barra de progreso
   const progress = (current / totalQuestions) * 100;
   document.getElementById('progress-bar').style.width = `${progress}%`;
 
-  // Ocultar actual
   document.getElementById(`q${current}`).classList.remove('active');
 
   if (current < totalQuestions) {
-    // Mostrar siguiente
     document.getElementById(`q${current + 1}`).classList.add('active');
     currentQ++;
   } else {
-    // Fin del examen
     calculateAndSave();
   }
 }
@@ -50,12 +37,9 @@ function calculateAndSave() {
     if (userAnswers[i] === correctAnswers[i]) hits++;
   }
   
-  // Nota sobre 10
-  // Regla de 3: (hits * 10) / 6
   const finalScore = Math.round((hits * 10) / totalQuestions);
-  const passed = hits >= 4; // Aprobar con 4/6 (66%)
+  const passed = hits >= 4;
 
-  // Mostrar resultados
   const resultsDiv = document.getElementById('results-content');
   const loadingDiv = document.getElementById('loading-results');
   const scoreTxt = document.getElementById('final-score');
@@ -75,7 +59,7 @@ function calculateAndSave() {
     btnCont.style.display = "inline-block";
     
     // Guardar en Firebase
-    saveToFirebase(10); // Guardamos 10 puntos por completar
+    saveToFirebase(10);
   } else {
     msgTxt.innerText = "Necesitas repasar";
     msgTxt.style.color = "#d32f2f";
