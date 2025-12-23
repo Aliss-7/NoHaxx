@@ -1,38 +1,265 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Examen Ransomware</title>
-  <link rel="stylesheet" href="../../style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Examen Final: Ransomware - NoHaxx</title>
+    <link rel="stylesheet" href="../../CSS/base.css">
+    <link rel="stylesheet" href="../../CSS/examenes.css">
 </head>
 <body>
-  <main class="main-content">
-    <h2>Examen Final: Ransomware</h2>
-    
-    <div class="pregunta examen" data-correcta="b">
-      <p>Pregunta: ¿Cuál es la medida más efectiva para recuperar tus datos sin pagar un rescate?</p>
-      
-      <button data-respuesta="a">Tener un buen antivirus</button>
-      <button data-respuesta="b">Tener copias de seguridad (Backups) actualizadas</button>
-      <button data-respuesta="c">Usar contraseñas largas</button>
-    </div>
+    <header>
+        <div class="logo">NoHaxx</div>
+        <div class="top-buttons">
+            <a href="../../Pantallas/modulos.html" class="boton-salir">Abandonar</a>
+        </div>
+    </header>
 
-    <div class="resultado">
-        <p id="puntuacion-examen" style="font-weight:bold; margin-top:20px;"></p>
-        <div id="mensaje-final"></div>
-    </div>
-  </main>
+    <main class="main-content">
+        
+        <div class="progress-container">
+            <div class="progress-bar" id="progress-bar"></div>
+        </div>
 
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
-  <script src="../../scripts/firebase-config.js"></script>
-  <script src="../../scripts/examenes.js"></script>
+        <div class="desktop-shell">
+            
+            <div class="exam-step active" id="q-0" data-correcta="b">
+                <span class="tag">Pregunta 1/10</span>
+                <h2>Acabas de descargar una factura urgente. Antes de abrirla, decides <strong>inspeccionar sus propiedades</strong>.</h2>
+                
+                <div class="window-sim" style="height:280px; position:relative; background:#f0f0f0; margin-bottom:20px;">
+                    <div class="window-header">Escritorio</div>
+                    <div style="text-align:center; margin-top:40px; cursor:pointer;" onclick="mostrarPropiedades()">
+                        <div style="font-size:3rem;">📄</div>
+                        <div>Factura_Pendiente.pdf</div>
+                        <div style="font-size:0.8rem; color:#666;">(Haz clic para ver detalles)</div>
+                    </div>
 
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      iniciarExamen('ransomware', 1, 1);
-    });
-  </script>
+                    <div id="propiedades-file" style="display:none; position:absolute; top:50px; left:50%; transform:translateX(-50%); background:white; border:1px solid #999; padding:15px; width:220px; box-shadow:5px 5px 15px rgba(0,0,0,0.3); text-align:left; font-size:0.85rem; z-index:10;">
+                        <div style="background:#0f1e40; color:white; padding:5px; margin:-15px -15px 10px -15px;">Propiedades</div>
+                        <div><strong>Nombre real:</strong> Factura_Pendiente.pdf.exe</div>
+                        <div style="margin-top:5px;"><strong>Tipo:</strong> <span style="color:rgb(10, 8, 8); font-weight:bold;">Aplicación (.exe)</span></div>
+                        <div style="margin-top:15px; text-align:center;">
+                            <button style="padding:5px 10px; cursor:pointer;" onclick="cerrarPropiedades()">Cerrar</button>
+                        </div>
+                    </div>
+                </div>
+
+                <p>¿Qué decisión tomas?</p>
+                <div class="option-grid">
+                    <div class="option-card" data-respuesta="a">
+                        <strong>Abrirlo</strong>
+                        <p>Es un PDF seguro, el icono me lo confirma.</p>
+                    </div>
+                    <div class="option-card" data-respuesta="b">
+                        <strong>Eliminarlo</strong>
+                        <p>Es un programa (.exe) camuflado con doble extensión.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="exam-step" id="q-1" data-correcta="b">
+                <span class="tag">Pregunta 2/10</span>
+                <h2>Abres un documento de Word descargado y ves esta barra amarilla en la parte superior.</h2>
+                
+                <div class="window-sim">
+                    <div class="window-header" style="background:#2b579a;">Word - Informe.doc [Vista Protegida]</div>
+                    <div style="background:#ffeb3b; padding:10px; color:#333; font-size:0.9rem; display:flex; justify-content:space-between; align-items:center;">
+                        <span>⚠️ ADVERTENCIA: Las macros se han deshabilitado.</span>
+                        <button style="border:1px solid #999; padding:2px 8px; background:#f0f0f0; font-size:0.8rem;">Habilitar contenido</button>
+                    </div>
+                    <div style="padding:30px; text-align:center; color:#ccc; filter:blur(3px);">
+                        [CONTENIDO DEL DOCUMENTO BORROSO PARA OBLIGARTE A CLICAR]
+                    </div>
+                </div>
+
+                <p>El documento pide "Habilitar contenido" para verse bien. ¿Qué haces?</p>
+                <div class="option-grid">
+                    <div class="option-card" data-respuesta="a">
+                        <strong>Habilitar</strong>
+                        <p>Microsoft lo ha bloqueado por error.</p>
+                    </div>
+                    <div class="option-card" data-respuesta="b">
+                        <strong>Cerrar y Borrar</strong>
+                        <p>Es una trampa para ejecutar código malicioso (Macros).</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="exam-step" id="q-2" data-correcta="b">
+                <span class="tag">Pregunta 3/10</span>
+                <h2>Tienes un disco duro externo USB con tus copias de seguridad conectado permanentemente a tu ordenador.</h2>
+                <div class="info-box" style="border-left-color:#ff9800; text-align:left;">
+                    Estado Disco F: <span style="color:green;">● Conectado y accesible</span>
+                </div>
+                <p>Si entra un Ransomware hoy, ¿estarán tus copias a salvo?</p>
+                
+                <div class="option-grid">
+                    <div class="option-card" data-respuesta="a">
+                        <strong>SÍ</strong>
+                        <p>El virus solo afecta al disco principal (C:) de Windows.</p>
+                    </div>
+                    <div class="option-card" data-respuesta="b">
+                        <strong>NO</strong>
+                        <p>El Ransomware cifrará cualquier unidad conectada (C:, D:, F:...).</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="exam-step" id="q-3" data-correcta="a">
+                <span class="tag">Pregunta 4/10</span>
+                <h2>¡ALERTA ROJA! Esta pantalla aparece de repente en tu monitor. Tienes 5 segundos para reaccionar.</h2>
+                
+                <div class="window-sim" style="background:#a30000; color:white; text-align:center; padding:20px; border:4px solid white;">
+                    <div style="font-size:3rem;">🔒</div>
+                    <h2>TUS ARCHIVOS HAN SIDO CIFRADOS</h2>
+                    <p>Contacta con nosotros para pagar el rescate.</p>
+                </div>
+
+                <p>¿Cuál es la <strong>prioridad absoluta</strong>?</p>
+                <div class="option-grid">
+                    <div class="option-card" data-respuesta="a">
+                        <div style="font-size:2rem;"></div>
+                        <strong>Desconectar Red/Wi-Fi</strong>
+                        <p>Aislar el equipo para que no infecte a toda la empresa.</p>
+                    </div>
+                    <div class="option-card" data-respuesta="b">
+                        <div style="font-size:2rem;"></div>
+                        <strong>Buscar la Cartera Bitcoin</strong>
+                        <p>Pagar rápido antes de que suba el precio.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="exam-step" id="q-4" data-correcta="b">
+                <span class="tag">Pregunta 5/10</span>
+                <h2>Estás muy ocupado trabajando y aparece este mensaje del sistema.</h2>
+                <div class="window-sim" style="max-width:400px; margin:0 auto; border:1px solid #333;">
+                    <div style="padding:15px; background:#333; color:white; display:flex; gap:15px; align-items:center;">
+                        <div style="font-size:2rem;"></div>
+                        <div style="text-align:left;">
+                            <strong>Actualización Crítica de Seguridad</strong><br>
+                            Parche para vulnerabilidad tipo "EternalBlue".
+                        </div>
+                    </div>
+                </div>
+                <p>¿Qué haces?</p>
+                <div class="option-grid">
+                    <div class="option-card" data-respuesta="a">
+                        <strong>Posponer</strong>
+                        <p>Lo haré la semana que viene cuando tenga menos trabajo.</p>
+                    </div>
+                    <div class="option-card" data-respuesta="b">
+                        <strong>Actualizar Ahora</strong>
+                        <p>Las vulnerabilidades conocidas son la puerta principal de entrada.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="exam-step" id="q-5" data-correcta="a">
+                <span class="tag">Pregunta 6/10</span>
+                <h2>Usas Google Drive o OneDrive instalado en tu PC para sincronizar tus archivos en tiempo real.</h2>
+                <p>Si un Ransomware cifra los archivos de tu carpeta local de Drive, ¿qué ocurre en la nube?</p>
+                <div class="option-grid">
+                    <div class="option-card" data-respuesta="a">
+                        <strong>Se cifran también</strong>
+                        <p>La sincronización automática subirá los archivos "basura" cifrados a la nube.</p>
+                    </div>
+                    <div class="option-card" data-respuesta="b">
+                        <strong>Están a salvo</strong>
+                        <p>La nube tiene un antivirus mágico que rechaza archivos cifrados.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="exam-step" id="q-6" data-correcta="b">
+                <span class="tag">Pregunta 7/10</span>
+                <h2>La nota de rescate promete que si pagas 500€ recuperarás todos tus archivos al instante.</h2>
+                <p>¿Puedes confiar en esta promesa?</p>
+                <div class="option-grid">
+                    <div class="option-card" data-respuesta="a">
+                        <strong>SÍ</strong>
+                        <p>Los cibercriminales siempre cumplen para mantener su reputación.</p>
+                    </div>
+                    <div class="option-card" data-respuesta="b">
+                        <strong>NO</strong>
+                        <p>Son delincuentes. A menudo cobran y no envían la clave, o envían una que no funciona.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="exam-step" id="q-7" data-correcta="a">
+                <span class="tag">Pregunta 8/10</span>
+                <h2>Estadísticamente, ¿cuál es la vía de entrada más común para el Ransomware en las empresas?</h2>
+                <div class="option-grid">
+                    <div class="option-card" data-respuesta="a">
+                        <strong>Email (Phishing)</strong>
+                        <p>Adjuntos maliciosos o enlaces a descargas infectadas.</p>
+                    </div>
+                    <div class="option-card" data-respuesta="b">
+                        <strong>USB en el parking</strong>
+                        <p>Dispositivos físicos dejados al azar.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="exam-step" id="q-8" data-correcta="b">
+                <span class="tag">Pregunta 9/10</span>
+                <h2>Tienes backups y puedes recuperar tus datos sin pagar. Pero el atacante te amenaza con otra cosa.</h2>
+                <p>¿En qué consiste la <strong>"Doble Extorsión"</strong>?</p>
+                <div class="option-grid">
+                    <div class="option-card" data-respuesta="a">
+                        <strong>Doble Cifrado</strong>
+                        <p>Vuelven a cifrar tu backup.</p>
+                    </div>
+                    <div class="option-card" data-respuesta="b">
+                        <strong>Filtración de Datos</strong>
+                        <p>Amenazan con publicar tus datos confidenciales (GDPR) si no pagas.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="exam-step" id="q-9" data-correcta="a">
+                <span class="tag">Pregunta 10/10</span>
+                <h2>Como experto en seguridad tras este curso, ¿cuál es la mejor defensa contra el Ransomware?</h2>
+                <div class="option-grid">
+                    <div class="option-card" data-respuesta="a">
+                        <strong>Prevención Proactiva</strong>
+                        <p>Formación, backups offline y sistemas actualizados.</p>
+                    </div>
+                    <div class="option-card" data-respuesta="b">
+                        <strong>Presupuesto de Rescate</strong>
+                        <p>Tener una cuenta con Bitcoin lista para pagar rápido.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="exam-step" id="step-final" style="text-align: center;">
+                <h2>Resultados del Examen</h2>
+                <div id="loading-results">Calculando nota...</div>
+                
+                <div id="results-content" style="display:none;">
+                    <div class="score-circle">
+                        <span id="final-score">0</span>
+                        <span class="score-label">Aciertos</span>
+                    </div>
+                    <h3 id="final-msg"></h3>
+                    <div id="firebase-msg"></div>
+                    
+                    <div style="margin-top:30px;">
+                        <button onclick="location.reload()" class="boton" id="btn-retry" style="display:none; background:#f44336;">Reintentar</button>
+                        <a href="../../Pantallas/modulos.html" class="boton" id="btn-continue" style="display:none;">Volver a Módulos</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+    <script src="../../scripts/firebase-config.js"></script>
+    <script src="../../scripts/examen_ransomware.js"></script>
+
 </body>
 </html>

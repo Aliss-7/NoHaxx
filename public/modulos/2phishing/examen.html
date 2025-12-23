@@ -3,10 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simulador de Respuesta a Incidentes - NoHaxx</title>
+    <title>Examen Final: Phishing - NoHaxx</title>
     <link rel="stylesheet" href="../../CSS/base.css">
     <link rel="stylesheet" href="../../CSS/examenes.css">
-
 </head>
 <body>
     <header>
@@ -17,156 +16,295 @@
     </header>
 
     <main class="main-content">
-        <span class="progress-text" id="step-counter" style="font-weight: bold; display:block; margin-bottom:10px;">Misión 1 de 10</span>
+        
+        <div class="progress-container">
+            <div class="progress-bar" id="progress-bar"></div>
+        </div>
 
         <div class="desktop-shell">
             
-            <div class="examen-step active" id="q-0">
-                <h2>Caso 1: Notificación Urgente</h2>
+            <div class="exam-step active" id="q-0" data-correcta="a">
+                <span class="tag">Pregunta 1/10</span>
+                <h2>Estás revisando tu bandeja de entrada un lunes por la mañana y encuentras este mensaje marcado con prioridad alta.</h2>
+                
                 <div class="window-sim">
                     <div class="window-header">Outlook Corporativo</div>
-                    <div style="padding:15px;">
+                    <div style="padding:20px;">
                         <strong>De:</strong> Soporte &lt;seguridad@noreply-nohaxx.net&gt;<br>
-                        <strong>Asunto:</strong> ¡ACCESO BLOQUEADO! Verifique su identidad
-                        <hr>
-                        <p>Su cuenta será desactivada en 15 minutos por actividad inusual. Haga clic aquí para evitarlo.</p>
+                        <strong>Asunto:</strong> ⚠️ ¡ACCESO BLOQUEADO!<br>
+                        <hr style="margin:10px 0; border:0; border-top:1px solid #eee;">
+                        <p>Su cuenta será desactivada en <strong>15 minutos</strong> por actividad inusual. Haga clic aquí para verificar su identidad o perderá el acceso.</p>
                     </div>
                 </div>
-                <p>¿Qué decisión tomas?</p>
-                <div class="action-grid">
-                    <button class="btn-quiz" onclick="recordAnswer(0, 'a')">Reportar: La urgencia extrema y el dominio .net son señales claras de Phishing.</button>
-                    <button class="btn-quiz" onclick="recordAnswer(0, 'b')">Acceder: Debo evitar que mi cuenta sea bloqueada.</button>
+
+                <p>¿Qué decisión tomas ante esta amenaza?</p>
+                <div class="option-grid">
+                    <div class="option-card" data-respuesta="a">
+                        <strong>Reportar</strong>
+                        <p>La urgencia extrema y el dominio .net son señales claras de Phishing.</p>
+                    </div>
+                    <div class="option-card" data-respuesta="b">
+                        <strong>Acceder</strong>
+                        <p>Debo evitar que mi cuenta sea bloqueada.</p>
+                    </div>
                 </div>
             </div>
 
-            <div class="examen-step" id="q-1">
-                <h2>Caso 2: El Analista de URLs</h2>
+            <div class="exam-step" id="q-1" data-correcta="a">
+                <span class="tag">Pregunta 2/10</span>
+                <h2>Te llega un correo con un enlace extraño y dudas de su veracidad. Antes de clicar, decides investigarlo.</h2>
+                
                 <div class="info-box">
-                    <strong>¿Qué es una Base de Datos Reputacional?</strong> Es un sitio como <strong>VirusTotal</strong> que recopila información de miles de empresas de seguridad. Al poner una URL, nos dice si otros ya la han marcado como peligrosa.
+                    <strong>Herramienta: Base de Datos Reputacional</strong><br>
+                    Es un servicio (como VirusTotal) que consulta a múltiples antivirus si una web es peligrosa.
                 </div>
-                <p>Analiza esta URL sospechosa: <code>http://login-verificar-perfil.xyz/seguridad</code></p>
+                
+                <p>Tu misión: Analiza la URL <code>http://login-verificar-perfil.xyz/seguridad</code></p>
                 
                 <div class="window-sim">
                     <div class="window-header" style="background:#0070f3;">Simulador de VirusTotal</div>
                     <div class="vt-body">
                         <div class="vt-input-area">
-                            <input type="text" id="vt-input" class="vt-input" placeholder="Pegue la URL sospechosa aquí...">
+                            <input type="text" id="vt-input" class="vt-input" placeholder="Pega la URL sospechosa aquí...">
                             <button class="boton" onclick="runVTScan()">Escanear</button>
                         </div>
-                        <div id="vt-result" style="display:none; color:red; font-weight:bold;">
+                        <div id="vt-result" style="display:none; margin-top:15px; padding:10px; background:#ffebee; color:#c62828; font-weight:bold; border-radius:5px;">
                             🚩 RESULTADO: 60/70 motores marcan este sitio como MALICIOSO.
                         </div>
                     </div>
                 </div>
-                <div id="vt-actions" style="display:none;" class="action-grid">
-                    <button class="btn-quiz" onclick="recordAnswer(1, 'a')">Reportar: El análisis confirma que es una web de Phishing.</button>
-                    <button class="btn-quiz" onclick="recordAnswer(1, 'b')">Ignorar: Confío en que el navegador la bloqueará.</button>
-                </div>
-            </div>
 
-            <div class="examen-step" id="q-2">
-                <h2>Caso 3: SMS de Paquetería</h2>
-                <div class="window-sim" style="max-width:300px; margin: 0 auto;">
-                    <div class="window-header" style="background:#333;">Mensaje Nuevo</div>
-                    <div style="padding:15px; background:#e5e5ea; border-radius:10px; margin:10px;">
-                        [CORREOS] Falta el número de calle para su entrega. Actualice aquí: <strong>bit.ly/envio-pendiente</strong>
+                <div id="vt-options" class="option-grid" style="display:none;">
+                    <div class="option-card" data-respuesta="a">
+                        <strong>Es Phishing</strong>
+                        <p>El análisis confirma que es una web fraudulenta.</p>
+                    </div>
+                    <div class="option-card" data-respuesta="b">
+                        <strong>Es Segura</strong>
+                        <p>Si tiene la palabra "seguridad", es fiable.</p>
                     </div>
                 </div>
-                <div class="action-grid">
-                    <button class="btn-quiz" onclick="recordAnswer(2, 'a')">Acceder: Estoy esperando un paquete y no quiero que lo devuelvan.</button>
-                    <button class="btn-quiz" onclick="recordAnswer(2, 'b')">Ignorar: Es una estafa; Correos no usa enlaces bit.ly para pedir datos.</button>
+            </div>
+
+            <div class="exam-step" id="q-2" data-correcta="b">
+                <span class="tag">Pregunta 3/10</span>
+                <h2>Estás esperando un paquete personal importante. De repente, tu móvil corporativo vibra con este SMS.</h2>
+                
+                <div class="window-sim" style="max-width:320px; margin: 0 auto; background:#fff; border-radius:20px;">
+                    <div class="window-header" style="background:#333; border-radius:15px 15px 0 0;">Mensajes</div>
+                    <div style="padding:20px;">
+                        <div style="background:#e5e5ea; padding:15px; border-radius:15px; font-size:0.9rem;">
+                            [CORREOS] Falta el número de calle para su entrega. Evite la devolución aquí: <strong>bit.ly/envio-pendiente</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <p>¿Cómo procedes?</p>
+                <div class="option-grid">
+                    <div class="option-card" data-respuesta="a">
+                        <strong>Pulsar el enlace</strong>
+                        <p>Necesito el paquete y bit.ly es normal.</p>
+                    </div>
+                    <div class="option-card" data-respuesta="b">
+                        <strong>Ignorar / Borrar</strong>
+                        <p>Es Smishing; Correos no usa enlaces bit.ly para pedir datos.</p>
+                    </div>
                 </div>
             </div>
 
-            <div class="examen-step" id="q-3">
-                <h2>Caso 4: Cambio de Contraseña Real</h2>
+            <div class="exam-step" id="q-3" data-correcta="a">
+                <span class="tag">Pregunta 4/10</span>
+                <h2>El sistema te notifica que tu clave va a caducar. Accedes voluntariamente al portal de empleados y ves esto en el navegador.</h2>
+                                
                 <div class="window-sim">
-                    <div class="window-header">Portal Interno NoHaxx</div>
-                    <div style="padding:15px;">
-                        <p>Tu contraseña corporativa caduca en 5 días. Cámbiala en el portal de autoservicio oficial: <strong>https://portal.nohaxx.com/seguridad</strong></p>
+                    <div class="window-header">Navegador - Portal Empleado</div>
+                    <div style="padding:15px; background:#f9f9f9; border-bottom:1px solid #ddd;">
+                        🔒 <strong>https://portal.nohaxx.com/seguridad</strong>
+                    </div>
+                    <div style="padding:20px; text-align:center;">
+                        <h3>Área de Seguridad</h3>
+                        <p>Introduzca su nueva contraseña.</p>
                     </div>
                 </div>
-                <div class="action-grid">
-                    <button class="btn-quiz" onclick="recordAnswer(3, 'a')">Realizar el cambio: La URL es el dominio oficial HTTPS de la empresa.</button>
-                    <button class="btn-quiz" onclick="recordAnswer(3, 'b')">Reportar: Ningún sistema debería pedirme cambiar la contraseña por correo.</button>
+
+                <p>¿Es seguro continuar?</p>
+                <div class="option-grid">
+                    <div class="option-card" data-respuesta="a">
+                        <strong>SÍ, es seguro</strong>
+                        <p>La URL es correcta (nohaxx.com) y usa HTTPS.</p>
+                    </div>
+                    <div class="option-card" data-respuesta="b">
+                        <strong>NO, es falso</strong>
+                        <p>Nunca se debe cambiar la contraseña en una web.</p>
+                    </div>
                 </div>
             </div>
 
-            <div class="examen-step" id="q-4">
-                <h2>Caso 5: Llamada de "Técnico"</h2>
-                <p>Llamada: "Hola, soy de Microsoft. Tu IP está infectada. Necesito que me dicte el código SMS que te he enviado para desinfectar tu red".</p>
-                <div class="action-grid">
-                    <button class="btn-quiz" onclick="recordAnswer(4, 'a')">Colgar: Las empresas nunca llaman para pedir códigos de seguridad personales.</button>
-                    <button class="btn-quiz" onclick="recordAnswer(4, 'b')">Colaborar: Si es de Microsoft, debe ser verdad.</button>
+            <div class="exam-step" id="q-4" data-correcta="a">
+                <span class="tag">Pregunta 5/10</span>
+                <h2>Suena tu teléfono de escritorio. Al descolgar, una voz con tono urgente y mucho ruido de fondo te dice:</h2>
+                                
+                <div class="window-sim" style="max-width:400px; margin: 0 auto; background:#222; color:#fff; border-radius:10px;">
+                    <div style="padding:20px; display:flex; align-items:center; gap:15px;">
+                        <div style="font-size:2rem;"></div>
+                        <div>
+                            <em>"Hola, soy soporte de Microsoft. Tu IP está infectada y enviando virus. Díctame el código SMS que te acabo de enviar para bloquear el ataque."</em>
+                        </div>
+                    </div>
+                </div>
+
+                <p>¿Qué haces?</p>
+                <div class="option-grid">
+                    <div class="option-card" data-respuesta="a">
+                        <strong>Colgar inmediatamente</strong>
+                        <p>Microsoft nunca llama para pedir códigos personales (Vishing).</p>
+                    </div>
+                    <div class="option-card" data-respuesta="b">
+                        <strong>Dar el código</strong>
+                        <p>Es una emergencia técnica y debo colaborar.</p>
+                    </div>
                 </div>
             </div>
 
-            <div class="examen-step" id="q-5">
-                <h2>Caso 6: El Favor del CEO</h2>
-                <p>Un correo de tu director te pide una transferencia urgente y confidencial para un nuevo cliente. Dice que "no llames a nadie por discreción".</p>
-                <div class="action-grid">
-                    <button class="btn-quiz" onclick="recordAnswer(5, 'a')">Obedecer: Es mi superior y la operación es discreta.</button>
-                    <button class="btn-quiz" onclick="recordAnswer(5, 'b')">Desconfiar: Es el "Fraude del CEO", usa la jerarquía y el secreto para engañar.</button>
+            <div class="exam-step" id="q-5" data-correcta="b">
+                <span class="tag">Pregunta 6/10</span>
+                <h2>Recibes un correo directo de tu Director General. Es extraño porque él no suele escribirte para estos temas.</h2>
+                
+                <div class="window-sim">
+                    <div class="window-header">Mensaje de Dirección</div>
+                    <div style="padding:20px;">
+                        <p><em>"Necesito realizar una transferencia urgente para cerrar un acuerdo confidencial con un nuevo cliente ahora mismo."</em></p>
+                        <p style="background:#fff3e0; padding:10px; border-left:4px solid orange;"><strong>"IMPORTANTE: No llames a nadie para verificarlo, necesito discreción absoluta."</strong></p>
+                    </div>
+                </div>
+
+                <p>¿Obedeces la orden?</p>
+                <div class="option-grid">
+                    <div class="option-card" data-respuesta="a">
+                        <strong>Obedecer</strong>
+                        <p>Es mi jefe y la operación parece crítica.</p>
+                    </div>
+                    <div class="option-card" data-respuesta="b">
+                        <strong>Desconfiar</strong>
+                        <p>Es el "Fraude del CEO": usan la jerarquía y el secreto para robar.</p>
+                    </div>
                 </div>
             </div>
 
-            <div class="examen-step" id="q-6">
-                <h2>Caso 7: Invitación a Reunión</h2>
+            <div class="exam-step" id="q-6" data-correcta="a">
+                <span class="tag">Pregunta 7/10</span>
+                <h2>Un compañero de tu departamento te envía una convocatoria a través del chat interno.</h2>
+                            
                 <div class="window-sim">
                     <div class="window-header">Microsoft Teams</div>
                     <div style="padding:15px;">
-                        <strong>Juan Pérez</strong> te ha invitado a una reunión:<br>
-                        <em>"Revisión de objetivos"</em><br>
-                        Enlace: <strong>https://teams.microsoft.com/l/meetup-join/123...</strong>
+                        <strong>Juan Pérez</strong> le invita a unirse:<br>
+                        <em>"Revisión de objetivos Q4"</em><br>
+                        Enlace: <strong style="color:#0078d7;">teams.microsoft.com/l/meetup...</strong>
                     </div>
                 </div>
-                <div class="action-grid">
-                    <button class="btn-quiz" onclick="recordAnswer(6, 'a')">Aceptar: Es un enlace oficial de Teams y un compañero conocido.</button>
-                    <button class="btn-quiz" onclick="recordAnswer(6, 'b')">Reportar: No confío en ningún enlace de reunión externo.</button>
+
+                <p>¿Es seguro unirse?</p>
+                <div class="option-grid">
+                    <div class="option-card" data-respuesta="a">
+                        <strong>Aceptar</strong>
+                        <p>El dominio teams.microsoft.com es oficial y legítimo.</p>
+                    </div>
+                    <div class="option-card" data-respuesta="b">
+                        <strong>Reportar</strong>
+                        <p>Desconfío de cualquier enlace de reunión.</p>
+                    </div>
                 </div>
             </div>
 
-            <div class="examen-step" id="q-7">
-                <h2>Caso 8: Error en URL</h2>
-                <p>Entras a una web y la dirección es <code>https://www.g0ogle.com</code> (con un cero). ¿Qué está pasando?</p>
-                <div class="action-grid">
-                    <button class="btn-quiz" onclick="recordAnswer(7, 'a')">Typosquatting: Usar caracteres similares para engañar al ojo.</button>
-                    <button class="btn-quiz" onclick="recordAnswer(7, 'b')">Spear Phishing: Ataque dirigido a un departamento concreto.</button>
+            <div class="exam-step" id="q-7" data-correcta="a">
+                <span class="tag">Pregunta 8/10</span>
+                <h2>Intentas entrar en el buscador, pero al mirar la barra de direcciones notas algo raro en el texto.</h2>
+                                
+                <div class="window-sim">
+                    <div class="window-header">Barra de Direcciones</div>
+                    <div style="padding:15px; font-family:monospace; font-size:1.2rem; background:#fff;">
+                        https://www.g<span style="color:red; font-weight:bold;">0</span>ogle.com
+                    </div>
+                </div>
+
+                <p>¿Qué técnica de ataque es esta?</p>
+                <div class="option-grid">
+                    <div class="option-card" data-respuesta="a">
+                        <strong>Typosquatting</strong>
+                        <p>Usar caracteres similares (cero por 'o') para engañar a la vista.</p>
+                    </div>
+                    <div class="option-card" data-respuesta="b">
+                        <strong>Spear Phishing</strong>
+                        <p>Ataque dirigido a una persona concreta.</p>
+                    </div>
                 </div>
             </div>
 
-            <div class="examen-step" id="q-8">
-                <h2>Caso 9: Investigación de Campo</h2>
-                <p>Has recibido un correo de "Seguridad Microsoft". Antes de decidir, <strong>pasa el ratón (o mantén pulsado) sobre el enlace</strong> para inspeccionarlo.</p>
+            <div class="exam-step" id="q-8" data-correcta="a">
+                <span class="tag">Pregunta 9/10</span>
+                <h2>Has recibido un correo de "Seguridad Microsoft" alertando de un problema. El botón parece real, pero sabes que no debes fiarte.</h2>
+
+                <p><strong>Pasa el ratón (o mantén pulsado)</strong> sobre el botón azul para revelar la verdad.</p>
                 
                 <div class="window-sim">
                     <div class="window-header">Bandeja de Entrada</div>
-                    <div class="interactive-mail">
-                        <p>Su sesión ha expirado en la región de Europa. Por favor, vuelva a conectarse para evitar el cierre de sesión:</p>
-                        <a class="hover-link" onmouseover="showUrl(true)" onmouseout="showUrl(false)">RECONECTAR CUENTA AHORA</a>
-                        <div id="url-tooltip-9" class="url-tooltip">Destino: http://microsoft.login-update-server.net/verify</div>
+                    <div class="interactive-mail" style="padding:30px; text-align:center;">
+                        <p>Su sesión ha expirado. Para evitar el bloqueo:</p>
+                        <a href="#" class="hover-link" style="background:#0078d7; color:white; padding:10px 20px; text-decoration:none; border-radius:4px;" onmouseover="showUrl(true)" onmouseout="showUrl(false)">RECONECTAR CUENTA</a>
+                        
+                        <div id="url-tooltip-9" class="url-tooltip" style="display:none; background:#333; color:#fff; padding:8px; margin-top:15px; font-family:monospace; border-radius:4px; font-size:0.9rem;">
+                            Destino real: http://microsoft.login-update-server.net/verify
+                        </div>
                     </div>
                 </div>
                 
-                <div class="action-grid">
-                    <button class="btn-quiz" onclick="recordAnswer(8, 'a')">REPORTAR: El enlace real no va a microsoft.com, sino a un servidor .net externo.</button>
-                    <button class="btn-quiz" onclick="recordAnswer(8, 'b')">RECONECTAR: El texto dice que es para evitar el cierre de sesión.</button>
+                <div class="option-grid">
+                    <div class="option-card" data-respuesta="a">
+                        <strong>REPORTAR</strong>
+                        <p>El enlace lleva a un servidor externo (.net), no a Microsoft.</p>
+                    </div>
+                    <div class="option-card" data-respuesta="b">
+                        <strong>CLICAR</strong>
+                        <p>El diseño es idéntico al oficial, debe ser seguro.</p>
+                    </div>
                 </div>
             </div>
 
-            <div class="examen-step" id="q-9">
-                <h2>Caso 10: Seguridad Diaria</h2>
-                <p>Ante una duda de seguridad real en tu puesto de trabajo, ¿qué debes aplicar?</p>
-                <div class="action-grid">
-                    <button class="btn-quiz" onclick="recordAnswer(9, 'a')">PARA, MIRA y LLAMA por un canal oficial conocido.</button>
-                    <button class="btn-quiz" onclick="recordAnswer(9, 'b')">Confiar en los filtros de seguridad y hacer clic rápido.</button>
+            <div class="exam-step" id="q-9" data-correcta="a">
+                <span class="tag">Pregunta 10/10</span>
+                <h2>Si en tu trabajo diario recibes un correo que te genera una <strong>duda razonable</strong> (remitente desconocido, petición extraña...), ¿cuál es el protocolo?</h2>
+                              
+                <div class="option-grid">
+                    <div class="option-card" data-respuesta="a">
+                        <strong>PARA, MIRA y LLAMA</strong>
+                        <p>Detente, verifica los detalles y contacta por otro canal oficial.</p>
+                    </div>
+                    <div class="option-card" data-respuesta="b">
+                        <strong>FILTRO AUTOMÁTICO</strong>
+                        <p>Si el antivirus no saltó, es seguro abrirlo.</p>
+                    </div>
                 </div>
             </div>
 
-            <div class="examen-step" id="step-final">
-                <h1>Simulación Finalizada</h1>
-                <p id="final-stats" style="font-size:1.4rem; font-weight:bold;"></p>
-                <div id="firebase-msg"></div>
+            <div class="exam-step" id="step-final" style="text-align: center;">
+                <h2>Resultados del text</h2>
+                <div id="loading-results">Procesando respuestas...</div>
+                
+                <div id="results-content" style="display:none;">
+                    <div class="score-circle">
+                        <span id="final-score">0</span>
+                        <span class="score-label">Aciertos</span>
+                    </div>
+                    <h3 id="final-msg"></h3>
+                    <p id="final-detail"></p>
+                    <div id="firebase-msg"></div>
+                    
+                    <div style="margin-top:30px;">
+                        <button onclick="location.reload()" class="boton" id="btn-retry" style="display:none; background:#f44336;">Repetir Misión</button>
+                        <a href="../../Pantallas/modulos.html" class="boton" id="btn-continue" style="display:none;">Volver al Menú</a>
+                    </div>
+                </div>
             </div>
 
         </div>
@@ -176,7 +314,6 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
     <script src="../../scripts/firebase-config.js"></script>
-
     <script src="../../scripts/examen_phishing.js"></script>
 
 </body>

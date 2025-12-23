@@ -1,62 +1,80 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Examen Final: Ingeniería Social</title>
-  <link rel="stylesheet" href="../../style.css">
-</head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Examen Módulo 4</title>
+    <link rel="stylesheet" href="../../CSS/base.css">
+    <link rel="stylesheet" href="../../CSS/examenes.css"></head>
 <body>
-  <header>
-    <div class="logo">NoHaxx</div>
-  </header>
 
-  <main class="main-content">
-    <section class="modulo">
-      <h2>🎭 Examen: Detecta el Engaño</h2>
-      <p>Resuelve estas 3 situaciones laborales donde alguien intenta manipularte. Elige la acción más segura.</p>
-      
-      <div class="pregunta examen" data-correcta="b">
-        <h3>Caso 1: La Llamada Urgente</h3>
-        <p>Recibes una llamada de un supuesto "técnico de Microsoft". Dice que tu equipo está emitiendo virus y necesita tu contraseña para detenerlo antes de que bloqueen la red de toda la empresa.</p>
-        <button data-respuesta="a">Se la doy rápidamente para no perjudicar a mis compañeros.</button>
-        <button data-respuesta="b">Desconfío. Cuelgo y llamo al departamento de IT interno para verificar.</button>
-        <button data-respuesta="c">Le pido su número de empleado y luego se la doy.</button>
-      </div>
+    <div class="contenedor-examen">
+        <header>
+            <h1>Examen Final: Módulo 4</h1>
+            <p>Responde las siguientes preguntas para completar el módulo.</p>
+        </header>
 
-      <div class="pregunta examen" data-correcta="c">
-        <h3>Caso 2: La Puerta de Entrada</h3>
-        <p>Llegas a la oficina y, al pasar tu tarjeta, una persona amable cargada con cajas de "pizzas" te pide que le sujetes la puerta porque no tiene manos libres.</p>
-        <button data-respuesta="a">Le sujeto la puerta por educación.</button>
-        <button data-respuesta="b">Le dejo pasar, pero le pregunto a quién viene a ver.</button>
-        <button data-respuesta="c">Le indico que debe llamar a recepción para que le abran desde dentro.</button>
-      </div>
+        <form id="formulario-quiz">
+            <div class="bloque-pregunta">
+                <h3>1. ¿Cuál es la etiqueta correcta para un salto de línea?</h3>
+                <label class="opcion">
+                    <input type="radio" name="p1" value="a">
+                    &lt;lb&gt;
+                </label>
+                <label class="opcion">
+                    <input type="radio" name="p1" value="b">
+                    &lt;br&gt;
+                </label>
+                <label class="opcion">
+                    <input type="radio" name="p1" value="c">
+                    &lt;break&gt;
+                </label>
+            </div>
 
-      <div class="pregunta examen" data-correcta="a">
-        <h3>Caso 3: La Curiosidad</h3>
-        <p>Encuentras un pendrive USB en el suelo del parking con una etiqueta que dice "Despidos 2025 y Bonus".</p>
-        <button data-respuesta="a">Lo entrego al departamento de IT sin conectarlo a ningún equipo.</button>
-        <button data-respuesta="b">Lo conecto un momento solo para ver si el archivo es real.</button>
-        <button data-respuesta="c">Me lo llevo a casa y lo pruebo en mi ordenador personal.</button>
-      </div>
+            <hr>
 
-      <div class="resultado">
-        <p id="puntuacion-examen" style="font-weight:bold; margin-top:20px;"></p>
-        <div id="mensaje-final"></div>
-      </div>
-    </section>
-  </main>
+            <div class="bloque-pregunta">
+                <h3>2. ¿Qué significa CSS?</h3>
+                <label class="opcion">
+                    <input type="radio" name="p2" value="a">
+                    Cascading Style Sheets
+                </label>
+                <label class="opcion">
+                    <input type="radio" name="p2" value="b">
+                    Computer Style System
+                </label>
+                <label class="opcion">
+                    <input type="radio" name="p2" value="c">
+                    Creative Style Sheets
+                </label>
+            </div>
 
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
-  <script src="../../scripts/firebase-config.js"></script>
-  <script src="../../scripts/examenes.js"></script>
+            <hr>
 
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      iniciarExamen('ingenieria', 3, 2);
-    });
-  </script>
+            <div class="bloque-pregunta">
+                <h3>3. ¿Cuál es la forma correcta de enlazar un archivo JS?</h3>
+                <label class="opcion">
+                    <input type="radio" name="p3" value="a">
+                    &lt;script href="archivo.js"&gt;
+                </label>
+                <label class="opcion">
+                    <input type="radio" name="p3" value="b">
+                    &lt;js src="archivo.js"&gt;
+                </label>
+                <label class="opcion">
+                    <input type="radio" name="p3" value="c">
+                    &lt;script src="archivo.js"&gt;
+                </label>
+            </div>
+
+            <div class="contenedor-boton">
+                <button type="button" id="btn-enviar" class="btn-principal">Finalizar Examen</button>
+            </div>
+        </form>
+
+        <div id="resultado" class="resultado-oculto"></div>
+    </div>
+
+    <script src="examen_ingenieria.js"></script>
 </body>
 </html>

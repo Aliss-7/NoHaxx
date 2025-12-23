@@ -1,35 +1,24 @@
 document.addEventListener('DOMContentLoaded', () => {
     let currentScore = 0;
-    const totalQuestions = 10;
-    const passingScore = 8; 
-    const moduleName = 'phishing';
+    const totalQuestions = 10; 
+    const passingScore = 7;    
+    const moduleName = 'ransomware';
 
     const steps = document.querySelectorAll('.exam-step');
     const progressBar = document.getElementById('progress-bar');
 
     if(steps.length > 0) steps[0].classList.add('active');
 
-    // --- INTERACTIVIDAD VIRUSTOTAL ---
-    window.runVTScan = function() {
-        const val = document.getElementById('vt-input').value.toLowerCase();
-        const result = document.getElementById('vt-result');
-        const options = document.getElementById('vt-options');
+    window.mostrarPropiedades = function() {
+        const v = document.getElementById('propiedades-file');
+        if(v) v.style.display = 'block';
+    }
+    window.cerrarPropiedades = function() {
+        const v = document.getElementById('propiedades-file');
+        if(v) v.style.display = 'none';
+    }
 
-        if (val.length > 3) {
-            result.style.display = "block";
-            options.style.display = "grid"; // Mostrar opciones al escanear
-        } else {
-            alert("Por favor, copia parte de la URL sospechosa.");
-        }
-    };
-
-    // --- INTERACTIVIDAD TOOLTIP ---
-    window.showUrl = function(visible) {
-        const tooltip = document.getElementById('url-tooltip-9');
-        if(tooltip) tooltip.style.display = visible ? 'block' : 'none';
-    };
-
-    // --- LÓGICA PRINCIPAL ---
+    // --- LÓGICA DE PREGUNTAS ---
     steps.forEach((step, index) => {
         if (step.id === 'step-final') return;
 
@@ -59,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if(progressBar) progressBar.style.width = `${progressPct}%`;
 
                 setTimeout(() => {
-                    step.classList.remove('active');
+                    step.classList.remove('active'); 
                     const nextStep = step.nextElementSibling;
                     
                     if (nextStep && nextStep.classList.contains('exam-step') && nextStep.id !== 'step-final') {
@@ -76,12 +65,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const finalScreen = document.getElementById('step-final');
         if(finalScreen) finalScreen.classList.add('active');
         
-        document.getElementById('loading-results').style.display = 'none';
-        document.getElementById('results-content').style.display = 'block';
+        const loader = document.getElementById('loading-results');
+        const content = document.getElementById('results-content');
+        
+        if(loader) loader.style.display = 'none';
+        if(content) content.style.display = 'block';
 
         const scoreDisplay = document.getElementById('final-score');
         const msgDisplay = document.getElementById('final-msg');
-        const detailDisplay = document.getElementById('final-detail');
         const btnRetry = document.getElementById('btn-retry');
         const btnContinue = document.getElementById('btn-continue');
 
@@ -89,9 +80,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (currentScore >= passingScore) {
             scoreDisplay.parentElement.style.background = '#4caf50';
-            msgDisplay.innerHTML = "¡EXCELENTE!";
+            msgDisplay.innerHTML = "¡EXCELENTE! <br>Has superado el test con éxito.";
             msgDisplay.style.color = "green";
-            detailDisplay.innerText = "Has superado el test con éxito.";
             if(btnContinue) btnContinue.style.display = 'inline-block';
             
             if (typeof saveScore === 'function') {
@@ -101,9 +91,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         } else {
             scoreDisplay.parentElement.style.background = '#f44336';
-            msgDisplay.innerHTML = "ALERTA DE SEGURIDAD";
+            msgDisplay.innerHTML = "SISTEMA COMPROMETIDO. <br>Debes mejorar tu defensa.";
             msgDisplay.style.color = "red";
-            detailDisplay.innerText = "Has caído en trampas críticas. Debes repetir el módulo.";
             if(btnRetry) btnRetry.style.display = 'inline-block';
         }
     }
@@ -116,9 +105,12 @@ document.addEventListener('DOMContentLoaded', () => {
         auth.onAuthStateChanged(user => {
             if (user) {
                 db.collection('userScores').doc(user.uid).set({
-                    scores: { phishing: nota }
+                    scores: { ransomware: nota }
                 }, { merge: true }).then(() => {
-                    if(msgDiv) msgDiv.innerHTML = "<p style='color:green; font-weight:bold;'>Nota registrada.</p>";
+                    if(msgDiv) msgDiv.innerHTML = "<p style='color:green; font-weight:bold;'>Progreso guardado correctamente.</p>";
+                }).catch((error) => {
+                    console.error("Error:", error);
+                    if(msgDiv) msgDiv.innerHTML = "<p style='color:orange'>Error al guardar nota.</p>";
                 });
             }
         });
