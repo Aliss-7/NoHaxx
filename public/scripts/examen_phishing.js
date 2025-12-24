@@ -9,7 +9,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if(steps.length > 0) steps[0].classList.add('active');
 
-    // --- INTERACTIVIDAD VIRUSTOTAL ---
     window.runVTScan = function() {
         const val = document.getElementById('vt-input').value.toLowerCase();
         const result = document.getElementById('vt-result');
@@ -17,19 +16,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (val.length > 3) {
             result.style.display = "block";
-            options.style.display = "grid"; // Mostrar opciones al escanear
+            options.style.display = "grid"; 
         } else {
             alert("Por favor, copia parte de la URL sospechosa.");
         }
     };
 
-    // --- INTERACTIVIDAD TOOLTIP ---
     window.showUrl = function(visible) {
         const tooltip = document.getElementById('url-tooltip-9');
         if(tooltip) tooltip.style.display = visible ? 'block' : 'none';
     };
 
-    // --- LÓGICA PRINCIPAL ---
     steps.forEach((step, index) => {
         if (step.id === 'step-final') return;
 
@@ -101,9 +98,9 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         } else {
             scoreDisplay.parentElement.style.background = '#f44336';
-            msgDisplay.innerHTML = "ALERTA DE SEGURIDAD";
+            msgDisplay.innerHTML = "Necesitas repasar";
             msgDisplay.style.color = "red";
-            detailDisplay.innerText = "Has caído en trampas críticas. Debes repetir el módulo.";
+            detailDisplay.innerText = "Necesitas por lo menos 8 aciertos de 10 para aprobar.";
             if(btnRetry) btnRetry.style.display = 'inline-block';
         }
     }

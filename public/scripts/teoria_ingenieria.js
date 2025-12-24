@@ -1,14 +1,10 @@
-/* =========================================================================
-   CONTROL DE PROGRESO Y BLOQUEO
-   ========================================================================= */
-// Estado de cada paso que requiere interacción obligatoria
 const stepRequirements = {
-    2: { type: 'video', completed: false }, // Video 1
-    4: { type: 'trash', count: 0, target: 3, completed: false }, // Juego Basura
-    5: { type: 'video', completed: false }, // Video 2
-    7: { type: 'osint', count: 0, target: 3, completed: false }, // Juego OSINT
-    10: { type: 'puzzle', matches: 0, target: 4, completed: false }, // Puzzle (4 pares)
-    11: { type: 'scenario', answered: 0, target: 2, completed: false } // Escenarios (2 casos)
+    2: { type: 'video', completed: false }, 
+    4: { type: 'trash', count: 0, target: 3, completed: false }, 
+    5: { type: 'video', completed: false }, 
+    7: { type: 'osint', count: 0, target: 3, completed: false }, 
+    10: { type: 'puzzle', matches: 0, target: 4, completed: false },
+    11: { type: 'scenario', answered: 0, target: 2, completed: false }
 };
 
 function updateNextButtonState() {
@@ -28,9 +24,6 @@ function updateNextButtonState() {
     }
 }
 
-/* =========================================================================
-   CARGA DE VÍDEOS YOUTUBE (CON DETECCIÓN DE FIN)
-   ========================================================================= */
 var player1, player2;
 
 function onYouTubeIframeAPIReady() {
@@ -67,14 +60,10 @@ function onPlayerStateChange2(event) {
     }
 }
 
-/* =========================================================================
-   NAVEGACIÓN (15 Pasos)
-   ========================================================================= */
 let currentStep = 0;
 const steps = document.querySelectorAll('.course-step');
 const totalSteps = steps.length;
 
-// Variables de estado local para los juegos (se sincronizan con stepRequirements)
 let foundTrashItems = 0;
 let foundOsintItems = 0;
 let selectedLeft = null;
@@ -89,10 +78,9 @@ function showStep(index) {
         }
     });
 
-    currentStep = index; // Actualizar variable global
-    updateNextButtonState(); // Verificar si se bloquea
+    currentStep = index; 
+    updateNextButtonState(); 
 
-    // Lógica del Menú
     let activeMenu = 0;
     if (index <= 2) activeMenu = 0;
     else if (index <= 5) activeMenu = 1;
@@ -127,7 +115,6 @@ function changeStep(n) {
 }
 
 function tryNextStep() {
-    // Doble verificación de bloqueo
     const req = stepRequirements[currentStep];
     if (req && !req.completed) {
         alert("Por favor, completa la actividad o visualiza el vídeo completo para continuar.");
@@ -142,7 +129,6 @@ function tryNextStep() {
 if(steps.length > 0) showStep(0);
 
 
-/* --- INTERACCIONES --- */
 
 function revelar(id, btn) {
     const el = document.getElementById(id);
@@ -172,7 +158,6 @@ function showTechInfo(type, card) {
     card.classList.add('active');
 }
 
-// EJERCICIO BASURA (Paso 4)
 function checkTrash(type, element) {
     if (element.classList.contains('safe') || element.classList.contains('danger')) return; 
 
@@ -233,7 +218,6 @@ function checkOsintRisk(id, element) {
     }
 }
 
-// EJERCICIO PUZZLE (Paso 10)
 function selectMatch(element, col) {
     if (element.classList.contains('correct')) return;
 
@@ -289,7 +273,6 @@ function checkMatch() {
     }
 }
 
-// ESCENARIOS PROFESIONALES (Paso 11)
 function checkStory(storyId, choice, btn) {
     const feedbackDiv = document.getElementById(`feedback-story-${storyId}`);
     feedbackDiv.style.display = 'block';

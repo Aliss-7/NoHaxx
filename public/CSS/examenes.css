@@ -28,14 +28,12 @@
 }
 .puzzle-item:hover { background-color: #f5f5f5; border-color: #bbb; }
 
-/* Estado: Seleccionado */
 .puzzle-item.selected {
   background-color: #e3f2fd;
   border-color: #2196f3;
   transform: scale(1.02);
   z-index: 10;
 }
-/* Estado: Correcto */
 .puzzle-item.solved {
   background-color: #e8f5e9;
   border-color: #4caf50;
@@ -48,7 +46,6 @@
   position: absolute;
   right: 10px;
 }
-/* Estado: Error */
 .puzzle-item.error {
   background-color: #ffebee;
   border-color: #f44336;
@@ -67,7 +64,6 @@
 /* =========================================================================
    ESTILOS PARA EXÁMENES
    ========================================================================= */
-/* Pregunta Clásica */
 .pregunta.examen {
   background: #f9f9f9;
   border: 1px solid #eee;
@@ -105,7 +101,6 @@
   border-color: #2196f3;
 }
 
-/* Gamificado */
 .exam-step {
   display: none;
   animation: fadeIn 0.5s;
@@ -138,7 +133,6 @@
   border-color: #2196f3;
   font-weight: bold;
 }
-/* Feedback visual */
 .option-card.correct {
   background-color: #e8f5e9 !important;
   border-color: #4caf50 !important;
@@ -150,7 +144,6 @@
   opacity: 0.7;
 }
 
-/* Barra de progreso */
 .progress-container {
   background-color: #f0f0f0;
   height: 10px;
@@ -165,7 +158,6 @@
   transition: width 0.3s;
 }
 
-/* Botón Siguiente */
 .btn-next-question {
   background-color: #0f1e40;
   color: white;
@@ -180,7 +172,6 @@
 }
 .btn-next-question:hover { background-color: #2c3e50; }
 
-/* Estilos Resultado Final */
 .score-circle {
   width: 150px; height: 150px;
   border-radius: 50%;
@@ -199,7 +190,6 @@
 .examen-step { display: none; animation: fadeIn 0.5s; }
 .examen-step.active { display: block; }
  
-/* Escritorio Virtual */
 .desktop-shell {
   background: #f4f7f6;
   border: 2px solid #0f1e40;
@@ -209,19 +199,16 @@
   box-shadow: 0 10px 30px rgba(0,0,0,0.1);
 }
 
- /* Ventanas Simuladas */
 .window-sim {
     background: white; border: 1px solid #ccc; border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.1); overflow: hidden; margin-bottom: 20px;
 }
 .window-header { background: #0f1e40; color: white; padding: 10px 15px; font-size: 0.9rem; }
 
-/* VirusTotal Simulator */
 .vt-body { padding: 20px; text-align: center; }
 .vt-input-area { display: flex; gap: 10px; margin: 15px 0; }
 .vt-input { flex: 1; padding: 10px; border: 1px solid #0070f3; font-family: monospace; }
 
-/* Botones de Respuesta (Neutrales) */
 .action-grid { display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 20px; }
 .btn-quiz {
     padding: 15px; border: 1px solid #ddd; border-radius: 8px;
@@ -230,7 +217,6 @@
 }
 .btn-quiz:hover { background: #f0f4ff; border-color: #0f1e40; }
 
-/* Estilo para el correo interactivo del Caso 9 */
 .interactive-mail { border: 1px solid #eee; padding: 15px; background: #fafafa; }
 .hover-link { color: #1a73e8; text-decoration: underline; cursor: help; font-weight: bold; }
 .url-tooltip { 
@@ -280,7 +266,6 @@
    ESTILOS NECESARIOS PARA SCRIPT COMPARTIDO (examenes.js)
    ========================================================================= */
 
-/* Estilo para el contenedor de resultados */
 .resultado {
   background: #f0f4f8;
   padding: 20px;
@@ -290,7 +275,6 @@
   border: 1px solid #dcebf7;
 }
 
-/* Estilo para la clase 'boton' que inyecta examenes.js */
 .boton {
   display: inline-block;
   padding: 10px 20px;
@@ -309,13 +293,11 @@
   background-color: #2c3e50;
 }
 
-/* Estado visual para preguntas contestadas (bloqueadas) */
 .pregunta.examen.contestada {
   opacity: 0.8;
-  pointer-events: none; /* Evita cambiar la respuesta */
+  pointer-events: none;
 }
 
-/* Ejemplo rápido para asegurar que el botón se vea bien */
 .contenedor-boton {
     margin-top: 20px;
     text-align: center;
@@ -325,7 +307,7 @@
     padding: 10px 20px;
     font-size: 16px;
     cursor: pointer;
-    background-color: #007bff; /* O el color que uses */
+    background-color: #007bff; 
     color: white;
     border: none;
     border-radius: 5px;
@@ -336,9 +318,8 @@
     background-color: #0056b3;
 }
 
-/* Para ocultar el resultado al principio */
 #resultado {
-    display: none; /* JS lo cambiará a block */
+    display: none;
     margin-top: 20px;
     padding: 15px;
     border: 1px solid #ccc;

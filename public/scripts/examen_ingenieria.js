@@ -1,66 +1,181 @@
-document.addEventListener('DOMContentLoaded', () => {
-    
-    // 1. Definimos las respuestas correctas (coinciden con el 'value' del HTML)
-    const respuestasCorrectas = {
-        p1: 'b', // <br>
-        p2: 'a', // Cascading Style Sheets
-        p3: 'c'  // <script src...>
-    };
+const correctAnswers = { 
+  1: 'lock',
+  2: 'correct_trio',
+  3: 'it',
+  4: 'sender',
+  5: 'phone',
+  6: 'file2',
+  7: 'b',
+  8: 'link',
+  9: 'blurred',
+  10: 'block'
+};
 
-    // 2. Seleccionamos los elementos del DOM
-    const botonEnviar = document.getElementById('btn-enviar');
-    const divResultado = document.getElementById('resultado');
+let userAnswers = {};
+const totalQuestions = 10;
+let isTransitioning = false; 
 
-    // 3. Función principal al hacer clic
-    botonEnviar.addEventListener('click', () => {
-        let puntaje = 0;
-        let totalPreguntas = Object.keys(respuestasCorrectas).length;
-        
-        // Objeto FormData para leer lo que marcó el usuario fácilmente
-        const formulario = document.getElementById('formulario-quiz');
-        const datos = new FormData(formulario);
+let deskSelection = []; 
 
-        // Recorremos las respuestas correctas para comparar
-        for (let [pregunta, respuestaCorrecta] of Object.entries(respuestasCorrectas)) {
-            const respuestaUsuario = datos.get(pregunta);
+function nextQuestion(current) {
+  const progress = (current / totalQuestions) * 100;
+  document.getElementById('progress-bar').style.width = `${progress}%`;
+  document.getElementById(`q${current}`).classList.remove('active');
 
-            if (respuestaUsuario === respuestaCorrecta) {
-                puntaje++;
-                // Opcional: Pintar la pregunta de verde si quieres feedback visual inmediato
-            }
-        }
+  if (current < totalQuestions) {
+    document.getElementById(`q${current + 1}`).classList.add('active');
+  } else {
+    calculateAndSave();
+  }
+}
 
-        // 4. Mostrar el resultado
-        mostrarFeedback(puntaje, totalPreguntas);
-    });
+function checkSystem(action) {
+  if(isTransitioning) return; isTransitioning = true;
+  userAnswers[1] = action;
+  
+  const btns = document.querySelectorAll('.os-btn');
+  btns.forEach(b => b.style.opacity = '0.5');
+  
+  setTimeout(() => { nextQuestion(1); isTransitioning = false; }, 500);
+}
 
-    function mostrarFeedback(puntaje, total) {
-        // Calculamos porcentaje
-        const porcentaje = (puntaje / total) * 100;
-        
-        let mensaje = '';
-        let colorClase = '';
+function deskClick(element) {
+  if (element.classList.contains('picked')) return; 
+  
+  element.classList.add('picked');
+  const type = element.getAttribute('data-type');
+  deskSelection.push(type);
 
-        if (porcentaje === 100) {
-            mensaje = '¡Excelente! Has acertado todo.';
-            colorClase = 'exito'; // Necesitarás definir este estilo en tu CSS
-        } else if (porcentaje >= 60) {
-            mensaje = 'Bien hecho, has aprobado.';
-            colorClase = 'aprobado';
-        } else {
-            mensaje = 'Necesitas repasar el Módulo 4.';
-            colorClase = 'error';
-        }
+  if (deskSelection.length === 3) {
+    const dangers = deskSelection.filter(t => t === 'danger').length;
+    userAnswers[2] = (dangers === 3) ? 'correct_trio' : 'wrong';
+    setTimeout(() => nextQuestion(2), 600);
+  }
+}
 
-        divResultado.innerHTML = `
-            <h3>Resultados:</h3>
-            <p>Has obtenido <strong>${puntaje}</strong> de <strong>${total}</strong> aciertos.</p>
-            <p class="${colorClase}">${mensaje}</p>
-            <button onclick="location.reload()">Intentar de nuevo</button>
-        `;
-        
-        // Hacemos visible el div y hacemos scroll hacia él
-        divResultado.style.display = 'block'; 
-        divResultado.scrollIntoView({ behavior: 'smooth' });
+function usbAction(zone) {
+  if(isTransitioning) return; isTransitioning = true;
+  userAnswers[3] = zone;
+  const zones = document.querySelectorAll('.usb-zone');
+  zones.forEach(z => z.style.opacity = '0.5');
+  setTimeout(() => { nextQuestion(3); isTransitioning = false; }, 500);
+}
+
+function checkHotspot(qNum, zone) {
+  if(isTransitioning) return; isTransitioning = true;
+  userAnswers[qNum] = zone;
+  setTimeout(() => { nextQuestion(qNum); isTransitioning = false; }, 400);
+}
+
+function checkApp(app) {
+  if(isTransitioning) return; isTransitioning = true;
+  userAnswers[5] = app;
+  const icons = document.querySelectorAll('.app-icon');
+  icons.forEach(i => i.style.opacity = '0.5');
+  setTimeout(() => { nextQuestion(5); isTransitioning = false; }, 400);
+}
+
+function checkFile(fileId) {
+  if(isTransitioning) return; isTransitioning = true;
+  userAnswers[6] = fileId;
+  const cards = document.querySelectorAll('.file-card');
+  cards.forEach(c => c.style.opacity = '0.5');
+  setTimeout(() => { nextQuestion(6); isTransitioning = false; }, 400);
+}
+
+function replyChat(option) {
+  const chatLog = document.getElementById('chat-log-q7');
+  document.getElementById('chat-opts-q7').style.display = 'none';
+  
+  let text = (option === 'a') ? "Claro Laura, es 600..." : "No puedo dar datos por aquí, te lo mando por Teams.";
+  chatLog.innerHTML += `<div class="msg outgoing">${text}</div>`;
+  userAnswers[7] = option;
+  
+  setTimeout(() => nextQuestion(7), 800);
+}
+
+function toggleBlur() {
+  const bg = document.getElementById('room-bg');
+  const checkbox = document.getElementById('blur-check');
+  
+  if(checkbox.checked) {
+    bg.classList.add('blurred');
+  } else {
+    bg.classList.remove('blurred');
+  }
+}
+
+function attemptJoin() {
+  const checkbox = document.getElementById('blur-check');
+  userAnswers[9] = checkbox.checked ? 'blurred' : 'clear';
+  nextQuestion(9);
+}
+
+function checkPopup(action) {
+  if(isTransitioning) return; isTransitioning = true;
+  userAnswers[10] = action;
+  document.querySelector('.popup-card').style.opacity = '0.5';
+  setTimeout(() => { nextQuestion(10); isTransitioning = false; }, 400);
+}
+
+function calculateAndSave() {
+  document.getElementById('final-screen').classList.add('active');
+  
+  let hits = 0;
+  for (let i = 1; i <= totalQuestions; i++) {
+    if(i === 5 && (userAnswers[5] === 'phone' || userAnswers[5] === 'teams')) {
+       hits++;
+    } else if (userAnswers[i] === correctAnswers[i]) {
+       hits++;
     }
-});
+  }
+  
+  const finalScore = hits; 
+  const passed = hits >= 6; 
+
+  const resultsDiv = document.getElementById('results-content');
+  const loadingDiv = document.getElementById('loading-results');
+  const scoreTxt = document.getElementById('final-score');
+  const msgTxt = document.getElementById('final-msg');
+  const detailTxt = document.getElementById('final-detail');
+  
+  const btnCont = document.getElementById('btn-continue');
+  const btnRetry = document.getElementById('btn-retry');
+  const btnNext = document.getElementById('btn-next');
+
+  setTimeout(() => {
+    loadingDiv.style.display = 'none';
+    resultsDiv.style.display = 'block';
+    scoreTxt.innerText = finalScore;
+
+    if (passed) {
+      msgTxt.innerText = "¡EXCELENTE!";
+      msgTxt.style.color = "#2e7d32";
+      detailTxt.innerText = `Has superado ${hits} de 10.`;
+      
+      btnCont.style.display = "inline-block";
+      btnNext.style.display = "inline-block";
+      
+      saveToFirebase(finalScore);
+    } else {
+      msgTxt.innerText = "Necesitas repasar";
+      msgTxt.style.color = "#d32f2f";
+      detailTxt.innerText = `Solo has superado ${hits} de 10. Necesitas por lo menos 8 aciertos de 10 para aprobar.`;
+      
+      btnRetry.style.display = "inline-block";
+      btnCont.style.display = "inline-block";
+    }
+  }, 1000);
+}
+
+function saveToFirebase(score) {
+  const auth = firebase.auth();
+  const db = firebase.firestore();
+  auth.onAuthStateChanged(user => {
+    if (user) {
+      db.collection('userScores').doc(user.uid).set({
+        scores: { ingenieria: score }
+      }, { merge: true });
+    }
+  });
+}

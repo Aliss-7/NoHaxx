@@ -1,80 +1,457 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Examen Módulo 4</title>
-    <link rel="stylesheet" href="../../CSS/base.css">
-    <link rel="stylesheet" href="../../CSS/examenes.css"></head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simulación: Ingeniería Social - NoHaxx</title>
+
+  <link rel="stylesheet" href="../../CSS/base.css">
+  <link rel="stylesheet" href="../../CSS/examenes.css">
+
+  <style>
+    /* --- ESTILOS GENERALES --- */
+    .phase-badge {
+      background: #e0e0e0; color: #333; padding: 2px 8px; 
+      border-radius: 4px; font-size: 0.75rem; font-weight: bold; margin-left: 10px;
+      text-transform: uppercase; letter-spacing: 1px; vertical-align: middle;
+    }
+
+    /* --- Q1: MENÚ DE SISTEMA (NUEVO) --- */
+    .os-menu {
+      background: #2d3436; padding: 20px; border-radius: 8px; max-width: 400px; margin: 0 auto 20px auto;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.3); border: 1px solid #444; text-align: left;
+    }
+    .os-header-bar {
+      display: flex; align-items: center; border-bottom: 1px solid #555; padding-bottom: 15px; margin-bottom: 15px;
+    }
+    .user-avatar-mini {
+      width: 40px; height: 40px; background: #0984e3; border-radius: 50%; color: white;
+      display: flex; align-items: center; justify-content: center; font-weight: bold; margin-right: 15px;
+    }
+    .user-info-text { color: white; font-size: 0.9rem; }
+    .os-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .os-btn {
+      background: #636e72; color: white; border: none; padding: 15px; border-radius: 4px;
+      cursor: pointer; text-align: left; display: flex; align-items: center; gap: 10px;
+      transition: background 0.2s; font-size: 0.85rem;
+    }
+    .os-btn:hover { background: #b2bec3; color: #2d3436; }
+    .os-icon {
+      width: 24px; height: 24px; background: rgba(255,255,255,0.2); border-radius: 3px;
+      display: flex; align-items: center; justify-content: center; font-weight: bold; font-family: monospace;
+    }
+
+    /* --- Q2: ESCRITORIO --- */
+    .interactive-desk {
+      background: #e0e0e0; padding: 20px; border-radius: 4px; border: 1px solid #ccc;
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;
+      min-height: 200px; margin-bottom: 20px;
+    }
+    .desk-item {
+      background: white; border: 2px solid #bbb; border-radius: 8px; height: 80px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      cursor: pointer; position: relative; font-weight: bold; color: #555;
+      font-size: 0.7rem; text-align: center; transition: transform 0.1s;
+    }
+    .desk-item:hover { transform: translateY(-2px); border-color: #999; }
+    .desk-item.picked { 
+      background: #333; color: white; border-color: #000; transform: scale(0.95);
+    }
+    .item-icon { font-size: 1.8rem; margin-bottom: 5px; }
+
+    /* --- Q3: USB --- */
+    .usb-scene {
+      display: flex; justify-content: space-between; align-items: center; gap: 10px;
+      background: #f5f5f5; padding: 20px; border: 1px solid #ddd;
+    }
+    .usb-zone {
+      flex: 1; height: 100px; border: 2px dashed #999;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      cursor: pointer; background: white; color: #666; font-weight: bold; font-size: 0.9rem;
+    }
+    .usb-zone:hover { background: #eee; border-color: #333; color: #333; }
+    .usb-stick {
+      width: 60px; height: 30px; background: #333; color: white;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.7rem; font-weight: bold; border-radius: 4px;
+    }
+
+    /* --- Q4 & Q8: FORENSE --- */
+    .forensic-panel {
+      background: white; border: 1px solid #ccc; font-family: Arial, sans-serif;
+      text-align: left; margin-bottom: 20px;
+    }
+    .forensic-header { background: #f0f0f0; padding: 10px; border-bottom: 1px solid #ccc; font-size: 0.9rem; }
+    .forensic-body { padding: 20px; font-size: 0.95rem; line-height: 1.5; }
+    .hotspot-area { 
+      border-bottom: 2px solid transparent; cursor: pointer; padding: 0 2px;
+      transition: background 0.2s;
+    }
+    .hotspot-area:hover { background: #e3f2fd; border-bottom-color: #2196f3; }
+    .hotspot-area.clicked { background: #fff3cd; border-bottom-color: #ffc107; }
+
+    /* --- Q5: APPS --- */
+    .mobile-screen-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; 
+      background: #333; padding: 20px; border-radius: 10px; max-width: 300px; margin: 0 auto;
+    }
+    .app-icon {
+      background: #555; border-radius: 8px; height: 70px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      cursor: pointer; color: white; font-size: 0.7rem; text-align: center;
+      transition: background 0.2s;
+    }
+    .app-icon:hover { background: #777; }
+    .app-square {
+      width: 30px; height: 30px; background: #fff; margin-bottom: 5px;
+      border-radius: 4px; display: flex; align-items: center; justify-content: center;
+      color: #333; font-weight: bold; font-size: 1rem;
+    }
+
+    /* --- Q6: ARCHIVOS --- */
+    .file-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+    .file-card {
+      background: white; border: 1px solid #ccc; padding: 15px;
+      text-align: center; cursor: pointer; transition: all 0.2s;
+    }
+    .file-card:hover { background: #f9f9f9; border-color: #333; }
+    .file-ext {
+      display: inline-block; padding: 5px 10px; background: #eee; color: #555;
+      font-weight: bold; font-size: 0.8rem; margin-bottom: 10px; border-radius: 3px;
+    }
+    .file-name { font-size: 0.85rem; word-break: break-all; font-family: monospace; color: #333; }
+
+    /* --- Q7: CHAT --- */
+    .chat-container {
+      background: #f5f5f5; border: 1px solid #ccc; height: 300px; display: flex; flex-direction: column;
+    }
+    .chat-log { flex: 1; overflow-y: auto; padding: 15px; display: flex; flex-direction: column; gap: 10px; }
+    .chat-options { background: #eee; padding: 10px; display: flex; flex-direction: column; gap: 8px; border-top: 1px solid #ccc;}
+    .chat-btn {
+      background: white; border: 1px solid #ccc; padding: 10px; text-align: left; 
+      cursor: pointer; font-size: 0.9rem; color: #333; transition: background 0.2s;
+    }
+    .chat-btn:hover { background: #f0f0f0; border-color: #999; }
+    .msg { padding: 8px 12px; border-radius: 4px; max-width: 80%; font-size: 0.9rem; }
+    .msg.incoming { background: white; border: 1px solid #ddd; align-self: flex-start; }
+    .msg.outgoing { background: #dcf8c6; border: 1px solid #c8e6c9; align-self: flex-end; }
+
+    /* --- Q9: WEBCAM --- */
+    .webcam-wrapper {
+      background: #202124; max-width: 400px; margin: 0 auto; padding-bottom: 10px; border-radius: 8px; overflow: hidden;
+    }
+    .webcam-screen {
+      height: 220px; background: #000; position: relative; overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .room-bg {
+      position: absolute; top:0; left:0; width:100%; height:100%; background: #ddd;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      transition: filter 0.4s ease;
+    }
+    .room-bg.blurred { filter: blur(12px); }
+    
+    .whiteboard-risk {
+      background: white; border: 4px solid #333; padding: 15px; color: #d32f2f; 
+      font-weight: 900; font-family: sans-serif; font-size: 1.2rem; transform: rotate(-2deg);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2); text-align: center;
+    }
+    
+    .user-face { 
+      z-index: 2; width: 90px; height: 90px; background: #5f6368; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center; font-weight: bold; color: white;
+      border: 3px solid white; position: absolute; bottom: -10px;
+    }
+    
+    .webcam-controls { 
+      display: flex; align-items: center; justify-content: space-between; 
+      padding: 15px 20px; background: #333; color: white;
+    }
+    
+    .toggle-container { display: flex; align-items: center; gap: 10px; font-size: 0.9rem; font-weight: bold;}
+    .switch {
+      position: relative; display: inline-block; width: 50px; height: 26px;
+    }
+    .switch input { opacity: 0; width: 0; height: 0; }
+    .slider {
+      position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
+      background-color: #ccc; transition: .4s; border-radius: 34px;
+    }
+    .slider:before {
+      position: absolute; content: ""; height: 20px; width: 20px; left: 3px; bottom: 3px;
+      background-color: white; transition: .4s; border-radius: 50%;
+    }
+    input:checked + .slider { background-color: #2196f3; }
+    input:checked + .slider:before { transform: translateX(24px); }
+
+    .btn-join {
+      background: #00796b; color: white; border: none; padding: 10px 20px; 
+      font-weight: bold; cursor: pointer; border-radius: 4px; text-transform: uppercase;
+    }
+    .btn-join:hover { background: #00695c; }
+
+    /* --- Q10: POPUP SYSTEM --- */
+    .system-overlay {
+      background: rgba(0,0,0,0.5); padding: 20px; border-radius: 5px; color: #333; text-align: left;
+    }
+    .popup-card {
+      background: white; padding: 20px; border-radius: 2px; border: 1px solid #999; box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+    .popup-header { font-weight: bold; border-bottom: 2px solid #f44336; padding-bottom: 10px; margin-bottom: 10px; color: #f44336; }
+    .popup-buttons { display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px; }
+    .btn-popup {
+      padding: 8px 16px; border: 1px solid #ccc; background: #eee; cursor: pointer; font-weight: bold;
+    }
+    .btn-popup:hover { background: #ddd; }
+  </style>
+</head>
 <body>
+  <header>
+    <div class="logo">NoHaxx</div>
+    <div class="top-buttons">
+      <a href="../../Pantallas/modulos.html">Volver a Módulos</a>
+    </div>
+  </header>
 
-    <div class="contenedor-examen">
-        <header>
-            <h1>Examen Final: Módulo 4</h1>
-            <p>Responde las siguientes preguntas para completar el módulo.</p>
-        </header>
-
-        <form id="formulario-quiz">
-            <div class="bloque-pregunta">
-                <h3>1. ¿Cuál es la etiqueta correcta para un salto de línea?</h3>
-                <label class="opcion">
-                    <input type="radio" name="p1" value="a">
-                    &lt;lb&gt;
-                </label>
-                <label class="opcion">
-                    <input type="radio" name="p1" value="b">
-                    &lt;br&gt;
-                </label>
-                <label class="opcion">
-                    <input type="radio" name="p1" value="c">
-                    &lt;break&gt;
-                </label>
-            </div>
-
-            <hr>
-
-            <div class="bloque-pregunta">
-                <h3>2. ¿Qué significa CSS?</h3>
-                <label class="opcion">
-                    <input type="radio" name="p2" value="a">
-                    Cascading Style Sheets
-                </label>
-                <label class="opcion">
-                    <input type="radio" name="p2" value="b">
-                    Computer Style System
-                </label>
-                <label class="opcion">
-                    <input type="radio" name="p2" value="c">
-                    Creative Style Sheets
-                </label>
-            </div>
-
-            <hr>
-
-            <div class="bloque-pregunta">
-                <h3>3. ¿Cuál es la forma correcta de enlazar un archivo JS?</h3>
-                <label class="opcion">
-                    <input type="radio" name="p3" value="a">
-                    &lt;script href="archivo.js"&gt;
-                </label>
-                <label class="opcion">
-                    <input type="radio" name="p3" value="b">
-                    &lt;js src="archivo.js"&gt;
-                </label>
-                <label class="opcion">
-                    <input type="radio" name="p3" value="c">
-                    &lt;script src="archivo.js"&gt;
-                </label>
-            </div>
-
-            <div class="contenedor-boton">
-                <button type="button" id="btn-enviar" class="btn-principal">Finalizar Examen</button>
-            </div>
-        </form>
-
-        <div id="resultado" class="resultado-oculto"></div>
+  <main class="main-content">
+    
+    <div class="progress-container">
+      <div class="progress-bar" id="progress-bar"></div>
     </div>
 
-    <script src="examen_ingenieria.js"></script>
+    <div class="exam-step active" id="q1">
+      <span class="tag">Pregunta 1/10</span>
+      <h2>Vas a una pausa de 5 min en el trabajo.<br>
+      ¿Qué opción de tu sistema deberías seleccionar?</h2>
+      
+      <div class="os-menu">
+        <div class="os-header-bar">
+          <div class="user-avatar-mini">YO</div>
+          <div class="user-info-text">
+            <strong>Usuario Corporativo</strong><br>
+            Sesión iniciada: 08:30 AM
+          </div>
+        </div>
+        <div class="os-grid">
+          <button class="os-btn" onclick="checkSystem('monitor')">
+            <div class="os-icon">⏻</div> Apagar Monitor
+          </button>
+          <button class="os-btn" onclick="checkSystem('lock')">
+            <div class="os-icon">&#x1F512;</div> Bloquear Sesión
+          </button>
+          <button class="os-btn" onclick="checkSystem('minimize')">
+            <div class="os-icon">_</div> Minimizar Todo
+          </button>
+          <button class="os-btn" onclick="checkSystem('away')">
+            <div class="os-icon">●</div> Estado: Ausente
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="exam-step" id="q2">
+      <span class="tag">Pregunta 2/10</span>
+      <h2>Vas a hacer una pausa para comer.<br>
+        Selecciona que <strong>3 riesgos</strong> de seguridad deberías no puedes dejar expuestos.</h2>
+      
+      <div class="interactive-desk" id="desk-q2">
+        <div class="desk-item" data-type="safe" onclick="deskClick(this)">
+          <div>Periodico</div>
+        </div>
+        <div class="desk-item" data-type="danger" onclick="deskClick(this)">
+          <div>Claves de documentos</div>
+        </div>
+        <div class="desk-item" data-type="safe" onclick="deskClick(this)">
+          <div>Foto de empresa</div>
+        </div>
+        <div class="desk-item" data-type="danger" onclick="deskClick(this)">
+          <div>Móvil ON</div>
+        </div>
+        <div class="desk-item" data-type="safe" onclick="deskClick(this)">
+          <div>Bolígrafo</div>
+        </div>
+        <div class="desk-item" data-type="danger" onclick="deskClick(this)">
+          <div>Carpeta Confidencial</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="exam-step" id="q3">
+      <span class="tag">Pregunta 3/10</span>
+      <p>Estas en la cafetería del trabajo y encuentras un USB.<br>
+      El USB lleva una etiqueta que dice: "Dep_Contabilidad. Nominas"</pp>
+      <h2>¿Qué deberías hacer?</h2>
+      <div class="usb-scene">
+        <div class="usb-zone" onclick="usbAction('pc')">
+          <div>Comprobar el contenido en mi PC para ver a quien pertenece y devolverlo.</div>
+        </div>
+        <div class="usb-stick">USB</div>
+        <div class="usb-zone" onclick="usbAction('it')">
+          <div>Llevarlo a soporte IT para que lo revise.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="exam-step" id="q4">
+      <span class="tag">Pregunta 4/10</span>
+      <h2>Haz clic en el elemento que alerta de posible peligro del correo.</h2>
+      <div class="forensic-panel">
+        <div class="forensic-header">
+          <div><strong>De:</strong> <span class="hotspot-area" onclick="checkHotspot(4, 'sender')">soporte@micr0soft.com</span></div>
+          <div style="margin-top:5px;"><strong>Asunto:</strong> <span class="hotspot-area" onclick="checkHotspot(4, 'subject')">Alerta de Seguridad</span></div>
+        </div>
+        <div class="forensic-body">
+          <p>Su contraseña caduca hoy.</p>
+          <p><span style="text-decoration:underline; color:blue;" class="hotspot-area" onclick="checkHotspot(4, 'link')">Renovar aquí</span></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="exam-step" id="q5">
+      <span class="tag">Pregunta 5/10</span>
+      <p>El CEO te escribe un WhatsApp en el que te dice que es urgente que transfieras dinero para un proyecto a la cuenta que se acaba de crear para el mismo proposito.</pp>
+      <h2>¿A través de que medio verificarías esta información?</h2>
+      <div class="mobile-screen-grid">
+        <div class="app-icon" onclick="checkApp('whatsapp')">
+          <div class="app-square" style="color:#25d366;">W</div>WhatsApp
+        </div>
+        <div class="app-icon" onclick="checkApp('phone')">
+          <div class="app-square" style="color:#2196f3;">T</div>TELEFONO
+        </div>
+        <div class="app-icon" onclick="checkApp('teams')">
+          <div class="app-square" style="color:#6264a7;">T</div>TEAMS
+        </div>
+        <div class="app-icon" onclick="checkApp('settings')">
+          <div class="app-square" style="color:#999;">A</div>AJUSTES
+        </div>
+        <div class="app-icon" onclick="checkApp('mail')">
+          <div class="app-img"></div>
+          <div class="app-square" style="color:#d44638;">C</div>CORREO
+        </div>
+        <div class="app-icon" onclick="checkApp('bank')">
+          <div class="app-square" style="color:#ffc107;">B</div>BANCO
+        </div>
+      </div>
+    </div>
+
+    <div class="exam-step" id="q6">
+      <span class="tag">Pregunta 6/10</span>
+      <h2>¿Qué tipo de archivo te resulta sospechoso?</h2>
+      <div class="file-grid">
+        <div class="file-card" onclick="checkFile('file1')">
+          <div class="file-name">Info.pdf</div>
+        </div>
+        <div class="file-card" onclick="checkFile('file2')">
+          <div class="file-name">Factura.pdf.exe</div>
+        </div>
+        <div class="file-card" onclick="checkFile('file3')">
+          <div class="file-name">Logo.png</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="exam-step" id="q7">
+      <span class="tag">Pregunta 7/10</span>
+      <p>Estas en la oficina y recibes por parte de alguien de Recursos Humanos un WhatsApp en el que te pide lo siguiente.</p>
+      <h2>¿Qué haces?</h2>
+      <div class="chat-container">
+        <div class="chat-log" id="chat-log-q7">
+          <div class="msg incoming"><strong>Laura (RRHH):</strong> Buenos días!</div>
+          <div class="msg incoming"><strong>Laura (RRHH):</strong> Necesito el móvil del Director. Es urgente.</div>
+          <div class="msg incoming"><strong>Laura (RRHH):</strong> Tenemos que avisarle de una reunión.</div>
+        </div>
+        <div class="chat-options" id="chat-opts-q7">
+          <button class="chat-btn" onclick="replyChat('a')">A) Claro Laura, es 600...</button>
+          <button class="chat-btn" onclick="replyChat('b')">B) No puedo dar datos por aquí, te lo mando por Teams.</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="exam-step" id="q8">
+      <span class="tag">Pregunta 8/10</span>
+      <h2>Detecta el peligro en este SMS.</h2>
+      <div class="forensic-panel" style="max-width:300px; margin:0 auto; border:2px solid #333;">
+        <div class="forensic-header" style="background:#333; color:white;">Mensajes</div>
+        <div class="forensic-body">
+          <p class="hotspot-area" onclick="checkHotspot(8, 'text')"><strong>Correos:</strong> Su paquete está retenido.</p>
+          <p>Pague las tasas en:</p>
+          <p><span class="hotspot-area" style="color:blue; text-decoration:underline;" onclick="checkHotspot(8, 'link')">http://correos-pagos.net</span></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="exam-step" id="q9">
+      <span class="tag">Pregunta 9/10</span>
+      <p>Vas a entrar en una reunión con clientes externos a la empresa y hoy estas sentada delante de una pizarra con datos confidenciales.</p>
+      <h2>Protege tu entorno antes de entrar.</h2>
+      
+      <div class="webcam-wrapper">
+        <div class="webcam-screen">
+          <div id="room-bg" class="room-bg">
+            <div class="whiteboard-risk">
+              CONTRASEÑA<br>SERVIDOR:<br>Admin123
+            </div>
+          </div>
+          <div class="user-face">YO</div>
+        </div>
+        
+        <div class="webcam-controls">
+          <div class="toggle-container">
+            <span>DIFUMINAR FONDO:</span>
+            <label class="switch">
+              <input type="checkbox" id="blur-check" onchange="toggleBlur()">
+              <span class="slider"></span>
+            </label>
+          </div>
+          <button class="btn-join" onclick="attemptJoin()">ENTRAR</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="exam-step" id="q10">
+      <span class="tag">Pregunta 10/10</span>
+      <p>Un compañero de trabajo te ha mandado un archivo de una extensión de Chrome para agilizar unas tareas del día a día. Al descargarlo te sale un aviso en el sistema.</p>
+      <h2>¿Qué harías?</h2>
+      <div class="system-overlay">
+        <div class="popup-card">
+          <div class="popup-header">⚠️ SEGURIDAD</div>
+          <p>El archivo <strong>ExtensiónChrome.apk</strong> proviene de una fuente desconocida.</p>
+          <div class="popup-buttons">
+            <button class="btn-popup" onclick="checkPopup('block')">BLOQUEAR</button>
+            <button class="btn-popup" onclick="checkPopup('install')">INSTALAR</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="exam-step" id="final-screen" style="text-align: center;">
+      <h2>Resultados del test</h2>
+      <div id="loading-results">Procesando...</div>
+      
+      <div id="results-content" style="display:none;">
+        <div class="score-circle">
+          <span id="final-score">0</span>
+          <span class="score-label">/ 10</span>
+        </div>
+        <h3 id="final-msg"></h3>
+        <p id="final-detail"></p>
+        
+        <div style="margin-top:30px;">
+          <button onclick="location.reload()" class="boton" id="btn-retry" style="display:none; background:#f44336; color:white; border:none;">REINTENTAR</button>
+          <a href="../../Pantallas/modulos.html" class="boton" id="btn-continue" style="display:none;">SALIR</a>
+          <a href="../5contrasenas/teoria.html" class="boton" id="btn-next" style="display:none; background:#2e7d32; color:white;">Continuar con el siguiente módulo</a>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+
+  <script src="../../scripts/firebase-config.js"></script>
+  <script src="../../scripts/examen_ingenieria.js"></script>
+
 </body>
 </html>

@@ -53,12 +53,11 @@ function calculateAndSave() {
   scoreTxt.innerText = finalScore;
 
   if (passed) {
-    msgTxt.innerText = "¡Enhorabuena! 🎓";
+    msgTxt.innerText = "¡Enhorabuena!";
     msgTxt.style.color = "green";
-    detailTxt.innerText = `Has acertado ${hits} de ${totalQuestions} preguntas. Has completado los fundamentos.`;
+    detailTxt.innerText = `Has superado el test con éxito.`;
     btnCont.style.display = "inline-block";
     
-    // Guardar en Firebase
     saveToFirebase(10);
   } else {
     msgTxt.innerText = "Necesitas repasar";
