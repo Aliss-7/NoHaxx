@@ -2,57 +2,214 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Examen Final: Contraseñas</title>
-  <link rel="stylesheet" href="../../style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simulación: Seguridad de Cuentas - NoHaxx</title>
+
+  <link rel="stylesheet" href="../../CSS/base.css">
+  <link rel="stylesheet" href="../../CSS/examenes.css">
+
 </head>
 <body>
-  <header><div class="logo">NoHaxx</div></header>
+  <header>
+    <div class="logo">NoHaxx</div>
+    <div class="top-buttons">
+      <a href="../../Pantallas/modulos.html">Salir</a>
+    </div>
+  </header>
+
   <main class="main-content">
-    <section class="modulo">
-      <h2>🔑 Examen: Gestión de Credenciales</h2>
-      <p>Demuestra que tus llaves digitales están seguras.</p>
+    
+    <div class="progress-container">
+      <div class="progress-bar" id="progress-bar"></div>
+    </div>
+
+    <div class="exam-step active" id="q1">
+      <div><span class="tag">Pregunta 1/10</span></div>
+      <h2>Configura una contraseña para tu nueva cuenta bancaria.</h2>
+      <p>Debe ser segura (larga y compleja) para continuar.</p>
       
-      <div class="pregunta examen" data-correcta="c">
-        <h3>1. Creando una contraseña</h3>
-        <p>Necesitas crear una contraseña nueva para el correo corporativo. ¿Cuál eliges?</p>
-        <button data-respuesta="a">Empresa2025 (Fácil de recordar)</button>
-        <button data-respuesta="b">P@ssword! (Tiene símbolos y mayúsculas)</button>
-        <button data-respuesta="c">MeGustaElCafePorLaMañana!99 (Frase larga y compleja)</button>
+      <div class="password-field">
+        <input type="text" id="q1-input" class="pass-input" placeholder="INGRESE CLAVE..." onkeyup="checkQ1Strength()">
+        <div class="pass-strength"><div id="q1-bar" class="pass-strength-fill"></div></div>
+        <p id="q1-msg" style="color: #666; margin-top: 10px; font-family:monospace; font-size:0.8rem;">ESTADO: VACÍO</p>
+      </div>
+      
+      <button class="boton" id="btn-q1" onclick="submitQ1()" disabled style="opacity: 0.5; margin-top: 20px;">CONFIRMAR</button>
+    </div>
+
+    <div class="exam-step" id="q2">
+      <div><span class="tag">Pregunta 2/10</span></div>
+      <h2>Facebook: ¿Desea reutilizar su clave de redes sociales para mayor comodidad?</h2>
+      <div class="card-grid">
+        <div class="card-option" onclick="checkQ2('yes')">
+          <div>Sí, es más cómodo.</div>
+        </div>
+        <div class="card-option" onclick="checkQ2('no')">
+          <div>No, nunca reutilizo.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="exam-step" id="q3">
+      <div><span class="tag">Pregunta 3/10</span></div>
+      <h2>Seleccione el método de 2FA más seguro disponible.</h2>
+      <div class="auth-options">
+        <button class="auth-btn" onclick="checkQ3('sms')">SMS</button>
+        <button class="auth-btn" onclick="checkQ3('app')">APP AUTH</button>
+        <button class="auth-btn" onclick="checkQ3('none')">No tener</button>
+      </div>
+    </div>
+
+    <div class="exam-step" id="q4">
+      <div><span class="tag">Pregunta 4/10</span></div>
+      <p>Tras registrarte y crearte una cuenta en un banco online te sale el siguiente mensaje: Clave creada con éxito</p>
+      <h2>Selecciona el método de almacenamiento que creas más adecuado</h2>
+      
+      <div class="manager-interface">
+        <div class="manager-row">
+            <span>BANCO_ONLINE</span>
+            <span>****************</span>
+        </div>
+        <div style="margin-top: 20px; text-align: center;">
+            <button class="btn-save" onclick="checkQ4('manager')">GESTOR DE CLAVES</button>
+            <button class="btn-save" style="background:#555;" onclick="checkQ4('browser')">NAVEGADOR WEB</button>
+            <button class="btn-save" style="background:#d32f2f;" onclick="checkQ4('paper')">NOTAS DEL MÓVIL</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="exam-step" id="q5">
+      <div><span class="tag">Pregunta 5/10</span></div>
+      <h2>Recibes un correo electrónico de tu banco. El correo trata de una alerta de Seguridad en tu cuenta. ¿Qué hacer en este caso?</h2>
+      
+      <div class="email-alert">
+        <div class="email-sender">De: Seguridad (seguridad@banc0-alerta.com)</div>
+        <p>Hemos detectado un acceso inusual en tu cuenta. Verifica tu identidad aquí:</p>
+        <p class="email-link" onclick="checkQ5('click')">www.banc0-verify.com/login</p>
       </div>
 
-      <div class="pregunta examen" data-correcta="b">
-        <h3>2. Doble Factor (2FA)</h3>
-        <p>Al intentar entrar en tu cuenta, el sistema te pide un código extra. ¿Por qué?</p>
-        <button data-respuesta="a">Porque he olvidado la contraseña.</button>
-        <button data-respuesta="b">Es una capa extra de seguridad (algo que sé + algo que tengo).</button>
-        <button data-respuesta="c">Es un error del sistema, debo llamar a IT.</button>
+      <div style="text-align: center;">
+        <button class="boton" style="background:#d32f2f; border:none;" onclick="checkQ5('report')">Llamar al banco y preguntar/Reportar como Phishing.</button>
+        <button class="boton" onclick="checkQ5('click')">Acceder al enlace y verificar que todo este bien.</button>
+      </div>
+    </div>
+
+    <div class="exam-step" id="q6">
+      <div><span class="tag">Pregunta 6/10</span></div>
+      <h2>Has comprobado tu email y resulta aparecer en una filtración de datos. ¿Cuál sería la acción que deberías tomar a continuación.</h2>
+      <div class="card-grid">
+        <div class="card-option" onclick="checkQ6('panic')">
+          <div>Borrar la cuenta</div>
+        </div>
+        <div class="card-option" onclick="checkQ6('change')">
+          <div>Cambiar la clave de ese sitio y comprobar que no la tengo en ningún sitio más.</div>
+        </div>
+        <div class="card-option" onclick="checkQ6('ignore')">
+          <div>Cambiar la clave.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="exam-step" id="q7">
+      <div><span class="tag">Pregunta 7/10</span></div>
+      <h2>¿Cuál es el método de autenticación más resistente a ataques remotos?</h2>
+      <div class="card-grid">
+        <div class="card-option" onclick="checkQ7('sms')">
+          <div>Mensaje SMS</div>
+        </div>
+        <div class="card-option" onclick="checkQ7('token')">
+          <div>Llave de Hardware</div>
+        </div>
+        <div class="card-option" onclick="checkQ7('email')">
+          <div>Email</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="exam-step" id="q8">
+      <div><span class="tag">Pregunta 8/10</span></div>
+      <h2>Acabas de configurar el 2FA de una aplicación y a continuación el sistema te muestra Códigos de Recuperación.</h2>
+      
+      <div class="backup-codes-screen">
+        <div style="border-bottom:1px solid #333; padding-bottom:10px; margin-bottom:10px;">ESTADO: PROTEGIDO</div>
+        <div style="font-size:0.7rem; color:#888;">CÓDIGOS DE EMERGENCIA (USO ÚNICO)</div>
+        <div class="codes-list">
+            <div class="code-item">8X92-M4K1</div>
+            <div class="code-item">L9P2-Q3W1</div>
+            <div class="code-item">7H5J-9N2B</div>
+            <div class="code-item">3V1C-6X8Z</div>
+        </div>
       </div>
 
-      <div class="pregunta examen" data-correcta="a">
-        <h3>3. Gestión</h3>
-        <p>Tienes 20 cuentas diferentes. ¿Cómo las gestionas?</p>
-        <button data-respuesta="a">Uso un Gestor de Contraseñas (Password Manager).</button>
-        <button data-respuesta="b">Uso la misma contraseña para todo, así no se me olvida.</button>
-        <button data-respuesta="c">Las apunto en un cuaderno en mi cajón.</button>
+      <div class="card-grid">
+        <div class="card-option" onclick="checkQ8('ignore')">
+          <div>Darle a aceptar y seguir. </div>
+        </div>
+        <div class="card-option" onclick="checkQ8('save')">
+          <div>Guardar en un gestor de contraseñas.</div>
+        </div>
+        <div class="card-option" onclick="checkQ8('desktop')">
+          <div>Guardar en Escritorio.</div>
+        </div>
       </div>
+    </div>
 
-      <div class="resultado">
-        <p id="puntuacion-examen" style="font-weight:bold; margin-top:20px;"></p>
-        <div id="mensaje-final"></div>
+    <div class="exam-step" id="q9">
+      <div><span class="tag">Pregunta 9/10</span></div>
+      <p>Tienes que elegir la configuración de Recuperación de tu cuenta y te dan las siguientes opciones de respuesta segura para elegir.</p>
+      <h2>¿Cuál es la opción que pones como respuesta</h2>
+      <div class="security-q-container">
+          <div class="q-option" onclick="checkQ9('pet')">Nombre real de mascota</div>
+          <div class="q-option" onclick="checkQ9('mother')">Apellido real de madre</div>
+          <div class="q-option" onclick="checkQ9('fake')">Respuesta Falsa/Aleatoria</div>
       </div>
-    </section>
+    </div>
+
+    <div class="exam-step" id="q10">
+      <div><span class="tag">Pregunta 10/10</span></div>
+      <p>Tienes que usar el portatil de un amigo para resolver algo puntual del trabajo.</p>
+      <h2>¿Qué harías?</h2>
+      <div class="card-grid">
+        <div class="card-option" onclick="checkQ10('incognito')">
+          <div>Modo Incógnito y cierre de sesión al terminar.</div>
+        </div>
+        <div class="card-option" onclick="checkQ10('normal')">
+          <div>Navegador Normal y cierre de sesión al terminar.</div>
+        </div>
+        <div class="card-option" onclick="checkQ10('remember')">
+          <div>Recordar Clave por si tuviera que volver a usarlo más tarde.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="exam-step" id="final-screen" style="text-align: center;">
+      <h2>Resultados del test</h2>
+      <div id="loading-results">Calculando nota...</div>
+      
+      <div id="results-content" style="display:none;">
+        <div class="score-circle">
+          <span id="final-score">0</span>
+          <span class="score-label">/ 10</span>
+        </div>
+        <h3 id="final-msg"></h3>
+        <p id="final-detail"></p>
+        
+        <div style="margin-top:30px; display: flex; gap: 10px; justify-content: center;">
+          <button onclick="location.reload()" class="boton" id="btn-retry" style="display:none; background:#d32f2f; color:white; border:none;">REINTENTAR</button>
+          <a href="../../Pantallas/modulos.html" class="boton" id="btn-continue" style="display:none;">SALIR</a>
+          <a href="../6navegacion/teoria.html" class="boton" id="btn-next" style="display:none; background:#2e7d32; color:white;">SIGUIENTE MÓDULO ▶</a>
+        </div>
+      </div>
+    </div>
+
   </main>
 
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
-  <script src="../../scripts/firebase-config.js"></script>
-  <script src="../../scripts/examenes.js"></script>
 
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      iniciarExamen('contrasenas', 3, 2);
-    });
-  </script>
+  <script src="../../scripts/firebase-config.js"></script>
+  <script src="../../scripts/examen_contrasenas.js"></script>
+
 </body>
 </html>

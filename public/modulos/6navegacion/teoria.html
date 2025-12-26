@@ -4,108 +4,348 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Módulo 6: Navegación Segura - NoHaxx</title>
-  <link rel="stylesheet" href="../../style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="../../CSS/base.css">
+  <link rel="stylesheet" href="../../CSS/teoria.css">
+  
+  <style>
+    /* --- ESTILOS VISUALIZACIÓN DE RED (Paso 0) --- */
+    .network-map {
+        display: flex; justify-content: space-between; align-items: center;
+        background: #e3f2fd; padding: 20px 10px; border-radius: 10px; margin-top: 20px;
+        width: 100%; box-sizing: border-box; overflow: hidden;
+    }
+    .net-node {
+        text-align: center; font-weight: bold; color: #0f1e40; font-size: 0.85rem;
+        flex: 0 0 auto; min-width: 60px; z-index: 2;
+    }
+    .connection-line {
+        flex: 1; height: 4px; background: #ccc; margin: 0 5px; position: relative; min-width: 20px;
+    }
+    .data-packet {
+        width: 10px; height: 10px; background: #0984e3; border-radius: 50%;
+        position: absolute; top: -3px; left: 0; animation: travel 2s infinite linear;
+    }
+    @keyframes travel { 0% { left: 0; } 100% { left: 100%; } }
+
+    /* --- ESTILOS VPN (NUEVO PASO 2) --- */
+    .vpn-container {
+        background: #2d3436; color: white; padding: 30px; border-radius: 10px; text-align: center; margin-top: 20px;
+    }
+    .vpn-status { font-size: 1.2rem; margin-bottom: 20px; font-weight: bold; color: #ff7675; }
+    .vpn-tunnel {
+        height: 20px; background: #444; border-radius: 10px; margin: 20px auto; 
+        width: 80%; position: relative; overflow: hidden; transition: all 0.5s;
+    }
+    .vpn-packet {
+        width: 20px; height: 10px; background: #ff7675; position: absolute; top: 5px;
+        animation: flow 1.5s infinite linear;
+    }
+    .vpn-btn {
+        padding: 10px 25px; border: 2px solid #00b894; background: transparent; 
+        color: #00b894; border-radius: 50px; cursor: pointer; font-weight: bold; transition: 0.3s;
+    }
+    .vpn-btn:hover { background: #00b894; color: white; }
+    @keyframes flow { 0% { left: -10%; } 100% { left: 110%; } }
+
+    /* --- TUS ESTILOS ORIGINALES (NO TOCADOS) --- */
+    .wifi-simulator {
+        background: #f0f0f0; border: 1px solid #ccc; border-radius: 8px; 
+        padding: 20px; max-width: 400px; margin: 20px auto;
+    }
+    .wifi-header {
+        font-weight: bold; border-bottom: 2px solid #333; padding-bottom: 10px; 
+        margin-bottom: 10px; display: flex; justify-content: space-between;
+    }
+    .wifi-list { list-style: none; padding: 0; }
+    .wifi-item {
+        background: white; border: 1px solid #ddd; padding: 15px; margin-bottom: 5px; 
+        cursor: pointer; display: flex; justify-content: space-between; align-items: center;
+        transition: background 0.2s;
+    }
+    .wifi-item:hover { background: #e3f2fd; }
+    .wifi-item.selected { border-color: #2196f3; background: #e3f2fd; }
+    .signal-icon { color: #666; font-size: 0.8rem; }
+    .wifi-lock { margin-right: 5px; color: #333; }
+
+    .browser-sim {
+        background: #fff; border: 1px solid #ccc; border-radius: 5px; overflow: hidden; 
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1); margin: 20px 0;
+    }
+    .browser-bar {
+        background: #ddd; padding: 10px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid #bbb;
+    }
+    .url-input {
+        background: white; border: 1px solid #ccc; flex: 1; padding: 5px 10px; 
+        border-radius: 3px; font-family: monospace; display: flex; align-items: center;
+    }
+    .browser-content { padding: 40px; text-align: center; min-height: 200px; }
+    .download-btn {
+        background: #4caf50; color: white; padding: 10px 20px; text-decoration: none; 
+        font-weight: bold; border-radius: 4px; display: inline-block; margin-top: 20px;
+    }
+    .ssl-badge {
+        padding: 2px 6px; border-radius: 3px; font-size: 0.7rem; font-weight: bold; margin-right: 5px; cursor: pointer;
+    }
+    .ssl-secure { background: #c8e6c9; color: #2e7d32; border: 1px solid #2e7d32; }
+    .ssl-insecure { background: #ffcdd2; color: #c62828; border: 1px solid #c62828; }
+
+    .privacy-panel {
+        background: #fafafa; border: 1px solid #ddd; padding: 20px; border-radius: 8px;
+    }
+    .privacy-setting {
+        display: flex; justify-content: space-between; align-items: center; 
+        padding: 15px; border-bottom: 1px solid #eee;
+    }
+    .privacy-setting:last-child { border-bottom: none; }
+    .toggle-switch {
+        position: relative; display: inline-block; width: 50px; height: 24px;
+    }
+    .toggle-switch input { opacity: 0; width: 0; height: 0; }
+    .slider {
+        position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; 
+        background-color: #ccc; transition: .4s; border-radius: 24px;
+    }
+    .slider:before {
+        position: absolute; content: ""; height: 16px; width: 16px; left: 4px; bottom: 4px; 
+        background-color: white; transition: .4s; border-radius: 50%;
+    }
+    input:checked + .slider { background-color: #2196f3; }
+    input:checked + .slider:before { transform: translateX(26px); }
+
+    .device-grid {
+        display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;
+    }
+    .device-card {
+        background: white; border: 1px solid #eee; padding: 15px; border-radius: 8px; 
+        text-align: center; cursor: pointer; border-left: 4px solid transparent;
+    }
+    .device-card:hover { border-color: #ccc; shadow: 0 2px 5px rgba(0,0,0,0.1); }
+    .device-card.active { border-left-color: #2196f3; background: #e3f2fd; }
+  </style>
 </head>
 <body>
-  <header><div class="logo">NoHaxx</div><div class="top-buttons"><a href="../../modulos.html">Salir</a></div></header>
+  <header>
+    <div class="logo">NoHaxx</div>
+    <div class="top-buttons">
+      <a href="../../Pantallas/modulos.html">Salir del Módulo</a>
+    </div>
+  </header>
 
   <div class="lms-container">
     <aside class="lms-sidebar">
-      <h3>🌍 Índice Navegación</h3>
-      <div class="lms-menu-item unlocked active" onclick="goStep(0)">1. Redes Públicas</div>
-      <div class="lms-menu-item" id="menu-1">2. HTTPS y Descargas</div>
+      <h3>Navegación Segura</h3>
+      <div class="lms-menu-item unlocked active" id="menu-0">1. Redes Públicas</div>
+      <div class="lms-menu-item" id="menu-1">2. Navegación Web</div>
       <div class="lms-menu-item" id="menu-2">3. Redes Sociales</div>
-      <div class="lms-menu-item" id="menu-3">4. Resumen</div>
+      <div class="lms-menu-item" id="menu-3">4. Dispositivos Móviles</div>
+      <div class="lms-menu-item" id="menu-4">5. Síntesis</div>
     </aside>
 
     <main class="lms-content">
-      <div class="course-step active">
-        <h2>1. El Peligro de las Redes Públicas</h2>
-        <p>Estás en una cafetería o aeropuerto. ¿A qué red te conectas? Elige la segura:</p>
-        <div class="wifi-list">
-          <div class="wifi-item" onclick="checkWifi(false)">📶 Aeropuerto_FREE_WIFI (Abierta)</div>
-          <div class="wifi-item" onclick="checkWifi(false)">📶 Starbucks_Guest (Abierta)</div>
-          <div class="wifi-item" onclick="checkWifi(true)">🔒 Mi_Datos_Moviles (4G/5G) / VPN</div>
+
+      <div class="course-step active" id="step-0">
+        <h2>Redes Públicas y Conexiones</h2>
+        <div class="concept-card">
+          <p>Internet no es magia. Es una conexión física (cables y ondas) que une tu dispositivo con el mundo.</p>
         </div>
-        <p id="wifi-feedback" style="font-weight:bold; margin-top:10px;"></p>
-        <button class="nav-btn" id="btn-1" disabled onclick="nextStep()">Siguiente</button>
+        <p>Cuando envías un mensaje, tus datos salen de tu móvil, pasan por un <strong>Router</strong> (el intermediario) y viajan hasta el servidor.</p>
+
+        <div class="network-map">
+            <div class="net-node"><i class="fas fa-laptop fa-2x"></i><br>Tú</div>
+            <div class="connection-line"><div class="data-packet"></div></div>
+            <div class="net-node"><i class="fas fa-wifi fa-2x"></i><br>Router</div>
+            <div class="connection-line"><div class="data-packet"></div></div>
+            <div class="net-node"><i class="fas fa-server fa-2x"></i><br>Internet</div>
+        </div>
+
+        <div class="info-box" style="margin-top:20px;">
+            <h3>El problema de confianza</h3>
+            <p>El dueño del Router (el intermediario) tiene la capacidad técnica de ver todo lo que pasa por él. En tu casa, el dueño eres tú. <strong>¿Pero qué pasa en una cafetería?</strong></p>
+        </div>
       </div>
 
-      <div class="course-step">
-        <h2>2. HTTPS y Descargas</h2>
-        <p>Al navegar, busca siempre el candado 🔒 (HTTPS). Significa que la comunicación está cifrada.</p>
-        <p><strong>Descargas:</strong> Nunca bajes software de sitios "no oficiales" o botones de descarga verdes gigantes que parpadean.</p>
-        <button class="nav-btn" onclick="nextStep()">Entendido</button>
+      <div class="course-step" id="step-1">
+        <h2>El Peligro del Wi-Fi Gratis</h2>
+        <div class="concept-card">
+          <p>Conectarse a una red pública (cafetería, aeropuerto) es como gritar tu conversación en una plaza llena de gente. Cualquiera puede hacer 
+            <span class="tooltip" 
+              data-tooltip="Técnica que permite 'escuchar' y capturar los datos que viajan por una red pública." 
+              onmouseover="this.style.color='#4caf50'">
+              sniffing
+          </span>.</p>
+        </div>
+
+        <p><strong>Ataque Twin Evil (Gemelo Malvado):</strong><br>
+        Además, hay que tener en cuenta que existen diversos tipos de amenazas al rededor de un Wi-Fi abierto.<br>
+        En el caso del <strong>Ataque Twin Evil</strong>, los hackers crean redes con nombres parecidos a los legítimos para robar tus datos.</p>
+
+        <p>Imagina que estas en una cafetería y el camarero te indica que tienen Wi-Fi gratis para los clientes, al ir a los ajustes de tu teléfono para conectarte encuentras lo siguente:</p>
+        <p>Interactua con las diferentes redes disponibles para comprobar su peligrosidad.</p>
+
+        <div class="wifi-simulator">
+            <div class="wifi-header">
+                <span>Wi-Fi</span>
+                <span id="wifi-status" style="font-size:0.8rem; color:#666;">DESCONECTADO</span>
+            </div>
+            <ul class="wifi-list">
+                <li class="wifi-item" onclick="checkWifi('secure')">
+                    <span><i class="fas fa-lock wifi-lock"></i> Cafetería_Oficial_5G</span>
+                    <i class="fas fa-wifi signal-icon"></i>
+                </li>
+                <li class="wifi-item" onclick="checkWifi('fake')">
+                    <span>Cafeteria_Gratis_Free</span>
+                    <i class="fas fa-wifi signal-icon" style="color:#2196f3;"></i>
+                </li>
+                <li class="wifi-item" onclick="checkWifi('guest')">
+                    <span><i class="fas fa-lock wifi-lock"></i> Hotel_Guest</span>
+                    <i class="fas fa-wifi signal-icon"></i>
+                </li>
+            </ul>
+            <div id="wifi-feedback" style="margin-top:10px; font-size:0.9rem; font-weight:bold; display:none;"></div>
+        </div>
+
+        <div class="info-box" style="background:#e8f5e9; border-left-color:#2e7d32;">
+            <h3>La Solución: VPN</h3>
+            <p>Si debes usar Wi-Fi público, usa siempre una <strong>VPN (Red Privada Virtual)</strong>.<br>
+              Cifra tu tráfico creando un "túnel" seguro que nadie puede espiar.</p>
+        </div>
       </div>
 
-      <div class="course-step">
-        <h2>3. Oversharing (Compartir de más)</h2>
-        <p>Lo que subes a internet, se queda en internet. Los atacantes usan tus fotos para adivinar contraseñas o hacer ingeniería social.</p>
-        <ul>
-          <li>🚫 No subas fotos de tu escritorio con papeles visibles.</li>
-          <li>🚫 No publiques que estás de vacaciones hasta que vuelvas.</li>
-        </ul>
-        <button class="nav-btn" onclick="nextStep()">Siguiente</button>
-      </div>
-
-      <div class="course-step">
-        <h2>4. ¡Módulo Terminado!</h2>
-        <p>Has completado el temario. Recuerda navegar siempre por HTTPS y evitar WiFis públicas.</p>
+      <div class="course-step" id="step-2">
+        <h2>Creando un Túnel Seguro (VPN)</h2>
+        <p>Como vimos antes, el Wi-Fi público es inseguro y para protegerse de esto la mejor defensa es hacer tus datos "invisibles" para el router.</p>
         
-        <div class="video-box" style="background:#e0f2f1; border:1px solid #b2dfdb; padding:15px; margin-top:20px; margin-bottom:20px; border-radius:5px;">
-          <h4>📺 Vídeo Recomendado (2 min)</h4>
-          <div class="video-responsive">
-          <iframe src="https://www.youtube.com/embed/cjSNVxtXY-U" title="Navegación Segura" allowfullscreen></iframe>
+        <div class="concept-card">
+            <p>Una              
+              <span class="tooltip"
+                data-tooltip="Red Privada Virtual. Cifra tu conexión creando un 'túnel' seguro, protegiendo tus datos de espías en redes públicas."
+                onmouseover="this.style.color='#4caf50'">
+                VPN
+              </span>         
+              envuelve tus datos en una capa de cifrado antes de que salgan de tu móvil.
+              <br> El hacker del Wi-Fi solo verá pasar un "tubo blindado", pero no podrá ver lo que viaja dentro.</p>
         </div>
 
-        <a href="examen.html" class="nav-btn" style="text-decoration:none; text-align:center;">Ir al Examen Final</a>
+        <div class="vpn-container">
+            <div id="vpn-text" class="vpn-status">ESTADO: DESPROTEGIDO 
+            <br>(Tráfico Visible)</div>
+            <div class="vpn-tunnel" id="vpn-tunnel">
+                <div class="vpn-packet"></div>
+                <div class="vpn-packet" style="animation-delay: 0.5s;"></div>
+            </div>
+            <button class="vpn-btn" onclick="toggleVPN()">ACTIVAR VPN</button>
+        </div>
+        <p style="margin-top:15px; font-size:0.9rem;">Al activarla, tus datos viajan seguros hasta su destino.</p>
       </div>
 
-      <div class="course-step">
-        <h2>4. ¡Módulo Terminado!</h2>
-        <p>Has completado el temario del último módulo.</p>
-        <a href="examen.html" class="nav-btn" style="text-decoration:none; text-align:center;">Ir al Examen Final</a>
+      <div class="course-step" id="step-3">
+        <h2>Descargas y Sitios Web</h2>
+        <p>No todo lo que brilla en Internet es seguro. Aprende a identificar las señales de peligro antes de hacer clic.</p>
+
+        <div class="browser-sim">
+            <div class="browser-bar">
+                <div style="display:flex; gap:5px;">
+                    <div style="width:10px; height:10px; background:#ff5f56; border-radius:50%;"></div>
+                    <div style="width:10px; height:10px; background:#ffbd2e; border-radius:50%;"></div>
+                    <div style="width:10px; height:10px; background:#27c93f; border-radius:50%;"></div>
+                </div>
+                <div class="url-input">
+                    <span id="ssl-indicator" class="ssl-badge ssl-insecure" onclick="toggleHttps()">NO SEGURO</span>
+                    <span id="url-text">http://banco-login-seguro.com</span>
+                </div>
+            </div>
+            <div class="browser-content">
+                <h3>Factura_Pendiente.pdf.exe</h3>
+                <p>Archivo listo para descargar. (2.4 MB)</p>
+                <a href="#" class="download-btn" onclick="checkDownload()">DESCARGAR AHORA</a>
+                <div id="browser-feedback" style="margin-top:15px; font-weight:bold;"></div>
+            </div>
+        </div>
+
+        <div class="concept-card">
+            <h3>Lista de Verificación:</h3>
+            <ul class="check-list">
+                <li><strong>HTTPS:</strong> El candado es obligatorio, pero no garantiza que el sitio sea "bueno", solo que la conexión es cifrada.</li>
+                <li><strong>Extensión:</strong> Cuidado con la doble extensión (ej: <code>.pdf.exe</code>). Si es un documento, no debería ser ejecutable.</li>
+                <li><strong>Dominio:</strong> Verifica errores tipográficos (ej: <code>gogle.com</code>).</li>
+            </ul>
+        </div>
       </div>
+
+      <div class="course-step" id="step-4">
+        <h2>Privacidad en Redes Sociales</h2>
+        <p>El "Oversharing" (compartir demasiado) es la mina de oro de la Ingeniería Social. Configura este perfil para que sea seguro.</p>
+
+        <div class="privacy-panel">
+            <h3>Configuración de Privacidad</h3>
+            <div class="privacy-setting">
+                <div><strong>Visibilidad del Perfil</strong><br><span style="font-size:0.8rem; color:#666;">Quién puede ver tus fotos y publicaciones.</span></div>
+                <label class="toggle-switch"><input type="checkbox" id="priv-vis" onchange="checkPrivacy()"><span class="slider"></span></label>
+            </div>
+            <div class="privacy-setting">
+                <div><strong>Geolocalización en Fotos</strong><br><span style="font-size:0.8rem; color:#666;">Añadir ubicación GPS automática.</span></div>
+                <label class="toggle-switch"><input type="checkbox" checked id="priv-geo" onchange="checkPrivacy()"><span class="slider"></span></label>
+            </div>
+            <div class="privacy-setting">
+                <div><strong>Búsqueda por Email/Tfno</strong><br><span style="font-size:0.8rem; color:#666;">Permitir que te encuentren por tus datos.</span></div>
+                <label class="toggle-switch"><input type="checkbox" checked id="priv-search" onchange="checkPrivacy()"><span class="slider"></span></label>
+            </div>
+            <div id="privacy-feedback" style="margin-top:15px; text-align:center; font-weight:bold; color:#d32f2f;">RIESGO ALTO: Tu perfil es demasiado público.</div>
+        </div>
+        <p style="font-size:0.9rem; margin-top:10px;"><em>*Objetivo: Activa la privacidad y desactiva el rastreo.</em></p>
+    </div>
+
+      <div class="course-step" id="step-5">
+        <h2>Protección de Dispositivos</h2>
+        <p>Tu móvil contiene más información sensible que tu casa. Si lo pierdes, debe ser una "piedra" inútil para quien lo encuentre.</p>
+
+        <div class="device-grid">
+            <div class="device-card" onclick="showDeviceInfo('lock', this)"><i class="fas fa-mobile-alt fa-2x"></i><br><strong>Bloqueo de Pantalla</strong></div>
+            <div class="device-card" onclick="showDeviceInfo('encrypt', this)"><i class="fas fa-file-code fa-2x"></i><br><strong>Cifrado</strong></div>
+            <div class="device-card" onclick="showDeviceInfo('update', this)"><i class="fas fa-sync-alt fa-2x"></i><br><strong>Actualizaciones</strong></div>
+            <div class="device-card" onclick="showDeviceInfo('find', this)"><i class="fas fa-map-marker-alt fa-2x"></i><br><strong>Localización</strong></div>
+        </div>
+
+        <div id="info-lock" class="info-box" style="display:none;"><h3>Bloqueo Seguro</h3><p>Usa biometría (huella/cara) o un PIN de 6 dígitos.</p></div>
+        <div id="info-encrypt" class="info-box" style="display:none;"><h3>Cifrado de Datos</h3><p>Asegúrate de que el almacenamiento está cifrado.</p></div>
+        <div id="info-update" class="info-box" style="display:none;"><h3>Actualizaciones</h3><p>Las actualizaciones parchean agujeros de seguridad.</p></div>
+        <div id="info-find" class="info-box" style="display:none;"><h3>Encontrar mi Dispositivo</h3><p>Activa la localización remota.</p></div>
+      </div>
+
+      <div class="course-step" id="step-6">
+        <h2>Síntesis del Módulo</h2>
+        <div class="summary-grid">
+            <div class="summary-card">
+                <h3>Redes y Navegación</h3>
+                <ul class="check-list">
+                    <li>Evita Wi-Fi público o usa VPN.</li>
+                    <li>Verifica HTTPS y dominios.</li>
+                    <li>Cuidado con las descargas (.exe).</li>
+                </ul>
+            </div>
+            <div class="summary-card">
+                <h3>Privacidad y Móvil</h3>
+                <ul class="check-list">
+                    <li>Limita quién ve tu perfil social.</li>
+                    <li>Desactiva la geolocalización innecesaria.</li>
+                    <li>Usa bloqueo de pantalla fuerte y cifrado.</li>
+                </ul>
+            </div>
+        </div>
+        <div style="margin-top: 30px; text-align: center;">
+            <a href="examen.html" class="btn-finish" id="finishBtn">Ir al Examen Práctico</a>
+        </div>
+      </div>
+
+      <div class="navigation-buttons">
+        <button class="btn-nav btn-prev" id="prevBtn" onclick="changeStep(-1)">Anterior</button>
+        <button class="btn-nav btn-next" id="nextBtn" onclick="tryNextStep()">Siguiente ➜</button>
+      </div>
+
     </main>
   </div>
-
-  <script>
-    let current = 0;
-    const steps = document.querySelectorAll('.course-step');
-    const menus = document.querySelectorAll('.lms-menu-item');
-
-    function showStep(n) {
-      steps.forEach(s => s.classList.remove('active'));
-      menus.forEach(m => m.classList.remove('active'));
-      steps[n].classList.add('active');
-      menus[n].classList.add('active');
-      if(n > 0) menus[n].classList.add('unlocked');
-    }
-
-    function nextStep() {
-      current++;
-      if(current >= steps.length) current = steps.length - 1;
-      showStep(current);
-    }
-    
-    function goStep(n) {
-        if(menus[n].classList.contains('unlocked')) {
-            current = n;
-            showStep(n);
-        }
-    }
-
-    function checkWifi(isSafe) {
-      const fb = document.getElementById('wifi-feedback');
-      if(isSafe) {
-        fb.style.color = "green";
-        fb.innerText = "✅ Correcto. Usa tus datos o una VPN. Las WiFis públicas son inseguras.";
-        document.getElementById('btn-1').disabled = false;
-      } else {
-        fb.style.color = "red";
-        fb.innerText = "❌ Peligro. En redes abiertas, cualquiera puede ver tu tráfico.";
-      }
-    }
-  </script>
+  
+  <script src="../../scripts/teoria_navegacion.js"></script>
 </body>
 </html>

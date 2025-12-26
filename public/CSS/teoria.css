@@ -931,3 +931,124 @@ details p, details div { padding: 15px; margin: 0; border-top: 1px solid #ddd; }
     transform: translateY(-2px);
     box-shadow: 0 6px 12px rgba(0,0,0,0.15);
 }
+
+.password-tester {
+    background: #2d3436; padding: 20px; border-radius: 8px; color: white; margin-top: 15px;
+}
+.pass-input {
+    width: 100%; padding: 10px; font-size: 1.2rem; border-radius: 4px; border: none; font-family: monospace;
+}
+.strength-bar {
+    height: 10px; background: #555; margin-top: 10px; border-radius: 5px; overflow: hidden;
+}
+.strength-fill {
+    height: 100%; width: 0%; transition: all 0.3s; background: red;
+}
+.crack-time { font-weight: bold; color: #ff7675; margin-top: 5px; display: block; }
+
+.errors-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-top: 20px;
+}
+.error-card {
+    background: #fff; padding: 15px; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;
+    transition: all 0.2s; text-align: center;
+}
+.error-card:hover { border-color: #aaa; }
+.error-card.found { border-color: #d32f2f; background: #ffebee; }
+.error-card.safe { border-color: #388e3c; background: #e8f5e9; }
+
+.leak-checker {
+    background: #1a1a1a; color: #00ff00; padding: 25px; border-radius: 8px; 
+    font-family: 'Courier New', monospace; margin-top: 15px; border: 1px solid #333;
+    box-shadow: 0 0 15px rgba(0, 255, 0, 0.1);
+}
+.leak-input {
+    background: #000; border: 1px solid #00ff00; color: #00ff00; padding: 12px; width: 65%;
+    font-family: inherit; font-size: 1rem;
+}
+.btn-leak {
+    background: #004400; color: #00ff00; border: 1px solid #00ff00; padding: 12px 25px; 
+    cursor: pointer; font-weight: bold; margin-left: 10px; font-family: inherit;
+    text-transform: uppercase; letter-spacing: 1px;
+}
+.btn-leak:hover { background: #00ff00; color: black; }
+.leak-result { margin-top: 20px; min-height: 60px; line-height: 1.5; }
+.breach-item {
+    background: #330000; color: #ff9999; padding: 10px; margin-top: 5px; border-left: 3px solid red;
+}
+
+.emergency-step {
+    background: #fff3e0; border-left: 5px solid #ff9800; padding: 15px; margin-bottom: 10px;
+}
+
+
+/* --- ESTILOS NUEVA INTRODUCCIÓN (MÓDULO 6) --- */
+.network-map {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #e3f2fd;
+    padding: 20px 10px; 
+    border-radius: 10px;
+    margin-top: 20px;
+    width: 100%; 
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.net-node {
+    text-align: center;
+    font-weight: bold;
+    color: #0f1e40;
+    font-size: 0.85rem;
+    flex: 0 0 auto;
+    min-width: 60px;
+    z-index: 2;
+}
+
+.connection-line {
+    flex: 1;
+    height: 4px;
+    background: #ccc;
+    margin: 0 5px; 
+    position: relative;
+    min-width: 20px; 
+}
+
+.data-packet {
+    width: 10px;
+    height: 10px;
+    background: #0984e3;
+    border-radius: 50%;
+    position: absolute;
+    top: -3px; 
+    left: 0;
+    animation: travel 2s infinite linear;
+}
+
+@keyframes travel {
+    0% { left: 0; }
+    100% { left: 100%; }
+}
+
+@media (max-width: 500px) {
+    .network-map {
+        flex-direction: column; 
+        gap: 20px;
+        padding: 20px;
+    }
+    .connection-line {
+        width: 4px;
+        height: 40px; 
+        margin: 0;
+    }
+    .data-packet {
+        top: 0;
+        left: -3px;
+        animation: travel-vertical 2s infinite linear;
+    }
+    @keyframes travel-vertical {
+        0% { top: 0; }
+        100% { top: 100%; }
+    }
+}
