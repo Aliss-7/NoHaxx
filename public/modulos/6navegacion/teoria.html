@@ -28,7 +28,7 @@
     }
     @keyframes travel { 0% { left: 0; } 100% { left: 100%; } }
 
-    /* --- ESTILOS VPN (NUEVO PASO 2) --- */
+    /* --- ESTILOS VPN (Paso 2) --- */
     .vpn-container {
         background: #2d3436; color: white; padding: 30px; border-radius: 10px; text-align: center; margin-top: 20px;
     }
@@ -48,7 +48,81 @@
     .vpn-btn:hover { background: #00b894; color: white; }
     @keyframes flow { 0% { left: -10%; } 100% { left: 110%; } }
 
-    /* --- TUS ESTILOS ORIGINALES (NO TOCADOS) --- */
+    /* --- ESTILOS PUZZLE (VERTICAL + TÍTULO FIJO) --- */
+    .puzzle-container {
+        display: flex; 
+        flex-direction: column; 
+        width: 100%;
+        margin-top: 20px;
+        user-select: none;
+        gap: 30px;
+    }
+    
+    .drop-area-container { 
+        display: flex; 
+        justify-content: space-around; 
+        width: 100%;
+        align-items: flex-start; 
+    }
+
+    .drop-zone {
+        width: 45%; 
+        min-height: 150px;
+        height: auto;
+        border: 3px solid transparent; 
+        border-radius: 10px;
+        display: flex; 
+        flex-direction: column; 
+        justify-content: flex-start;
+        align-items: center;
+        transition: background 0.3s, border-color 0.3s; 
+        background: #f0f0f0;
+        padding: 20px 10px;
+        gap: 15px;
+    }
+    
+    .safe-zone { border-color: #4caf50; color: #2e7d32; }
+    .safe-zone.dragover { background: #e8f5e9; transform: scale(1.02); }
+    
+    .danger-zone { border-color: #f44336; color: #c62828; }
+    .danger-zone.dragover { background: #ffebee; transform: scale(1.02); }
+
+    .puzzle-source {
+        display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;
+        width: 100%; 
+        min-height: 60px; background: #f9f9f9;
+        padding: 15px; border-radius: 8px; border: 2px dashed #ccc;
+        box-sizing: border-box;
+    }
+    .puzzle-item {
+        background: white; padding: 10px 15px; border: 1px solid #bbb;
+        border-radius: 5px; cursor: grab; font-weight: bold;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1); transition: transform 0.2s;
+        z-index: 10;
+    }
+    .drop-zone .puzzle-item {
+        width: 90%; 
+        text-align: center;
+        margin-top: 0;
+        cursor: default;
+    }
+
+    .puzzle-item:active { cursor: grabbing; transform: scale(0.95); }
+    
+    .feedback-msg { text-align: center; margin-top: 20px; font-weight: bold; min-height: 20px; }
+
+    /* --- ESTILOS HUELLA DIGITAL (Paso 6 Nuevo) --- */
+    .footprint-container {
+        display: flex; justify-content: center; gap: 20px; margin-top: 30px;
+    }
+    .footprint-card {
+        background: white; border: 1px solid #ddd; padding: 20px; border-radius: 8px; width: 45%;
+        text-align: center; transition: 0.3s;
+    }
+    .footprint-card:hover { transform: translateY(-5px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+    .footprint-icon { font-size: 3rem; margin-bottom: 15px; color: #555; }
+
+    /* --- TUS ESTILOS ORIGINALES --- */
     .wifi-simulator {
         background: #f0f0f0; border: 1px solid #ccc; border-radius: 8px; 
         padding: 20px; max-width: 400px; margin: 20px auto;
@@ -120,8 +194,19 @@
         background: white; border: 1px solid #eee; padding: 15px; border-radius: 8px; 
         text-align: center; cursor: pointer; border-left: 4px solid transparent;
     }
-    .device-card:hover { border-color: #ccc; shadow: 0 2px 5px rgba(0,0,0,0.1); }
+    .device-card:hover { border-color: #ccc; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
     .device-card.active { border-left-color: #2196f3; background: #e3f2fd; }
+
+    .url-breakdown {
+        display: flex; gap: 5px; background: #eee; padding: 15px; 
+        border-radius: 8px; font-family: monospace; flex-wrap: wrap; margin: 20px 0;
+    }
+    .url-part { padding: 5px 8px; border-radius: 4px; border: 1px dashed #aaa; position: relative; cursor: help; }
+    .url-part:hover::after {
+        content: attr(data-desc); position: absolute; top: -35px; left: 0;
+        background: #333; color: white; padding: 5px 10px; font-size: 0.8rem; white-space: nowrap; border-radius: 4px; z-index: 10;
+    }
+
   </style>
 </head>
 <body>
@@ -171,9 +256,9 @@
           <p>Conectarse a una red pública (cafetería, aeropuerto) es como gritar tu conversación en una plaza llena de gente. Cualquiera puede hacer 
             <span class="tooltip" 
               data-tooltip="Técnica que permite 'escuchar' y capturar los datos que viajan por una red pública." 
-              onmouseover="this.style.color='#4caf50'">
+              onmouseover="markCheck(1, 'tooltip'); this.style.color='#4caf50'">
               sniffing
-          </span>.</p>
+            </span>.</p>
         </div>
 
         <p><strong>Ataque Twin Evil (Gemelo Malvado):</strong><br>
@@ -220,7 +305,7 @@
             <p>Una              
               <span class="tooltip"
                 data-tooltip="Red Privada Virtual. Cifra tu conexión creando un 'túnel' seguro, protegiendo tus datos de espías en redes públicas."
-                onmouseover="this.style.color='#4caf50'">
+                onmouseover="markCheck(2, 'tooltip'); this.style.color='#4caf50'">
                 VPN
               </span>         
               envuelve tus datos en una capa de cifrado antes de que salgan de tu móvil.
@@ -240,6 +325,26 @@
       </div>
 
       <div class="course-step" id="step-3">
+        <h2>¿Cómo funciona la Web?</h2>
+        <div class="concept-card">
+            <p>El navegador es tu vehículo para viajar por la web. Pero debes saber leer las señales de tráfico para no estrellarte.</p>
+        </div>
+
+        <p>Una dirección web (URL) tiene varias partes. Pasa el ratón para ver qué significan:</p>
+
+        <div class="url-breakdown">
+            <span class="url-part" style="border-color:#4caf50; background:#e8f5e9;" data-desc="Protocolo: Indica cómo se transfieren los datos (Seguro vs Inseguro)" onmouseover="markCheck(3, 'proto')">https://</span>
+            <span class="url-part" style="border-color:#2196f3; background:#e3f2fd;" data-desc="Dominio: El nombre de la empresa o sitio web real" onmouseover="markCheck(3, 'domain')">www.banco-seguro.com</span>
+            <span class="url-part" style="border-color:#ff9800; background:#fff3e0;" data-desc="Ruta: La página específica que estás visitando" onmouseover="markCheck(3, 'path')">/login/usuario</span>
+        </div>
+
+        <div class="info-box">
+            <h3>HTTP vs HTTPS</h3>
+            <p>La "S" final significa <strong>Seguro</strong>. Sin ella, todo lo que escribas (contraseñas, tarjetas) viaja en texto plano y puede ser leído por cualquiera en el camino.</p>
+        </div>
+      </div>
+
+      <div class="course-step" id="step-4">
         <h2>Descargas y Sitios Web</h2>
         <p>No todo lo que brilla en Internet es seguro. Aprende a identificar las señales de peligro antes de hacer clic.</p>
 
@@ -273,14 +378,94 @@
         </div>
       </div>
 
-      <div class="course-step" id="step-4">
+      <div class="course-step" id="step-5">
+        <h2>Desafío: Analista de Navegación</h2>
+        <div class="concept-card">
+          <p>¡Pon a prueba tu instinto! Arrastra los elementos que aparecen abajo hacia la zona correcta: <strong>¿Es seguro o sospechoso?</strong></p>
+        </div>
+
+        <div class="puzzle-container">
+            <div class="drop-area-container">
+                <div class="drop-zone safe-zone" ondrop="drop(event, 'safe')" ondragover="allowDrop(event)">
+                    <div style="text-align:center; pointer-events: none;"> 
+                        <i class="fas fa-shield-alt fa-2x"></i>
+                        <h3>CONFIABLE</h3>
+                    </div>
+                </div>
+                <div class="drop-zone danger-zone" ondrop="drop(event, 'danger')" ondragover="allowDrop(event)">
+                    <div style="text-align:center; pointer-events: none;"> 
+                        <i class="fas fa-user-secret fa-2x"></i>
+                        <h3>SOSPECHOSO</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="puzzle-source" id="source-zone">
+                <div class="puzzle-item" draggable="true" ondragstart="drag(event)" id="puz-1" data-type="safe">
+                  https://
+                </div>
+                <div class="puzzle-item" draggable="true" ondragstart="drag(event)" id="puz-2" data-type="danger">
+                  http://
+                </div>
+                <div class="puzzle-item" draggable="true" ondragstart="drag(event)" id="puz-3" data-type="danger">
+                  factura.pdf.exe
+                </div>
+                <div class="puzzle-item" draggable="true" ondragstart="drag(event)" id="puz-4" data-type="safe">
+                  paypal.com
+                </div>
+                <div class="puzzle-item" draggable="true" ondragstart="drag(event)" id="puz-5" data-type="danger">
+                  paypa1.com
+                </div>
+                <div class="puzzle-item" draggable="true" ondragstart="drag(event)" id="puz-6" data-type="danger">
+                  ¡Ganaste un iPhone!
+                </div>
+                <div class="puzzle-item" draggable="true" ondragstart="drag(event)" id="puz-7" data-type="safe">
+                  google.com
+                </div>
+            </div>
+            
+            <div id="puzzle-feedback" class="feedback-msg"></div>
+        </div>
+      </div>
+
+      <div class="course-step" id="step-6">
+        <h2>La Huella Digital</h2>
+        <div class="concept-card">
+            <p>Antes de configurar tu privacidad, debes entender algo clave: <strong>Internet no olvida</strong>.<br>
+              Todo lo que haces deja un rastro.</p>
+        </div>
+
+        <div class="footprint-container">
+            <div class="footprint-card">
+                <i class="fas fa-shoe-prints footprint-icon"></i>
+                <h3>Tu Rastro Visible</h3>
+                <p style="font-size:0.9rem;">Fotos que subes, comentarios, "likes" y ubicaciones que etiquetas.</p>
+            </div>
+            <div class="footprint-card" style="border-color: #ff7675;">
+                <i class="fas fa-user-secret footprint-icon" style="color:#ff7675;"></i>
+                <h3>Lo que se ve</h3>
+                <p style="font-size:0.9rem;">Patrones de conducta, horarios, nivel económico y relaciones personales.</p>
+            </div>
+        </div>
+
+        <div class="info-box" style="margin-top:20px;">
+            <h3>¿Por qué importa?</h3>
+            <p>Los ciberdelincuentes usan esta información para crear ataques personalizados (Ingeniería Social).<br>
+              Cuanta menos información pública tengas, más difícil será engañarte.</p>
+        </div>
+      </div>
+
+
+      <div class="course-step" id="step-7">
         <h2>Privacidad en Redes Sociales</h2>
-        <p>El "Oversharing" (compartir demasiado) es la mina de oro de la Ingeniería Social. Configura este perfil para que sea seguro.</p>
+        <p>El 
+          <span class="tooltip" data-tooltip="Sobreexposición de información personal que facilita el trabajo a los ciberdelincuentes." style="color: #2196f3; font-weight: bold; cursor: help;">Oversharing</span> 
+          es la mina de oro de la Ingeniería Social. Configura este perfil para que sea seguro.</p>
 
         <div class="privacy-panel">
             <h3>Configuración de Privacidad</h3>
             <div class="privacy-setting">
-                <div><strong>Visibilidad del Perfil</strong><br><span style="font-size:0.8rem; color:#666;">Quién puede ver tus fotos y publicaciones.</span></div>
+                <div><strong>Perfil Privado</strong><br><span style="font-size:0.8rem; color:#666;">Sólo tus seguidores pueden ver tus fotos y publicaciones.</span></div>
                 <label class="toggle-switch"><input type="checkbox" id="priv-vis" onchange="checkPrivacy()"><span class="slider"></span></label>
             </div>
             <div class="privacy-setting">
@@ -296,7 +481,7 @@
         <p style="font-size:0.9rem; margin-top:10px;"><em>*Objetivo: Activa la privacidad y desactiva el rastreo.</em></p>
     </div>
 
-      <div class="course-step" id="step-5">
+      <div class="course-step" id="step-8">
         <h2>Protección de Dispositivos</h2>
         <p>Tu móvil contiene más información sensible que tu casa. Si lo pierdes, debe ser una "piedra" inútil para quien lo encuentre.</p>
 
@@ -313,7 +498,7 @@
         <div id="info-find" class="info-box" style="display:none;"><h3>Encontrar mi Dispositivo</h3><p>Activa la localización remota.</p></div>
       </div>
 
-      <div class="course-step" id="step-6">
+      <div class="course-step" id="step-9">
         <h2>Síntesis del Módulo</h2>
         <div class="summary-grid">
             <div class="summary-card">
