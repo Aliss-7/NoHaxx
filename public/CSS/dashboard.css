@@ -1,59 +1,126 @@
 /* =========================================================================
    DASHBOARD Y LISTA DE MÓDULOS
    ========================================================================= */
+
+/* Contenedor de la cuadrícula */
 .lista-modulos {
-  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 columnas de igual ancho */
+  gap: 30px; /* Espacio entre los cuadros */
+  margin-top: 40px; /* IMPORTANTE: Espacio para separarlo del título */
   padding: 0;
-  text-align: left;
+  list-style: none;
+  width: 100%; /* Asegura que ocupe todo el ancho disponible */
 }
 
 .lista-modulos li {
-  margin-bottom: 15px;
+  margin: 0;
+  width: 100%;
 }
 
+/* Diseño de la Tarjeta (Cuadradito) */
 .lista-modulos a {
-  display: block;
-  padding: 15px;
-  background: #fff;
-  border: 1px solid #ddd;
-  border-left: 4px solid #0f1e40; /* Estilo por defecto */
-  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  
+  height: 180px; /* Altura fija para hacerlos cuadrados */
+  padding: 20px;
+  
+  background-color: #fff;
+  border: 1px solid rgba(0,0,0,0.05); /* Borde sutil */
+  border-left: 5px solid #0f1e40; /* Tu indicador de estado */
+  border-radius: 12px;
+  
   text-decoration: none;
   color: #333;
-  font-weight: bold;
-  transition: 0.3s;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  font-weight: 700;
+  font-size: 1.1rem;
+  
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05); /* Sombra suave base */
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  position: relative;
+  overflow: hidden;
 }
 
+/* Efecto Hover: La tarjeta "flota" hacia arriba */
 .lista-modulos a:hover {
-  border-color: #0f1e40;
-  transform: translateX(5px);
+  transform: translateY(-8px);
+  box-shadow: 0 12px 20px rgba(0,0,0,0.1);
+  border-color: rgba(0,0,0,0.1);
 }
 
-/* Estado de Módulos */
+/* =========================================================================
+   ESTADOS DE LOS MÓDULOS
+   ========================================================================= */
+
+/* Estado: BLOQUEADO */
 .lista-modulos a.bloqueado {
-  opacity: 0.6;
-  pointer-events: auto;
-  background-color: #e0e0e0 !important;
-  color: #666 !important;
+  background-color: #f9f9f9 !important;
+  color: #aaa !important;
+  border-left-color: #ccc !important;
   cursor: not-allowed;
-  border-left: 4px solid #666;
+  box-shadow: none;
+  opacity: 0.8;
 }
 
+.lista-modulos a.bloqueado:hover {
+  transform: none; /* No se mueve si está bloqueado */
+}
+
+.lista-modulos a.bloqueado::before {
+  display: block;
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  opacity: 0.5;
+}
+
+/* Estado: APROBADO */
 .lista-modulos a.aprobado {
-  border-left: 6px solid #4caf50 !important;
-  background-color: #e8f5e9 !important;
-  color: #2e7d32 !important;
-  transition: all 0.3s ease;
+  background-color: #f0f9f0 !important; /* Verde muy clarito */
+  color: #1b5e20 !important;
+  border-left-color: #4caf50 !important;
 }
 
 .lista-modulos a.aprobado:hover {
-  background-color: #c8e6c9 !important;
-  transform: translateX(5px);
+  background-color: #e8f5e9 !important;
+  box-shadow: 0 12px 20px rgba(76, 175, 80, 0.2); /* Sombra verdosa */
 }
 
 .lista-modulos a.aprobado::after {
-  content: " ✅";
-  float: right;
-  font-weight: bold;
+  content: "✅ Completado";
+  display: block;
+  margin-top: 10px;
+  font-size: 0.8rem;
+  font-weight: normal;
+  color: #2e7d32;
+  background: rgba(76, 175, 80, 0.1);
+  padding: 4px 8px;
+  border-radius: 20px;
+}
+
+/* =========================================================================
+   RESPONSIVE (MÓVIL)
+   ========================================================================= */
+@media (max-width: 768px) {
+  .lista-modulos {
+    grid-template-columns: 1fr; /* Una sola columna en móviles */
+    gap: 15px;
+  }
+  
+  .lista-modulos a {
+    height: auto; /* Altura automática para que no ocupe tanto */
+    min-height: 100px;
+    flex-direction: row; /* En móvil, quizás prefieras fila: Icono - Texto */
+    justify-content: flex-start;
+    text-align: left;
+    padding: 20px;
+    gap: 15px;
+  }
+  
+  /* Ajuste de iconos para móvil */
+  .lista-modulos a.bloqueado::before { margin-bottom: 0; margin-right: 10px; }
+  .lista-modulos a.aprobado::after { margin-top: 0; margin-left: auto; }
 }

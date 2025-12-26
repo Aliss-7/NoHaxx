@@ -1,41 +1,75 @@
 <!DOCTYPE html>
-<html lang="ca">
+<html lang="es">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>NoHaxx – Resultados</title>
+  <title>NoHaxx – Mis Resultados</title>
+  
   <link rel="stylesheet" href="../CSS/base.css" />
-  <link rel="stylesheet" href="../CSS/examenes.css" />
+  <link rel="stylesheet" href="../CSS/resultados.css" />
 </head>
 <body>
-  <div id="dashboard" class="dashboard-container">
-    <h1>Resultados de NoHaxx</h1>
-    <p id="userName"></p>
 
-    <div class="card total-score">
-      <h2>Puntuación total</h2>
-      <div id="totalScore">...</div>
+  <header>
+    <div class="logo">NoHaxx</div>
+    <div class="top-buttons">
+      <a href="index.html">Inicio</a>
+      <a href="modulos.html">Módulos</a>
+      <a href="resultados.html" class="activo">Resultados</a>
+      <a href="perfil.html">Perfil</a>
+      <a href="contacto.html">Contacto</a>
+      <a href="logout.html" class="btn-salir">Cerrar sesión</a>
+    </div>
+  </header>
+
+  <main class="main-content dashboard-wrapper">
+    
+    <div class="dashboard-container">
+      
+      <aside class="profile-sidebar">
+        
+        <div class="stat-card profile-card">
+          <div class="avatar-circle">
+            <span id="userInitial">U</span>
+          </div>
+          <h2 id="userName">Cargando...</h2>
+          <span class="user-role">Estudiante</span>
+        </div>
+
+        <div class="stat-card score-card">
+          <h3>Puntuación Global</h3>
+          <div class="circle-progress">
+            <span id="totalScore">0</span>
+            <span class="circle-label">/ 100</span>
+          </div>
+          <div class="ranking-badge">
+            <span class="rank-label">Ranking Global</span>
+            <span id="rankingPosition" class="rank-value">-</span>
+          </div>
+        </div>
+
+      </aside>
+
+      <section class="modules-content">
+        <div class="section-header">
+          <h2>Progreso por Módulo</h2>
+          <p>Detalle de tus evaluaciones completadas</p>
+        </div>
+        
+        <div id="moduleScores" class="modules-grid">
+          <div class="loading-state">Cargando datos...</div>
+        </div>
+      </section>
+
     </div>
 
-    <div class="modules-section">
-      <h2>Puntuación por modulo</h2>
-      <div id="moduleScores" class="modules-container"></div>
-    </div>
-
-    <div class="card ranking">
-      <h2>Posición en el Ranking</h2>
-      <div id="rankingPosition">...</div>
-    </div>
-
-    <button id="logoutBtn">Cerrar sesión</button>
-  </div>
+  </main>
 
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
 
   <script src="../scripts/firebase-config.js"></script>
-  
   <script src="../scripts/resultados.js"></script>
 </body>
 </html>

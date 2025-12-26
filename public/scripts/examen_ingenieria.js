@@ -131,7 +131,7 @@ function calculateAndSave() {
   }
   
   const finalScore = hits; 
-  const passed = hits >= 6; 
+  const passed = hits >= 8; 
 
   const resultsDiv = document.getElementById('results-content');
   const loadingDiv = document.getElementById('loading-results');

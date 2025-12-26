@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     let currentScore = 0;
     const totalQuestions = 10; 
-    const passingScore = 7;    
+    const passingScore = 8;    
     const moduleName = 'ransomware';
 
     const steps = document.querySelectorAll('.exam-step');

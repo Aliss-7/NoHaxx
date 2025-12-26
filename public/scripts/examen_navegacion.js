@@ -1,15 +1,15 @@
 // Respuestas correctas esperadas
 const correctAnswers = { 
-  1: 'strong_pass',
-  2: 'no',
-  3: 'app',
-  4: 'manager',
-  5: 'report',
-  6: 'change',
-  7: 'token',
-  8: 'save',
-  9: 'fake',
-  10: 'incognito'
+  1: 'secure',    // Elegir el hotspot personal seguro
+  2: 'encrypt',   // Cifrado
+  3: 'admin',     // Admin/ISP ven todo
+  4: 'fake',      // Identificar la URL falsa (paypaI)
+  5: 'close',     // Cerrar el popup con la X
+  6: 'update',    // Actualizar
+  7: 'spy',       // Riesgo de privacidad
+  8: 'correct',   // Eliminar el archivo .exe
+  9: 'correct',   // Configurar/Rechazar cookies
+  10: 'logout'    // Cerrar sesión completo
 };
 
 let userAnswers = {};
@@ -19,71 +19,41 @@ let isTransitioning = false;
 // AVANCE GENERAL
 function nextQuestion(current) {
   const progress = (current / totalQuestions) * 100;
-  document.getElementById('progress-bar').style.width = `${progress}%`;
-  document.getElementById(`q${current}`).classList.remove('active');
+  const progressBar = document.getElementById('progress-bar');
+  if(progressBar) progressBar.style.width = `${progress}%`;
+
+  const currentStep = document.getElementById(`q${current}`);
+  if(currentStep) currentStep.classList.remove('active');
 
   if (current < totalQuestions) {
-    document.getElementById(`q${current + 1}`).classList.add('active');
+    const nextStep = document.getElementById(`q${current + 1}`);
+    if(nextStep) nextStep.classList.add('active');
   } else {
     calculateAndSave();
   }
 }
 
-// Q1: CREADOR DE CONTRASEÑA
-function checkQ1Strength() {
-    const input = document.getElementById('q1-input').value;
-    const bar = document.getElementById('q1-bar');
-    const msg = document.getElementById('q1-msg');
-    const btn = document.getElementById('btn-q1');
-
-    let score = 0;
-    if (input.length > 8) score += 30;
-    if (input.length > 12) score += 30;
-    if (/[A-Z]/.test(input)) score += 10;
-    if (/[0-9]/.test(input)) score += 10;
-    if (/[^A-Za-z0-9]/.test(input)) score += 20;
-
-    bar.style.width = score + '%';
-    
-    if (score > 70) {
-        bar.style.background = '#4caf50';
-        msg.innerText = "NIVEL: SEGURO";
-        msg.style.color = '#4caf50';
-        btn.disabled = false;
-        btn.style.opacity = '1';
-    } else {
-        bar.style.background = '#d32f2f';
-        msg.innerText = "NIVEL: INSEGURO";
-        msg.style.color = '#d32f2f';
-        btn.disabled = true;
-        btn.style.opacity = '0.5';
-    }
-}
-
-function submitQ1() {
-    userAnswers[1] = 'strong_pass';
-    nextQuestion(1);
-}
-
-// RESTO DE PREGUNTAS
+// MANEJADORES DE RESPUESTA
+function checkQ1(ans) { handleAnswer(1, ans); }
 function checkQ2(ans) { handleAnswer(2, ans); }
 function checkQ3(ans) { handleAnswer(3, ans); }
-function checkQ4(ans) { handleAnswer(4, ans); }
-function checkQ5(ans) { handleAnswer(5, ans); }
+function checkQ4(ans) { handleAnswer(4, ans); } // El botón de la URL falsa
+function checkQ5(ans) { handleAnswer(5, ans); } // 'close' es correcto, 'fail' es clickar el botón
 function checkQ6(ans) { handleAnswer(6, ans); }
 function checkQ7(ans) { handleAnswer(7, ans); }
-function checkQ8(ans) { handleAnswer(8, ans); }
-function checkQ9(ans) { handleAnswer(9, ans); }
+function checkQ8(ans) { handleAnswer(8, ans); } // 'correct' es borrar el virus
+function checkQ9(ans) { handleAnswer(9, ans); } // 'correct' es rechazar cookies
 function checkQ10(ans) { handleAnswer(10, ans); }
 
 function handleAnswer(qNum, ans) {
-    if(isTransitioning) return; isTransitioning = true;
+    if(isTransitioning) return; 
+    isTransitioning = true;
     userAnswers[qNum] = ans;
     
-    // Feedback visual simple (opacidad)
+    // Feedback visual (parpadeo de selección)
     const currentStep = document.getElementById(`q${qNum}`);
     if(currentStep) {
-        currentStep.style.opacity = '0.9';
+        currentStep.style.opacity = '0.5';
     }
     
     setTimeout(() => { 
@@ -99,7 +69,12 @@ function calculateAndSave() {
   
   let hits = 0;
   for (let i = 1; i <= totalQuestions; i++) {
-    if (userAnswers[i] === correctAnswers[i]) {
+    // Caso especial para Q4 (la respuesta es hacer click en 'fake')
+    if (i === 4) {
+        if (userAnswers[i] === 'fake') hits++;
+    } 
+    // Resto de preguntas
+    else if (userAnswers[i] === correctAnswers[i]) {
        hits++;
     }
   }
@@ -123,18 +98,18 @@ function calculateAndSave() {
     scoreTxt.innerText = finalScore;
 
     if (passed) {
-      msgTxt.innerText = "CONFIGURACIÓN SEGURA";
+      msgTxt.innerText = "¡EXCELENTE!";
       msgTxt.style.color = "#2e7d32";
-      detailTxt.innerText = `Has superado ${hits} de 10 desafíos de seguridad.`;
+      detailTxt.innerText = `Has superado ${hits} de 10.`;
       
       btnCont.style.display = "inline-block";
-      btnNext.style.display = "inline-block";
+      if(btnNext) btnNext.style.display = "inline-block";
       
       saveToFirebase(finalScore);
     } else {
-      msgTxt.innerText = "CONFIGURACIÓN VULNERABLE";
+      msgTxt.innerText = "Necesitas repasar";
       msgTxt.style.color = "#d32f2f";
-      detailTxt.innerText = `Solo has superado ${hits} de 10 desafíos.`;
+      detailTxt.innerText = `Solo has superado ${hits} de 10. Necesitas por lo menos 8 aciertos de 10 para aprobar.`;
       
       btnRetry.style.display = "inline-block";
       btnCont.style.display = "inline-block";
@@ -148,7 +123,7 @@ function saveToFirebase(score) {
   auth.onAuthStateChanged(user => {
     if (user) {
       db.collection('userScores').doc(user.uid).set({
-        scores: { contrasenas: score }
+        scores: { navegacion: score }
       }, { merge: true });
     }
   });

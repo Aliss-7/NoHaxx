@@ -2,58 +2,72 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Módulos - NoHaxx</title>
+  
   <link rel="stylesheet" href="../CSS/base.css" />
   <link rel="stylesheet" href="../CSS/dashboard.css" />
 </head>
 <body>
+  
   <header>
     <div class="logo">NoHaxx</div>
     <div class="top-buttons">
       <a href="/">Inicio</a>
-      <a href="modulos.html">Módulos</a>
+      <a href="modulos.html" style="background-color: #eee; color: #000;">Módulos</a>
       <a href="resultados.html">Resultados</a>
       <a href="perfil.html">Perfil</a>
       <a href="contacto.html">Contacto</a>
-      <a href="logout.html">Cerrar sesión</a>
+      <a href="logout.html" style="background-color: #d32f2f; color: white;">Cerrar sesión</a>
     </div>
   </header>
 
   <main class="main-content">
-    <h2>Módulos de Concienciación en Ciberseguridad</h2>
     
-<ul class="lista-modulos">
-  <li>
-    <a href="modulos/1introduccion/teoria.html" id="intro-link">
-      Módulo 1: Introducción
-    </a>
-  </li>
-  <li>
-    <a href="modulos/2phishing/teoria.html" id="phishing-link">
-      Módulo 2: Phishing
-    </a>
-  </li>
-  <li>
-    <a href="modulos/3ransomware/teoria.html" id="ransomware-link">
-      Módulo 3: Ransomware
-    </a>
-  </li>
-  <li>
-    <a href="modulos/4ingenieria/teoria.html" id="ingenieria-link">
-      Módulo 4: Ingeniería Social
-    </a>
-  </li>
-  <li>
-    <a href="modulos/5contrasenas/teoria.html" id="contrasenas-link">
-      Módulo 5: Contraseñas
-    </a>
-  </li>
-  <li>
-    <a href="#" id="navegacion-link" class="bloqueado">
-      Módulo 6: Navegación Segura
-    </a>
-  </li>
-</ul>
+    <h1>Concienciación en Ciberseguridad</h1>
+    <p style="color: #666; margin-bottom: 40px;">
+      Completa los desafíos para fortalecer tu seguridad digital.
+    </p>
+    
+    <ul class="lista-modulos">
+      
+      <li>
+        <a href="../modulos/1introduccion/teoria.html" id="intro-link">
+          Módulo 1: Introducción
+        </a>
+      </li>
+
+      <li>
+        <a href="../modulos/2phishing/teoria.html" id="phishing-link">
+          Módulo 2: Phishing
+        </a>
+      </li>
+
+      <li>
+        <a href="../modulos/3ransomware/teoria.html" id="ransomware-link">
+          Módulo 3: Ransomware
+        </a>
+      </li>
+
+      <li>
+        <a href="../modulos/4ingenieria/teoria.html" id="ingenieria-link">
+          Módulo 4: Ingeniería Social
+        </a>
+      </li>
+
+      <li>
+        <a href="../modulos/5contrasenas/teoria.html" id="contrasenas-link">
+          Módulo 5: Contraseñas
+        </a>
+      </li>
+
+      <li>
+        <a href="../modulos/6navegacion/teoria.html" id="navegacion-link">
+          Módulo 6: Navegación Segura
+        </a>
+      </li>
+
+    </ul>
   </main>
 
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
@@ -61,7 +75,6 @@
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
 
   <script src="../scripts/firebase-config.js"></script>
-
   <script src="../scripts/modulos.js"></script>
 </body>
 </html>

@@ -122,6 +122,62 @@
     .footprint-card:hover { transform: translateY(-5px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
     .footprint-icon { font-size: 3rem; margin-bottom: 15px; color: #555; }
 
+    /* --- ESTILOS SIMULADOR PERFIL (Paso 8 - Nuevo) --- */
+    .profile-sim {
+        background: #fff; border: 1px solid #ccc; border-radius: 12px;
+        max-width: 400px; margin: 20px auto; overflow: hidden;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        font-family: sans-serif;
+    }
+    .profile-header-img {
+        height: 80px; background: #a5b1c2; position: relative;
+    }
+    .profile-avatar {
+        width: 80px; height: 80px; border-radius: 50%; border: 3px solid white;
+        background: #eee; position: absolute; bottom: -40px; left: 20px;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 2.5rem; cursor: pointer; transition: 0.3s;
+    }
+    .profile-avatar:hover { transform: scale(1.1); box-shadow: 0 0 10px red; border-color: red; }
+    
+    .profile-info { padding: 50px 20px 20px 20px; }
+    .profile-name { font-weight: bold; font-size: 1.2rem; }
+    .profile-handle { color: #777; font-size: 0.9rem; margin-bottom: 15px; }
+    
+    .profile-stats {
+        display: flex; gap: 20px; margin-bottom: 15px; cursor: pointer;
+        padding: 5px; border-radius: 5px; transition: 0.3s;
+    }
+    .profile-stats:hover { background: #ffebee; }
+    
+    .stat-box { text-align: center; }
+    .stat-num { font-weight: bold; display: block; }
+    .stat-label { font-size: 0.8rem; color: #777; }
+
+    .profile-bio-text { font-size: 0.9rem; line-height: 1.4; margin-bottom: 15px; }
+    
+    .suspicious-link {
+        color: #0095f6; text-decoration: none; font-weight: bold; 
+        cursor: pointer; padding: 2px 5px; border-radius: 3px;
+    }
+    .suspicious-link:hover { background: #ffebee; color: red; }
+
+    .profile-posts {
+        display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px;
+    }
+    .sim-post {
+        background: #eee; height: 100px; display: flex; align-items: center; justify-content: center;
+        color: #999; font-size: 1.5rem;
+    }
+
+    .found-badge {
+        position: absolute; top: -10px; right: -10px; background: #2e7d32; color: white;
+        width: 25px; height: 25px; border-radius: 50%; font-size: 0.8rem;
+        display: flex; align-items: center; justify-content: center; border: 2px solid white;
+        animation: popIn 0.3s;
+    }
+    @keyframes popIn { from { transform: scale(0); } to { transform: scale(1); } }
+
     /* --- TUS ESTILOS ORIGINALES --- */
     .wifi-simulator {
         background: #f0f0f0; border: 1px solid #ccc; border-radius: 8px; 
@@ -207,6 +263,24 @@
         background: #333; color: white; padding: 5px 10px; font-size: 0.8rem; white-space: nowrap; border-radius: 4px; z-index: 10;
     }
 
+    /* ESTILO VIDEO (NUEVO) */
+    .video-container {
+        position: relative;
+        padding-bottom: 56.25%; /* 16:9 */
+        height: 0;
+        overflow: hidden;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        margin: 20px 0;
+    }
+    .video-container iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+
   </style>
 </head>
 <body>
@@ -261,9 +335,11 @@
             </span>.</p>
         </div>
 
-        <p><strong>Ataque Twin Evil (Gemelo Malvado):</strong><br>
-        Además, hay que tener en cuenta que existen diversos tipos de amenazas al rededor de un Wi-Fi abierto.<br>
-        En el caso del <strong>Ataque Twin Evil</strong>, los hackers crean redes con nombres parecidos a los legítimos para robar tus datos.</p>
+        <div class="info-box" style="background:#e8f5e9; border-left-color:#d17a29;">
+            <h3>Ataque Twin Evil (Gemelo Malvado)</h3>
+            <p>Además, hay que tener en cuenta que existen diversos tipos de amenazas al rededor de un Wi-Fi abierto.<br>
+            En el caso del <strong>Ataque Twin Evil</strong>, los hackers crean redes con nombres parecidos a los legítimos para robar tus datos.</p>
+        </div>
 
         <p>Imagina que estas en una cafetería y el camarero te indica que tienen Wi-Fi gratis para los clientes, al ir a los ajustes de tu teléfono para conectarte encuentras lo siguente:</p>
         <p>Interactua con las diferentes redes disponibles para comprobar su peligrosidad.</p>
@@ -346,7 +422,7 @@
 
       <div class="course-step" id="step-4">
         <h2>Descargas y Sitios Web</h2>
-        <p>No todo lo que brilla en Internet es seguro. Aprende a identificar las señales de peligro antes de hacer clic.</p>
+        <p>No todo lo que brilla en Internet es seguro. Aprende a identificar las señales de peligro antes de hacer click.</p>
 
         <div class="browser-sim">
             <div class="browser-bar">
@@ -429,6 +505,27 @@
       </div>
 
       <div class="course-step" id="step-6">
+          <h2>Consejos de Navegación Segura</h2>
+          <div class="concept-card">
+              <p>Aprende trucos de navegacion en internet de forma segura. Este video te enseñará a identificar riesgos y configurar tu navegador correctamente.</p>
+          </div>
+          
+          <div class="video-container">
+              <div id="yt-player"></div>
+          </div>
+
+          <div class="info-box">
+              <h3>Puntos clave:</h3>
+              <ul class="check-list">
+                  <li>Mantén el navegador siempre actualizado.</li>
+                  <li>Descarga solo de sitios oficiales y analiza con antivirus.</li>
+                  <li>Usa el "Modo Incógnito" en equipos ajenos.</li>
+                  <li>Navega con un usuario sin permisos de administrador.</li>
+              </ul>
+          </div>
+      </div>
+
+      <div class="course-step" id="step-7">
         <h2>La Huella Digital</h2>
         <div class="concept-card">
             <p>Antes de configurar tu privacidad, debes entender algo clave: <strong>Internet no olvida</strong>.<br>
@@ -456,10 +553,14 @@
       </div>
 
 
-      <div class="course-step" id="step-7">
+      <div class="course-step" id="step-8">
         <h2>Privacidad en Redes Sociales</h2>
         <p>El 
-          <span class="tooltip" data-tooltip="Sobreexposición de información personal que facilita el trabajo a los ciberdelincuentes." style="color: #2196f3; font-weight: bold; cursor: help;">Oversharing</span> 
+          <span class="tooltip" 
+                data-tooltip="Sobreexposición de información personal que facilita el trabajo a los ciberdelincuentes." 
+                style="color: #2196f3; font-weight: bold; cursor: help;"
+                onmouseover="markCheck(8, 'tooltip'); this.style.color='#4caf50'"> Oversharing
+          </span> 
           es la mina de oro de la Ingeniería Social. Configura este perfil para que sea seguro.</p>
 
         <div class="privacy-panel">
@@ -481,56 +582,222 @@
         <p style="font-size:0.9rem; margin-top:10px;"><em>*Objetivo: Activa la privacidad y desactiva el rastreo.</em></p>
     </div>
 
-      <div class="course-step" id="step-8">
+    <div class="course-step" id="step-9">
+        <h2>¿Puedes detectar al Bot?</h2>
+        <div class="concept-card">
+            <p>A menudo aceptamos solicitudes sin mirar.<br>
+              Este perfil quiere ser tu amigo.<br>
+              <strong>Haz click sobre los 3 elementos sospechosos (Red Flags)</strong> para denunciarlo.</p>
+        </div>
+
+        <div class="profile-sim">
+            <div class="profile-header-img">
+                <div class="profile-avatar" onclick="analyzeProfile('avatar', this)">
+                    <i class="fas fa-user-circle"></i>
+                </div>
+            </div>
+            <div class="profile-info">
+                <div class="profile-name">Elon_Musk_Promo_Official</div>
+                <div class="profile-handle">@crypto_giveaway_9923</div>
+
+                <div class="profile-stats" onclick="analyzeProfile('stats', this)">
+                    <div class="stat-box"><span class="stat-num">12</span><span class="stat-label">Seguidores</span></div>
+                    <div class="stat-box"><span class="stat-num">4.5K</span><span class="stat-label">Siguiendo</span></div>
+                    <div class="stat-box"><span class="stat-num">0</span><span class="stat-label">Posts</span></div>
+                </div>
+
+                <div class="profile-bio-text">
+                    ¡Hola! 🚀 Soy gerente oficial de promociones. Estamos regalando 5 BTC a las primeras 10 personas. 👇
+                    <br><br>
+                    <span class="suspicious-link" onclick="analyzeProfile('link', this)">bit.ly/claim-free-money-now</span>
+                </div>
+            </div>
+            <div class="profile-posts">
+                <div class="sim-post"><i class="fas fa-image"></i></div>
+                <div class="sim-post"><i class="fas fa-image"></i></div>
+                <div class="sim-post"><i class="fas fa-image"></i></div>
+            </div>
+        </div>
+
+        <div id="profile-feedback" style="text-align:center; font-weight:bold; margin-top:15px; min-height:20px; color: #d32f2f;">
+            Alertas encontradas: <span id="flags-count">0</span>/3
+        </div>
+    </div>
+
+      <div class="course-step" id="step-10">
         <h2>Protección de Dispositivos</h2>
-        <p>Tu móvil contiene más información sensible que tu casa. Si lo pierdes, debe ser una "piedra" inútil para quien lo encuentre.</p>
+        <p>Tu móvil contiene más información sensible que tu casa (banco, correos, fotos, contactos).<br>
+           Si lo pierdes, debe convertirse en una piedra inútil e inaccesible para quien lo encuentre.</p>
 
         <div class="device-grid">
-            <div class="device-card" onclick="showDeviceInfo('lock', this)"><i class="fas fa-mobile-alt fa-2x"></i><br><strong>Bloqueo de Pantalla</strong></div>
-            <div class="device-card" onclick="showDeviceInfo('encrypt', this)"><i class="fas fa-file-code fa-2x"></i><br><strong>Cifrado</strong></div>
-            <div class="device-card" onclick="showDeviceInfo('update', this)"><i class="fas fa-sync-alt fa-2x"></i><br><strong>Actualizaciones</strong></div>
-            <div class="device-card" onclick="showDeviceInfo('find', this)"><i class="fas fa-map-marker-alt fa-2x"></i><br><strong>Localización</strong></div>
+            <div class="device-card" onclick="showDeviceInfo('lock', this)">
+                <i class="fas fa-mobile-alt fa-2x"></i><br><strong>Bloqueo de Pantalla</strong>
+            </div>
+            <div class="device-card" onclick="showDeviceInfo('encrypt', this)">
+                <i class="fas fa-file-code fa-2x"></i><br><strong>Cifrado</strong>
+            </div>
+            <div class="device-card" onclick="showDeviceInfo('update', this)">
+                <i class="fas fa-sync-alt fa-2x"></i><br><strong>Actualizaciones</strong>
+            </div>
+            <div class="device-card" onclick="showDeviceInfo('find', this)">
+                <i class="fas fa-map-marker-alt fa-2x"></i><br><strong>Localización</strong>
+            </div>
         </div>
 
-        <div id="info-lock" class="info-box" style="display:none;"><h3>Bloqueo Seguro</h3><p>Usa biometría (huella/cara) o un PIN de 6 dígitos.</p></div>
-        <div id="info-encrypt" class="info-box" style="display:none;"><h3>Cifrado de Datos</h3><p>Asegúrate de que el almacenamiento está cifrado.</p></div>
-        <div id="info-update" class="info-box" style="display:none;"><h3>Actualizaciones</h3><p>Las actualizaciones parchean agujeros de seguridad.</p></div>
-        <div id="info-find" class="info-box" style="display:none;"><h3>Encontrar mi Dispositivo</h3><p>Activa la localización remota.</p></div>
+        <div id="info-lock" class="info-box" style="display:none; border-left-color: #2196f3;">
+            <h3>Bloqueo Seguro</h3>
+            <p>Es la primera barrera. Evita los patrones de dibujo (son fáciles de espiar por encima del hombro). Lo ideal es:</p>
+            <ul class="check-list" style="margin-top:10px;">
+                <li><strong>Biometría:</strong> Huella dactilar o FaceID para el día a día.</li>
+                <li><strong>PIN Robusto:</strong> Mínimo 6 dígitos. Nunca uses "123456" o tu fecha de nacimiento.</li>
+            </ul>
+        </div>
+
+        <div id="info-encrypt" class="info-box" style="display:none; border-left-color: #9c27b0;">
+            <h3>Cifrado de Datos</h3>
+            <p>El cifrado revuelve tus datos matemáticamente. Si alguien roba tu móvil e intenta extraer las fotos conectándolo a un ordenador por cable, sin tu PIN solo verá "basura" ilegible.</p>
+            <p style="font-size:0.9rem; margin-top:5px;"><em>*Nota: La mayoría de móviles modernos (iOS y Android) activan el cifrado automáticamente en cuanto estableces un PIN de bloqueo.</em></p>
+        </div>
+
+        <div id="info-update" class="info-box" style="display:none; border-left-color: #ff9800;">
+            <h3>Actualizaciones del Sistema</h3>
+            <p>El software envejece mal. Los hackers descubren brechas de seguridad todos los días. Las actualizaciones no son solo estética; son parches que cierran esas puertas traseras.</p>
+            <p style="font-size:0.9rem; margin-top:5px;"><em>*Nota: Activa siempre las actualizaciones automáticas.</em></p>
+        </div>
+
+        <div id="info-find" class="info-box" style="display:none; border-left-color: #f44336;">
+            <h3>Encontrar mi Dispositivo</h3>
+            <p>Herramientas como <em>Find My iPhone</em> o <em>Google Find My Device</em> son vitales. No solo te dicen dónde está el móvil, te permiten:</p>
+            <ul class="check-list" style="margin-top:10px;">
+                <li><strong>Hacerlo sonar:</strong> Si lo perdiste en casa.</li>
+                <li><strong>Borrado Remoto (Wipe):</strong> La función más importante. Si confirmas el robo, puedes destruir todos los datos a distancia para proteger tu privacidad.</li>
+            </ul>
+        </div>
       </div>
 
-      <div class="course-step" id="step-9">
-        <h2>Síntesis del Módulo</h2>
-        <div class="summary-grid">
-            <div class="summary-card">
-                <h3>Redes y Navegación</h3>
-                <ul class="check-list">
-                    <li>Evita Wi-Fi público o usa VPN.</li>
-                    <li>Verifica HTTPS y dominios.</li>
-                    <li>Cuidado con las descargas (.exe).</li>
-                </ul>
-            </div>
-            <div class="summary-card">
-                <h3>Privacidad y Móvil</h3>
-                <ul class="check-list">
-                    <li>Limita quién ve tu perfil social.</li>
-                    <li>Desactiva la geolocalización innecesaria.</li>
-                    <li>Usa bloqueo de pantalla fuerte y cifrado.</li>
-                </ul>
-            </div>
+      <div class="course-step" id="step-11">
+        <h2>Permisos de Aplicaciones</h2>
+        <div class="concept-card">
+            <p>Muchas Apps gratuitas cobran con la venta de tus datos.<br>
+              Tu misión es <strong>Revisar los Permisos</strong> solicitados y decidir si tienen sentido.</p>
         </div>
+
+        <div class="permissions-container" style="display: flex; flex-direction: column; gap: 15px; max-width: 500px; margin: 20px auto;">
+            
+            <div class="perm-card" id="app-flash" style="background: white; border: 1px solid #ccc; padding: 15px; border-radius: 8px; display: flex; align-items: center; justify-content: space-between;">
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <div style="background: #333; color: white; width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center;"><i class="fas fa-flashlight"></i></div>
+                    <div>
+                        <div style="font-weight: bold;">Super Linterna</div>
+                        <div style="font-size: 0.85rem; color: #555;">Solicita: <strong>Acceso a Contactos</strong></div>
+                    </div>
+                </div>
+                <div class="perm-actions">
+                    <button class="btn-deny" onclick="checkPermission('flash', 'deny', this)" style="background: #ffebee; color: #c62828; border: 1px solid #c62828; padding: 5px 10px; border-radius: 4px; cursor: pointer; margin-right: 5px;">DENEGAR</button>
+                    <button class="btn-allow" onclick="checkPermission('flash', 'allow', this)" style="background: #e8f5e9; color: #2e7d32; border: 1px solid #2e7d32; padding: 5px 10px; border-radius: 4px; cursor: pointer;">PERMITIR</button>
+                </div>
+            </div>
+
+            <div class="perm-card" id="app-maps" style="background: white; border: 1px solid #ccc; padding: 15px; border-radius: 8px; display: flex; align-items: center; justify-content: space-between;">
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <div style="background: #2196f3; color: white; width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center;"><i class="fas fa-map-marked-alt"></i></div>
+                    <div>
+                        <div style="font-weight: bold;">Navegador GPS</div>
+                        <div style="font-size: 0.85rem; color: #555;">Solicita: <strong>Ubicación Precisa</strong></div>
+                    </div>
+                </div>
+                <div class="perm-actions">
+                    <button class="btn-deny" onclick="checkPermission('maps', 'deny', this)" style="background: #ffebee; color: #c62828; border: 1px solid #c62828; padding: 5px 10px; border-radius: 4px; cursor: pointer; margin-right: 5px;">DENEGAR</button>
+                    <button class="btn-allow" onclick="checkPermission('maps', 'allow', this)" style="background: #e8f5e9; color: #2e7d32; border: 1px solid #2e7d32; padding: 5px 10px; border-radius: 4px; cursor: pointer;">PERMITIR</button>
+                </div>
+            </div>
+
+            <div class="perm-card" id="app-calc" style="background: white; border: 1px solid #ccc; padding: 15px; border-radius: 8px; display: flex; align-items: center; justify-content: space-between;">
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <div style="background: #ff9800; color: white; width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center;"><i class="fas fa-calculator"></i></div>
+                    <div>
+                        <div style="font-weight: bold;">Calculadora Pro</div>
+                        <div style="font-size: 0.85rem; color: #555;">Solicita: <strong>Grabar Audio</strong></div>
+                    </div>
+                </div>
+                <div class="perm-actions">
+                    <button class="btn-deny" onclick="checkPermission('calc', 'deny', this)" style="background: #ffebee; color: #c62828; border: 1px solid #c62828; padding: 5px 10px; border-radius: 4px; cursor: pointer; margin-right: 5px;">DENEGAR</button>
+                    <button class="btn-allow" onclick="checkPermission('calc', 'allow', this)" style="background: #e8f5e9; color: #2e7d32; border: 1px solid #2e7d32; padding: 5px 10px; border-radius: 4px; cursor: pointer;">PERMITIR</button>
+                </div>
+            </div>
+
+        </div>
+
+        <div id="perm-feedback" style="text-align:center; font-weight:bold; margin-top:15px; min-height:20px; color: #d32f2f;">
+            Apps revisadas: <span id="perm-count">0</span>/3
+        </div>
+        
+        <div class="info-box" style="margin-top: 20px; border-left-color: #673ab7;">
+            <h3>La regla del Mínimo Privilegio</h3>
+            <p>Si una app de linterna pide ver tus contactos, <strong>es malware o spyware</strong>. Dale a cada app solo lo estrictamente necesario para funcionar.</p>
+        </div>
+      </div>
+
+      <div class="course-step" id="step-12">
+        <h2>Síntesis y Competencias</h2>
+        
+        <div class="concept-card">
+            <p>Tras haber revisado este módulo sobre la navegación segura en internet deberías poder identificar y evitar los peligros de internet.<br>
+              Ahora posees las herramientas para moverte por el internet sin ser una presa fácil.</p>
+        </div>
+
+        <div class="summary-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-top: 20px;">
+            
+            <div class="summary-card" style="background: white; border: 1px solid #ddd; padding: 20px; border-radius: 8px; border-left: 5px solid #2196f3; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
+                <h3 style="color: #0d47a1; margin-bottom: 15px;"><i class="fas fa-wifi"></i> Redes y Conexión</h3>
+                <ul class="check-list">
+                    <li><strong>Wi-Fi Público:</strong> Es inseguro por defecto (riesgo de Sniffing y Twin Evil).</li>
+                    <li><strong>VPN:</strong> Tu "capa de invisibilidad". Cifra tus datos para que nadie en la red pueda leerlos.</li>
+                </ul>
+            </div>
+
+            <div class="summary-card" style="background: white; border: 1px solid #ddd; padding: 20px; border-radius: 8px; border-left: 5px solid #4caf50; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
+                <h3 style="color: #1b5e20; margin-bottom: 15px;"><i class="fas fa-globe"></i> Navegación Web</h3>
+                <ul class="check-list">
+                    <li><strong>HTTPS:</strong> Busca el candado, pero recuerda que solo cifra el viaje, no garantiza que el sitio sea honesto.</li>
+                    <li><strong>Descargas:</strong> Desconfía de extensiones dobles (ej: <code>.pdf.exe</code>).</li>
+                </ul>
+            </div>
+
+            <div class="summary-card" style="background: white; border: 1px solid #ddd; padding: 20px; border-radius: 8px; border-left: 5px solid #ff9800; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
+                <h3 style="color: #e65100; margin-bottom: 15px;"><i class="fas fa-user-shield"></i> Redes Sociales</h3>
+                <ul class="check-list">
+                    <li><strong>Huella Digital:</strong> Internet no olvida. Piensa antes de publicar.</li>
+                    <li><strong>Oversharing:</strong> Mantén tu perfil privado y limita la geolocalización.</li>
+                    <li><strong>Bots:</strong> Detecta perfiles falsos (fotos genéricas, enlaces sospechosos).</li>
+                </ul>
+            </div>
+
+            <div class="summary-card" style="background: white; border: 1px solid #ddd; padding: 20px; border-radius: 8px; border-left: 5px solid #9c27b0; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
+                <h3 style="color: #4a148c; margin-bottom: 15px;"><i class="fas fa-mobile-alt"></i> Seguridad Móvil</h3>
+                <ul class="check-list">
+                    <li><strong>Acceso:</strong> Usa biometría o PIN robusto.</li>
+                    <li><strong>Pérdida:</strong> Activa "Encontrar mi dispositivo" para poder borrar datos remotamente.</li>
+                    <li><strong>Permisos:</strong> Aplica el "Mínimo Privilegio". ¿Una linterna necesita tus contactos? ¡NO!</li>
+                </ul>
+            </div>
+      </div> 
+
         <div style="margin-top: 30px; text-align: center;">
             <a href="examen.html" class="btn-finish" id="finishBtn">Ir al Examen Práctico</a>
         </div>
       </div>
-
+      
       <div class="navigation-buttons">
         <button class="btn-nav btn-prev" id="prevBtn" onclick="changeStep(-1)">Anterior</button>
         <button class="btn-nav btn-next" id="nextBtn" onclick="tryNextStep()">Siguiente ➜</button>
       </div>
 
-    </main>
-  </div>
+  </main> 
+  </div> 
   
   <script src="../../scripts/teoria_navegacion.js"></script>
+  <script src="https://www.youtube.com/iframe_api"></script>
+
 </body>
 </html>

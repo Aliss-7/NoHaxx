@@ -1,5 +1,5 @@
 /* =========================================================================
-   CONTROL DE PROGRESO (MÓDULO 6 - 10 PASOS)
+   CONTROL DE PROGRESO (MÓDULO 6 - 13 PASOS)
    ========================================================================= */
 const stepRequirements = {
     0: { completed: true },
@@ -8,14 +8,14 @@ const stepRequirements = {
     3: { type: 'mixed', checks: { proto: false, domain: false, path: false }, completed: false },
     4: { type: 'browser', completed: false },
     5: { type: 'puzzle', itemsTotal: 7, itemsSolved: 0, completed: false },
-    
-    // NUEVO PASO 6: INTRODUCCIÓN HUELLA DIGITAL (Solo lectura)
-    6: { completed: true },
-
-    // PASOS DESPLAZADOS
-    7: { type: 'privacy', completed: false }, // Antes era 6
-    8: { type: 'cards', viewed: 0, target: 4, completed: false }, // Antes era 7
-    9: { type: 'finish', completed: true }  // Antes era 8
+    // PASO 6: VIDEO (AUTO-DETECTADO)
+    6: { type: 'video', completed: false }, 
+    7: { completed: true }, 
+    8: { type: 'privacy', checks: { toggles: false, tooltip: false }, completed: false }, 
+    9: { type: 'profile_sim', found: 0, total: 3, items: { avatar: false, stats: false, link: false }, completed: false }, 
+    10: { type: 'cards', viewed: 0, target: 4, completed: false },
+    11: { type: 'permissions', solved: 0, total: 3, items: { flash: false, maps: false, calc: false }, completed: false },
+    12: { type: 'finish', completed: true }
 };
 
 /* =========================================================================
@@ -37,13 +37,12 @@ function showStep(index) {
     currentStep = index;
     updateNextButtonState();
 
-    // Actualizar Menú Lateral (Ajustado para nuevos índices)
     let activeMenu = 0;
-    if (index <= 2) activeMenu = 0;       // 1. Redes Públicas
-    else if (index <= 5) activeMenu = 1;  // 2. Navegación Web
-    else if (index <= 7) activeMenu = 2;  // 3. Redes Sociales (Ahora incluye 6 y 7)
-    else if (index === 8) activeMenu = 3; // 4. Dispositivos
-    else activeMenu = 4;                  // 5. Síntesis
+    if (index <= 2) activeMenu = 0;
+    else if (index <= 6) activeMenu = 1;
+    else if (index <= 9) activeMenu = 2;
+    else if (index <= 11) activeMenu = 3;
+    else activeMenu = 4;
 
     document.querySelectorAll('.lms-menu-item').forEach((item, i) => {
         item.classList.remove('active');
@@ -68,6 +67,14 @@ function tryNextStep() {
             alert("Pasa el ratón por todas las partes de la URL para continuar.");
         } else if (currentStep === 5) {
             alert("Arrastra todos los elementos a la zona correcta para continuar.");
+        } else if (currentStep === 6) {
+            alert("Debes ver el video completo para poder continuar.");
+        } else if (currentStep === 8) {
+            alert("Debes configurar la privacidad Y leer la definición de 'Oversharing'.");
+        } else if (currentStep === 9) {
+            alert("Encuentra las 3 señales de alerta en el perfil falso para continuar.");
+        } else if (currentStep === 11) {
+            alert("Revisa correctamente los permisos de las 3 aplicaciones.");
         } else {
             alert("Completa la actividad interactiva para continuar.");
         }
@@ -98,6 +105,8 @@ function markCheck(step, key) {
         if (allDone) {
             stepRequirements[step].completed = true;
             updateNextButtonState();
+        } else {
+            if(step === 8) checkPrivacy();
         }
     }
 }
@@ -176,64 +185,174 @@ function checkDownload() {
     }
 }
 
-// PASO 7 (ANTES 6): PRIVACIDAD
+// === PASO 6: API DE YOUTUBE (NUEVO) ===
+var player;
+// Esta función es llamada automáticamente por la API de YouTube cuando carga
+function onYouTubeIframeAPIReady() {
+    player = new YT.Player('yt-player', {
+        height: '315',
+        width: '560',
+        videoId: 'cjSNVxtXY-U', // ID del video
+        playerVars: {
+            'start': 11, // Empieza en el segundo 11
+            'rel': 0,    // No mostrar videos relacionados al final
+            'controls': 1 
+        },
+        events: {
+            'onStateChange': onPlayerStateChange
+        }
+    });
+}
+
+function onPlayerStateChange(event) {
+    // El estado 0 corresponde a "ENDED" (Video terminado)
+    if (event.data === 0) {
+        stepRequirements[6].completed = true;
+        updateNextButtonState();
+        
+        const status = document.getElementById('video-status');
+        if(status) {
+            status.innerHTML = '';
+            status.style.color = "#2e7d32";
+        }
+    }
+}
+
+// PASO 8: PRIVACIDAD
 function checkPrivacy() {
     const vis = document.getElementById('priv-vis').checked; 
     const geo = document.getElementById('priv-geo').checked; 
     const search = document.getElementById('priv-search').checked; 
     const feedback = document.getElementById('privacy-feedback');
+    const req = stepRequirements[8];
 
-    if (vis && !geo && !search) {
+    const togglesCorrect = (vis && !geo && !search);
+    req.checks.toggles = togglesCorrect;
+
+    if (togglesCorrect) {
         feedback.style.color = '#2e7d32';
-        feedback.innerHTML = "¡EXCELENTE! Perfil privado.";
-        // Actualizado a índice 7
-        stepRequirements[7].completed = true;
-        updateNextButtonState();
+        feedback.innerHTML = "¡Configuración de Privacidad Correcta!";
     } else {
         feedback.style.color = '#d32f2f';
-        feedback.innerHTML = "RIESGO DETECTADO.";
+        feedback.innerHTML = "RIESGO DETECTADO. Revisa la configuración.";
+    }
+
+    const allDone = req.checks.toggles && req.checks.tooltip;
+    req.completed = allDone;
+    
+    updateNextButtonState();
+}
+
+// PASO 9: SIMULADOR PERFIL FALSO
+function analyzeProfile(part, element) {
+    const req = stepRequirements[9]; 
+    const feedback = document.getElementById('profile-feedback');
+    const countDisplay = document.getElementById('flags-count');
+
+    if (req.items[part]) return;
+
+    req.items[part] = true;
+    req.found++;
+    
+    const badge = document.createElement("div");
+    badge.className = "found-badge";
+    badge.innerHTML = "✓";
+    element.style.position = "relative"; 
+    element.appendChild(badge);
+    
+    element.style.border = "2px solid #2e7d32";
+    element.style.borderRadius = "5px";
+    element.style.backgroundColor = "rgba(46, 125, 50, 0.1)";
+
+    if(countDisplay) countDisplay.innerText = req.found;
+
+    if (part === 'avatar') feedback.innerText = "¡Bien! Foto genérica o sin rostro real.";
+    else if (part === 'stats') feedback.innerText = "¡Correcto! Pocos seguidores, sigue a muchos.";
+    else if (part === 'link') feedback.innerText = "¡Exacto! Enlaces acortados o promesas de dinero fácil.";
+    
+    feedback.style.color = "#2e7d32";
+
+    if (req.found >= 3) {
+        req.completed = true;
+        feedback.innerHTML = "¡EXCELENTE! Has identificado al Bot. Perfil denunciado.";
+        const nextBtn = document.getElementById('nextBtn');
+        if(nextBtn) {
+            nextBtn.disabled = false;
+            nextBtn.style.opacity = '1';
+            nextBtn.style.cursor = 'pointer';
+        }
+        updateNextButtonState();
     }
 }
 
-// PASO 8 (ANTES 7): DISPOSITIVOS
+// PASO 10: DISPOSITIVOS
 function showDeviceInfo(type, card) {
-    document.querySelectorAll('.info-box').forEach(div => div.style.display = 'none');
-    document.getElementById('info-' + type).style.display = 'block';
+    const step10Ids = ['info-lock', 'info-encrypt', 'info-update', 'info-find'];
+    step10Ids.forEach(id => {
+        const el = document.getElementById(id);
+        if(el) el.style.display = 'none';
+    });
+
+    const target = document.getElementById('info-' + type);
+    if(target) target.style.display = 'block';
     
     if (!card.classList.contains('visited')) {
         card.classList.add('visited');
         card.style.borderLeft = "4px solid #2196f3";
-        // Actualizado a índice 8
-        stepRequirements[8].viewed++;
+        stepRequirements[10].viewed++;
         
-        if (stepRequirements[8].viewed === stepRequirements[8].target) {
-            stepRequirements[8].completed = true;
+        if (stepRequirements[10].viewed === stepRequirements[10].target) {
+            stepRequirements[10].completed = true;
             updateNextButtonState();
         }
     }
 }
 
-/* =========================================================================
-   LÓGICA DEL PUZZLE (PASO 5)
-   ========================================================================= */
+// PASO 11: PERMISOS DE APPS
+function checkPermission(app, choice, btn) {
+    const req = stepRequirements[11];
+    const feedback = document.getElementById('perm-feedback');
+    const countDisplay = document.getElementById('perm-count');
+    
+    if (req.items[app]) return;
 
-function allowDrop(ev) {
-    ev.preventDefault();
-    if(ev.target.classList.contains('drop-zone')) {
-        ev.target.classList.add('dragover');
+    const correctAnswers = { 'flash': 'deny', 'maps': 'allow', 'calc': 'deny' };
+    const parent = btn.closest('.perm-card');
+
+    if (choice === correctAnswers[app]) {
+        req.items[app] = true;
+        req.solved++;
+        
+        parent.style.border = "2px solid #2e7d32";
+        parent.style.background = "#e8f5e9";
+        parent.innerHTML = `<div style="color:#2e7d32; font-weight:bold; width:100%; text-align:center;">✓ DECISIÓN CORRECTA</div>`;
+        
+        if(countDisplay) countDisplay.innerText = req.solved;
+
+        if (req.solved === req.total) {
+            req.completed = true;
+            feedback.innerHTML = "¡EXCELENTE! Has evitado la fuga de datos.";
+            feedback.style.color = "#2e7d32";
+            updateNextButtonState();
+        } else {
+            feedback.innerHTML = "¡Bien! Sigue revisando...";
+            feedback.style.color = "#2e7d32";
+        }
+    } else {
+        btn.style.animation = "shake 0.5s";
+        setTimeout(() => btn.style.animation = "", 500);
+        feedback.innerHTML = "¡Error! Piénsalo: ¿Esa app realmente necesita eso para funcionar?";
+        feedback.style.color = "#d32f2f";
     }
 }
 
-function drag(ev) {
-    ev.dataTransfer.setData("text", ev.target.id);
-    ev.dataTransfer.setData("type", ev.target.dataset.type);
-}
-
+// PUZZLE
+function allowDrop(ev) { ev.preventDefault(); if(ev.target.classList.contains('drop-zone')) ev.target.classList.add('dragover'); }
+function drag(ev) { ev.dataTransfer.setData("text", ev.target.id); ev.dataTransfer.setData("type", ev.target.dataset.type); }
 function drop(ev, zoneType) {
     ev.preventDefault();
     const dropTarget = ev.target.closest('.drop-zone');
     dropTarget.classList.remove('dragover');
-
     const dataId = ev.dataTransfer.getData("text");
     const dataType = ev.dataTransfer.getData("type");
     const element = document.getElementById(dataId);
@@ -244,21 +363,17 @@ function drop(ev, zoneType) {
         element.draggable = false;
         element.style.cursor = "default";
         element.style.background = "#c8e6c9";
-        
         feedback.style.color = "#2e7d32";
         feedback.innerText = "¡Correcto!";
-        
         stepRequirements[5].itemsSolved++;
         checkPuzzleCompletion();
     } else {
         feedback.style.color = "#d32f2f";
         feedback.innerText = "¡Incorrecto! Piénsalo bien e inténtalo de nuevo.";
-        
         element.style.animation = "shake 0.5s";
         setTimeout(() => element.style.animation = "", 500);
     }
 }
-
 function checkPuzzleCompletion() {
     if (stepRequirements[5].itemsSolved === stepRequirements[5].itemsTotal) {
         stepRequirements[5].completed = true;
@@ -266,14 +381,6 @@ function checkPuzzleCompletion() {
         updateNextButtonState();
     }
 }
-
 const styleSheet = document.createElement("style");
-styleSheet.innerText = `
-@keyframes shake {
-  0% { transform: translateX(0); }
-  25% { transform: translateX(-5px); }
-  50% { transform: translateX(5px); }
-  75% { transform: translateX(-5px); }
-  100% { transform: translateX(0); }
-}`;
+styleSheet.innerText = `@keyframes shake { 0% { transform: translateX(0); } 25% { transform: translateX(-5px); } 50% { transform: translateX(5px); } 75% { transform: translateX(-5px); } 100% { transform: translateX(0); } }`;
 document.head.appendChild(styleSheet);
