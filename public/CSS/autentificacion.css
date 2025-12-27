@@ -1,76 +1,154 @@
 /* =========================================================================
-   FORMULARIOS (LOGIN, REGISTRO, CONTACTO)  
+   ESTILOS DE AUTENTIFICACIÓN (Login, Registro, Contacto)
    ========================================================================= */
-input[type="email"],
-input[type="password"],
-input[type="text"],
-input[type="tel"],
-textarea {
-  width: 100%;
-  padding: 12px;
-  margin: 10px 0;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  font-size: 1rem;
-  background-color: #f0f0f0;
-  color: #000;
-  transition: border-color 0.3s ease, background-color 0.3s ease;
-  box-sizing: border-box;
+
+.main-content.registro-container {
+    background-color: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+    padding: 0 !important;
+    max-width: 100% !important;
 }
 
-input:focus, textarea:focus {
-  outline: none;
-  border-color: #0f1e40;
-  background-color: #e6f0ff;
+/* Contenedor de pantalla completa */
+.registro-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 85vh;
+    background-color: #f4f6f8; /* Fondo gris pantalla */
+    padding: 20px !important;
 }
 
-label {
-  display: block;
-  font-size: 0.95rem;
-  text-align: left;
-  margin: 10px 0 5px;
+/* --- 2. TARJETA FLOTANTE (.auth-card) --- */
+.auth-card {
+    background: white;
+    width: 100%;
+    max-width: 500px;
+    padding: 3rem;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); /* Sombra única y suave */
+    text-align: center;
+    border: 1px solid rgba(0,0,0,0.02);
+    position: relative;
+    z-index: 10;
 }
 
-button[type="submit"], #login-btn {
-  padding: 10px 20px;
-  font-size: 1rem;
-  background-color: transparent;
-  border: 2px solid #000;
-  color: #000;
-  border-radius: 6px;
-  cursor: pointer;
-  margin-top: 15px;
-  font-weight: bold;
-  transition: all 0.3s ease;
-  width: 100%;
+/* Cabecera de la tarjeta */
+.auth-header h2 {
+    font-size: 1.8rem;
+    color: #1a1a1a;
+    margin-bottom: 5px;
+    font-weight: 700;
 }
 
-button[type="submit"]:hover, #login-btn:hover {
-  background-color: #000;
-  color: white;
+.auth-header p {
+    color: #666;
+    margin-bottom: 2rem;
+    font-size: 0.95rem;
 }
 
-#registrate {
-  display: inline-block;
-  margin-top: 16px;
-  font-size: 0.9rem;
-  color: #000;
-  text-decoration: none;
-  border-bottom: 1px dotted #666;
+/* --- 3. INPUTS Y TEXTAREA MODERNOS --- */
+
+/* Estilo común para Inputs y Textarea dentro de la tarjeta */
+.auth-card input,
+.auth-card textarea {
+    width: 100%;
+    background-color: #f9f9f9;
+    border: 2px solid #eee;
+    padding: 15px;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    font-family: inherit; /* Hereda la fuente del body */
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+    margin-bottom: 0; /* El margen lo controla el form-group */
 }
 
-#mensaje-error {
-  color: red;
-  margin-top: 1rem;
-  font-size: 0.9rem;
+/* Efecto al hacer clic/escribir */
+.auth-card input:focus,
+.auth-card textarea:focus {
+    background-color: #fff;
+    border-color: #1f73b8;
+    box-shadow: 0 4px 10px #3d9be91a;
+    outline: none;
 }
 
-.contacto-container {
-  max-width: 700px;
-  margin: 4rem auto;
-  background-color: #ffffff;
-  padding: 2.5rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  text-align: left;
+/* Ajuste específico para el área de mensaje (Contacto) */
+.auth-card textarea {
+    resize: vertical; /* Solo permite estirar hacia abajo */
+    min-height: 120px;
+}
+
+/* Grupos y Filas */
+.form-group {
+    margin-bottom: 15px;
+    width: 100%;
+    text-align: left;
+}
+
+.form-row {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+/* --- 4. BOTONES Y ENLACES --- */
+
+/* Botón "Glow" Azul */
+.btn-glow {
+    background: linear-gradient(135deg, #368fe2 0%, #1f73b8 100%);
+    color: white !important;
+    border: none !important;
+    padding: 16px;
+    font-size: 1.1rem;
+    border-radius: 10px;
+    width: 100%;
+    margin-top: 15px;
+    cursor: pointer;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-glow:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(31, 115, 184, 0.3);
+}
+
+/* Pie de tarjeta (Links) */
+.auth-footer {
+    margin-top: 25px;
+    font-size: 0.9rem;
+    color: #888;
+}
+
+.auth-footer a {
+    color: #1f73b8;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.auth-footer a:hover {
+    text-decoration: underline;
+}
+
+/* Mensajes de error */
+.error-text {
+    font-size: 0.85rem;
+    color: #d32f2f;
+    text-align: center;
+    margin-top: 10px;
+    min-height: 20px;
+}
+
+/* --- 5. RESPONSIVE --- */
+@media (max-width: 600px) {
+    .form-row {
+        flex-direction: column;
+        gap: 15px;
+    }
+    .auth-card {
+        padding: 2rem;
+    }
 }

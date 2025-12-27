@@ -1,4 +1,3 @@
-// 1. CONFIGURACIÓN 
 let currentStep = 0;
 const totalSteps = 18;
 let stepUnlocked = new Array(totalSteps).fill(false);
@@ -40,9 +39,23 @@ function updateUI() {
 
     // Botones
     document.getElementById('prevBtn').style.visibility = (currentStep === 0) ? 'hidden' : 'visible';
+    
     const isLast = currentStep === totalSteps - 1;
-    document.getElementById('nextBtn').style.display = isLast ? 'none' : 'inline-block';
-    document.getElementById('finishBtn').style.display = isLast ? 'inline-block' : 'none';
+    const nextBtn = document.getElementById('nextBtn');
+    const finishBtn = document.getElementById('finishBtn');
+
+    if (isLast) {
+        nextBtn.style.display = 'none';
+        finishBtn.style.display = 'inline-block';
+        finishBtn.textContent = "Ir al Examen";
+        
+        // Guardar progreso al llegar al final
+        guardarProgresoTeoria('ransomware');
+    } else {
+        nextBtn.style.display = 'inline-block';
+        finishBtn.style.display = 'none';
+    }
+
     document.getElementById('bloqueo-msg').style.display = 'none';
 
     // LÓGICA DEL VÍDEO WANNACRY
@@ -236,3 +249,14 @@ document.addEventListener('click', (e) => {
     if(!e.target.classList.contains('menu-item')) document.getElementById('context-menu').style.display = 'none'; 
 });
 window.onload = updateUI;
+
+function guardarProgresoTeoria(modulo) {
+    const user = firebase.auth().currentUser;
+    if(user) {
+        firebase.firestore().collection('userScores').doc(user.uid).set({
+            teoria: { [modulo]: true }
+        }, { merge: true }).then(() => {
+            console.log("Teoría guardada");
+        });
+    }
+}

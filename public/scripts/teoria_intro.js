@@ -37,6 +37,7 @@
           finishBtn.style.opacity = '1';
           finishBtn.style.pointerEvents = 'auto';
           finishBtn.textContent = "Ir al Examen";
+          guardarProgresoTeoria('introduccion');
         } else {
           finishBtn.style.display = 'inline-block';
           finishBtn.style.opacity = '0.5';
@@ -284,3 +285,15 @@
     }
 
     updateUI();
+
+
+function guardarProgresoTeoria(modulo) {
+    const user = firebase.auth().currentUser;
+    if(user) {
+        firebase.firestore().collection('userScores').doc(user.uid).set({
+            teoria: { [modulo]: true }
+        }, { merge: true }).then(() => {
+            console.log(`Teoría de ${modulo} completada y guardada.`);
+        });
+    }
+}

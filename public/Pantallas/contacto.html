@@ -6,7 +6,8 @@
   <title>Contacto - NoHaxx</title>
   
   <link rel="stylesheet" href="../CSS/base.css" />
-  <link rel="stylesheet" href="../CSS/contacto.css" />
+  <link rel="stylesheet" href="../CSS/autentificacion.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
 
@@ -15,7 +16,7 @@
     <div class="top-buttons">
       <a href="../index.html">Inicio</a>
 
-      <a href="login.html" class="menu-invitado">Iniciar Sesión</a>
+      <a href="login.html" class="menu-invitado">Login</a>
       <a href="registro.html" class="menu-invitado">Registro</a>
       <a href="contacto.html" class="menu-invitado">Contacto</a>
 
@@ -27,42 +28,38 @@
     </div>
   </header>
   
-  <main>
-    <section class="contacto-container">
-      <h1>Contacto</h1>
-      <p>¿Tienes dudas o quieres ponerte en contacto con nosotros? ¡Escríbenos!</p>
+  <main class="main-content registro-container">
+    
+    <div class="auth-card">
+      <div class="auth-header">
+        <h2>Contáctanos</h2>
+        <p>Estamos aquí para resolver tus dudas</p>
+      </div>
 
       <form id="contact-form">
         <div class="form-group">
-            <label for="nombre">Nombre *</label>
-            <input type="text" id="nombre" name="from_name" required placeholder="Tu nombre" />
+            <input type="text" id="nombre" name="from_name" required placeholder="Tu nombre *" />
         </div>
 
         <div class="form-group">
-            <label for="email">Email *</label>
-            <input type="email" id="email" name="reply_to" required placeholder="tu@email.com" />
+            <input type="email" id="email" name="reply_to" required placeholder="Tu correo electrónico *" />
         </div>
 
         <div class="form-group">
-            <label for="asunto">Asunto *</label>
-            <input type="text" id="asunto" name="subject" required placeholder="Asunto del mensaje" />
+            <input type="text" id="asunto" name="subject" required placeholder="Asunto *" />
         </div>
 
         <div class="form-group">
-            <label for="mensaje">Mensaje *</label>
             <textarea id="mensaje" name="message" rows="5" required placeholder="Escribe tu mensaje aquí..."></textarea>
         </div>
 
-        <button type="submit" id="enviar-btn">Enviar Mensaje</button>
+        <button type="submit" id="enviar-btn" class="btn-glow">Enviar Mensaje</button>
       </form>
 
-      <p id="form-mensaje" role="alert" aria-live="polite"></p>
-    </section>
-  </main>
+      <p id="form-mensaje" role="alert" aria-live="polite" class="error-text" style="color: #1f73b8; margin-top: 15px;"></p>
+    </div>
 
-  <footer>
-    <p>&copy; 2025 NoHaxx. Todos los derechos reservados.</p>
-  </footer>
+  </main>
 
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>

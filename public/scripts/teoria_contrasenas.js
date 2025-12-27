@@ -64,7 +64,25 @@ function showStep(index) {
     });
 
     document.getElementById('prevBtn').disabled = (index === 0);
-    document.getElementById('nextBtn').style.display = (index === totalSteps - 1) ? 'none' : 'inline-block';
+    
+    const nextBtn = document.getElementById('nextBtn');
+    const finishBtn = document.getElementById('finishBtn');
+
+    if (index === totalSteps - 1) {
+        nextBtn.style.display = 'none';
+        
+        if (finishBtn) {
+            finishBtn.style.display = 'inline-block';
+            finishBtn.disabled = false;
+            finishBtn.style.opacity = '1';
+            finishBtn.textContent = "Ir al Examen";
+            
+            guardarProgresoTeoria('contrasenas'); 
+        }
+    } else {
+        nextBtn.style.display = 'inline-block';
+        if (finishBtn) finishBtn.style.display = 'none';
+    }
 }
 
 function changeStep(n) {
@@ -226,4 +244,13 @@ function checkLeak() {
         stepRequirements[9].completed = true;
         updateNextButtonState();
     }, 1500);
+}
+
+function guardarProgresoTeoria(modulo) {
+    const user = firebase.auth().currentUser;
+    if(user) {
+        firebase.firestore().collection('userScores').doc(user.uid).set({
+            teoria: { [modulo]: true }
+        }, { merge: true });
+    }
 }

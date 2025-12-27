@@ -2,22 +2,33 @@ document.addEventListener("DOMContentLoaded", () => {
     const auth = firebase.auth();
     const db = firebase.firestore();
   
+    // 1. Función para mostrar mensajes flotantes
     function mostrarNotificacion(mensaje) {
       const notif = document.getElementById("notificacion");
       if (notif) {
         notif.textContent = mensaje;
         notif.style.display = "block";
+        notif.style.backgroundColor = "#333";
+        notif.style.color = "#fff";
+        notif.style.padding = "10px 20px";
+        notif.style.position = "fixed";
+        notif.style.top = "20px";
+        notif.style.right = "20px";
+        notif.style.borderRadius = "5px";
+        notif.style.zIndex = "1000";
+        
         setTimeout(() => {
           notif.style.display = "none";
         }, 3000);
+      } else {
+          console.log("Notificación:", mensaje);
       }
     }
   
     const editarBtn = document.getElementById("editar-btn");
-    const logoutBtn = document.getElementById("logout-btn");
   
-    if (!editarBtn || !logoutBtn) {
-      console.error("Faltan elementos en el DOM.");
+    if (!editarBtn) {
+      console.error("Error: No se encuentra el botón 'editar-btn' en el HTML.");
       return;
     }
   
@@ -29,12 +40,16 @@ document.addEventListener("DOMContentLoaded", () => {
   
       campos.forEach(id => {
         const campo = document.getElementById(id);
-        if (campo) campo.disabled = !editando;
+        if (campo) {
+            campo.disabled = !editando;
+            campo.style.backgroundColor = editando ? "#fff" : ""; 
+            campo.style.border = editando ? "2px solid #1f73b8" : "1px solid #ddd";
+        }
       });
   
       if (!editando) {
-        // guardar cambios
         editarBtn.disabled = true;
+        editarBtn.textContent = "Guardando...";
   
         const nuevosDatos = {};
         campos.forEach(id => {
@@ -43,45 +58,64 @@ document.addEventListener("DOMContentLoaded", () => {
         });
   
         if (!nuevosDatos.nombre || !nuevosDatos.apellidos) {
-          mostrarNotificacion("Nombre y apellidos no pueden estar vacíos.");
+          mostrarNotificacion("Nombre y apellidos son obligatorios.");
           editarBtn.textContent = "Guardar Cambios";
           editarBtn.disabled = false;
           editando = true;
-  
+          
           campos.forEach(id => {
-            const campo = document.getElementById(id);
-            if (campo) campo.disabled = false;
+             const c = document.getElementById(id);
+             if(c) c.disabled = false;
           });
           return;
         }
   
         const user = auth.currentUser;
-        const refUsuario = db.collection("usuarios").doc(user.uid);
-  
-        refUsuario.update(nuevosDatos)
-          .then(() => {
-            mostrarNotificacion("Perfil actualizado correctamente.");
-            editarBtn.disabled = false;
-          })
-          .catch((error) => {
-            mostrarNotificacion("Error al guardar los datos: " + error.message);
-            editarBtn.disabled = false;
-          });
-  
-        editarBtn.textContent = "Editar Perfil";
+        if (user) {
+            const refUsuario = db.collection("usuarios").doc(user.uid);
+    
+            refUsuario.update(nuevosDatos)
+              .then(() => {
+                mostrarNotificacion("Perfil actualizado correctamente.");
+                editarBtn.textContent = "Editar Perfil";
+                editarBtn.disabled = false;
+                
+                campos.forEach(id => {
+                    const c = document.getElementById(id);
+                    if(c) {
+                        c.style.backgroundColor = "";
+                        c.style.border = "1px solid #ddd";
+                    }
+                });
+              })
+              .catch((error) => {
+                console.error(error);
+                mostrarNotificacion("Error: " + error.message);
+                editarBtn.textContent = "Guardar Cambios"; 
+                editarBtn.disabled = false;
+                editando = true; 
+              });
+        }
       } else {
-        // activar edición
         editarBtn.textContent = "Guardar Cambios";
       }
     });
   
-    // cargar datos
     auth.onAuthStateChanged((user) => {
-      if (user) {        
-        const refUsuario = db.collection("usuarios").doc(user.uid);
+      if (user) { 
         const emailSpan = document.getElementById("email");
+        const emailSidebar = document.getElementById("email-sidebar");
+        const avatarLetra = document.getElementById("avatar-letra");
+
         if (emailSpan) emailSpan.textContent = user.email;
+        if (emailSidebar) emailSidebar.textContent = user.email;
+        
+        if (avatarLetra && user.email) {
+            avatarLetra.textContent = user.email.charAt(0).toUpperCase();
+        }
   
+        const refUsuario = db.collection("usuarios").doc(user.uid);
+        
         refUsuario.get().then((doc) => {
           if (doc.exists) {
             const data = doc.data();
@@ -94,45 +128,34 @@ document.addEventListener("DOMContentLoaded", () => {
             setVal("telefono", data.telefono);
             setVal("departamento", data.departamento);
           }
-        });
+        }).catch(err => console.error("Error al traer datos:", err));
 
         const refScores = db.collection("userScores").doc(user.uid);
         refScores.get().then((doc) => {
             let progreso = 0;
             if (doc.exists) {
               const scores = doc.data().scores || {};
-    
+              const modulos = ['introduccion', 'phishing', 'ransomware', 'ingenieria', 'contrasenas', 'navegacion'];
               let completados = 0;
-              if (scores.introduccion >= 5) completados++; // Asumiendo que 5 es el umbral de aprobado de modulos.js
-              if (scores.phishing >= 5) completados++;
-              if (scores.ransomware >= 5) completados++;
-              if (scores.ingenieria >= 5) completados++;
-              if (scores.contrasenas >= 5) completados++;
-              if (scores.navegacion >= 5) completados++;
+              
+              modulos.forEach(mod => {
+                  if (scores[mod] && scores[mod] >= 5) completados++;
+              });
     
-              progreso = Math.floor((completados / 6) * 100); // 6 es el número total de módulos
+              progreso = Math.floor((completados / 6) * 100);
             }
             
-            // actualización de la barra
-            const titulo = document.getElementById("titulo-progreso");
             const barra = document.getElementById("barra-progreso");
-            if (titulo) titulo.textContent = `Mi progreso (${progreso}%)`;
-            if (barra) barra.style.width = progreso + "%";
+            if (barra) {
+                barra.style.width = progreso + "%";
+                if(progreso === 100) barra.style.backgroundColor = "#4caf50";
+            }
             
-        }).catch(err => {
-            console.error("Error cargando progreso:", err);
-        });
-
+        }).catch(err => console.error("Error progreso:", err));
+  
       } else {
         window.location.href = "login.html";
       }
     });
-  
-    // cerrar sesión
-    logoutBtn.addEventListener("click", (e) => {
-      e.preventDefault();
-      auth.signOut().then(() => {
-        window.location.href = "login.html";
-      });
-    });
+    
 });

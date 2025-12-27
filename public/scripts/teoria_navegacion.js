@@ -51,7 +51,25 @@ function showStep(index) {
     });
 
     document.getElementById('prevBtn').disabled = (index === 0);
-    document.getElementById('nextBtn').style.display = (index === totalSteps - 1) ? 'none' : 'inline-block';
+    
+    const nextBtn = document.getElementById('nextBtn');
+    const finishBtn = document.getElementById('finishBtn');
+
+    if (index === totalSteps - 1) {
+        nextBtn.style.display = 'none';
+        
+        if (finishBtn) {
+            finishBtn.style.display = 'inline-block';
+            finishBtn.disabled = false;
+            finishBtn.style.opacity = '1';
+            finishBtn.textContent = "Ir al Examen";
+            
+            guardarProgresoTeoria('navegacion');
+        }
+    } else {
+        nextBtn.style.display = 'inline-block';
+        if (finishBtn) finishBtn.style.display = 'none';
+    }
 }
 
 function changeStep(n) {
@@ -384,3 +402,13 @@ function checkPuzzleCompletion() {
 const styleSheet = document.createElement("style");
 styleSheet.innerText = `@keyframes shake { 0% { transform: translateX(0); } 25% { transform: translateX(-5px); } 50% { transform: translateX(5px); } 75% { transform: translateX(-5px); } 100% { transform: translateX(0); } }`;
 document.head.appendChild(styleSheet);
+
+
+function guardarProgresoTeoria(modulo) {
+    const user = firebase.auth().currentUser;
+    if(user) {
+        firebase.firestore().collection('userScores').doc(user.uid).set({
+            teoria: { [modulo]: true }
+        }, { merge: true });
+    }
+}

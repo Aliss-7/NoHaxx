@@ -4,14 +4,16 @@
   <meta charset="UTF-8" />
   <title>Iniciar sesión - NoHaxx</title>
   <link rel="stylesheet" href="../CSS/base.css" />
-  <link rel="stylesheet" href="../CSS/autentificacion.css" /></head>
+  <link rel="stylesheet" href="../CSS/autentificacion.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+</head>
 <body>
   <header>
     <div class="logo">NoHaxx</div>
     <div class="top-buttons">
       <a href="../index.html">Inicio</a>
 
-      <a href="login.html" class="menu-invitado">Iniciar Sesión</a>
+      <a href="login.html" class="menu-invitado">Login</a>
       <a href="registro.html" class="menu-invitado">Registro</a>
       <a href="contacto.html" class="menu-invitado">Contacto</a>
 
@@ -23,22 +25,33 @@
     </div>
   </header>
 
-  <main class="main-content">
-    <h1>Iniciar sesión en NoHaxx</h1>
-    <form id="login-form">
-      <input type="email" id="email" placeholder="Correo electrónico" required />
-      <input type="password" id="password" placeholder="Contraseña" required />
-      <button type="submit" id="login-btn">Iniciar sesión</button>
-    </form>
+  <main class="main-content registro-container">
+    
+    <div class="auth-card">
+      <div class="auth-header">
+        <h2>Te damos la bienvenida</h2>
+        <p>Inicia sesión para continuar aprendiendo</p>
+      </div>
 
-    <div>
-      <p style="margin-top: 20px;">
-        ¿Aún no tienes cuenta?
-        <a href="registro.html" id="registrate">Regístrate</a>
-      </p>
+      <form id="login-form">
+        <div class="form-group" style="margin-bottom: 15px;">
+          <input type="email" id="email" placeholder="Correo electrónico" required />
+        </div>
+
+        <div class="form-group">
+          <input type="password" id="password" placeholder="Contraseña" required />
+        </div>
+
+        <button type="submit" id="login-btn" class="btn-glow">Acceder</button>
+      </form>
+
+      <div class="auth-footer">
+        <p>¿Aún no tienes cuenta? <a href="registro.html" id="registrate">Regístrate gratis</a></p>
+      </div>
+
+      <div id="mensaje-error" class="error-text" style="text-align: center; margin-top: 15px;"></div>
     </div>
 
-    <div id="mensaje-error"></div>
   </main>
 
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>

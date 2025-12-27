@@ -119,17 +119,31 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    function localSaveScore(nota) {
+    function localSaveScore(nuevaNota) {
         const auth = firebase.auth();
         const db = firebase.firestore();
         const msgDiv = document.getElementById('firebase-msg');
+        const idModulo = 'phishing'; // CLAVE ESPECÍFICA
 
         auth.onAuthStateChanged(user => {
             if (user) {
-                db.collection('userScores').doc(user.uid).set({
-                    scores: { phishing: nota }
-                }, { merge: true }).then(() => {
-                    if(msgDiv) msgDiv.innerHTML = "<p style='color:green; font-weight:bold; margin-top:10px;'>Nota registrada.</p>";
+                const docRef = db.collection('userScores').doc(user.uid);
+
+                docRef.get().then((doc) => {
+                    let notaAntigua = 0;
+                    if (doc.exists && doc.data().scores && doc.data().scores[idModulo]) {
+                        notaAntigua = doc.data().scores[idModulo];
+                    }
+
+                    if (nuevaNota > notaAntigua) {
+                        docRef.set({
+                            scores: { [idModulo]: nuevaNota }
+                        }, { merge: true }).then(() => {
+                            if(msgDiv) msgDiv.innerHTML = "<p style='color:green; font-weight:bold;'>¡Nueva nota guardada!</p>";
+                        });
+                    } else {
+                         if(msgDiv) msgDiv.innerHTML = "<p style='color:grey;'>No se guarda: Ya tienes una nota mejor.</p>";
+                    }
                 });
             }
         });

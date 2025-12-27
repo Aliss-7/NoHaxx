@@ -153,14 +153,27 @@ function finishExam() {
   }, 500);
 }
 
-function saveToFirebase(score) {
+function saveToFirebase(nuevaNota) {
   const auth = firebase.auth();
   const db = firebase.firestore();
+  const idModulo = 'contrasenas';
+
   auth.onAuthStateChanged(user => {
     if (user) {
-      db.collection('userScores').doc(user.uid).set({
-        scores: { contrasenas: score }
-      }, { merge: true });
+      const docRef = db.collection('userScores').doc(user.uid);
+      
+      docRef.get().then((doc) => {
+        let notaAntigua = 0;
+        if (doc.exists && doc.data().scores && doc.data().scores[idModulo]) {
+          notaAntigua = doc.data().scores[idModulo];
+        }
+
+        if (nuevaNota > notaAntigua) {
+          docRef.set({
+            scores: { [idModulo]: nuevaNota }
+          }, { merge: true }).then(() => console.log("¡Nueva nota guardada!"));
+        }
+      });
     }
   });
 }

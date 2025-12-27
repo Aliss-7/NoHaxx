@@ -86,6 +86,7 @@
         finishBtn.style.display = 'inline-block';
         if (checkCurrentStepCompletion()) {
              finishBtn.style.pointerEvents = 'auto'; finishBtn.style.opacity = '1'; finishBtn.textContent = "Ir al Examen";
+             guardarProgresoTeoria('phishing');
         } else {
              finishBtn.style.pointerEvents = 'none'; finishBtn.style.opacity = '0.5'; finishBtn.textContent = "Termina el vídeo";
         }
@@ -229,3 +230,15 @@
 
     loadScenario();
     updateUI();
+
+
+function guardarProgresoTeoria(modulo) {
+    const user = firebase.auth().currentUser;
+    if(user) {
+        firebase.firestore().collection('userScores').doc(user.uid).set({
+            teoria: { [modulo]: true }
+        }, { merge: true }).then(() => {
+            console.log(`Teoría de ${modulo} completada y guardada.`);
+        });
+    }
+}

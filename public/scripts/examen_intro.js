@@ -86,18 +86,28 @@ function calculateAndSave() {
   }, 500);
 }
 
-function saveToFirebase(score) {
+function saveToFirebase(nuevaNota) {
   const auth = firebase.auth();
   const db = firebase.firestore();
+  const idModulo = 'introduccion';
 
   auth.onAuthStateChanged(user => {
     if (user) {
-      db.collection('userScores').doc(user.uid).set({
-        scores: { introduccion: score }
-      }, { merge: true }).then(() => {
-        console.log("Nota guardada");
-      }).catch(err => {
-        console.error("Error al guardar:", err);
+      const docRef = db.collection('userScores').doc(user.uid);
+      
+      docRef.get().then((doc) => {
+        let notaAntigua = 0;
+        if (doc.exists && doc.data().scores && doc.data().scores[idModulo]) {
+          notaAntigua = doc.data().scores[idModulo];
+        }
+
+        if (nuevaNota > notaAntigua) {
+          docRef.set({
+            scores: { [idModulo]: nuevaNota }
+          }, { merge: true }).then(() => {
+             console.log("¡Nueva nota guardada en Introducción!");
+          });
+        }
       });
     }
   });

@@ -2,17 +2,20 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     
-    // Reglas para el perfil del usuario
+    // 1. Reglas para el PERFIL (Usuarios)
     match /usuarios/{userId} {
-      // Permitimos crear si estás autenticado
-      allow create: if request.auth != null;
-      // Permitimos leer, editar o borrar solo si es TU propio documento
-      allow read, update, delete: if request.auth != null && request.auth.uid == userId;
+      allow read: if request.auth != null && request.auth.uid == userId;
+      
+      allow write: if request.auth != null && request.auth.uid == userId
+                   && (!('admin' in request.resource.data)); 
     }
 
-    // Reglas para las puntuaciones de los exámenes
+    // 2. Reglas para las NOTAS (Exámenes y Teoría)
     match /userScores/{userId} {
       allow read: if request.auth != null && request.auth.uid == userId;
+
+      allow write: if request.auth != null && request.auth.uid == userId
+                   && request.resource.data.keys().hasAny(['scores', 'teoria'])
     }
   }
 }

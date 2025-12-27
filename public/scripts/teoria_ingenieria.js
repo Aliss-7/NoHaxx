@@ -9,18 +9,35 @@ const stepRequirements = {
 
 function updateNextButtonState() {
     const nextBtn = document.getElementById('nextBtn');
+    const finishBtn = document.getElementById('finishBtn');
     const req = stepRequirements[currentStep];
 
     if (req && !req.completed) {
-        nextBtn.disabled = true;
-        nextBtn.style.opacity = '0.5';
-        nextBtn.style.cursor = 'not-allowed';
-        nextBtn.title = "Completa la actividad o ve el vídeo para continuar";
+        if(nextBtn) {
+            nextBtn.disabled = true;
+            nextBtn.style.opacity = '0.5';
+            nextBtn.style.cursor = 'not-allowed';
+            nextBtn.title = "Completa la actividad o ve el vídeo para continuar";
+        }
+        if(finishBtn) {
+            finishBtn.disabled = true;
+            finishBtn.style.opacity = '0.5';
+        }
     } else {
-        nextBtn.disabled = false;
-        nextBtn.style.opacity = '1';
-        nextBtn.style.cursor = 'pointer';
-        nextBtn.title = "";
+        if(nextBtn) {
+            nextBtn.disabled = false;
+            nextBtn.style.opacity = '1';
+            nextBtn.style.cursor = 'pointer';
+            nextBtn.title = "";
+        }
+            if (currentStep === 11 && finishBtn) {
+            finishBtn.disabled = false;
+            finishBtn.style.opacity = '1';
+            finishBtn.style.pointerEvents = 'auto';
+            finishBtn.textContent = "Ir al Examen";
+            
+            guardarProgresoTeoria('ingenieria'); // <--- ¡GUARDAR!
+        }
     }
 }
 
@@ -98,13 +115,16 @@ function showStep(index) {
 
     const prevBtn = document.getElementById('prevBtn');
     const nextBtn = document.getElementById('nextBtn');
+    const finishBtn = document.getElementById('finishBtn'); // Referencia al botón final
     
     prevBtn.disabled = (index === 0);
     
     if (index === totalSteps - 1) {
         nextBtn.style.display = 'none';
+        if(finishBtn) finishBtn.style.display = 'inline-block';
     } else {
         nextBtn.style.display = 'inline-block';
+        if(finishBtn) finishBtn.style.display = 'none';
     }
 }
 
@@ -316,5 +336,15 @@ function checkStory(storyId, choice, btn) {
             stepRequirements[11].completed = true;
             updateNextButtonState();
         }
+    }
+}
+
+
+function guardarProgresoTeoria(modulo) {
+    const user = firebase.auth().currentUser;
+    if(user) {
+        firebase.firestore().collection('userScores').doc(user.uid).set({
+            teoria: { [modulo]: true }
+        }, { merge: true });
     }
 }

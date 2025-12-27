@@ -58,7 +58,7 @@
 .bloque:hover {
   transform: translateY(-5px);
   box-shadow: var(--shadow-md);
-  border-color: rgba(0,0,0,0.1);
+  border-color: rgba(40, 163, 201, 0.1);
 }
 
 .bloque h3 {
@@ -73,7 +73,6 @@
   color: var(--text-light);
   margin: 0;
 }
-/* SECCIÓN DE EMOJIS ELIMINADA */
 
 /* =========================================================================
    SECCIÓN DE ACCIONES

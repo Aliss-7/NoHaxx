@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
       el.href = "#";
       el.classList.add("bloqueado");
       el.classList.remove("aprobado");
-      if (!el.innerText.includes("🔒")) el.innerText += " 🔒";
+      if (!el.innerText.includes("🔒")) el.innerText += " ";
       el.onclick = (e) => {
         e.preventDefault();
         alert("🔒 Debes aprobar el módulo anterior para acceder a este.");
