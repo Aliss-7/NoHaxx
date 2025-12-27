@@ -1,120 +1,126 @@
 // Respuestas correctas esperadas
 const correctAnswers = { 
-  1: 'secure',    // Elegir el hotspot personal seguro
-  2: 'encrypt',   // Cifrado
-  3: 'admin',     // Admin/ISP ven todo
-  4: 'fake',      // Identificar la URL falsa (paypaI)
-  5: 'close',     // Cerrar el popup con la X
-  6: 'update',    // Actualizar
-  7: 'spy',       // Riesgo de privacidad
-  8: 'correct',   // Eliminar el archivo .exe
-  9: 'correct',   // Configurar/Rechazar cookies
-  10: 'logout'    // Cerrar sesión completo
+  1: 'secure',
+  2: 'encrypt',
+  3: 'admin',
+  4: 'fake', 
+  5: 'close',
+  6: 'update',
+  7: 'spy',
+  8: 'correct',
+  9: 'correct',
+  10: 'logout'
 };
 
 let userAnswers = {};
 const totalQuestions = 10;
+const passingScore = 8;
 let isTransitioning = false; 
 
-// AVANCE GENERAL
+// --- NAVEGACIÓN ---
 function nextQuestion(current) {
   const progress = (current / totalQuestions) * 100;
   const progressBar = document.getElementById('progress-bar');
   if(progressBar) progressBar.style.width = `${progress}%`;
 
-  const currentStep = document.getElementById(`q${current}`);
-  if(currentStep) currentStep.classList.remove('active');
+  document.getElementById(`q${current}`).classList.remove('active');
 
   if (current < totalQuestions) {
-    const nextStep = document.getElementById(`q${current + 1}`);
-    if(nextStep) nextStep.classList.add('active');
+    document.getElementById(`q${current + 1}`).classList.add('active');
   } else {
-    calculateAndSave();
+    finishExam();
   }
 }
 
-// MANEJADORES DE RESPUESTA
-function checkQ1(ans) { handleAnswer(1, ans); }
-function checkQ2(ans) { handleAnswer(2, ans); }
-function checkQ3(ans) { handleAnswer(3, ans); }
-function checkQ4(ans) { handleAnswer(4, ans); } // El botón de la URL falsa
-function checkQ5(ans) { handleAnswer(5, ans); } // 'close' es correcto, 'fail' es clickar el botón
-function checkQ6(ans) { handleAnswer(6, ans); }
-function checkQ7(ans) { handleAnswer(7, ans); }
-function checkQ8(ans) { handleAnswer(8, ans); } // 'correct' es borrar el virus
-function checkQ9(ans) { handleAnswer(9, ans); } // 'correct' es rechazar cookies
-function checkQ10(ans) { handleAnswer(10, ans); }
+// --- MANEJADORES DE PREGUNTAS ---
+// Pasamos 'event' para saber qué elemento se clickeó y marcarlo
+function checkQ1(ans) { handleAnswer(1, ans, event); }
+function checkQ2(ans) { handleAnswer(2, ans, event); }
+function checkQ3(ans) { handleAnswer(3, ans, event); }
+function checkQ4(ans) { handleAnswer(4, ans, event); }
+function checkQ5(ans) { handleAnswer(5, ans, event); }
+function checkQ6(ans) { handleAnswer(6, ans, event); }
+function checkQ7(ans) { handleAnswer(7, ans, event); }
+function checkQ8(ans) { handleAnswer(8, ans, event); }
+function checkQ9(ans) { handleAnswer(9, ans, event); }
+function checkQ10(ans) { handleAnswer(10, ans, event); }
 
-function handleAnswer(qNum, ans) {
+function handleAnswer(qNum, ans, e) {
     if(isTransitioning) return; 
     isTransitioning = true;
     userAnswers[qNum] = ans;
     
-    // Feedback visual (parpadeo de selección)
-    const currentStep = document.getElementById(`q${qNum}`);
-    if(currentStep) {
-        currentStep.style.opacity = '0.5';
+    // 1. Identificar el elemento clicado y añadirle la clase .selected
+    if(e && e.target) {
+        // Buscamos el contenedor padre interactivo correcto
+        const el = e.target.closest('.wifi-item, .card-option, .url-card, .popup-close, .popup-btn, .btn-action, .cookie-btn-big, .cookie-link');
+        if(el) {
+            el.classList.add('selected');
+            // Forzamos un estilo visual simple por si el CSS específico no tiene .selected definido para ese elemento
+            el.style.borderColor = '#1f73b8';
+            el.style.backgroundColor = '#e8eaf6';
+        }
     }
     
+    // 2. Esperar y pasar a la siguiente (600ms)
     setTimeout(() => { 
-        if(currentStep) currentStep.style.opacity = '1';
         nextQuestion(qNum); 
         isTransitioning = false; 
-    }, 300);
+    }, 600);
 }
 
-// CÁLCULO FINAL
-function calculateAndSave() {
+// --- CÁLCULO FINAL Y RESULTADOS ---
+function finishExam() {
   document.getElementById('final-screen').classList.add('active');
   
+  // Cálculo interno silencioso
   let hits = 0;
   for (let i = 1; i <= totalQuestions; i++) {
-    // Caso especial para Q4 (la respuesta es hacer click en 'fake')
-    if (i === 4) {
-        if (userAnswers[i] === 'fake') hits++;
-    } 
-    // Resto de preguntas
-    else if (userAnswers[i] === correctAnswers[i]) {
+    if (userAnswers[i] === correctAnswers[i]) {
        hits++;
     }
   }
   
-  const finalScore = hits; 
-  const passed = hits >= 8; 
-
-  const resultsDiv = document.getElementById('results-content');
-  const loadingDiv = document.getElementById('loading-results');
-  const scoreTxt = document.getElementById('final-score');
-  const msgTxt = document.getElementById('final-msg');
-  const detailTxt = document.getElementById('final-detail');
-  
-  const btnCont = document.getElementById('btn-continue');
+  const scoreDisplay = document.getElementById('final-score');
+  const msgDisplay = document.getElementById('final-msg');
+  const detailDisplay = document.getElementById('final-detail');
   const btnRetry = document.getElementById('btn-retry');
+  const btnContinue = document.getElementById('btn-continue');
   const btnNext = document.getElementById('btn-next');
 
+  // Simular carga breve
   setTimeout(() => {
-    loadingDiv.style.display = 'none';
-    resultsDiv.style.display = 'block';
-    scoreTxt.innerText = finalScore;
+    document.getElementById('loading-results').style.display = 'none';
+    document.getElementById('results-content').style.display = 'block';
+    
+    // Mostrar nota "X/10"
+    scoreDisplay.innerText = `${hits}/${totalQuestions}`;
 
-    if (passed) {
-      msgTxt.innerText = "¡EXCELENTE!";
-      msgTxt.style.color = "#2e7d32";
-      detailTxt.innerText = `Has superado ${hits} de 10.`;
+    if (hits >= passingScore) {
+      // APROBADO
+      scoreDisplay.parentElement.style.background = '#1f73b8';
+      scoreDisplay.parentElement.style.borderColor = '#1f73b8';
       
-      btnCont.style.display = "inline-block";
-      if(btnNext) btnNext.style.display = "inline-block";
+      msgDisplay.innerText = "¡EXCELENTE!";
+      msgDisplay.style.color = "green";
+      detailDisplay.innerText = `Has superado ${hits} de 10 desafíos.`;
       
-      saveToFirebase(finalScore);
+      btnContinue.style.display = "inline-block";
+      if(btnNext) btnNext.style.display = "inline-block"; // Botón FINALIZAR CURSO
+      
+      saveToFirebase(hits);
     } else {
-      msgTxt.innerText = "Necesitas repasar";
-      msgTxt.style.color = "#d32f2f";
-      detailTxt.innerText = `Solo has superado ${hits} de 10. Necesitas por lo menos 8 aciertos de 10 para aprobar.`;
+      // SUSPENSO
+      scoreDisplay.parentElement.style.background = '#d32f2f';
+      scoreDisplay.parentElement.style.borderColor = '#d32f2f';
+      
+      msgDisplay.innerText = "Necesitas repasar";
+      msgDisplay.style.color = "#d32f2f";
+      detailDisplay.innerText = `Solo has superado ${hits} de 10 desafíos. Necesitas ${passingScore} para aprobar.`;
       
       btnRetry.style.display = "inline-block";
-      btnCont.style.display = "inline-block";
     }
-  }, 1000);
+  }, 500);
 }
 
 function saveToFirebase(score) {

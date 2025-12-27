@@ -4,9 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>NoHaxx – Mis Resultados</title>
-  
+
   <link rel="stylesheet" href="../CSS/base.css" />
-  <link rel="stylesheet" href="../CSS/resultados.css" />
+  <link rel="stylesheet" href="../CSS/dashboard.css" />
+  <link rel="stylesheet" href="../CSS/resultados.css" /> 
 </head>
 <body>
 
@@ -15,14 +16,14 @@
     <div class="top-buttons">
       <a href="index.html">Inicio</a>
       <a href="modulos.html">Módulos</a>
-      <a href="resultados.html" class="activo">Resultados</a>
+      <a href="resultados.html" style="background-color: #eee; color: #000; font-weight: bold;">Resultados</a>
       <a href="perfil.html">Perfil</a>
       <a href="contacto.html">Contacto</a>
-      <a href="logout.html" class="btn-salir">Cerrar sesión</a>
+      <a href="logout.html" style="background-color: #d32f2f; color: white;">Cerrar sesión</a>
     </div>
   </header>
 
-  <main class="main-content dashboard-wrapper">
+  <main>
     
     <div class="dashboard-container">
       
@@ -42,10 +43,6 @@
             <span id="totalScore">0</span>
             <span class="circle-label">/ 100</span>
           </div>
-          <div class="ranking-badge">
-            <span class="rank-label">Ranking Global</span>
-            <span id="rankingPosition" class="rank-value">-</span>
-          </div>
         </div>
 
       </aside>
@@ -53,7 +50,6 @@
       <section class="modules-content">
         <div class="section-header">
           <h2>Progreso por Módulo</h2>
-          <p>Detalle de tus evaluaciones completadas</p>
         </div>
         
         <div id="moduleScores" class="modules-grid">

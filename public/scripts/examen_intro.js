@@ -1,9 +1,11 @@
 const correctAnswers = { 1: 'b', 2: 'c', 3: 'b', 4: 'c', 5: 'b', 6: 'b' };
 let userAnswers = {};
 const totalQuestions = 6;
-let currentQ = 1;
+let isTransitioning = false; 
 
 function selectOption(qNum, value, cardElement) {
+  if (isTransitioning) return;
+  
   userAnswers[qNum] = value;
   
   const parent = document.getElementById(`opt-q${qNum}`);
@@ -11,19 +13,23 @@ function selectOption(qNum, value, cardElement) {
   cards.forEach(c => c.classList.remove('selected'));
   cardElement.classList.add('selected');
   
-  const btn = document.querySelector(`#q${qNum} .btn-next-question`);
-  btn.style.display = 'inline-block';
+  isTransitioning = true;
+  
+  setTimeout(() => {
+    nextQuestion(qNum);
+    isTransitioning = false;
+  }, 600); 
 }
 
 function nextQuestion(current) {
   const progress = (current / totalQuestions) * 100;
-  document.getElementById('progress-bar').style.width = `${progress}%`;
+  const progressBar = document.getElementById('progress-bar');
+  if(progressBar) progressBar.style.width = `${progress}%`;
 
   document.getElementById(`q${current}`).classList.remove('active');
 
   if (current < totalQuestions) {
     document.getElementById(`q${current + 1}`).classList.add('active');
-    currentQ++;
   } else {
     calculateAndSave();
   }
@@ -37,7 +43,6 @@ function calculateAndSave() {
     if (userAnswers[i] === correctAnswers[i]) hits++;
   }
   
-  const finalScore = Math.round((hits * 10) / totalQuestions);
   const passed = hits >= 4;
 
   const resultsDiv = document.getElementById('results-content');
@@ -45,26 +50,40 @@ function calculateAndSave() {
   const scoreTxt = document.getElementById('final-score');
   const msgTxt = document.getElementById('final-msg');
   const detailTxt = document.getElementById('final-detail');
+  
   const btnRetry = document.getElementById('btn-retry');
   const btnCont = document.getElementById('btn-continue');
+  const btnNext = document.getElementById('btn-next');
 
-  loadingDiv.style.display = 'none';
-  resultsDiv.style.display = 'block';
-  scoreTxt.innerText = finalScore;
+  setTimeout(() => {
+      loadingDiv.style.display = 'none';
+      resultsDiv.style.display = 'block';
+      
+      scoreTxt.innerText = `${hits}/${totalQuestions}`;
 
-  if (passed) {
-    msgTxt.innerText = "¡Enhorabuena!";
-    msgTxt.style.color = "green";
-    detailTxt.innerText = `Has superado el test con éxito.`;
-    btnCont.style.display = "inline-block";
-    
-    saveToFirebase(10);
-  } else {
-    msgTxt.innerText = "Necesitas repasar";
-    msgTxt.style.color = "#d32f2f";
-    detailTxt.innerText = `Has acertado ${hits} de ${totalQuestions}. Necesitas al menos 4 aciertos para aprobar.`;
-    btnRetry.style.display = "inline-block";
-  }
+      if (passed) {
+        scoreTxt.parentElement.style.background = '#1f73b8'; 
+        scoreTxt.parentElement.style.borderColor = '#1f73b8';
+        
+        msgTxt.innerText = "¡Enhorabuena!";
+        msgTxt.style.color = "green";
+        detailTxt.innerText = `Has superado el test con éxito.`;
+        
+        if(btnCont) btnCont.style.display = "inline-block";
+        if(btnNext) btnNext.style.display = "inline-block";
+        
+        saveToFirebase(10); 
+      } else {
+        scoreTxt.parentElement.style.background = '#d32f2f';
+        scoreTxt.parentElement.style.borderColor = '#d32f2f';
+        
+        msgTxt.innerText = "Necesitas repasar";
+        msgTxt.style.color = "#d32f2f";
+        detailTxt.innerText = `Has acertado ${hits} de ${totalQuestions}. Necesitas al menos 4 aciertos.`;
+        
+        if(btnRetry) btnRetry.style.display = "inline-block";
+      }
+  }, 500);
 }
 
 function saveToFirebase(score) {
@@ -79,7 +98,6 @@ function saveToFirebase(score) {
         console.log("Nota guardada");
       }).catch(err => {
         console.error("Error al guardar:", err);
-        alert("Error de conexión al guardar la nota.");
       });
     }
   });

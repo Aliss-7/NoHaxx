@@ -52,14 +52,15 @@
 
             <div class="exam-step" id="q-1" data-correcta="a">
                 <span class="tag">Pregunta 2/10</span>
-                <h2>Te llega un correo con un enlace extraño y dudas de su veracidad. Antes de clicar, decides investigarlo.</h2>
+                <h2>Te llega un correo con un enlace extraño y dudas de su veracidad. Antes de clickar, decides investigarlo.</h2>
                 
                 <div class="info-box">
-                    <strong>Herramienta: Base de Datos Reputacional</strong><br>
-                    Es un servicio (como VirusTotal) que consulta a múltiples antivirus si una web es peligrosa.
+                     <strong>Base de Datos Reputacional</strong><br>
+                    Una base de datos Reputacional es una herramienta (como VirusTotal) que consulta a múltiples antivirus con reportes, para verificar si una URL o archivo es peligroso.
                 </div>
                 
-                <p>Tu misión: Analiza la URL <code>http://login-verificar-perfil.xyz/seguridad</code></p>
+                <p>Te ha llegado este enlace y tienes que revisarlo antes de hacer click:<br>
+                    <code>http://login-verificar-perfil.xyz/seguridad</code></p>
                 
                 <div class="window-sim">
                     <div class="window-header" style="background:#0070f3;">Simulador de VirusTotal</div>
@@ -174,7 +175,7 @@
                     <div class="window-header">Mensaje de Dirección</div>
                     <div style="padding:20px;">
                         <p><em>"Necesito realizar una transferencia urgente para cerrar un acuerdo confidencial con un nuevo cliente ahora mismo."</em></p>
-                        <p style="background:#fff3e0; padding:10px; border-left:4px solid orange;"><strong>"IMPORTANTE: No llames a nadie para verificarlo, necesito discreción absoluta."</strong></p>
+                        <p><strong>"IMPORTANTE: No llames a nadie para verificarlo, necesito discreción absoluta."</strong></p>
                     </div>
                 </div>
 
@@ -224,7 +225,7 @@
                 <div class="window-sim">
                     <div class="window-header">Barra de Direcciones</div>
                     <div style="padding:15px; font-family:monospace; font-size:1.2rem; background:#fff;">
-                        https://www.g<span style="color:red; font-weight:bold;">0</span>ogle.com
+                        https://www.g0ogle.com
                     </div>
                 </div>
 
@@ -288,7 +289,7 @@
             </div>
 
             <div class="exam-step" id="step-final" style="text-align: center;">
-                <h2>Resultados del text</h2>
+                <h2>Resultados del test</h2>
                 <div id="loading-results">Procesando respuestas...</div>
                 
                 <div id="results-content" style="display:none;">
@@ -300,9 +301,10 @@
                     <p id="final-detail"></p>
                     <div id="firebase-msg"></div>
                     
-                    <div style="margin-top:30px;">
-                        <button onclick="location.reload()" class="boton" id="btn-retry" style="display:none; background:#f44336;">Repetir Misión</button>
+                    <div style="margin-top:30px; display: flex; gap: 10px; justify-content: center;">
+                        <button onclick="location.reload()" class="boton" id="btn-retry" style="display:none; background:#f44336; border:none; color:white;">Repetir Test</button>
                         <a href="../../Pantallas/modulos.html" class="boton" id="btn-continue" style="display:none;">Volver al Menú</a>
+                        <a href="../3ransomware/teoria.html" class="boton" id="btn-next" style="display:none; background:#2e7d32; color:white;">SIGUIENTE MÓDULO ▶</a>
                     </div>
                 </div>
             </div>

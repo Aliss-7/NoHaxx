@@ -3,12 +3,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const totalQuestions = 10;
     const passingScore = 8; 
     const moduleName = 'phishing';
+    let isTransitioning = false;
 
     const steps = document.querySelectorAll('.exam-step');
     const progressBar = document.getElementById('progress-bar');
 
     if(steps.length > 0) steps[0].classList.add('active');
 
+    // Funciones globales (VirusTotal, Tooltip)
     window.runVTScan = function() {
         const val = document.getElementById('vt-input').value.toLowerCase();
         const result = document.getElementById('vt-result');
@@ -27,6 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if(tooltip) tooltip.style.display = visible ? 'block' : 'none';
     };
 
+    // Lógica principal
     steps.forEach((step, index) => {
         if (step.id === 'step-final') return;
 
@@ -34,27 +37,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
         options.forEach(opt => {
             opt.addEventListener('click', () => {
-                if (step.classList.contains('answered')) return;
+                // Evitar doble clic
+                if (step.classList.contains('answered') || isTransitioning) return;
+                
                 step.classList.add('answered');
+                isTransitioning = true;
 
                 const correctAnswer = step.getAttribute('data-correcta');
                 const userAnswer = opt.getAttribute('data-respuesta');
 
-                if (userAnswer === correctAnswer) {
-                    opt.classList.add('correct');
-                    currentScore++;
-                } else {
-                    opt.classList.add('incorrect');
-                    options.forEach(o => {
-                        if (o.getAttribute('data-respuesta') === correctAnswer) {
-                            o.classList.add('correct');
-                        }
-                    });
-                }
+                // CAMBIO: Solo marcamos como "seleccionada" (Visualmente neutro)
+                opt.classList.add('selected');
 
+                // Calculamos la nota internamente sin mostrar colores
+                if (userAnswer === correctAnswer) {
+                    currentScore++;
+                } 
+                // Ya no hay "else" para mostrar rojo ni revelar la correcta
+
+                // Actualizar barra de progreso
                 const progressPct = ((index + 1) / totalQuestions) * 100;
                 if(progressBar) progressBar.style.width = `${progressPct}%`;
 
+                // Pasar a la siguiente pregunta
                 setTimeout(() => {
                     step.classList.remove('active');
                     const nextStep = step.nextElementSibling;
@@ -64,7 +69,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     } else {
                         finishExam();
                     }
-                }, 1500);
+                    isTransitioning = false;
+                }, 600);
             });
         });
     });
@@ -81,15 +87,20 @@ document.addEventListener('DOMContentLoaded', () => {
         const detailDisplay = document.getElementById('final-detail');
         const btnRetry = document.getElementById('btn-retry');
         const btnContinue = document.getElementById('btn-continue');
+        const btnNext = document.getElementById('btn-next'); 
 
         scoreDisplay.textContent = `${currentScore}/${totalQuestions}`;
 
         if (currentScore >= passingScore) {
-            scoreDisplay.parentElement.style.background = '#4caf50';
+            // Aprobado
+            scoreDisplay.parentElement.style.background = '#1f73b8';
+            scoreDisplay.parentElement.style.borderColor = '#1f73b8'; 
             msgDisplay.innerHTML = "¡EXCELENTE!";
             msgDisplay.style.color = "green";
             detailDisplay.innerText = "Has superado el test con éxito.";
+            
             if(btnContinue) btnContinue.style.display = 'inline-block';
+            if(btnNext) btnNext.style.display = 'inline-block';
             
             if (typeof saveScore === 'function') {
                 saveScore(currentScore); 
@@ -97,10 +108,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 localSaveScore(currentScore);
             }
         } else {
-            scoreDisplay.parentElement.style.background = '#f44336';
+            // Suspenso
+            scoreDisplay.parentElement.style.background = '#d32f2f';
+            scoreDisplay.parentElement.style.borderColor = '#d32f2f';
             msgDisplay.innerHTML = "Necesitas repasar";
             msgDisplay.style.color = "red";
             detailDisplay.innerText = "Necesitas por lo menos 8 aciertos de 10 para aprobar.";
+            
             if(btnRetry) btnRetry.style.display = 'inline-block';
         }
     }
@@ -115,7 +129,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 db.collection('userScores').doc(user.uid).set({
                     scores: { phishing: nota }
                 }, { merge: true }).then(() => {
-                    if(msgDiv) msgDiv.innerHTML = "<p style='color:green; font-weight:bold;'>Nota registrada.</p>";
+                    if(msgDiv) msgDiv.innerHTML = "<p style='color:green; font-weight:bold; margin-top:10px;'>Nota registrada.</p>";
                 });
             }
         });

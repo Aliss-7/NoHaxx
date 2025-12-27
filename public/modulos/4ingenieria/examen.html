@@ -7,13 +7,14 @@
 
   <link rel="stylesheet" href="../../CSS/base.css">
   <link rel="stylesheet" href="../../CSS/examenes.css">
+  <link rel="stylesheet" href="../../CSS/modulos.css">
 
 </head>
 <body>
   <header>
     <div class="logo">NoHaxx</div>
     <div class="top-buttons">
-      <a href="../../Pantallas/modulos.html">Volver a Módulos</a>
+      <a href="../../Pantallas/modulos.html" class="boton-salir">Abandonar</a>
     </div>
   </header>
 
@@ -56,7 +57,7 @@
     <div class="exam-step" id="q2">
       <span class="tag">Pregunta 2/10</span>
       <h2>Vas a hacer una pausa para comer.<br>
-        Selecciona que <strong>3 riesgos</strong> de seguridad deberías no puedes dejar expuestos.</h2>
+        Selecciona que <strong>3 riesgos</strong> de seguridad no puedes dejar expuestos.</h2>
       
       <div class="interactive-desk" id="desk-q2">
         <div class="desk-item" data-type="safe" onclick="deskClick(this)">
@@ -83,7 +84,7 @@
     <div class="exam-step" id="q3">
       <span class="tag">Pregunta 3/10</span>
       <p>Estas en la cafetería del trabajo y encuentras un USB.<br>
-      El USB lleva una etiqueta que dice: "Dep_Contabilidad. Nominas"</pp>
+      El USB lleva una etiqueta que dice: "Dep_Contabilidad. Nominas"</p>
       <h2>¿Qué deberías hacer?</h2>
       <div class="usb-scene">
         <div class="usb-zone" onclick="usbAction('pc')">
@@ -113,7 +114,7 @@
 
     <div class="exam-step" id="q5">
       <span class="tag">Pregunta 5/10</span>
-      <p>El CEO te escribe un WhatsApp en el que te dice que es urgente que transfieras dinero para un proyecto a la cuenta que se acaba de crear para el mismo proposito.</pp>
+      <p>El CEO te escribe un WhatsApp en el que te dice que es urgente que transfieras dinero para un proyecto a la cuenta que se acaba de crear para el mismo proposito.</p>
       <h2>¿A través de que medio verificarías esta información?</h2>
       <div class="mobile-screen-grid">
         <div class="app-icon" onclick="checkApp('whatsapp')">
@@ -140,6 +141,7 @@
 
     <div class="exam-step" id="q6">
       <span class="tag">Pregunta 6/10</span>
+      <p>Has observado las propiedades de los archivos para ver los tipo de archivo reales.</p>
       <h2>¿Qué tipo de archivo te resulta sospechoso?</h2>
       <div class="file-grid">
         <div class="file-card" onclick="checkFile('file1')">
@@ -173,6 +175,7 @@
 
     <div class="exam-step" id="q8">
       <span class="tag">Pregunta 8/10</span>
+      <p>Estas esperando un paquete y no recuerdas bien que empresa de reparto te lo entregaba cuando justo recibes un mensaje.</p>
       <h2>Detecta el peligro en este SMS.</h2>
       <div class="forensic-panel" style="max-width:300px; margin:0 auto; border:2px solid #333;">
         <div class="forensic-header" style="background:#333; color:white;">Mensajes</div>
@@ -230,20 +233,21 @@
 
     <div class="exam-step" id="final-screen" style="text-align: center;">
       <h2>Resultados del test</h2>
-      <div id="loading-results">Procesando...</div>
+      <div id="loading-results">Procesando respuestas...</div>
       
       <div id="results-content" style="display:none;">
         <div class="score-circle">
-          <span id="final-score">0</span>
-          <span class="score-label">/ 10</span>
+          <span id="final-score">0/10</span>
+          <span class="score-label">Aciertos</span>
         </div>
         <h3 id="final-msg"></h3>
         <p id="final-detail"></p>
+        <div id="firebase-msg"></div>
         
-        <div style="margin-top:30px;">
-          <button onclick="location.reload()" class="boton" id="btn-retry" style="display:none; background:#f44336; color:white; border:none;">REINTENTAR</button>
-          <a href="../../Pantallas/modulos.html" class="boton" id="btn-continue" style="display:none;">SALIR</a>
-          <a href="../5contrasenas/teoria.html" class="boton" id="btn-next" style="display:none; background:#2e7d32; color:white;">Continuar con el siguiente módulo</a>
+        <div style="margin-top:30px; display: flex; gap: 10px; justify-content: center;">
+          <button onclick="location.reload()" class="boton" id="btn-retry" style="display:none; background:#f44336; border:none; color:white;">Repetir Test</button>
+          <a href="../../Pantallas/modulos.html" class="boton" id="btn-continue" style="display:none;">Volver al Menú</a>
+          <a href="../5contrasenas/teoria.html" class="boton" id="btn-next" style="display:none; background:#2e7d32; color:white;">SIGUIENTE MÓDULO ▶</a>
         </div>
       </div>
     </div>

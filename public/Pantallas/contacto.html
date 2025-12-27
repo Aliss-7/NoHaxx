@@ -4,37 +4,48 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Contacto - NoHaxx</title>
+  
   <link rel="stylesheet" href="../CSS/base.css" />
-  <link rel="stylesheet" href="../CSS/autentificacion.css" />
+  <link rel="stylesheet" href="../CSS/dashboard.css" />
+  <link rel="stylesheet" href="../CSS/contacto.css" />
 </head>
 <body>
-  <header id="main-header">
+
+  <header>
     <div class="logo">NoHaxx</div>
     <div class="top-buttons" id="nav-buttons">
       <a href="index.html">Inicio</a>
       <a href="login.html">Login</a>
     </div>
   </header>
-
+  
   <main>
     <section class="contacto-container">
       <h1>Contacto</h1>
       <p>¿Tienes dudas o quieres ponerte en contacto con nosotros? ¡Escríbenos!</p>
 
       <form id="contact-form">
-        <label for="nombre">Nombre *</label>
-        <input type="text" id="nombre" name="from_name" required placeholder="Tu nombre" />
+        <div class="form-group">
+            <label for="nombre">Nombre *</label>
+            <input type="text" id="nombre" name="from_name" required placeholder="Tu nombre" />
+        </div>
 
-        <label for="email">Email *</label>
-        <input type="email" id="email" name="reply_to" required placeholder="tu@email.com" />
+        <div class="form-group">
+            <label for="email">Email *</label>
+            <input type="email" id="email" name="reply_to" required placeholder="tu@email.com" />
+        </div>
 
-        <label for="asunto">Asunto *</label>
-        <input type="text" id="asunto" name="subject" required placeholder="Asunto del mensaje" />
+        <div class="form-group">
+            <label for="asunto">Asunto *</label>
+            <input type="text" id="asunto" name="subject" required placeholder="Asunto del mensaje" />
+        </div>
 
-        <label for="mensaje">Mensaje *</label>
-        <textarea id="mensaje" name="message" rows="5" required placeholder="Escribe tu mensaje aquí"></textarea>
+        <div class="form-group">
+            <label for="mensaje">Mensaje *</label>
+            <textarea id="mensaje" name="message" rows="5" required placeholder="Escribe tu mensaje aquí..."></textarea>
+        </div>
 
-        <button type="submit" id="enviar-btn">Enviar</button>
+        <button type="submit" id="enviar-btn">Enviar Mensaje</button>
       </form>
 
       <p id="form-mensaje" role="alert" aria-live="polite"></p>
@@ -45,7 +56,9 @@
     <p>&copy; 2025 NoHaxx. Todos los derechos reservados.</p>
   </footer>
 
-  <!-- EmailJS SDK nuevo -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+  <script src="../scripts/firebase-config.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   <script src="../scripts/contacto.js"></script>
 </body>

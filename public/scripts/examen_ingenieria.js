@@ -3,7 +3,7 @@ const correctAnswers = {
   2: 'correct_trio',
   3: 'it',
   4: 'sender',
-  5: 'phone',
+  5: 'phone', // Se acepta 'phone' o 'teams' en la lógica de cálculo
   6: 'file2',
   7: 'b',
   8: 'link',
@@ -13,13 +13,16 @@ const correctAnswers = {
 
 let userAnswers = {};
 const totalQuestions = 10;
+const passingScore = 8;
 let isTransitioning = false; 
 
 let deskSelection = []; 
 
 function nextQuestion(current) {
   const progress = (current / totalQuestions) * 100;
-  document.getElementById('progress-bar').style.width = `${progress}%`;
+  const progressBar = document.getElementById('progress-bar');
+  if(progressBar) progressBar.style.width = `${progress}%`;
+
   document.getElementById(`q${current}`).classList.remove('active');
 
   if (current < totalQuestions) {
@@ -123,6 +126,7 @@ function calculateAndSave() {
   
   let hits = 0;
   for (let i = 1; i <= totalQuestions; i++) {
+    // Caso especial pregunta 5 (Phone o Teams son válidos)
     if(i === 5 && (userAnswers[5] === 'phone' || userAnswers[5] === 'teams')) {
        hits++;
     } else if (userAnswers[i] === correctAnswers[i]) {
@@ -131,7 +135,7 @@ function calculateAndSave() {
   }
   
   const finalScore = hits; 
-  const passed = hits >= 8; 
+  const passed = hits >= passingScore; 
 
   const resultsDiv = document.getElementById('results-content');
   const loadingDiv = document.getElementById('loading-results');
@@ -146,24 +150,35 @@ function calculateAndSave() {
   setTimeout(() => {
     loadingDiv.style.display = 'none';
     resultsDiv.style.display = 'block';
-    scoreTxt.innerText = finalScore;
+    
+    // Formato "8/10"
+    scoreTxt.innerText = `${hits}/${totalQuestions}`;
 
     if (passed) {
-      msgTxt.innerText = "¡EXCELENTE!";
-      msgTxt.style.color = "#2e7d32";
-      detailTxt.innerText = `Has superado ${hits} de 10.`;
+      // APROBADO (Azul/Verde)
+      scoreTxt.parentElement.style.background = '#1f73b8'; // Azul corporativo
+      scoreTxt.parentElement.style.borderColor = '#1f73b8';
       
-      btnCont.style.display = "inline-block";
-      btnNext.style.display = "inline-block";
+      msgTxt.innerText = "¡EXCELENTE!";
+      msgTxt.style.color = "green";
+      detailTxt.innerText = "Has superado el test con éxito.";
+      
+      if(btnCont) btnCont.style.display = "inline-block";
+      if(btnNext) btnNext.style.display = "inline-block";
       
       saveToFirebase(finalScore);
     } else {
-      msgTxt.innerText = "Necesitas repasar";
-      msgTxt.style.color = "#d32f2f";
-      detailTxt.innerText = `Solo has superado ${hits} de 10. Necesitas por lo menos 8 aciertos de 10 para aprobar.`;
+      // SUSPENSO (Rojo)
+      scoreTxt.parentElement.style.background = '#d32f2f';
+      scoreTxt.parentElement.style.borderColor = '#d32f2f';
       
-      btnRetry.style.display = "inline-block";
-      btnCont.style.display = "inline-block";
+      msgTxt.innerText = "Necesitas repasar";
+      msgTxt.style.color = "#d32f2f"; // Rojo
+      detailTxt.innerText = `Has conseguido ${hits} de ${totalQuestions}. Necesitas al menos ${passingScore} aciertos para aprobar.`;
+      
+      if(btnRetry) btnRetry.style.display = "inline-block";
+      // Opcional: mostrar botón salir aunque suspenda
+      // if(btnCont) btnCont.style.display = "inline-block"; 
     }
   }, 1000);
 }
@@ -175,7 +190,9 @@ function saveToFirebase(score) {
     if (user) {
       db.collection('userScores').doc(user.uid).set({
         scores: { ingenieria: score }
-      }, { merge: true });
+      }, { merge: true }).then(() => {
+          console.log("Nota guardada");
+      }).catch(err => console.error(err));
     }
   });
 }

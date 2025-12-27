@@ -7,60 +7,12 @@
 
   <link rel="stylesheet" href="../../CSS/base.css">
   <link rel="stylesheet" href="../../CSS/examenes.css">
-
-  <style>
-    /* ESTILOS ESPECÍFICOS PARA LA INTERACTIVIDAD DE ESTE MÓDULO */
-    
-    /* Q1: Lista WiFi */
-    .wifi-list { background: #eee; border-radius: 8px; overflow: hidden; max-width: 400px; margin: 0 auto; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-    .wifi-item { display: flex; justify-content: space-between; align-items: center; padding: 15px; border-bottom: 1px solid #ddd; cursor: pointer; transition: background 0.2s; color: #333; }
-    .wifi-item:hover { background: #e0e0e0; }
-    .wifi-item:last-child { border-bottom: none; }
-    .wifi-icon { font-size: 1.2rem; margin-right: 10px; }
-    .wifi-lock { color: #555; font-size: 0.9rem; }
-
-    /* Q5: Pop-up Infectado */
-    .fake-desktop { background: #335; padding: 20px; border-radius: 8px; position: relative; height: 250px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
-    .popup-window { 
-        background: #fff; width: 300px; border-radius: 4px; box-shadow: 0 10px 20px rgba(0,0,0,0.5); 
-        animation: popIn 0.3s ease-out; position: relative; border: 1px solid #999;
-    }
-    .popup-header { background: #d32f2f; color: white; padding: 5px 10px; font-size: 0.8rem; display: flex; justify-content: space-between; align-items: center; }
-    .popup-close { cursor: pointer; font-weight: bold; padding: 0 5px; }
-    .popup-close:hover { background: rgba(0,0,0,0.2); }
-    .popup-body { padding: 20px; text-align: center; color: #333; }
-    .popup-btn { background: #2e7d32; color: white; border: none; padding: 10px 20px; margin-top: 10px; cursor: pointer; font-weight: bold; border-radius: 4px; animation: pulse 1s infinite; }
-    
-    /* Q8: Gestor de Archivos */
-    .file-manager { background: #fff; border-radius: 6px; border: 1px solid #ccc; max-width: 500px; margin: 0 auto; font-family: sans-serif; }
-    .file-header { background: #f0f0f0; padding: 10px; border-bottom: 1px solid #ccc; color: #555; font-size: 0.9rem; text-align: left;}
-    .file-row { display: flex; align-items: center; padding: 10px; border-bottom: 1px solid #eee; justify-content: space-between; color: #333; }
-    .file-info { display: flex; align-items: center; gap: 10px; }
-    .file-icon { width: 24px; height: 24px; background: #ddd; border-radius: 3px; display: flex; align-items: center; justify-content: center; font-size: 10px; color: #666; }
-    .btn-action { padding: 5px 10px; font-size: 0.8rem; cursor: pointer; border-radius: 4px; border: none; }
-    .btn-open { background: #e0e0e0; color: #333; }
-    .btn-del { background: #ffcdd2; color: #c62828; margin-left: 5px;}
-
-    /* Q9: Cookie Banner */
-    .browser-view { background: url('https://placehold.co/600x300/222/555?text=Web+de+Noticias') no-repeat center; background-size: cover; height: 250px; border-radius: 8px; position: relative; overflow: hidden; border: 1px solid #444; }
-    .cookie-overlay { 
-        position: absolute; bottom: 0; left: 0; right: 0; 
-        background: rgba(255,255,255,0.95); padding: 20px; text-align: center; color: #333;
-        border-top: 2px solid #2e7d32;
-    }
-    .cookie-btn-big { background: #2e7d32; color: white; border: none; padding: 10px 30px; font-size: 1rem; border-radius: 4px; cursor: pointer; margin-bottom: 10px; display: block; width: 80%; margin: 10px auto; }
-    .cookie-link { color: #666; text-decoration: underline; font-size: 0.8rem; cursor: pointer; }
-
-    @keyframes popIn { 0% { transform: scale(0.5); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
-    @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
-  </style>
-
-</head>
+  </head>
 <body>
   <header>
     <div class="logo">NoHaxx</div>
     <div class="top-buttons">
-      <a href="../../Pantallas/modulos.html">Salir</a>
+      <a href="../../Pantallas/modulos.html" class="boton-salir">Abandonar</a>
     </div>
   </header>
 
@@ -71,28 +23,45 @@
     </div>
 
     <div class="exam-step active" id="q1">
-      <div><span class="tag">Pregunta 1/10</span></div>
+      <span class="tag">Pregunta 1/10</span>
       <h2>Estás en una cafetería. Elige la red más segura para conectar tu portátil.</h2>
       <p>Toca la red a la que te conectarías.</p>
       
-      <div class="wifi-list">
+      <div class="wifi-container">
           <div class="wifi-item" onclick="checkQ1('open')">
-              <div class="file-info"><span class="wifi-icon">📡</span> Cafeteria_GRATIS</div>
+              <div class="file-info">
+                  <span class="wifi-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12.01 21.49L23.64 7c-.45-.34-4.93-4-11.64-4C5.28 3 .81 6.66.36 7l11.63 14.49.01.01.01-.01z"/></svg>
+                  </span> 
+                  Cafeteria_GRATIS
+              </div>
               <span class="wifi-lock">Abierta</span>
           </div>
+
           <div class="wifi-item" onclick="checkQ1('open')">
-              <div class="file-info"><span class="wifi-icon">📡</span> Free_WiFi_Public</div>
+              <div class="file-info">
+                  <span class="wifi-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12.01 21.49L23.64 7c-.45-.34-4.93-4-11.64-4C5.28 3 .81 6.66.36 7l11.63 14.49.01.01.01-.01z"/></svg>
+                  </span> 
+                  Free_WiFi_Public
+              </div>
               <span class="wifi-lock">Abierta</span>
           </div>
+
           <div class="wifi-item" onclick="checkQ1('secure')">
-              <div class="file-info"><span class="wifi-icon">📱</span> Mi_iPhone_Personal</div>
+              <div class="file-info">
+                  <span class="wifi-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14z"/></svg>
+                  </span> 
+                  Mi_iPhone_Personal
+              </div>
               <span class="wifi-lock">🔒 WPA3</span>
           </div>
       </div>
     </div>
 
     <div class="exam-step" id="q2">
-      <div><span class="tag">Pregunta 2/10</span></div>
+      <span class="tag">Pregunta 2/10</span>
       <p>Ves un candado cerrado (HTTPS) junto a la dirección web en tu navegador.</p>
       <h2>¿Qué garantiza realmente este símbolo?</h2>
       <div class="card-grid">
@@ -100,47 +69,47 @@
           <div>Que el sitio es 100% seguro y no tiene virus.</div>
         </div>
         <div class="card-option" onclick="checkQ2('encrypt')">
-          <div>Que la comunicación entre tú y la web está cifrada.</div>
+          <div>Que la comunicación está cifrada.</div>
         </div>
         <div class="card-option" onclick="checkQ2('legit')">
-          <div>Que la página pertenece a una empresa legal.</div>
+          <div>Que la página es legal y honesta.</div>
         </div>
       </div>
     </div>
 
     <div class="exam-step" id="q3">
-      <div><span class="tag">Pregunta 3/10</span></div>
+      <span class="tag">Pregunta 3/10</span>
       <p>Activas el "Modo Incógnito" en el ordenador de la oficina.</p>
       <h2>¿Quién puede ver las páginas que visitas?</h2>
       <div class="card-grid">
         <div class="card-option" onclick="checkQ3('nobody')">
-          <div>Nadie, soy invisible.</div>
+          <div>Nadie, soy completamente invisible.</div>
         </div>
         <div class="card-option" onclick="checkQ3('admin')">
-          <div>El administrador de la red y mi proveedor de internet.</div>
+          <div>El administrador de red y el proveedor de internet.</div>
         </div>
       </div>
     </div>
 
     <div class="exam-step" id="q4">
-      <div><span class="tag">Pregunta 4/10</span></div>
+      <span class="tag">Pregunta 4/10</span>
       <h2>Quieres entrar a PayPal. Identifica la URL falsa que intenta engañarte.</h2>
+      <p>Haz clic en la dirección que te parezca <strong>FRAUDULENTA</strong>.</p>
       
-      <div style="display: flex; flex-direction: column; gap: 15px; max-width: 500px; margin: 0 auto;">
-          <button class="boton" style="background:#333; text-align: left; font-family: monospace;" onclick="checkQ4('real')">
-             🔒 https://www.paypal.com
-          </button>
-          <button class="boton" style="background:#333; text-align: left; font-family: monospace; border: 1px solid #d32f2f;" onclick="checkQ4('fake')">
-             🔒 https://www.paypaI.com/login
-          </button>
-          <button class="boton" style="background:#333; text-align: left; font-family: monospace;" onclick="checkQ4('real2')">
-             🔒 https://www.paypal.com/es/home
-          </button>
+      <div class="url-grid">
+          <div class="url-card" onclick="checkQ4('real')">
+             https://www.paypal.com
+          </div>
+          <div class="url-card" onclick="checkQ4('fake')" style="border: 1px solid #d32f2f;">
+             https://www.paypaI.com/login </div>
+          <div class="url-card" onclick="checkQ4('real2')">
+             https://www.paypal.com/es/home
+          </div>
       </div>
     </div>
 
     <div class="exam-step" id="q5">
-      <div><span class="tag">Pregunta 5/10</span></div>
+      <span class="tag">Pregunta 5/10</span>
       <p>Estás navegando y aparece esto de repente. ¡Actúa rápido!</p>
       <h2>Haz click exactamente donde deberías para salir ileso.</h2>
       
@@ -148,7 +117,7 @@
           <div class="popup-window">
               <div class="popup-header">
                   <span>⚠️ ALERTA DE SEGURIDAD</span>
-                  <span class="popup-close" onclick="checkQ5('close')">X</span>
+                  <span class="popup-close" title="Cerrar ventana" onclick="checkQ5('close')">✖</span>
               </div>
               <div class="popup-body">
                   <h3>¡Tu PC está infectado!</h3>
@@ -160,43 +129,42 @@
     </div>
 
     <div class="exam-step" id="q6">
-      <div><span class="tag">Pregunta 6/10</span></div>
-      <h2>El navegador te pide actualizar.<br>
-        ¿Qué haces?</h2>
+      <span class="tag">Pregunta 6/10</span>
+      <h2>El navegador te pide actualizar. ¿Qué haces?</h2>
       <div class="card-grid">
         <div class="card-option" onclick="checkQ6('update')">
-          <div>Actualizar ya para tener la nueva versión de parches de seguridad.</div>
+          <div>Actualizar ya para instalar parches de seguridad.</div>
         </div>
         <div class="card-option" onclick="checkQ6('ignore')">
-          <div>Ignorarlo, si reinicio ahora tendré que volver abrilo todo de nuevo.</div>
+          <div>Ignorarlo, no quiero reiniciar ahora.</div>
         </div>
       </div>
     </div>
 
     <div class="exam-step" id="q7">
-      <div><span class="tag">Pregunta 7/10</span></div>
+      <span class="tag">Pregunta 7/10</span>
       <h2>¿Qué riesgo tiene instalar muchas extensiones desconocidas?</h2>
       <div class="card-grid">
         <div class="card-option" onclick="checkQ7('slow')">
-          <div>El PC va más lento.</div>
+          <div>Solo que el PC va más lento.</div>
         </div>
         <div class="card-option" onclick="checkQ7('spy')">
-          <div>Pueden leer mi historial y robar datos.</div>
+          <div>Pueden leer mi historial y robar datos bancarios.</div>
         </div>
       </div>
     </div>
 
     <div class="exam-step" id="q8">
-      <div><span class="tag">Pregunta 8/10</span></div>
+      <span class="tag">Pregunta 8/10</span>
       <h2>Acabas de descargar una supuesta factura. Revisa tu carpeta de descargas.</h2>
-      <p>Elimina el archivo peligroso antes de abrir nada.</p>
+      <p><strong>Elimina</strong> el archivo peligroso antes de abrir nada.</p>
       
       <div class="file-manager">
-          <div class="file-header">Carpeta: Descargas</div>
+          <div class="file-header">📂 Este Equipo > Descargas</div>
           
           <div class="file-row">
               <div class="file-info">
-                  <div class="file-icon" style="background:#e3f2fd; color:#1565c0;">PDF</div>
+                  <div class="file-icon">PDF</div>
                   <span>Factura_enero.pdf</span>
               </div>
               <div>
@@ -205,9 +173,9 @@
               </div>
           </div>
 
-          <div class="file-row" style="background:#fff3e0;">
+          <div class="file-row highlight">
               <div class="file-info">
-                  <div class="file-icon" style="background:#e3f2fd; color:#1565c0;">PDF</div>
+                  <div class="file-icon">PDF</div>
                   <span style="font-weight:bold;">Factura_pendiente.pdf.exe</span>
               </div>
               <div>
@@ -219,14 +187,14 @@
     </div>
 
     <div class="exam-step" id="q9">
-      <div><span class="tag">Pregunta 9/10</span></div>
+      <span class="tag">Pregunta 9/10</span>
       <h2>Entras a una web y te bloquea la pantalla con esto.</h2>
       <h2>Quieres privacidad. ¿Dónde haces click?</h2>
       
       <div class="browser-view">
           <div class="cookie-overlay">
               <h3>Valoramos tu privacidad</h3>
-              <p style="font-size:0.8rem; margin-bottom:15px;">Usamos cookies propias y de terceros para rastrear tu navegación y vender tus datos.</p>
+              <p style="font-size:0.9rem; margin-bottom:15px;">Usamos cookies propias y de terceros para rastrear tu navegación y vender tus datos.</p>
               
               <button class="cookie-btn-big" onclick="checkQ9('fail')">ACEPTAR TODO</button>
               
@@ -236,14 +204,14 @@
     </div>
 
     <div class="exam-step" id="q10">
-      <div><span class="tag">Pregunta 10/10</span></div>
-      <h2>Ordenador compartido. ¿Paso final antes de irte?</h2>
+      <span class="tag">Pregunta 10/10</span>
+      <h2>Estás en un ordenador compartido (biblioteca/hotel). ¿Paso final antes de irte?</h2>
       <div class="card-grid">
         <div class="card-option" onclick="checkQ10('close')">
-          <div>Cerrar la ventana (X).</div>
+          <div>Cerrar la ventana con la X.</div>
         </div>
         <div class="card-option" onclick="checkQ10('logout')">
-          <div>Cerrar sesión y borrar datos.</div>
+          <div>Cerrar sesión explícitamente y borrar datos.</div>
         </div>
       </div>
     </div>
@@ -254,16 +222,16 @@
       
       <div id="results-content" style="display:none;">
         <div class="score-circle">
-          <span id="final-score">0</span>
-          <span class="score-label">/ 10</span>
+          <span id="final-score">0/10</span>
+          <span class="score-label">Aciertos</span>
         </div>
         <h3 id="final-msg"></h3>
         <p id="final-detail"></p>
         
         <div style="margin-top:30px; display: flex; gap: 10px; justify-content: center;">
-          <button onclick="location.reload()" class="boton" id="btn-retry" style="display:none; background:#d32f2f; color:white;">REINTENTAR</button>
-          <a href="../../Pantallas/modulos.html" class="boton" id="btn-continue" style="display:none;">SALIR</a>
-          <a href="../../Pantallas/resultados.html" class="boton" id="btn-next" style="display:none; background:#2e7d32;">FINALIZAR CURSO ▶</a>
+          <button onclick="location.reload()" class="boton" id="btn-retry" style="display:none; background:#f44336; border:none; color:white;">Repetir Test</button>
+          <a href="../../Pantallas/modulos.html" class="boton" id="btn-continue" style="display:none;">Volver al Menú</a>
+          <a href="../../Pantallas/resultados.html" class="boton" id="btn-next" style="display:none; background:#2e7d32; color:white;">FINALIZAR CURSO ▶</a>
         </div>
       </div>
     </div>

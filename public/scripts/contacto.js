@@ -1,12 +1,58 @@
 document.addEventListener("DOMContentLoaded", () => {
-    emailjs.init("lyJuBtfl7qfLrX__9"); // Inicializas con tu public key
+    // 1. Inicializar EmailJS
+    emailjs.init("lyJuBtfl7qfLrX__9"); 
   
     const form = document.getElementById("contact-form");
     const mensaje = document.getElementById("form-mensaje");
+    const navButtons = document.getElementById("nav-buttons");
+    const auth = firebase.auth();
 
+    // 2. Controlar el Header según el estado de sesión
+    auth.onAuthStateChanged((user) => {
+        if (user) {
+            // USUARIO LOGUEADO: Mostrar menú completo
+            // Rellenamos automáticamente el email si quieres (opcional)
+            if(form.reply_to && !form.reply_to.value) {
+                form.reply_to.value = user.email;
+            }
+
+            navButtons.innerHTML = `
+                <a href="index.html">Inicio</a>
+                <a href="modulos.html">Módulos</a>
+                <a href="resultados.html">Resultados</a>
+                <a href="perfil.html">Perfil</a>
+                <a href="contacto.html" style="background-color: #eee; color: #000; font-weight: bold;">Contacto</a>
+                <a href="#" id="logout-btn" style="background-color: #d32f2f; color: white;">Cerrar sesión</a>
+            `;
+
+            // Activar botón de logout
+            const logoutBtn = document.getElementById("logout-btn");
+            logoutBtn.addEventListener("click", (e) => {
+                e.preventDefault();
+                auth.signOut().then(() => window.location.href = "login.html");
+            });
+
+        } else {
+            // USUARIO VISITANTE: Mostrar menú básico
+            navButtons.innerHTML = `
+                <a href="index.html">Inicio</a>
+                <a href="login.html" style="background-color: #333; color: white;">Login</a>
+            `;
+        }
+    });
+
+    // 3. Lógica del Formulario (Tu código original mejorado visualmente)
     form.addEventListener("submit", (e) => {
       e.preventDefault();
-  
+      
+      const btnEnviar = document.getElementById("enviar-btn");
+      const textoOriginal = btnEnviar.innerText;
+      
+      // Feedback visual de carga
+      btnEnviar.innerText = "Enviando...";
+      btnEnviar.disabled = true;
+      mensaje.textContent = "";
+
       const nombre = form.from_name.value.trim();
       const email = form.reply_to.value.trim();
       const asunto = form.subject.value.trim();
@@ -14,7 +60,9 @@ document.addEventListener("DOMContentLoaded", () => {
   
       if (!nombre || !email || !asunto || !mensajeTexto) {
         mensaje.textContent = "Por favor, completa todos los campos obligatorios.";
-        mensaje.style.color = "red";
+        mensaje.style.color = "#d32f2f"; // Rojo
+        btnEnviar.innerText = textoOriginal;
+        btnEnviar.disabled = false;
         return;
       }
   
@@ -25,15 +73,18 @@ document.addEventListener("DOMContentLoaded", () => {
         message: mensajeTexto,
       })
       .then(() => {
-        mensaje.textContent = "¡Gracias por tu mensaje! Nos pondremos en contacto pronto.";
-        mensaje.style.color = "green";
+        mensaje.textContent = "¡Mensaje enviado con éxito! Te responderemos pronto.";
+        mensaje.style.color = "#4caf50"; // Verde
         form.reset();
       })
       .catch((error) => {
         console.error("Error al enviar el mensaje:", error);
-        mensaje.textContent = "Error al enviar el mensaje. Intenta de nuevo más tarde.";
-        mensaje.style.color = "red";
+        mensaje.textContent = "Hubo un error al enviar. Por favor intenta más tarde.";
+        mensaje.style.color = "#d32f2f"; // Rojo
+      })
+      .finally(() => {
+        btnEnviar.innerText = textoOriginal;
+        btnEnviar.disabled = false;
       });
     });
-  });
-  
+});

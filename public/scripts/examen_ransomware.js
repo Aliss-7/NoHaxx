@@ -3,12 +3,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const totalQuestions = 10; 
     const passingScore = 8;    
     const moduleName = 'ransomware';
+    let isTransitioning = false;
 
     const steps = document.querySelectorAll('.exam-step');
     const progressBar = document.getElementById('progress-bar');
 
     if(steps.length > 0) steps[0].classList.add('active');
-
+ 
+    // Funciones para la ventana de propiedades (Pregunta 1)
     window.mostrarPropiedades = function() {
         const v = document.getElementById('propiedades-file');
         if(v) v.style.display = 'block';
@@ -26,27 +28,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
         options.forEach(opt => {
             opt.addEventListener('click', () => {
-                if (step.classList.contains('answered')) return;
+                // Evitar doble clic
+                if (step.classList.contains('answered') || isTransitioning) return;
+                
                 step.classList.add('answered');
+                isTransitioning = true;
 
                 const correctAnswer = step.getAttribute('data-correcta');
                 const userAnswer = opt.getAttribute('data-respuesta');
+                
+                // CAMBIO: Solo marcamos visualmente la selección (neutro)
+                opt.classList.add('selected');
 
+                // Calculamos la nota internamente (sin mostrar verde/rojo)
                 if (userAnswer === correctAnswer) {
-                    opt.classList.add('correct');
                     currentScore++;
-                } else {
-                    opt.classList.add('incorrect');
-                    options.forEach(o => {
-                        if (o.getAttribute('data-respuesta') === correctAnswer) {
-                            o.classList.add('correct');
-                        }
-                    });
                 }
+                // Ya no hay "else" para mostrar errores
 
+                // Actualizar barra de progreso
                 const progressPct = ((index + 1) / totalQuestions) * 100;
                 if(progressBar) progressBar.style.width = `${progressPct}%`;
 
+                // Pasar a la siguiente pregunta
                 setTimeout(() => {
                     step.classList.remove('active'); 
                     const nextStep = step.nextElementSibling;
@@ -56,7 +60,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     } else {
                         finishExam();
                     }
-                }, 1500);
+                    isTransitioning = false;
+                }, 600); // Transición rápida
             });
         });
     });
@@ -73,16 +78,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const scoreDisplay = document.getElementById('final-score');
         const msgDisplay = document.getElementById('final-msg');
+        const detailDisplay = document.getElementById('final-detail');
         const btnRetry = document.getElementById('btn-retry');
         const btnContinue = document.getElementById('btn-continue');
+        const btnNext = document.getElementById('btn-next');
 
+        // Mostrar nota final
         scoreDisplay.textContent = `${currentScore}/${totalQuestions}`;
 
         if (currentScore >= passingScore) {
-            scoreDisplay.parentElement.style.background = '#4caf50';
-            msgDisplay.innerHTML = "¡EXCELENTE! <br>Has superado el test con éxito.";
+            // APROBADO
+            scoreDisplay.parentElement.style.background = '#1f73b8';
+            scoreDisplay.parentElement.style.borderColor = '#1f73b8';
+            
+            msgDisplay.innerHTML = "¡EXCELENTE!";
             msgDisplay.style.color = "green";
+            if(detailDisplay) detailDisplay.innerText = "Has superado el test con éxito.";
+            
             if(btnContinue) btnContinue.style.display = 'inline-block';
+            if(btnNext) btnNext.style.display = 'inline-block'; 
             
             if (typeof saveScore === 'function') {
                 saveScore(currentScore); 
@@ -90,9 +104,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 localSaveScore(currentScore);
             }
         } else {
-            scoreDisplay.parentElement.style.background = '#f44336';
-            msgDisplay.innerHTML = "SISTEMA COMPROMETIDO. <br>Debes mejorar tu defensa.";
+            // SUSPENSO
+            scoreDisplay.parentElement.style.background = '#d32f2f';
+            scoreDisplay.parentElement.style.borderColor = '#d32f2f';
+            
+            msgDisplay.innerHTML = "Necesitas repasar";
             msgDisplay.style.color = "red";
+            if(detailDisplay) detailDisplay.innerText = `Necesitas por lo menos ${passingScore} aciertos de ${totalQuestions} para aprobar.`;
+            
             if(btnRetry) btnRetry.style.display = 'inline-block';
         }
     }
@@ -107,10 +126,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 db.collection('userScores').doc(user.uid).set({
                     scores: { ransomware: nota }
                 }, { merge: true }).then(() => {
-                    if(msgDiv) msgDiv.innerHTML = "<p style='color:green; font-weight:bold;'>Progreso guardado correctamente.</p>";
+                    if(msgDiv) msgDiv.innerHTML = "<p style='color:green; font-weight:bold; margin-top:10px;'>Nota registrada.</p>";
                 }).catch((error) => {
                     console.error("Error:", error);
-                    if(msgDiv) msgDiv.innerHTML = "<p style='color:orange'>Error al guardar nota.</p>";
+                    if(msgDiv) msgDiv.innerHTML = "<p style='color:orange'>Error al guardar.</p>";
                 });
             }
         });

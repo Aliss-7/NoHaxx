@@ -119,12 +119,10 @@
                 <p>¿Cuál es la <strong>prioridad absoluta</strong>?</p>
                 <div class="option-grid">
                     <div class="option-card" data-respuesta="a">
-                        <div style="font-size:2rem;"></div>
                         <strong>Desconectar Red/Wi-Fi</strong>
                         <p>Aislar el equipo para que no infecte a toda la empresa.</p>
                     </div>
                     <div class="option-card" data-respuesta="b">
-                        <div style="font-size:2rem;"></div>
                         <strong>Buscar la Cartera Bitcoin</strong>
                         <p>Pagar rápido antes de que suba el precio.</p>
                     </div>
@@ -167,7 +165,7 @@
                     </div>
                     <div class="option-card" data-respuesta="b">
                         <strong>Están a salvo</strong>
-                        <p>La nube tiene un antivirus mágico que rechaza archivos cifrados.</p>
+                        <p>La nube tiene un antivirus que rechaza archivos cifrados.</p>
                     </div>
                 </div>
             </div>
@@ -197,7 +195,7 @@
                         <p>Adjuntos maliciosos o enlaces a descargas infectadas.</p>
                     </div>
                     <div class="option-card" data-respuesta="b">
-                        <strong>USB en el parking</strong>
+                        <strong>USB</strong>
                         <p>Dispositivos físicos dejados al azar.</p>
                     </div>
                 </div>
@@ -236,23 +234,24 @@
 
             <div class="exam-step" id="step-final" style="text-align: center;">
                 <h2>Resultados del test</h2>
-                <div id="loading-results">Calculando nota...</div>
+                <div id="loading-results">Procesando respuestas...</div>
                 
                 <div id="results-content" style="display:none;">
                     <div class="score-circle">
-                        <span id="final-score">0</span>
+                        <span id="final-score">0/10</span>
                         <span class="score-label">Aciertos</span>
                     </div>
                     <h3 id="final-msg"></h3>
-                    <div id="firebase-msg"></div>
+                    <p id="final-detail"></p> <div id="firebase-msg"></div>
                     
-                    <div style="margin-top:30px;">
-                        <button onclick="location.reload()" class="boton" id="btn-retry" style="display:none; background:#f44336;">Reintentar</button>
-                        <a href="../../Pantallas/modulos.html" class="boton" id="btn-continue" style="display:none;">Volver a Módulos</a>
-                        <a href="../../modulos/4ingenieria/teoria.html">Continuar con el siguiente módulo</a>
+                    <div style="margin-top:30px; display: flex; gap: 10px; justify-content: center;">
+                        <button onclick="location.reload()" class="boton" id="btn-retry" style="display:none; background:#f44336; border:none; color:white;">Repetir Test</button>
+                        <a href="../../Pantallas/modulos.html" class="boton" id="btn-continue" style="display:none;">Volver al Menú</a>
+                        <a href="../4ingenieria/teoria.html" class="boton" id="btn-next" style="display:none; background:#2e7d32; color:white;">SIGUIENTE MÓDULO ▶</a>
                     </div>
                 </div>
             </div>
+
         </div>
     </main>
 

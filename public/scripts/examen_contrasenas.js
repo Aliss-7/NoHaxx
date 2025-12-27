@@ -2,7 +2,7 @@
 const correctAnswers = { 
   1: 'strong_pass',
   2: 'no',
-  3: 'app',
+  3: 'app', 
   4: 'manager',
   5: 'report',
   6: 'change',
@@ -14,22 +14,25 @@ const correctAnswers = {
 
 let userAnswers = {};
 const totalQuestions = 10;
+const passingScore = 8;
 let isTransitioning = false; 
 
-// AVANCE GENERAL
+// --- GESTIÓN DE BARRA DE PROGRESO Y NAVEGACIÓN ---
 function nextQuestion(current) {
   const progress = (current / totalQuestions) * 100;
-  document.getElementById('progress-bar').style.width = `${progress}%`;
+  const progressBar = document.getElementById('progress-bar');
+  if(progressBar) progressBar.style.width = `${progress}%`;
+
   document.getElementById(`q${current}`).classList.remove('active');
 
   if (current < totalQuestions) {
     document.getElementById(`q${current + 1}`).classList.add('active');
   } else {
-    calculateAndSave();
+    finishExam();
   }
 }
 
-// Q1: CREADOR DE CONTRASEÑA
+// --- PREGUNTA 1: INPUT MANUAL ---
 function checkQ1Strength() {
     const input = document.getElementById('q1-input').value;
     const bar = document.getElementById('q1-bar');
@@ -65,38 +68,42 @@ function submitQ1() {
     nextQuestion(1);
 }
 
-// RESTO DE PREGUNTAS
-function checkQ2(ans) { handleAnswer(2, ans); }
-function checkQ3(ans) { handleAnswer(3, ans); }
-function checkQ4(ans) { handleAnswer(4, ans); }
-function checkQ5(ans) { handleAnswer(5, ans); }
-function checkQ6(ans) { handleAnswer(6, ans); }
-function checkQ7(ans) { handleAnswer(7, ans); }
-function checkQ8(ans) { handleAnswer(8, ans); }
-function checkQ9(ans) { handleAnswer(9, ans); }
-function checkQ10(ans) { handleAnswer(10, ans); }
+// --- PREGUNTAS DE SELECCIÓN (Q2 - Q10) ---
+// Pasamos el evento (e) para poder marcar el elemento pulsado
+function checkQ2(ans) { handleAnswer(2, ans, event); }
+function checkQ3(ans) { handleAnswer(3, ans, event); }
+function checkQ4(ans) { handleAnswer(4, ans, event); }
+function checkQ5(ans) { handleAnswer(5, ans, event); }
+function checkQ6(ans) { handleAnswer(6, ans, event); }
+function checkQ7(ans) { handleAnswer(7, ans, event); }
+function checkQ8(ans) { handleAnswer(8, ans, event); }
+function checkQ9(ans) { handleAnswer(9, ans, event); }
+function checkQ10(ans) { handleAnswer(10, ans, event); }
 
-function handleAnswer(qNum, ans) {
-    if(isTransitioning) return; isTransitioning = true;
+function handleAnswer(qNum, ans, e) {
+    if(isTransitioning) return; 
+    isTransitioning = true;
     userAnswers[qNum] = ans;
     
-    // Feedback visual simple (opacidad)
-    const currentStep = document.getElementById(`q${qNum}`);
-    if(currentStep) {
-        currentStep.style.opacity = '0.9';
+    // 1. Identificar el elemento clicado y añadirle la clase .selected (Azul neutro)
+    if(e && e.target) {
+        // Buscamos el contenedor padre (tarjeta o botón) por si se hizo clic en el texto
+        const el = e.target.closest('.card-option, .auth-btn, .btn-save, .boton, .q-option, .email-link');
+        if(el) el.classList.add('selected');
     }
     
+    // 2. Esperar y pasar a la siguiente (Sin revelar si es correcta)
     setTimeout(() => { 
-        if(currentStep) currentStep.style.opacity = '1';
         nextQuestion(qNum); 
         isTransitioning = false; 
-    }, 300);
+    }, 600); // 600ms igual que los otros módulos
 }
 
-// CÁLCULO FINAL
-function calculateAndSave() {
+// --- CÁLCULO FINAL Y RESULTADOS ---
+function finishExam() {
   document.getElementById('final-screen').classList.add('active');
   
+  // Cálculo interno silencioso
   let hits = 0;
   for (let i = 1; i <= totalQuestions; i++) {
     if (userAnswers[i] === correctAnswers[i]) {
@@ -104,42 +111,46 @@ function calculateAndSave() {
     }
   }
   
-  const finalScore = hits; 
-  const passed = hits >= 8; 
-
-  const resultsDiv = document.getElementById('results-content');
-  const loadingDiv = document.getElementById('loading-results');
-  const scoreTxt = document.getElementById('final-score');
-  const msgTxt = document.getElementById('final-msg');
-  const detailTxt = document.getElementById('final-detail');
-  
-  const btnCont = document.getElementById('btn-continue');
+  const scoreDisplay = document.getElementById('final-score');
+  const msgDisplay = document.getElementById('final-msg');
+  const detailDisplay = document.getElementById('final-detail');
   const btnRetry = document.getElementById('btn-retry');
+  const btnContinue = document.getElementById('btn-continue');
   const btnNext = document.getElementById('btn-next');
 
+  // Simular carga breve
   setTimeout(() => {
-    loadingDiv.style.display = 'none';
-    resultsDiv.style.display = 'block';
-    scoreTxt.innerText = finalScore;
+    document.getElementById('loading-results').style.display = 'none';
+    document.getElementById('results-content').style.display = 'block';
+    
+    // Mostrar nota
+    scoreDisplay.innerText = `${hits}/${totalQuestions}`;
 
-    if (passed) {
-      msgTxt.innerText = "CONFIGURACIÓN SEGURA";
-      msgTxt.style.color = "#2e7d32";
-      detailTxt.innerText = `Has superado ${hits} de 10 desafíos de seguridad.`;
+    if (hits >= passingScore) {
+      // APROBADO
+      scoreDisplay.parentElement.style.background = '#1f73b8'; 
+      scoreDisplay.parentElement.style.borderColor = '#1f73b8';
       
-      btnCont.style.display = "inline-block";
-      btnNext.style.display = "inline-block";
+      msgDisplay.innerText = "¡EXCELENTE!";
+      msgDisplay.style.color = "green";
+      detailDisplay.innerText = "Has superado el test con éxito.";
       
-      saveToFirebase(finalScore);
+      btnContinue.style.display = "inline-block";
+      btnNext.style.display = "inline-block"; // Botón al Módulo 6
+      
+      saveToFirebase(hits);
     } else {
-      msgTxt.innerText = "CONFIGURACIÓN VULNERABLE";
-      msgTxt.style.color = "#d32f2f";
-      detailTxt.innerText = `Solo has superado ${hits} de 10 desafíos.`;
+      // SUSPENSO
+      scoreDisplay.parentElement.style.background = '#d32f2f';
+      scoreDisplay.parentElement.style.borderColor = '#d32f2f';
+      
+      msgDisplay.innerText = "Necesitas repasar";
+      msgDisplay.style.color = "#d32f2f";
+      detailDisplay.innerText = `Necesitas por lo menos ${passingScore} aciertos de ${totalQuestions} para aprobar.`;
       
       btnRetry.style.display = "inline-block";
-      btnCont.style.display = "inline-block";
     }
-  }, 1000);
+  }, 500);
 }
 
 function saveToFirebase(score) {

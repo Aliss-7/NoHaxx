@@ -77,9 +77,7 @@ document.addEventListener("DOMContentLoaded", () => {
   
     // cargar datos
     auth.onAuthStateChanged((user) => {
-      if (user) {
-        mostrarNotificacion("Cargando perfil...");
-        
+      if (user) {        
         const refUsuario = db.collection("usuarios").doc(user.uid);
         const emailSpan = document.getElementById("email");
         if (emailSpan) emailSpan.textContent = user.email;
@@ -121,7 +119,6 @@ document.addEventListener("DOMContentLoaded", () => {
             if (titulo) titulo.textContent = `Mi progreso (${progreso}%)`;
             if (barra) barra.style.width = progreso + "%";
             
-            mostrarNotificacion("Perfil cargado.");
         }).catch(err => {
             console.error("Error cargando progreso:", err);
         });

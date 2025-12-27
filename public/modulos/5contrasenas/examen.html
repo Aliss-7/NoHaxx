@@ -13,7 +13,7 @@
   <header>
     <div class="logo">NoHaxx</div>
     <div class="top-buttons">
-      <a href="../../Pantallas/modulos.html">Salir</a>
+      <a href="../../Pantallas/modulos.html" class="boton-salir">Abandonar</a>
     </div>
   </header>
 
@@ -80,7 +80,8 @@
 
     <div class="exam-step" id="q5">
       <div><span class="tag">Pregunta 5/10</span></div>
-      <h2>Recibes un correo electrónico de tu banco. El correo trata de una alerta de Seguridad en tu cuenta. ¿Qué hacer en este caso?</h2>
+      <h2>Recibes un correo electrónico de tu banco. El correo trata de una alerta de Seguridad en tu cuenta.<br>
+        ¿Qué hacer en este caso?</h2>
       
       <div class="email-alert">
         <div class="email-sender">De: Seguridad (seguridad@banc0-alerta.com)</div>
@@ -89,23 +90,24 @@
       </div>
 
       <div style="text-align: center;">
-        <button class="boton" style="background:#d32f2f; border:none;" onclick="checkQ5('report')">Llamar al banco y preguntar/Reportar como Phishing.</button>
-        <button class="boton" onclick="checkQ5('click')">Acceder al enlace y verificar que todo este bien.</button>
+        <button class="boton" style="background:#d32f2f; border:none;" onclick="checkQ5('report')">Llamar al banco / Reportar Phishing</button>
+        <button class="boton" onclick="checkQ5('click')">Acceder al enlace</button>
       </div>
     </div>
 
     <div class="exam-step" id="q6">
       <div><span class="tag">Pregunta 6/10</span></div>
-      <h2>Has comprobado tu email y resulta aparecer en una filtración de datos. ¿Cuál sería la acción que deberías tomar a continuación.</h2>
+      <h2>Has comprobado tu email y resulta aparecer en una filtración de datos.<br>
+      ¿Cuál sería la acción que deberías tomar a continuación?</h2>
       <div class="card-grid">
         <div class="card-option" onclick="checkQ6('panic')">
           <div>Borrar la cuenta</div>
         </div>
         <div class="card-option" onclick="checkQ6('change')">
-          <div>Cambiar la clave de ese sitio y comprobar que no la tengo en ningún sitio más.</div>
+          <div>Cambiar la clave y comprobar reutilización.</div>
         </div>
         <div class="card-option" onclick="checkQ6('ignore')">
-          <div>Cambiar la clave.</div>
+          <div>Solo cambiar la clave.</div>
         </div>
       </div>
     </div>
@@ -157,7 +159,7 @@
     <div class="exam-step" id="q9">
       <div><span class="tag">Pregunta 9/10</span></div>
       <p>Tienes que elegir la configuración de Recuperación de tu cuenta y te dan las siguientes opciones de respuesta segura para elegir.</p>
-      <h2>¿Cuál es la opción que pones como respuesta</h2>
+      <h2>¿Cuál es la opción que pones como respuesta?</h2>
       <div class="security-q-container">
           <div class="q-option" onclick="checkQ9('pet')">Nombre real de mascota</div>
           <div class="q-option" onclick="checkQ9('mother')">Apellido real de madre</div>
@@ -167,17 +169,17 @@
 
     <div class="exam-step" id="q10">
       <div><span class="tag">Pregunta 10/10</span></div>
-      <p>Tienes que usar el portatil de un amigo para resolver algo puntual del trabajo.</p>
+      <p>Tienes que usar el portátil de un amigo para resolver algo puntual del trabajo.</p>
       <h2>¿Qué harías?</h2>
       <div class="card-grid">
         <div class="card-option" onclick="checkQ10('incognito')">
-          <div>Modo Incógnito y cierre de sesión al terminar.</div>
+          <div>Modo Incógnito y cierre de sesión.</div>
         </div>
         <div class="card-option" onclick="checkQ10('normal')">
-          <div>Navegador Normal y cierre de sesión al terminar.</div>
+          <div>Navegador Normal y cierre de sesión.</div>
         </div>
         <div class="card-option" onclick="checkQ10('remember')">
-          <div>Recordar Clave por si tuviera que volver a usarlo más tarde.</div>
+          <div>Recordar Clave por si acaso.</div>
         </div>
       </div>
     </div>
@@ -188,15 +190,15 @@
       
       <div id="results-content" style="display:none;">
         <div class="score-circle">
-          <span id="final-score">0</span>
-          <span class="score-label">/ 10</span>
+          <span id="final-score">0/10</span>
+          <span class="score-label">Aciertos</span>
         </div>
         <h3 id="final-msg"></h3>
         <p id="final-detail"></p>
         
         <div style="margin-top:30px; display: flex; gap: 10px; justify-content: center;">
-          <button onclick="location.reload()" class="boton" id="btn-retry" style="display:none; background:#d32f2f; color:white; border:none;">REINTENTAR</button>
-          <a href="../../Pantallas/modulos.html" class="boton" id="btn-continue" style="display:none;">SALIR</a>
+          <button onclick="location.reload()" class="boton" id="btn-retry" style="display:none; background:#f44336; border:none; color:white;">Repetir Test</button>
+          <a href="../../Pantallas/modulos.html" class="boton" id="btn-continue" style="display:none;">Volver al Menú</a>
           <a href="../6navegacion/teoria.html" class="boton" id="btn-next" style="display:none; background:#2e7d32; color:white;">SIGUIENTE MÓDULO ▶</a>
         </div>
       </div>

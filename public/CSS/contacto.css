@@ -1,0 +1,150 @@
+/* --- RESET TOTAL (Igual que en Perfil) --- */
+/* Esto anula cualquier margen izquierdo que dashboard.css intente poner para el menú lateral */
+html, body {
+    height: 100%;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    background-color: #f0f2f5; /* El mismo gris que perfil/resultados */
+    font-family: sans-serif;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+}
+
+/* --- CABECERA --- */
+/* Forzamos a que la cabecera ocupe todo el ancho y no deje huecos */
+header {
+    width: 100% !important;
+    margin-left: 0 !important;
+    left: 0 !important;
+    padding-left: 0 !important;
+    box-sizing: border-box;
+    /* Si en dashboard.css tiene position fixed, esto ayuda a que no se monte */
+    position: relative; 
+}
+
+/* --- CONTENEDOR PRINCIPAL (Centrado) --- */
+main {
+    flex: 1; /* Empuja el footer hacia abajo */
+    display: flex;
+    justify-content: center; /* Centrado Horizontal */
+    align-items: center;     /* Centrado Vertical */
+    padding: 40px 20px;
+    width: 100% !important;
+    
+    /* Aseguramos que no herede márgenes del dashboard */
+    margin: 0 !important;
+    max-width: 100% !important;
+    box-sizing: border-box;
+}
+
+/* --- TARJETA DE CONTACTO (Estilo Perfil) --- */
+.contacto-container {
+    background-color: #ffffff;
+    width: 100%;
+    max-width: 600px; /* Ancho controlado */
+    padding: 40px;
+    border-radius: 16px; /* Bordes redondeados */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); /* Sombra suave idéntica a perfil */
+    border: 1px solid #e0e0e0;
+    text-align: left;
+}
+
+/* Títulos y textos */
+.contacto-container h1 {
+    margin-top: 0;
+    color: #333;
+    font-size: 1.8rem; /* Tamaño ajustado para coincidir con Perfil */
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.contacto-container p {
+    color: #666;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+/* --- FORMULARIO --- */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    font-weight: 500;
+    color: #666;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+}
+
+/* Inputs idénticos a Perfil */
+input[type="text"],
+input[type="email"],
+textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    font-size: 1rem;
+    background-color: #fff;
+    color: #333;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    box-sizing: border-box;
+    font-family: inherit;
+}
+
+input:focus,
+textarea:focus {
+    outline: none;
+    border-color: #4caf50;
+    box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+}
+
+textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+/* Botón idéntico a Perfil */
+button[type="submit"] {
+    background-color: #333;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    font-size: 0.95rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 10px;
+    width: 100%;
+}
+
+button[type="submit"]:hover {
+    background-color: #555;
+}
+
+/* Mensajes */
+#form-mensaje {
+    margin-top: 20px;
+    text-align: center;
+    font-weight: 500;
+    min-height: 1.5em; 
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 20px;
+    color: #777;
+    font-size: 0.9rem;
+    width: 100%;
+    background-color: transparent; /* Para que se funda con el fondo gris */
+}

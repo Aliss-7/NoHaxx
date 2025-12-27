@@ -1,0 +1,286 @@
+/* --- RESET TOTAL PARA CENTRADO --- */
+/* Forzamos al navegador a olvidar la estructura de "Menú lateral" */
+body {
+    display: block !important; /* Anula si el dashboard usaba flex/grid en el body */
+    margin: 0 !important;
+    padding: 0 !important;
+    background-color: #f0f2f5;
+    width: 100% !important;
+    overflow-x: hidden;
+}
+
+/* --- CABECERA --- */
+header {
+    width: 100%;
+    /* Aseguramos que la cabecera no se mueva */
+    position: relative; 
+    left: 0;
+    margin: 0;
+}
+
+/* --- CONTENEDOR PRINCIPAL (La clave) --- */
+.main-content {
+    /* 1. Eliminamos el hueco del menú lateral */
+    margin-left: 0 !important; 
+    padding-left: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    
+    /* 2. Limpieza visual (sin cajas blancas ni sombras) */
+    background-color: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+    
+    /* 3. CENTRADO DEL CONTENIDO HIJO */
+    display: flex !important;
+    flex-direction: column;
+    align-items: center; /* Esto centra horizontalmente todo lo que haya dentro */
+    justify-content: flex-start;
+    min-height: calc(100vh - 80px); 
+    padding-top: 40px; /* Un poco de aire arriba */
+}
+
+/* Ajuste del título H1 para que se centre con el resto */
+.main-content > h1 {
+    width: 100%;
+    max-width: 1100px; /* Mismo ancho que las tarjetas */
+    text-align: left; /* El texto queda a la izquierda, pero el bloque está centrado */
+    margin-bottom: 20px;
+    padding-left: 10px;
+    color: #333;
+    box-sizing: border-box;
+}
+
+/* --- LAYOUT GRID (Las tarjetas) --- */
+.layout-perfil {
+    display: grid;
+    grid-template-columns: 320px 1fr; /* Izquierda fija, Derecha flexible */
+    gap: 40px;
+    
+    /* CENTRADO PERFECTO */
+    width: 100%;
+    max-width: 1100px; /* Ancho máximo para que no se estire infinito */
+    margin: 0 auto !important; /* 'auto' a los lados fuerza el centrado */
+    padding: 0 20px; /* Margen de seguridad en pantallas pequeñas */
+    box-sizing: border-box;
+    align-items: start;
+}
+
+/* --- ESTILOS DE LAS TARJETAS (Visual) --- */
+
+/* Columna Izquierda */
+.sidebar-perfil {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.card-identidad {
+    background: white;
+    padding: 40px 20px;
+    border-radius: 16px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+    border: 1px solid #e0e0e0;
+}
+
+.avatar-grande {
+    width: 100px;
+    height: 100px;
+    background: #333;
+    color: white;
+    font-size: 40px;
+    font-weight: bold;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 15px auto;
+}
+
+.email-texto {
+    font-weight: 600;
+    color: #333;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    word-break: break-all;
+}
+
+.etiqueta-rol {
+    display: inline-block;
+    background: #f0f0f0;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    color: #666;
+    margin-top: 5px;
+}
+
+.card-progreso-lateral {
+    background: white;
+    padding: 25px;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+    border: 1px solid #e0e0e0;
+}
+
+.card-progreso-lateral h3 {
+    margin-top: 0;
+    font-size: 1rem;
+    color: #555;
+    text-align: center;
+}
+
+.barra-contenedor {
+    background-color: #eee;
+    height: 10px;
+    border-radius: 5px;
+    margin: 15px 0;
+    overflow: hidden;
+}
+
+.barra-progreso {
+    background-color: #4caf50;
+    height: 100%;
+    width: 0%;
+    transition: width 0.5s ease;
+}
+
+.texto-ayuda {
+    font-size: 0.85rem;
+    color: #999;
+    margin: 0;
+    text-align: center;
+}
+
+/* Columna Derecha (Formulario) */
+.card-formulario {
+    background: white;
+    padding: 40px;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+    border: 1px solid #e0e0e0;
+}
+
+.header-formulario {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 20px;
+}
+
+.header-formulario h1 {
+    margin: 0;
+    font-size: 1.8rem;
+    color: #333;
+}
+
+.boton-editar {
+    background-color: #333;
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    transition: background 0.3s;
+}
+
+.boton-editar:hover {
+    background-color: #555;
+}
+
+/* Grid de Inputs */
+.grid-inputs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+}
+
+.grupo-input {
+    display: flex;
+    flex-direction: column;
+}
+
+.grupo-input.full-width {
+    grid-column: 1 / -1;
+}
+
+label {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+input[type="text"], 
+.input-falso {
+    padding: 12px 15px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    font-size: 1rem;
+    color: #333;
+    background-color: #fff;
+    transition: border-color 0.3s;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+input:disabled {
+    background-color: #f9f9f9;
+    border-color: #eee;
+    color: #555;
+    cursor: not-allowed;
+}
+
+input:enabled {
+    border-color: #4caf50;
+    background-color: #fff;
+}
+
+input:focus {
+    outline: none;
+    border-color: #4caf50;
+    box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+}
+
+.input-falso {
+    background-color: #f9f9f9;
+    color: #777;
+    display: block;
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 850px) {
+    .layout-perfil {
+        grid-template-columns: 1fr;
+        max-width: 600px;
+    }
+    
+    .sidebar-perfil {
+        flex-direction: row;
+        gap: 20px;
+    }
+    
+    .card-identidad, .card-progreso-lateral {
+        flex: 1;
+    }
+}
+
+@media (max-width: 600px) {
+    .sidebar-perfil {
+        flex-direction: column;
+    }
+    
+    .grid-inputs {
+        grid-template-columns: 1fr;
+    }
+    
+    .header-formulario {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+}

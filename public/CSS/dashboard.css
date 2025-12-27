@@ -52,6 +52,7 @@
   border-color: rgba(0,0,0,0.1);
 }
 
+
 /* =========================================================================
    ESTADOS DE LOS MÓDULOS
    ========================================================================= */
@@ -83,7 +84,7 @@
   color: #1b5e20 !important;
   border-left-color: #4caf50 !important;
 }
-
+  
 .lista-modulos a.aprobado:hover {
   background-color: #e8f5e9 !important;
   box-shadow: 0 12px 20px rgba(76, 175, 80, 0.2); /* Sombra verdosa */

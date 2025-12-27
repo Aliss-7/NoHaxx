@@ -37,12 +37,11 @@
           <p>ISO 27001</p>
         </div>
       </div>
-      <button class="btn-next-question" onclick="nextQuestion(1)">Confirmar</button>
     </div>
 
     <div class="exam-step" id="q2">
       <span class="tag">Pregunta 2/6</span>
-      <h2>Un hospital sufre un ataque. Los historiales médicos <strong>no han sido robados</strong> (nadie los ha leído) y <strong>son correctos</strong> (no han cambiado datos).</h2>
+      <h2>Un hospital sufre un ataque. Los historiales médicos <strong>no han sido robados</strong> y <strong>son correctos</strong>.</h2>
       <p>Sin embargo, los médicos <strong>no pueden abrir el sistema</strong> para consultarlos. 
       <h3>¿Qué pilar ha caído?</h3>
       
@@ -57,26 +56,24 @@
           <h3>Disponibilidad</h3>
         </div>
       </div>
-      <button class="btn-next-question" onclick="nextQuestion(2)">Confirmar</button>
     </div>
 
     <div class="exam-step" id="q3">
       <span class="tag">Pregunta 3/6</span>
-      <h2>La web de un ministerio ha sido modificada. Ahora muestra mensajes de <strong>protesta política</strong> contra una nueva ley climática. No piden dinero.</h2>
+      <h2>La web de un ministerio ha sido modificada con mensajes de <strong>protesta política</strong>. No piden dinero.</h2>
       <p>¿Quién está detrás?</p>
 
       <div class="option-grid" id="opt-q3">
         <div class="option-card" onclick="selectOption(3, 'a', this)">
-          <div style="font-size: 2rem;"><strong>Cibercrimen</strong></div>
+          <h3>Cibercrimen</h3>
         </div>
         <div class="option-card" onclick="selectOption(3, 'b', this)">
-          <div style="font-size: 2rem;"><strong>Hacktivismo</strong></div>
+          <h3>Hacktivismo</h3>
         </div>
         <div class="option-card" onclick="selectOption(3, 'c', this)">
-          <div style="font-size: 2rem;"><strong>Ciberespionaje</strong></div>
+          <h3>Ciberespionaje</h3>
         </div>
       </div>
-      <button class="btn-next-question" onclick="nextQuestion(3)">Confirmar</button>
     </div>
 
     <div class="exam-step" id="q4">
@@ -97,12 +94,11 @@
           <p>Secuestro de datos</p>
         </div>
       </div>
-      <button class="btn-next-question" onclick="nextQuestion(4)">Confirmar</button>
     </div>
 
     <div class="exam-step" id="q5">
       <span class="tag">Pregunta 5/6</span>
-      <h2>Si proteges la <strong>Identidad Digital</strong> de los ciudadanos para evitar fraudes y garantizar elecciones limpias, ¿a qué ODS contribuyes?</h2>
+      <h2>Si proteges la <strong>Identidad Digital</strong> de los ciudadanos para evitar fraudes, ¿a qué ODS contribuyes?</h2>
       <div class="option-grid" id="opt-q5">
         <div class="option-card" onclick="selectOption(5, 'a', this)">
           <div style="color:#fd6925; font-size: 2rem; font-weight:bold;">ODS 9</div>
@@ -113,26 +109,24 @@
           Paz, Justicia e Instituciones
         </div>
       </div>
-      <button class="btn-next-question" onclick="nextQuestion(5)">Confirmar</button>
     </div>
 
     <div class="exam-step" id="q6">
       <span class="tag">Pregunta 6/6</span>
       <h2>Analiza esta situación y detecta el error:</h2>
       <blockquote style="background:#f9f9f9; padding:15px; border-left:4px solid #f44336; font-style:italic;">
-        "Juan ha hecho backup de sus archivos importantes. Para no perder el disco duro externo, lo ha dejado <strong>conectado siempre</strong> al puerto USB de su ordenador."
+        "Juan ha hecho backup de sus archivos importantes. Para no perder el disco duro externo, lo ha dejado <strong>conectado siempre</strong> al puerto USB."
       </blockquote>
       <p>¿Es esto una buena práctica?</p>
 
       <div class="option-grid" id="opt-q6">
         <div class="option-card" onclick="selectOption(6, 'a', this)">
-          <strong>SÍ</strong>. Así la copia es automática y rápida.
+          <strong>SÍ</strong><br>Así la copia es automática y rápida.
         </div>
         <div class="option-card" onclick="selectOption(6, 'b', this)">
-          <strong>NO</strong>. Si entra un Ransomware, cifrará también la copia conectada.
+          <strong>NO</strong><br>Si entra un Ransomware, cifrará también la copia.
         </div>
       </div>
-      <button class="btn-next-question" onclick="nextQuestion(6)">Confirmar</button>
     </div>
 
     <div class="exam-step" id="final-screen" style="text-align: center;">
@@ -141,15 +135,15 @@
       
       <div id="results-content" style="display:none;">
         <div class="score-circle">
-          <span id="final-score">0</span>
-          <span class="score-label">Puntos</span>
-        </div>
+          <span id="final-score">0/6</span>
+          <span class="score-label">Aciertos</span> </div>
         <h3 id="final-msg"></h3>
         <p id="final-detail"></p>
         
-        <div style="margin-top:30px;">
-          <button onclick="location.reload()" class="boton" id="btn-retry" style="display:none; background:#f44336; color:white; border:none;">Reintentar</button>
-          <a href="../../Pantallas/modulos.html" class="boton" id="btn-continue" style="display:none;">Volver a Módulos</a>
+        <div style="margin-top:30px; display: flex; gap: 10px; justify-content: center;">
+          <button onclick="location.reload()" class="boton" id="btn-retry" style="display:none; background:#d32f2f; color:white; border:none;">REINTENTAR</button>
+          <a href="../../Pantallas/modulos.html" class="boton" id="btn-continue" style="display:none;">SALIR</a>
+          <a href="../2phishing/teoria.html" class="boton" id="btn-next" style="display:none; background:#2e7d32; color:white;">SIGUIENTE MÓDULO ▶</a>
         </div>
       </div>
     </div>
