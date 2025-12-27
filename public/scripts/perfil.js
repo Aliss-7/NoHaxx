@@ -20,8 +20,6 @@ document.addEventListener("DOMContentLoaded", () => {
         setTimeout(() => {
           notif.style.display = "none";
         }, 3000);
-      } else {
-          console.log("Notificación:", mensaje);
       }
     }
   
@@ -69,6 +67,20 @@ document.addEventListener("DOMContentLoaded", () => {
           });
           return;
         }
+
+        const telefonoRegex = /^[0-9+ ]{9,15}$/; 
+        if (nuevosDatos.telefono && !telefonoRegex.test(nuevosDatos.telefono)) {
+             mostrarNotificacion("El teléfono no es válido (solo números, espacios o +).");
+             editarBtn.textContent = "Guardar Cambios";
+             editarBtn.disabled = false;
+             editando = true;
+             
+             campos.forEach(id => {
+                const c = document.getElementById(id);
+                if(c) c.disabled = false;
+             });
+             return;
+        }
   
         const user = auth.currentUser;
         if (user) {
@@ -89,7 +101,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 });
               })
               .catch((error) => {
-                console.error(error);
                 mostrarNotificacion("Error: " + error.message);
                 editarBtn.textContent = "Guardar Cambios"; 
                 editarBtn.disabled = false;

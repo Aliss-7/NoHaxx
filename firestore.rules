@@ -2,20 +2,36 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     
-    // 1. Reglas para el PERFIL (Usuarios)
+    // --- 1. PERFIL DE USUARIO ---
     match /usuarios/{userId} {
       allow read: if request.auth != null && request.auth.uid == userId;
-      
       allow write: if request.auth != null && request.auth.uid == userId
-                   && (!('admin' in request.resource.data)); 
+                   && (!('admin' in request.resource.data));
     }
 
-    // 2. Reglas para las NOTAS (Exámenes y Teoría)
+    // --- 2. NOTAS Y TEORÍA ---
     match /userScores/{userId} {
       allow read: if request.auth != null && request.auth.uid == userId;
 
       allow write: if request.auth != null && request.auth.uid == userId
-                   && request.resource.data.keys().hasAny(['scores', 'teoria'])
+                   
+                   && (request.resource.data.keys().hasAny(['scores', 'teoria']))
+
+                   && (
+                     !('scores' in request.resource.data) || (
+                       validarNota(request.resource.data.scores, 'introduccion') &&
+                       validarNota(request.resource.data.scores, 'phishing') &&
+                       validarNota(request.resource.data.scores, 'ransomware') &&
+                       validarNota(request.resource.data.scores, 'ingenieria') &&
+                       validarNota(request.resource.data.scores, 'contrasenas') &&
+                       validarNota(request.resource.data.scores, 'navegacion')
+                     )
+                   );
+    }
+
+    function validarNota(scores, modulo) {
+      return !(modulo in scores) || 
+             (scores[modulo] is number && scores[modulo] >= 0 && scores[modulo] <= 10);
     }
   }
 }

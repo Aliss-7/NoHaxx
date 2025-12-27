@@ -11,7 +11,7 @@
       // añadir botón Módulos si está logueado
       if (!document.getElementById("modulos-link")) {
         const modulosLink = document.createElement("a");
-        modulosLink.href = "/modulos.html";
+        modulosLink.href = "/Pantallas/modulos.html";
         modulosLink.textContent = "Módulos";
         modulosLink.id = "modulos-link";
         navButtons.insertBefore(modulosLink, navButtons.firstChild);

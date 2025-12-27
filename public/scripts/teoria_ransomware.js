@@ -256,7 +256,6 @@ function guardarProgresoTeoria(modulo) {
         firebase.firestore().collection('userScores').doc(user.uid).set({
             teoria: { [modulo]: true }
         }, { merge: true }).then(() => {
-            console.log("Teoría guardada");
         });
     }
 }

@@ -1,6 +1,9 @@
 /* =========================================================================
    VARIABLES Y CONFIGURACIÓN GLOBAL
    ========================================================================= */
+
+body { display: none; }
+
 :root {
   --primary-color: #1a1a1a;       /* Negro/Gris muy oscuro para marca */
   --accent-color: #387fdd;        /* Azul moderno para enlaces/acciones */

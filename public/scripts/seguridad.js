@@ -26,7 +26,6 @@ document.addEventListener("DOMContentLoaded", () => {
     // 2. VERIFICACIÓN DE USUARIO
     auth.onAuthStateChanged((user) => {
         if (!user) {
-            console.warn("Acceso denegado. Redirigiendo...");
             window.location.href = '/Pantallas/login.html';
         } else {
             // A) Verificar Permisos de Módulo (El "Pasillo")
@@ -139,3 +138,13 @@ function gestionarCabecera(user) {
         menuUsuario.forEach(el => el.style.display = 'none');
     }
 }
+
+
+// --- FUNCIÓN GLOBAL DE LOGOUT ---
+window.cerrarSesion = function() {
+    firebase.auth().signOut().then(() => {
+        window.location.href = '/Pantallas/login.html';
+    }).catch((error) => {
+        console.error("Error al cerrar sesión:", error);
+    });
+};

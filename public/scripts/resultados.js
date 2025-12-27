@@ -15,14 +15,13 @@ document.addEventListener("DOMContentLoaded", () => {
   const PUNTOS_POR_MODULO = 10;
   const PUNTUACION_MAXIMA = TOTAL_MODULOS_POSIBLES * PUNTOS_POR_MODULO; 
 
-  // --- NUEVO: LISTA PARA ORDENAR LOS MÓDULOS ---
-  // Asegúrate de que estos nombres coinciden con las claves de tu base de datos (suelen ser minúsculas)
+  // --- CORRECCIÓN 1: ORDEN DE MÓDULOS ARREGLADO ---
   const ORDEN_MODULOS = [
     "introduccion",
-    "contrasenas",
     "phishing",
     "ransomware",
     "ingenieria",
+    "contrasenas", // Ahora está en su sitio correcto (5º)
     "navegacion"
   ];
 
@@ -60,40 +59,41 @@ document.addEventListener("DOMContentLoaded", () => {
           else if (notaFinal < 50) circleEl.style.color = "#d32f2f";
       }
 
-      // --- 3. GENERAR TARJETAS DE MÓDULOS (ORDENADAS) ---
+      // --- 3. GENERAR TARJETAS DE MÓDULOS ---
       moduleScoresEl.innerHTML = ''; 
       
       if (Object.keys(scores).length > 0) {
         
-        // Convertimos las puntuaciones en una lista y las ordenamos según ORDEN_MODULOS
         const entradasOrdenadas = Object.entries(scores).sort((a, b) => {
             const indexA = ORDEN_MODULOS.indexOf(a[0].toLowerCase());
             const indexB = ORDEN_MODULOS.indexOf(b[0].toLowerCase());
-            
-            // Si no está en la lista, lo manda al final
             return (indexA === -1 ? 999 : indexA) - (indexB === -1 ? 999 : indexB);
         });
 
         for (const [module, score] of entradasOrdenadas) {
-          // Mayúscula inicial
           const nombreModulo = module.charAt(0).toUpperCase() + module.slice(1);
           
-          // Clase de estado
           let statusClass = "failed"; 
           if (score === 10) statusClass = "perfect"; 
           else if (score >= 5) statusClass = "passed"; 
 
-          // HTML LIMPIO: Solo Título y Número Grande
-          moduleScoresEl.innerHTML += `
-            <div class="module-result-card ${statusClass}">
+          const card = document.createElement('div');
+          card.className = `module-result-card ${statusClass}`;
+          
+          card.innerHTML = `
               <div class="card-content">
-                 <div class="card-title">${nombreModulo}</div>
+                 <div class="card-title"></div> 
               </div>
               <div class="card-score">
                  ${score}
               </div>
-            </div>`;
+          `;
+
+          card.querySelector('.card-title').textContent = nombreModulo;
+
+          moduleScoresEl.appendChild(card);
         }
+
       } else {
         moduleScoresEl.innerHTML = "<p style='grid-column: 1/-1; padding:20px; text-align:center; color:#777;'>Aún no hay módulos completados.</p>";
       }
@@ -103,28 +103,9 @@ document.addEventListener("DOMContentLoaded", () => {
       moduleScoresEl.innerHTML = "<p style='grid-column: 1/-1; text-align:center;'>Sin datos disponibles.</p>";
     }
 
-    // --- 4. RANKING GLOBAL ---
-    try {
-      const allScoresSnap = await db.collection('userScores').get();
-      const allUsers = [];
+    // --- 4. RANKING GLOBAL (ELIMINADO) ---
+    if(rankingEl) rankingEl.innerText = "-";
 
-      allScoresSnap.forEach(doc => {
-        const d = doc.data();
-        const sc = d.scores || {};
-        const rawTotal = Object.values(sc).reduce((a, b) => a + b, 0);
-        const finalScore = Math.round((rawTotal / PUNTUACION_MAXIMA) * 100);
-        allUsers.push({ uid: doc.id, finalScore: finalScore });
-      });
-
-      allUsers.sort((a, b) => b.finalScore - a.finalScore);
-      const position = allUsers.findIndex(u => u.uid === user.uid) + 1;
-      
-      if(rankingEl) rankingEl.innerText = position + "º";
-      
-    } catch (error) {
-      console.error("Error ranking:", error);
-      if(rankingEl) rankingEl.innerText = "-";
-    }
   });
   
   if (logoutBtn) {
