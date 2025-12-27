@@ -13,12 +13,17 @@
   <header>
     <div class="logo">NoHaxx</div>
     <div class="top-buttons">
-      <a href="index.html" style="background-color: #eee; color: #000; font-weight: bold;">Inicio</a>
-      <a href="modulos.html">Módulos</a>
-      <a href="resultados.html">Resultados</a>
-      <a href="perfil.html">Perfil</a>
-      <a href="contacto.html">Contacto</a>
-      <a href="logout.html" style="background-color: #d32f2f; color: white;">Cerrar sesión</a>
+      <a href="../index.html">Inicio</a>
+
+      <a href="login.html" class="menu-invitado">Iniciar Sesión</a>
+      <a href="registro.html" class="menu-invitado">Registro</a>
+      <a href="contacto.html" class="menu-invitado">Contacto</a>
+
+      <a href="modulos.html" class="menu-usuario" style="display: none;">Módulos</a>
+      <a href="resultados.html" class="menu-usuario" style="display: none;">Resultados</a>
+      <a href="perfil.html" class="menu-usuario" style="display: none;">Perfil</a>
+      <a href="contacto.html" class="menu-usuario" style="display: none;">Contacto</a>
+      <a href="#" onclick="cerrarSesion()" class="menu-usuario" style="background-color: #d32f2f; color: white; display: none;">Cerrar sesión</a>
     </div>
   </header>
 
@@ -61,5 +66,6 @@
 
   <script src="../scripts/firebase-config.js"></script>
   <script src="../scripts/main.js"></script>
+  <script src="../scripts/seguridad.js"></script>
 </body>
 </html>
