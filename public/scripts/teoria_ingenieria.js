@@ -1,5 +1,8 @@
 const stepRequirements = {
+    0: { type: 'reveal', completed: false },
+    1: { type: 'cycle', count: 0, target: 4, completed: false },
     2: { type: 'video', completed: false }, 
+    3: { type: 'tech', count: 0, target: 4, completed: false },
     4: { type: 'trash', count: 0, target: 3, completed: false }, 
     5: { type: 'video', completed: false }, 
     7: { type: 'osint', count: 0, target: 3, completed: false }, 
@@ -154,28 +157,43 @@ function revelar(id, btn) {
     const el = document.getElementById(id);
     if (el) {
         el.style.display = 'block';
-        el.style.animation = 'fadeIn 0.5s';
         if(btn) btn.style.display = 'none';
+        
+        if(currentStep === 0) {
+            stepRequirements[0].completed = true;
+            updateNextButtonState();
+        }
     }
 }
 
+let cyclesSeen = new Set();
 function showCycleInfo(num, element) {
     document.querySelectorAll('.cycle-step').forEach(el => el.classList.remove('active'));
     document.querySelectorAll('.cycle-info').forEach(info => info.style.display = 'none');
     element.classList.add('active');
     document.getElementById(`cycle-${num}-info`).style.display = 'block';
+
+    cyclesSeen.add(num);
+    if(cyclesSeen.size === 4) {
+        stepRequirements[1].completed = true;
+        updateNextButtonState();
+    }
 }
 
+let techsSeen = new Set();
 function showTechInfo(type, card) {
     document.querySelectorAll('.tech-info').forEach(div => div.style.display = 'none');
     document.querySelectorAll('.tech-card').forEach(c => c.classList.remove('active'));
     
     const infoDiv = document.getElementById('info-' + type);
-    if (infoDiv) {
-        infoDiv.style.display = 'block';
-        infoDiv.style.animation = 'fadeIn 0.5s';
-    }
+    if (infoDiv) { infoDiv.style.display = 'block'; }
     card.classList.add('active');
+
+    techsSeen.add(type);
+    if(techsSeen.size === 4) {
+        stepRequirements[3].completed = true;
+        updateNextButtonState();
+    }
 }
 
 function checkTrash(type, element) {
@@ -186,7 +204,6 @@ function checkTrash(type, element) {
 
     if (type === 'factura' || type === 'postit' || type === 'organigrama') {
         element.classList.add('danger');
-        element.innerHTML += ' <i class="fas fa-exclamation-triangle"></i>';
         
         stepRequirements[4].count++;
         

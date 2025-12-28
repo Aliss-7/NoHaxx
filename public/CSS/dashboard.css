@@ -91,7 +91,6 @@
 }
 
 .lista-modulos a.aprobado::after {
-  content: "✅ Completado";
   display: block;
   margin-top: 10px;
   font-size: 0.8rem;

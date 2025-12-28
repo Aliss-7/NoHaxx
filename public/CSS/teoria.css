@@ -125,6 +125,35 @@
 .interactive-item { background: #fff; border: 2px solid #ddd; padding: 15px; margin: 10px 0; border-radius: 8px; cursor: pointer; }
 .interactive-item.checked { background: #d4edda; border-color: #28a745; }
 
+.concept-card {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    border-left: 5px solid #2196f3; 
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.concept-card p { margin: 0; color: #444; }
+.story-container { background: #fdfaf8; border: 2px dashed #795548; padding: 25px; border-radius: 12px; margin-top: 20px; }
+.story-container h3 { color: #5d4037; margin-top: 0; }
+
+/* Asegura que las tarjetas en flex ocupen el mismo ancho */
+.course-step > div[style*="display:flex"] > .concept-card { flex: 1; }
+
+/* Ajuste para móviles */
+@media (max-width: 768px) {
+    .course-step > div[style*="display:flex"] {
+        flex-direction: column;
+    }
+}
+
+.trash-item { background: #fff; border: 2px solid #eee; padding: 15px; border-radius: 8px; cursor: pointer; text-align: center; transition: all 0.2s; font-weight: bold; color: #666; display: flex; align-items: center; justify-content: center; min-height: 80px; }
+.trash-item:hover { border-color: #795548; background: #efebe9; }
+.trash-item.danger { background-color: #ffebee !important; border-color: #f44336 !important; color: #c62828 !important; }
+.trash-item.safe { background-color: #e8f5e9 !important; border-color: #4caf50 !important; color: #2e7d32 !important; }
+
 /* vídeos */
 .video-box {
   background: #e3f2fd;
@@ -555,8 +584,8 @@ details p, details div { padding: 15px; margin: 0; border-top: 1px solid #ddd; }
 .net-link { color: #30363d; font-weight: bold; font-size: 1.5rem; transition: color 0.4s; }
 .net-link.active { color: #ff4d4d; animation: pulse-red 1s infinite; }
 @keyframes pulse-red { 0%, 100% { opacity: 1; transform: scaleX(1); } 50% { opacity: 0.3; transform: scaleX(1.1); } }
-.network-container { background: #12141d; padding: 40px 20px; border-radius: 12px; margin: 20px 0; border: 1px solid #2d334a; position: relative; overflow: hidden; }
-.network-map { display: flex; justify-content: center; align-items: center; position: relative; z-index: 2; width: 100%; gap: 20px; }
+.network-container { background: #1f2333; padding: 40px 20px; border-radius: 12px; margin: 20px 0; border: 1px solid #2d334a; position: relative; overflow: hidden; }
+.network-map { display: flex; justify-content: center; align-items: center; position: relative; z-index: 2; width: 100%; gap: 20px; background-color: transparent !important; background: transparent !important; }
 .net-node-wrapper { display: flex; flex-direction: column; align-items: center; gap: 10px; color: #ffffff; font-size: 0.85rem; font-family: 'Courier New', Courier, monospace; flex: 1; }
 
 /* Barra de progreso de cifrado */
@@ -1052,3 +1081,4 @@ details p, details div { padding: 15px; margin: 0; border-top: 1px solid #ddd; }
         100% { top: 100%; }
     }
 }
+

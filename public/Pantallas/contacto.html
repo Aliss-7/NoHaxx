@@ -12,20 +12,24 @@
 <body>
 
   <header>
-    <div class="logo">NoHaxx</div>
-    <div class="top-buttons">
-      <a href="../index.html">Inicio</a>
-
-      <a href="login.html" class="menu-invitado">Login</a>
-      <a href="registro.html" class="menu-invitado">Registro</a>
-      <a href="contacto.html" class="menu-invitado">Contacto</a>
-
-      <a href="modulos.html" class="menu-usuario" style="display: none;">Módulos</a>
-      <a href="resultados.html" class="menu-usuario" style="display: none;">Resultados</a>
-      <a href="perfil.html" class="menu-usuario" style="display: none;">Perfil</a>
-      <a href="contacto.html" class="menu-usuario" style="display: none;">Contacto</a>
-      <a href="#" onclick="cerrarSesion()" class="menu-usuario" style="background-color: #d32f2f; color: white; display: none;">Cerrar sesión</a>
+    <div class="logo">
+    <a href="../index.html">
+        <img src="../img/logo-nohaxx.png" alt="NoHaxx Logo" id="logo-header">
+    </a>
     </div>
+    <div class="top-buttons">
+    <a href="../index.html">Inicio</a>
+
+    <a href="login.html" class="menu-invitado">Login</a>
+    <a href="registro.html" class="menu-invitado">Registro</a>
+    <a href="contacto.html" class="menu-invitado">Contacto</a>
+
+    <a href="modulos.html" class="menu-usuario" style="display: none;">Módulos</a>
+    <a href="resultados.html" class="menu-usuario" style="display: none;">Resultados</a>
+    <a href="perfil.html" class="menu-usuario" style="display: none;">Perfil</a>
+    <a href="contacto.html" class="menu-usuario" style="display: none;">Contacto</a>
+    <a href="#" onclick="cerrarSesion()" class="menu-usuario" style="background-color: #d32f2f; color: white; display: none;">Cerrar sesión</a>
+  </div>
   </header>
   
   <main class="main-content registro-container">
@@ -65,7 +69,8 @@
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
   <script src="../scripts/firebase-config.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-  <script src="../scripts/contacto.js"></script>
   <script src="../scripts/seguridad.js"></script>
+  <script src="../scripts/contacto.js"></script>
+
 </body>
 </html>

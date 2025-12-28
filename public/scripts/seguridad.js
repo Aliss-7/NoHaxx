@@ -20,6 +20,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (esPublica) {
         body.style.display = 'block';
+        auth.onAuthStateChanged((user) => {
+            gestionarCabecera(user);
+        });
         return; 
     }
 
