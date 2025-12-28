@@ -4,6 +4,7 @@
 
 body { display: none; }
 
+   
 :root {
   --primary-color: #1a1a1a;
   --accent-color: #387fdd;
@@ -33,7 +34,7 @@ body {
 }
 
 /* =========================================================================
-   CABECERA (HEADER)
+   CABECERA
    ========================================================================= */
 header {
   display: flex;
@@ -74,6 +75,14 @@ header {
 .top-buttons a:hover {
   background-color: #e0e0e0;
   color: #000;
+}
+
+/* Estilo para el botón de la sección actual */
+.top-buttons a.active {
+    background-color: #e0e0e0;
+    color: #000; 
+    font-weight: 700;
+    border-radius: 6px;
 }
 
 /* =========================================================================

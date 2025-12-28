@@ -18,33 +18,34 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const esPublica = paginasPublicas.some(p => path.endsWith(p));
 
-    // ESTRATEGIA ANTI-PARPADEO:
-    // Si la página es pública, mostramos el body inmediatamente
-    if (esPublica) {
-        body.style.display = 'block';
-    }
-
-    // 2. VERIFICACIÓN DE USUARIO (UNIFICADA)
+    // 2. VERIFICACIÓN DE USUARIO
     auth.onAuthStateChanged((user) => {
-        // Gestionamos la cabecera siempre
+        if (user) {
+            localStorage.setItem('usuarioLogueado', 'true');
+        } else {
+            localStorage.removeItem('usuarioLogueado');
+        }
+
         gestionarCabecera(user);
+        // LLAMADA NUEVA: Resalta el botón de la sección actual
+        resaltarSeccionActual();
 
         if (!user) {
-            // SI NO HAY USUARIO:
             if (!esPublica) {
-                // Si intenta ver algo privado, fuera.
                 window.location.href = '/Pantallas/login.html';
+            } else {
+                body.style.display = 'block';
             }
         } else {
-            // SI HAY USUARIO:
             if (!esPublica) {
-                // Verificamos permisos solo en páginas privadas
                 verificarAccesoCarpeta(user, path);
+            } else {
+                body.style.display = 'block';
             }
         }
     });
 
-    // --- LÓGICA DE CARPETAS ---
+    // --- LÓGICA DE CARPETAS --- (Sin cambios)
     function verificarAccesoCarpeta(user, ruta) {
         const requisitos = {
             '/modulos/2phishing/': { previo: 'introduccion', nombre: 'Phishing' },
@@ -68,7 +69,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 const notaPrevia = scores[moduloRestringido.previo] || 0;
 
                 if (notaPrevia >= 5) {
-                    body.style.display = 'block'; // Mostramos solo si tiene permiso
+                    body.style.display = 'block'; 
                     verificarAccesoExamen(user, ruta);
                 } else {
                     alert(`⛔ ACCESO DENEGADO\n\nDebes aprobar el módulo de ${moduloRestringido.nombre} para entrar aquí.`);
@@ -76,13 +77,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             });
         } else {
-            // Si es un módulo sin restricciones (como el 1), mostramos body
             body.style.display = 'block';
             verificarAccesoExamen(user, ruta);
         }
     }
 
-    // --- LÓGICA DE EXAMEN ---
+    // --- LÓGICA DE EXAMEN --- (Sin cambios)
     function verificarAccesoExamen(user, ruta) {
         if (!ruta.endsWith('examen.html')) return;
 
@@ -110,6 +110,29 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 });
 
+function resaltarSeccionActual() {
+    const path = window.location.pathname;
+    const menuLinks = document.querySelectorAll('.top-buttons a');
+
+    menuLinks.forEach(link => {
+        let href = link.getAttribute('href');
+        
+        if (!href || href === '#') return;
+
+        const nombreArchivoEnlace = href.split('/').pop();
+        const nombreArchivoActual = path.split('/').pop();
+
+        const esPaginaInicio = nombreArchivoActual === 'index.html' || nombreArchivoActual === '';
+        const esEnlaceInicio = nombreArchivoEnlace === 'index.html';
+
+        if ((esPaginaInicio && esEnlaceInicio) || (nombreArchivoActual === nombreArchivoEnlace)) {
+            link.classList.add('active');
+        } else {
+            link.classList.remove('active');
+        }
+    });
+}
+
 function gestionarCabecera(user) {
     const menuInvitado = document.querySelectorAll('.menu-invitado');
     const menuUsuario = document.querySelectorAll('.menu-usuario');
@@ -125,6 +148,7 @@ function gestionarCabecera(user) {
 
 window.cerrarSesion = function() {
     firebase.auth().signOut().then(() => {
+        localStorage.removeItem('usuarioLogueado');
         window.location.href = '/Pantallas/login.html';
     });
 };

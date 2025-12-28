@@ -40,3 +40,9 @@ document.addEventListener("DOMContentLoaded", () => {
         });         
     });
 });
+
+firebase.auth().signInWithEmailAndPassword(email, password)
+  .then((userCredential) => {
+    localStorage.setItem('usuarioLogueado', 'true');
+    window.location.href = "index.html";
+  });
