@@ -18,34 +18,33 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const esPublica = paginasPublicas.some(p => path.endsWith(p));
 
+    // ESTRATEGIA ANTI-PARPADEO:
+    // Si la página es pública, mostramos el body inmediatamente
     if (esPublica) {
         body.style.display = 'block';
-        auth.onAuthStateChanged((user) => {
-            gestionarCabecera(user);
-        });
-        return; 
     }
 
-    // 2. VERIFICACIÓN DE USUARIO
+    // 2. VERIFICACIÓN DE USUARIO (UNIFICADA)
     auth.onAuthStateChanged((user) => {
-        if (!user) {
-            window.location.href = '/Pantallas/login.html';
-        } else {
-            // A) Verificar Permisos de Módulo (El "Pasillo")
-            // Comprueba si puedes entrar a la carpeta del módulo basándose en el anterior
-            const accesoCarpeta = verificarAccesoCarpeta(user, path);
-            
-            // B) Verificar Permiso de Examen (La "Puerta del Examen")
-            // Si intenta entrar al examen, comprueba si hizo la teoría
-            if (accesoCarpeta) {
-                verificarAccesoExamen(user, path);
-            }
+        // Gestionamos la cabecera siempre
+        gestionarCabecera(user);
 
-            gestionarCabecera(user);
+        if (!user) {
+            // SI NO HAY USUARIO:
+            if (!esPublica) {
+                // Si intenta ver algo privado, fuera.
+                window.location.href = '/Pantallas/login.html';
+            }
+        } else {
+            // SI HAY USUARIO:
+            if (!esPublica) {
+                // Verificamos permisos solo en páginas privadas
+                verificarAccesoCarpeta(user, path);
+            }
         }
     });
 
-    // --- LÓGICA DE CARPETAS (Módulo N requiere aprobar Módulo N-1) ---
+    // --- LÓGICA DE CARPETAS ---
     function verificarAccesoCarpeta(user, ruta) {
         const requisitos = {
             '/modulos/2phishing/': { previo: 'introduccion', nombre: 'Phishing' },
@@ -65,66 +64,48 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (moduloRestringido) {
             db.collection('userScores').doc(user.uid).get().then((doc) => {
-                const scores = doc.data() ? doc.data().scores : {};
-                const notaPrevia = scores ? scores[moduloRestringido.previo] : 0;
+                const scores = doc.data() ? (doc.data().scores || {}) : {};
+                const notaPrevia = scores[moduloRestringido.previo] || 0;
 
                 if (notaPrevia >= 5) {
-                    // Acceso permitido a la carpeta, ahora veremos si es el examen
+                    body.style.display = 'block'; // Mostramos solo si tiene permiso
+                    verificarAccesoExamen(user, ruta);
                 } else {
-                    alert(`⛔ ACCESO DENEGADO\n\nDebes aprobar el módulo de ${moduloRestringido.nombre} (mínimo 5) para entrar aquí.`);
+                    alert(`⛔ ACCESO DENEGADO\n\nDebes aprobar el módulo de ${moduloRestringido.nombre} para entrar aquí.`);
                     window.location.href = '/Pantallas/modulos.html';
-                    return false;
                 }
             });
+        } else {
+            // Si es un módulo sin restricciones (como el 1), mostramos body
+            body.style.display = 'block';
+            verificarAccesoExamen(user, ruta);
         }
-        return true; 
     }
 
-    // --- LÓGICA DE EXAMEN (Examen N requiere Teoría N) ---
+    // --- LÓGICA DE EXAMEN ---
     function verificarAccesoExamen(user, ruta) {
-        // Solo nos importa si está intentando entrar en un examen
-        if (!ruta.endsWith('examen.html')) {
-            document.body.style.display = 'block';
-            return;
-        }
+        if (!ruta.endsWith('examen.html')) return;
 
-        // Detectar en qué módulo estamos
         const mapaModulos = {
-            '1introduccion': 'introduccion',
-            '2phishing': 'phishing',
-            '3ransomware': 'ransomware',
-            '4ingenieria': 'ingenieria',
-            '5contrasenas': 'contrasenas',
-            '6navegacion': 'navegacion'
+            '1introduccion': 'introduccion', '2phishing': 'phishing', '3ransomware': 'ransomware',
+            '4ingenieria': 'ingenieria', '5contrasenas': 'contrasenas', '6navegacion': 'navegacion'
         };
 
         let moduloActual = null;
         for (const [carpeta, clave] of Object.entries(mapaModulos)) {
-            if (ruta.includes(carpeta)) {
-                moduloActual = clave;
-                break;
-            }
+            if (ruta.includes(carpeta)) { moduloActual = clave; break; }
         }
 
         if (moduloActual) {
             db.collection('userScores').doc(user.uid).get().then((doc) => {
                 const data = doc.data();
-                // Miramos si existe el campo teoria.[modulo] == true
                 const teoriaCompletada = (data && data.teoria && data.teoria[moduloActual] === true);
 
-                if (teoriaCompletada) {
-                    document.body.style.display = 'block';
-                } else {
-                    // Si no ha hecho la teoría, lo mandamos a la teoría
-                    console.warn("Intento de acceso a examen sin teoría.");
-                    alert("⚠️ Antes de realizar el examen, debes completar toda la teoría y ejercicios.");
-                    // Reemplazamos 'examen.html' por 'teoria.html' en la URL
+                if (!teoriaCompletada) {
+                    alert("⚠️ Completa toda la teoría antes del examen.");
                     window.location.href = ruta.replace('examen.html', 'teoria.html');
                 }
             });
-        } else {
-            // Por si acaso no detecta módulo (raro), mostramos
-            document.body.style.display = 'block';
         }
     }
 });
@@ -142,12 +123,8 @@ function gestionarCabecera(user) {
     }
 }
 
-
-// --- FUNCIÓN GLOBAL DE LOGOUT ---
 window.cerrarSesion = function() {
     firebase.auth().signOut().then(() => {
         window.location.href = '/Pantallas/login.html';
-    }).catch((error) => {
-        console.error("Error al cerrar sesión:", error);
     });
 };

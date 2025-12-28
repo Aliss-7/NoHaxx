@@ -204,3 +204,19 @@ p {
     }
 }
 
+/* Estilo para el botón siguiente cuando está bloqueado */
+.btn-nav.btn-next:disabled {
+    background-color: #ccc !important; /* Gris sombreado */
+    color: #666 !important;
+    cursor: not-allowed;
+    opacity: 0.6;
+    pointer-events: none; /* Evita cualquier interacción */
+}
+
+/* Estilo para el mensaje de bloqueo */
+#bloqueo-msg {
+    color: #d32f2f;
+    font-weight: bold;
+    margin-right: 15px;
+    font-size: 0.9rem;
+}

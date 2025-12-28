@@ -167,7 +167,7 @@
               <h2>El problema esta cuando se camufla</h2>
               <p>Los atacantes suelen cambiar el icono de un archivo <strong><code>.exe</code></strong> por uno que parezca un PDF, una imagen o un documento de Word.</p>
               <div class="windows-sim-container">
-                  <p style="font-size: 0.9rem; margin-bottom: 10px; color: #333;"><strong>Paso 1:</strong> Investiga el archivo. Haz <u>clic derecho</u> y selecciona <strong>Propiedades</strong>.</p>
+                  <p style="font-size: 0.9rem; margin-bottom: 10px; color: #333;"><strong>Paso 1:</strong> Investiga el archivo. Haz <u>click derecho</u> y selecciona <strong>Propiedades</strong>.</p>
                   <div class="desktop-area">
                       <div class="file-icon-wrapper" id="target-file" oncontextmenu="showContextMenu(event); return false;" onclick="intentarEjecutarAntesDeTiempo()">
                           <div class="file-icon-img">📄</div>
@@ -195,7 +195,7 @@
                       </div>
                   </div>
                   <div id="instruccion-final" style="display:none; margin-top:15px;" class="summary-item">
-                      <p><strong>Paso 2:</strong> Ahora que sabes que es un virus, haz <strong>clic normal</strong> sobre el icono para ver qué habría pasado.</p>
+                      <p><strong>Paso 2:</strong> Ahora que sabes que es un virus, haz <strong>click normal</strong> sobre el icono para ver qué habría pasado.</p>
                   </div>
               </div>
               <div class="definicion-destacada" style="background-color: #fffde7; border-color: #fbc02d;">
@@ -254,7 +254,7 @@
                               </button>
                           <div class="acordeon-content">
                             <div class="summary-item" style="border-color: #f44336;">
-                              <p><strong>¿Qué es?:</strong> Fue un ataque global de ransomware tipo gusano que ocurrió en mayo de 2017. A diferencia del ransomware común, no necesitaba que nadie hiciera clic en nada; se propagaba solo de un ordenador a otro.</p>
+                              <p><strong>¿Qué es?:</strong> Fue un ataque global de ransomware tipo gusano que ocurrió en mayo de 2017. A diferencia del ransomware común, no necesitaba que nadie hiciera click en nada; se propagaba solo de un ordenador a otro.</p>
                               <p><strong>Impacto:</strong> Infectó 200,000 equipos en 150 países. Paralizó hospitales del Reino Unido, obligando a desviar ambulancias y cancelar cirugías. Además de muchas empresas reconocidas como FedEx, Honda, Nissan.</p>
                               <p><strong>Vulnerabilidad:</strong> Usó una vulnerabilidad de Windows llamada "EternalBlue". Aunque ya existía un parche para arreglarlo, muchas empresas no habían actualizado sus sistemas, dejando la puerta abierta.</p>
                               <p><strong>Cómo se detuvo:</strong> Marcus Hutchins, un investigador, descubrió un "botón de apagado" en el código: registró un dominio web por 10 dólares y el virus dejó de ejecutarse en todo el mundo.</p>
@@ -407,7 +407,7 @@
         <h2>Detén el Ransomware en curso</h2>
         <p>Imagina que esta es tu pantalla y acabas de ver la primera señal de Ransomware.<br>
         Tu misión: <strong>desconectar la red Wi-Fi o el cable de Internet</strong> lo antes posible.</p>
-        <p>Busca el icono de red en la parte inferior derecha y haz clic para abrir el menú. Luego, desactiva la conexión.</p>
+        <p>Busca el icono de red en la parte inferior derecha y haz clikc para abrir el menú. Luego, desactiva la conexión.</p>
 
         <div style="text-align: center; margin: 30px 0;">
             <button class="btn-acordeon required-interaction" 
@@ -510,8 +510,8 @@
       <div class="navigation-buttons">
         <button class="btn-nav btn-prev" id="prevBtn" onclick="changeStep(-1)">Anterior</button>
         <div style="display:flex;align-items:center;">
-          <span id="bloqueo-msg" style="color:red; font-size:0.8rem; margin-right:10px; display:none;">Revisa el contenido</span>
-          <button class="btn-nav btn-next" id="nextBtn" onclick="tryNextStep()">Siguiente ➜</button>
+            <span id="bloqueo-msg" style="display:none;"></span>
+            <button class="btn-nav btn-next" id="nextBtn" onclick="tryNextStep()">Siguiente ➜</button>
         </div>
         <a href="examen.html" class="btn-finish" id="finishBtn" style="display:none;">Ir al Examen</a>
       </div>

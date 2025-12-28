@@ -277,7 +277,7 @@
             <div class="puzzle-column puzzle-right">
                 <div class="puzzle-item" data-id="2" onclick="handlePuzzleClick(this)"><p style="font-size:0.9rem; margin:0;">Copias desconectadas de la red para recuperar datos.</p></div>
                 <div class="puzzle-item" data-id="4" onclick="handlePuzzleClick(this)"><p style="font-size:0.9rem; margin:0;">Usar frases largas y activar siempre el 2FA.</p></div>
-                <div class="puzzle-item" data-id="1" onclick="handlePuzzleClick(this)"><p style="font-size:0.9rem; margin:0;">Mantener sistema y antivirus al día para parchear agujeros.</p></div>
+                <div class="puzzle-item" data-id="1" onclick="handlePuzzleClick(this)"><p style="font-size:0.9rem; margin:0;">Mantener sistema y antivirus al día para parchear.</p></div>
                 <div class="puzzle-item" data-id="5" onclick="handlePuzzleClick(this)"><p style="font-size:0.9rem; margin:0;">Verificar siempre el remitente antes de abrir adjuntos.</p></div>
                 <div class="puzzle-item" data-id="3" onclick="handlePuzzleClick(this)"><p style="font-size:0.9rem; margin:0;">Nunca conectar USBs encontrados en la calle.</p></div>
             </div>
@@ -331,10 +331,10 @@
       <div class="navigation-buttons">
         <button class="btn-nav btn-prev" id="prevBtn" onclick="changeStep(-1)">Anterior</button>
         <div style="display:flex;align-items:center;">
-          <span id="bloqueo-msg"></span>
+          <span id="bloqueo-msg" style="display:none;"></span>
           <button class="btn-nav btn-next" id="nextBtn" onclick="tryNextStep()">Siguiente ➜</button>
         </div>
-        <a href="examen.html" class="btn-finish" id="finishBtn">Ir al Examen</a>
+        <a href="examen.html" class="btn-finish" id="finishBtn" style="display:none;">Ir al Examen</a>
       </div>
 
     </main>
