@@ -6,18 +6,53 @@
       "**/.*",
       "**/node_modules/**"
     ],
-    "headers": [ {
-      "source": "**",
-      "headers": [ {
-        "key": "X-Content-Type-Options",
-        "value": "nosniff"
-      }, {
-        "key": "X-Frame-Options",
-        "value": "DENY"
-      }, {
-        "key": "X-XSS-Protection",
-        "value": "1; mode=block"
-      } ]
-    } ]
+    "headers": [
+      {
+        "source": "**",
+        "headers": [
+          {
+            "key": "X-Content-Type-Options",
+            "value": "nosniff"
+          },
+          {
+            "key": "X-Frame-Options",
+            "value": "DENY"
+          },
+          {
+            "key": "X-XSS-Protection",
+            "value": "1; mode=block"
+          }
+        ]
+      }
+    ],
+    "rewrites": [
+      { "source": "/inicio", "destination": "/Pantallas/index.html" },
+      { "source": "/login", "destination": "/Pantallas/login.html" },
+      { "source": "/registro", "destination": "/Pantallas/registro.html" },
+      { "source": "/perfil", "destination": "/Pantallas/perfil.html" },
+      { "source": "/resultados", "destination": "/Pantallas/resultados.html" },
+      { "source": "/modulos", "destination": "/Pantallas/modulos.html" },
+      { "source": "/contacto", "destination": "/Pantallas/contacto.html" },
+      
+      { "source": "/introduccion/teoria", "destination": "/modulos/1introduccion/teoria.html" },
+      { "source": "/introduccion/examen", "destination": "/modulos/1introduccion/examen.html" },
+      
+      { "source": "/phishing/teoria", "destination": "/modulos/2phishing/teoria.html" },
+      { "source": "/phishing/examen", "destination": "/modulos/2phishing/examen.html" },
+      
+      { "source": "/ransomware/teoria", "destination": "/modulos/3ransomware/teoria.html" },
+      { "source": "/ransomware/examen", "destination": "/modulos/3ransomware/examen.html" },
+      
+      { "source": "/ingenieria/teoria", "destination": "/modulos/4ingenieria/teoria.html" },
+      { "source": "/ingenieria/examen", "destination": "/modulos/4ingenieria/examen.html" },
+      
+      { "source": "/contrasenas/teoria", "destination": "/modulos/5contrasenas/teoria.html" },
+      { "source": "/contrasenas/examen", "destination": "/modulos/5contrasenas/examen.html" },
+      
+      { "source": "/navegacion/teoria", "destination": "/modulos/6navegacion/teoria.html" },
+      { "source": "/navegacion/examen", "destination": "/modulos/6navegacion/examen.html" }
+    ],
+    "cleanUrls": true,
+    "trailingSlash": false
   }
 }

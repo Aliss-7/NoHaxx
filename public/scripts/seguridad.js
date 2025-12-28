@@ -4,19 +4,16 @@ document.addEventListener("DOMContentLoaded", () => {
     const path = window.location.pathname;
     const body = document.body;
 
-    // 1. PÁGINAS PÚBLICAS
+    // 1. PÁGINAS PÚBLICAS (Actualizado con rutas limpias)
     const paginasPublicas = [
         '/',
-        '/index.html',
-        '/Pantallas/login.html',
-        '/Pantallas/registro.html',
-        '/Pantallas/contacto.html',
-        'login.html',
-        'registro.html',
-        'contacto.html'
+        '/inicio',
+        '/login',
+        '/registro',
+        '/contacto'
     ];
 
-    const esPublica = paginasPublicas.some(p => path.endsWith(p));
+    const esPublica = paginasPublicas.some(p => path === p || path.endsWith(p));
 
     // 2. VERIFICACIÓN DE USUARIO
     auth.onAuthStateChanged((user) => {
@@ -27,12 +24,12 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         gestionarCabecera(user);
-        // LLAMADA NUEVA: Resalta el botón de la sección actual
         resaltarSeccionActual();
 
         if (!user) {
             if (!esPublica) {
-                window.location.href = '/Pantallas/login.html';
+                // Redirección a la ruta limpia configurada en firebase.json
+                window.location.href = '/login';
             } else {
                 body.style.display = 'block';
             }
@@ -45,8 +42,9 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // --- LÓGICA DE CARPETAS --- (Sin cambios)
+    // --- LÓGICA DE CARPETAS ---
     function verificarAccesoCarpeta(user, ruta) {
+        // Mantenemos los requisitos por carpeta física ya que el path real sigue conteniendo estos nombres
         const requisitos = {
             '/modulos/2phishing/': { previo: 'introduccion', nombre: 'Phishing' },
             '/modulos/3ransomware/': { previo: 'phishing', nombre: 'Ransomware' },
@@ -57,7 +55,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
         let moduloRestringido = null;
         for (const [clave, datos] of Object.entries(requisitos)) {
-            if (ruta.includes(clave)) {
+            // Se usa includes para detectar la carpeta física aunque la URL sea limpia
+            if (ruta.includes(clave) || ruta.includes(clave.split('/')[2])) { 
                 moduloRestringido = datos;
                 break;
             }
@@ -73,7 +72,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     verificarAccesoExamen(user, ruta);
                 } else {
                     alert(`⛔ ACCESO DENEGADO\n\nDebes aprobar el módulo de ${moduloRestringido.nombre} para entrar aquí.`);
-                    window.location.href = '/Pantallas/modulos.html';
+                    window.location.href = '/modulos'; // Ruta limpia
                 }
             });
         } else {
@@ -82,18 +81,19 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // --- LÓGICA DE EXAMEN --- (Sin cambios)
+    // --- LÓGICA DE EXAMEN ---
     function verificarAccesoExamen(user, ruta) {
-        if (!ruta.endsWith('examen.html')) return;
+        // Detectamos si la ruta limpia termina en /examen
+        if (!ruta.endsWith('/examen') && !ruta.endsWith('examen.html')) return;
 
         const mapaModulos = {
-            '1introduccion': 'introduccion', '2phishing': 'phishing', '3ransomware': 'ransomware',
-            '4ingenieria': 'ingenieria', '5contrasenas': 'contrasenas', '6navegacion': 'navegacion'
+            'introduccion': 'introduccion', 'phishing': 'phishing', 'ransomware': 'ransomware',
+            'ingenieria': 'ingenieria', 'contrasenas': 'contrasenas', 'navegacion': 'navegacion'
         };
 
         let moduloActual = null;
-        for (const [carpeta, clave] of Object.entries(mapaModulos)) {
-            if (ruta.includes(carpeta)) { moduloActual = clave; break; }
+        for (const [claveUrl, claveDb] of Object.entries(mapaModulos)) {
+            if (ruta.includes(claveUrl)) { moduloActual = claveDb; break; }
         }
 
         if (moduloActual) {
@@ -103,29 +103,29 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 if (!teoriaCompletada) {
                     alert("⚠️ Completa toda la teoría antes del examen.");
-                    window.location.href = ruta.replace('examen.html', 'teoria.html');
+                    // Redirige a la versión de teoría limpia
+                    window.location.href = ruta.replace('/examen', '/teoria');
                 }
             });
         }
     }
 });
 
+// Función optimizada para rutas limpias (/perfil, /modulos, etc)
 function resaltarSeccionActual() {
     const path = window.location.pathname;
     const menuLinks = document.querySelectorAll('.top-buttons a');
 
     menuLinks.forEach(link => {
-        let href = link.getAttribute('href');
+        const href = link.getAttribute('href');
         
         if (!href || href === '#') return;
 
-        const nombreArchivoEnlace = href.split('/').pop();
-        const nombreArchivoActual = path.split('/').pop();
-
-        const esPaginaInicio = nombreArchivoActual === 'index.html' || nombreArchivoActual === '';
-        const esEnlaceInicio = nombreArchivoEnlace === 'index.html';
-
-        if ((esPaginaInicio && esEnlaceInicio) || (nombreArchivoActual === nombreArchivoEnlace)) {
+        // Si la ruta exacta coincide (ej: /perfil === /perfil)
+        // O si es inicio ( / === /inicio o /inicio === /inicio )
+        const esInicio = (path === '/' || path === '/inicio') && href === '/inicio';
+        
+        if (path === href || esInicio) {
             link.classList.add('active');
         } else {
             link.classList.remove('active');
@@ -149,6 +149,6 @@ function gestionarCabecera(user) {
 window.cerrarSesion = function() {
     firebase.auth().signOut().then(() => {
         localStorage.removeItem('usuarioLogueado');
-        window.location.href = '/Pantallas/login.html';
+        window.location.href = '/login';
     });
 };

@@ -3,12 +3,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const db = firebase.firestore();
 
   const config = {
-    intro:       { id: "intro-link",       url: "../modulos/1introduccion/teoria.html" },
-    phishing:    { id: "phishing-link",    url: "../modulos/2phishing/teoria.html" },
-    ransomware:  { id: "ransomware-link",  url: "../modulos/3ransomware/teoria.html" },
-    ingenieria:  { id: "ingenieria-link",  url: "../modulos/4ingenieria/teoria.html" },
-    contrasenas: { id: "contrasenas-link", url: "../modulos/5contrasenas/teoria.html" },
-    navegacion:  { id: "navegacion-link",  url: "../modulos/6navegacion/teoria.html" }
+    intro:       { id: "intro-link",       url: "/introduccion/teoria" },
+    phishing:    { id: "phishing-link",    url: "/phishing/teoria" },
+    ransomware:  { id: "ransomware-link",  url: "/ransomware/teoria" },
+    ingenieria:  { id: "ingenieria-link",  url: "/ingenieria/teoria" },
+    contrasenas: { id: "contrasenas-link", url: "/contrasenas/teoria" },
+    navegacion:  { id: "navegacion-link",  url: "/navegacion/teoria" }
   };
 
   const bloquear = (key) => {
