@@ -1,7 +1,5 @@
-/* --- RESET TOTAL PARA CENTRADO --- */
-/* Forzamos al navegador a olvidar la estructura de "Menú lateral" */
 body {
-    display: block !important; /* Anula si el dashboard usaba flex/grid en el body */
+    display: block !important;
     margin: 0 !important;
     padding: 0 !important;
     background-color: #f0f2f5;
@@ -9,64 +7,57 @@ body {
     overflow-x: hidden;
 }
 
-/* --- CABECERA --- */
+/* CABECERA */
 header {
     width: 100%;
-    /* Aseguramos que la cabecera no se mueva */
     position: relative; 
     left: 0;
     margin: 0;
 }
 
-/* --- CONTENEDOR PRINCIPAL (La clave) --- */
+/* CONTENEDOR PRINCIPAL */
 .main-content {
-    /* 1. Eliminamos el hueco del menú lateral */
     margin-left: 0 !important; 
     padding-left: 0 !important;
     width: 100% !important;
     max-width: 100% !important;
     
-    /* 2. Limpieza visual (sin cajas blancas ni sombras) */
     background-color: transparent !important;
     box-shadow: none !important;
     border: none !important;
     
-    /* 3. CENTRADO DEL CONTENIDO HIJO */
     display: flex !important;
     flex-direction: column;
-    align-items: center; /* Esto centra horizontalmente todo lo que haya dentro */
+    align-items: center; 
     justify-content: flex-start;
     min-height: calc(100vh - 80px); 
-    padding-top: 40px; /* Un poco de aire arriba */
+    padding-top: 40px; 
 }
 
-/* Ajuste del título H1 para que se centre con el resto */
 .main-content > h1 {
     width: 100%;
-    max-width: 1100px; /* Mismo ancho que las tarjetas */
-    text-align: left; /* El texto queda a la izquierda, pero el bloque está centrado */
+    max-width: 1100px;
+    text-align: left;
     margin-bottom: 20px;
     padding-left: 10px;
     color: #333;
     box-sizing: border-box;
 }
 
-/* --- LAYOUT GRID (Las tarjetas) --- */
+/* Las tarjetas */
 .layout-perfil {
     display: grid;
-    grid-template-columns: 320px 1fr; /* Izquierda fija, Derecha flexible */
+    grid-template-columns: 320px 1fr;
     gap: 40px;
-    
-    /* CENTRADO PERFECTO */
     width: 100%;
-    max-width: 1100px; /* Ancho máximo para que no se estire infinito */
-    margin: 0 auto !important; /* 'auto' a los lados fuerza el centrado */
-    padding: 0 20px; /* Margen de seguridad en pantallas pequeñas */
+    max-width: 1100px;
+    margin: 0 auto !important;
+    padding: 0 20px; 
     box-sizing: border-box;
     align-items: start;
 }
 
-/* --- ESTILOS DE LAS TARJETAS (Visual) --- */
+/* ESTILOS DE LAS TARJETAS (Visual) */
 
 /* Columna Izquierda */
 .sidebar-perfil {
@@ -153,7 +144,7 @@ header {
     text-align: center;
 }
 
-/* Columna Derecha (Formulario) */
+/* Columna Derecha */
 .card-formulario {
     background: white;
     padding: 40px;
@@ -192,7 +183,6 @@ header {
     background-color: #555;
 }
 
-/* Grid de Inputs */
 .grid-inputs {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -252,7 +242,7 @@ input:focus {
     display: block;
 }
 
-/* --- RESPONSIVE --- */
+/* RESPONSIVE */
 @media (max-width: 850px) {
     .layout-perfil {
         grid-template-columns: 1fr;

@@ -15,13 +15,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const PUNTOS_POR_MODULO = 10;
   const PUNTUACION_MAXIMA = TOTAL_MODULOS_POSIBLES * PUNTOS_POR_MODULO; 
 
-  // --- CORRECCIÓN 1: ORDEN DE MÓDULOS ARREGLADO ---
   const ORDEN_MODULOS = [
     "introduccion",
     "phishing",
     "ransomware",
     "ingenieria",
-    "contrasenas", // Ahora está en su sitio correcto (5º)
+    "contrasenas",
     "navegacion"
   ];
 
@@ -31,13 +30,13 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    // --- 1. MOSTRAR INFO USUARIO ---
+    // INFO USUARIO
     const email = user.email;
     const shortName = email.split('@')[0];
     userNameEl.innerText = shortName;
     if(shortName.length > 0) userInitialEl.innerText = shortName.charAt(0).toUpperCase();
 
-    // --- 2. OBTENER PUNTUACIONES ---
+    // PUNTUACIONES
     const docRef = db.collection('userScores').doc(user.uid);
     const docSnap = await docRef.get();
 
@@ -59,7 +58,7 @@ document.addEventListener("DOMContentLoaded", () => {
           else if (notaFinal < 50) circleEl.style.color = "#d32f2f";
       }
 
-      // --- 3. GENERAR TARJETAS DE MÓDULOS ---
+      // GENERAR TARJETAS DE MÓDULOS
       moduleScoresEl.innerHTML = ''; 
       
       if (Object.keys(scores).length > 0) {
@@ -103,7 +102,6 @@ document.addEventListener("DOMContentLoaded", () => {
       moduleScoresEl.innerHTML = "<p style='grid-column: 1/-1; text-align:center;'>Sin datos disponibles.</p>";
     }
 
-    // --- 4. RANKING GLOBAL (ELIMINADO) ---
     if(rankingEl) rankingEl.innerText = "-";
 
   });

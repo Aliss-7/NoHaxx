@@ -139,10 +139,8 @@
 .story-container { background: #fdfaf8; border: 2px dashed #795548; padding: 25px; border-radius: 12px; margin-top: 20px; }
 .story-container h3 { color: #5d4037; margin-top: 0; }
 
-/* Asegura que las tarjetas en flex ocupen el mismo ancho */
 .course-step > div[style*="display:flex"] > .concept-card { flex: 1; }
 
-/* Ajuste para móviles */
 @media (max-width: 768px) {
     .course-step > div[style*="display:flex"] {
         flex-direction: column;
@@ -267,19 +265,16 @@
    ESTILOS ESPECÍFICOS 
    ========================================================================= */
 
-/* Mejoras para Tooltips interactivos */
 .tooltip {
-  /* Sobrescribe o añade transición al tooltip base */
   transition: color 0.3s, border-bottom-color 0.3s;
 }
 
 .tooltip.viewed {
   border-bottom-style: solid;
   border-bottom-color: #4caf50;
-  color: #4caf50; /* Cambia a verde cuando se ha visto */
+  color: #4caf50; 
 }
 
-/* Alineación para bloques desplegables */
 .reveal-content .definition-box, 
 .reveal-content p, 
 .reveal-content ul {
@@ -319,7 +314,7 @@
 }
 
 /* =========================================
-   ESTILOS PUZZLE (MÓDULO 1)
+   ESTILOS PUZZLE MÓDULO 1
    ========================================= */
 .puzzle-container {
   display: grid;
@@ -441,7 +436,7 @@
   border: 1px solid #ffcdd2;
 }
 
-/* --- ESTILOS GENERALES Y TOOLTIPS --- */
+/* ESTILOS GENERALES Y TOOLTIPS */
 .tooltip {
   border-bottom: 2px dashed #2196f3;
   cursor: help;
@@ -466,19 +461,19 @@
 .reveal-content { animation: slideDown 0.5s ease-out; }
 @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 
-/* CAJAS DE INFORMACIÓN (NUEVO) */
+/* CAJAS DE INFORMACIÓN */
 .info-box { background: #e3f2fd; border-left: 5px solid #2196f3; padding: 15px; margin: 15px 0; border-radius: 4px; }
 .alert-box { background: #ffebee; border-left: 5px solid #f44336; padding: 15px; margin: 15px 0; border-radius: 4px; color: #c62828; }
 .tip-box { background: #fff3e0; border-left: 5px solid #ff9800; padding: 15px; margin: 15px 0; border-radius: 4px; }
 .stat-box { background: #f1f8e9; border: 1px solid #c5e1a5; padding: 15px; text-align: center; font-weight: bold; color: #33691e; border-radius: 8px; margin-bottom: 15px; }
 
-/* TABLAS (NUEVO) */
+/* TABLAS */
 .comparison-table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.9rem; }
 .comparison-table th, .comparison-table td { border: 1px solid #ddd; padding: 10px; text-align: left; }
 .comparison-table th { background-color: #0f1e40; color: white; }
 .comparison-table tr:nth-child(even) { background-color: #f9f9f9; }
 
-/* --- SIMULACIÓN CORREO --- */
+/* SIMULACIÓN CORREO */
 .email-simulation {
   border: 1px solid #ddd; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05);
   margin: 20px 0; background: #fff; overflow: hidden;
@@ -491,7 +486,7 @@
 .interactive-item:hover { background-color: #f0f0f0; border-color: #ccc; }
 .interactive-item.viewed { background-color: #ffebee !important; border-color: #ef5350; }
 
-/* --- DESPLEGABLES --- */
+/* DESPLEGABLES */
 details { background: #fff; border: 1px solid #ddd; border-radius: 5px; margin-bottom: 10px; overflow: hidden; }
 summary { padding: 15px; cursor: pointer; font-weight: bold; background: #f5f5f5; outline: none; list-style: none; display: flex; justify-content: space-between; align-items: center; }
 summary::after { content: '+'; font-size: 1.2rem; }
@@ -499,7 +494,6 @@ details[open] summary::after { content: '-'; }
 details[open] summary { background: #e3f2fd; color: #0d47a1; }
 details p, details div { padding: 15px; margin: 0; border-top: 1px solid #ddd; }
 
-/* --- SIMULACIONES ESPECÍFICAS --- */
 /* SMS */
 .sms-container { background-color: #fff; border: 1px solid #ddd; border-radius: 15px; max-width: 350px; margin: 20px auto; padding: 10px; font-family: sans-serif; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
 .sms-header { text-align: center; color: #888; font-size: 0.8rem; margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 5px; }
@@ -519,19 +513,19 @@ details p, details div { padding: 15px; margin: 0; border-top: 1px solid #ddd; }
 /* Email Corporativo */
 .corp-email { border: 1px solid #ccc; background: #fff; padding: 20px; border-radius: 5px; text-align: left; margin: 20px 0; border-left: 5px solid #ff9800; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
 
-/* --- VIDEOS Y ESTADOS --- */
+/* VIDEOS Y ESTADOS */
 .video-status { margin-top: 15px; padding: 10px; border-radius: 5px; font-weight: bold; text-align: center; background: #f5f5f5; border: 1px solid #ddd; }
 .video-status.completed { background: #e8f5e9; color: #2e7d32; border-color: #c8e6c9; }
 .video-status.watching { background: #e3f2fd; color: #0277bd; border-color: #b3e5fc; }
 
-/* --- MINIJUEGO --- */
+/* MINIJUEGO */
 .game-scenario-box { background: #fff; border: 2px solid #eee; border-radius: 8px; padding: 30px; margin-top: 10px; text-align: center; max-width: 800px; margin: 0 auto; }
 .game-scenario-box.viewed { border-color: #4caf50; background-color: #f1f8e9; }
 .scenario-display { background: #e3f2fd; color: #0d47a1; padding: 20px; border-radius: 5px; font-weight: bold; font-size: 1.2rem; margin-bottom: 30px; border-left: 6px solid #2196f3; min-height: 80px; display: flex; align-items: center; justify-content: center; gap: 15px; }
 .btn-game-opt { margin: 10px; background: white; border: 2px solid #0f1e40; color: #0f1e40; padding: 12px 20px; border-radius: 5px; cursor: pointer; font-weight: bold; transition: 0.2s; font-size: 1rem; }
 .btn-game-opt:hover { background: #0f1e40; color: white; transform: translateY(-2px); }
 
-/* --- CARRUSEL Y HOVER --- */
+/* CARRUSEL Y HOVER */
 .carousel-container { position: relative; max-width: 700px; margin: 0 auto; }
 .email-slide { display: none; animation: fadeIn 0.5s; }
 .email-slide.active { display: block; }
@@ -560,9 +554,9 @@ details p, details div { padding: 15px; margin: 0; border-top: 1px solid #ddd; }
 .checklist-container { background: #fff; padding: 0; list-style: none; text-align: left; }
 .check-item { padding: 15px; border-bottom: 1px solid #eee; display: flex; align-items: center; gap: 15px; }
 
-/* --- ESTILOS EXCLUSIVOS MÓDULO 3 (RANSOMWARE) --- */
+/* ESTILOS EXCLUSIVOS MÓDULO 3 */
 
-/* Simulador Pantalla Dividida (Código vs Visual) */
+/* Simulador Pantalla Dividida */
 .split-screen-computer { display: flex; flex-direction: row; background: #333; border: 4px solid #555; border-radius: 10px; height: 400px; overflow: hidden; margin: 20px 0; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
 .ui-side, .code-side { flex: 1; display: flex; flex-direction: column; position: relative; }
 .ui-side { background: #fff; border-bottom: 2px solid #333; min-height: 250px; }
@@ -639,7 +633,7 @@ details p, details div { padding: 15px; margin: 0; border-top: 1px solid #ddd; }
    ESTILOS ESTRUCTURALES DEL MÓDULO 3
    ========================================================================= */
 
-/* Pestañas (Tabs) - Sección Macros */
+/* Pestañas */
 .tabs-container { 
     border: 1px solid #ddd; 
     border-radius: 8px; 
@@ -704,13 +698,12 @@ details p, details div { padding: 15px; margin: 0; border-top: 1px solid #ddd; }
 
 
 /* =========================================
-   ESTILOS MÓDULO 4: INGENIERÍA SOCIAL
+   ESTILOS MÓDULO 4
    ========================================= */
 
-/* --- 1. CONTENEDOR DE VÍDEO (RESPONSIVE) --- */
 .video-container {
     position: relative;
-    padding-bottom: 56.25%; /* Ratio 16:9 para YouTube */
+    padding-bottom: 56.25%;
     height: 0;
     overflow: hidden;
     max-width: 100%;
@@ -727,7 +720,7 @@ details p, details div { padding: 15px; margin: 0; border-top: 1px solid #ddd; }
     height: 100%;
 }
 
-/* --- 2. CICLO DEL ATAQUE (ACORDEÓN) --- */
+/* CICLO DEL ATAQUE */
 .cycle-container { display: flex; flex-direction: column; gap: 10px; margin-top: 15px; }
 .cycle-step { background: #fff; padding: 15px; border-left: 5px solid #ccc; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.05); transition: 0.3s; border-radius: 0 5px 5px 0; }
 .cycle-step:hover { margin-left: 5px; border-left-color: #aaa; }
@@ -735,7 +728,7 @@ details p, details div { padding: 15px; margin: 0; border-top: 1px solid #ddd; }
 .cycle-info { display: none; margin-top: 10px; color: #555; font-size: 0.95rem; border-top: 1px solid #ffcc80; padding-top: 10px; }
 .cycle-number { font-weight: bold; font-size: 1.2rem; color: #ff9800; margin-right: 10px; }
 
-/* --- 3. GRID DE TÉCNICAS (TARJETAS) --- */
+/* TARJETAS */
 .technique-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin: 20px 0; }
 .tech-card { background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 20px; text-align: center; cursor: pointer; transition: all 0.3s; position: relative; }
 .tech-card:hover { transform: translateY(-5px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
@@ -743,23 +736,23 @@ details p, details div { padding: 15px; margin: 0; border-top: 1px solid #ddd; }
 .tech-icon { font-size: 3rem; margin-bottom: 10px; display: block; }
 .tech-info { background: #f5f5f5; padding: 15px; border-radius: 5px; margin-top: 10px; border-left: 4px solid #2196f3; }
 
-/* --- 4. EJERCICIO BASURA (DUMPSTER DIVING) --- */
+/* EJERCICIO BASURA */
 .trash-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-top: 20px; }
 .trash-item { background: #fff; border: 2px solid #eee; padding: 15px; border-radius: 8px; cursor: pointer; text-align: center; transition: 0.2s; font-weight: bold; color: #666; display: flex; align-items: center; justify-content: center; min-height: 80px; }
 .trash-item:hover { border-color: #aaa; background: #fafafa; transform: scale(1.02); }
 .trash-item.safe { border-color: #4caf50; background: #e8f5e9; color: #2e7d32; cursor: default; } 
 .trash-item.danger { border-color: #f44336; background: #ffebee; color: #c62828; cursor: default; }
 
-/* --- 5. TARJETAS DE PSICOLOGÍA --- */
+/* TARJETAS DE PSICOLOGÍA */
 .psy-card { background: #fff3e0; padding: 15px; border-radius: 8px; margin-bottom: 15px; display: flex; align-items: center; gap: 20px; border: 1px solid rgba(0,0,0,0.05); }
 .psy-icon { font-size: 2.5rem; color: #ef6c00; }
 
-/* --- 6. GRID DE SESGOS --- */
+/* SESGOS */
 .bias-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 20px; }
 .bias-card { background: white; border-left: 5px solid #3f51b5; padding: 20px; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
 .bias-card h3 { margin-top: 0; color: #3f51b5; font-size: 1.1rem;}
 
-/* --- 7. PUZZLE DE UNIR (MATCH GAME) - FIX COLOR --- */
+/* PUZZLE DE UNIR */
 .match-game { display: flex; justify-content: space-between; gap: 30px; margin-top: 20px; }
 .match-col { flex: 1; display: flex; flex-direction: column; gap: 15px; }
 .match-card { padding: 15px; background: #fff; border: 2px solid #ccc; border-radius: 8px; cursor: pointer; transition: 0.2s; text-align: center; display: flex; align-items: center; justify-content: center; min-height: 70px; font-weight: 500; user-select: none; }
@@ -771,7 +764,7 @@ details p, details div { padding: 15px; margin: 0; border-top: 1px solid #ddd; }
 
 @keyframes shake { 0% { transform: translateX(0); } 25% { transform: translateX(-5px); } 50% { transform: translateX(5px); } 75% { transform: translateX(-5px); } 100% { transform: translateX(0); } }
 
-/* --- 8. ESCENARIOS PROFESIONALES (TICKETS) --- */
+/* ESCENARIOS PROFESIONALES */
 .scenario-card { background: #fff; border: 1px solid #d1d5db; border-radius: 8px; margin-bottom: 30px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); overflow: hidden; }
 .scenario-header { padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; font-weight: bold; color: white; }
 .scenario-header.physical { background: #607d8b; } 
@@ -788,7 +781,7 @@ details p, details div { padding: 15px; margin: 0; border-top: 1px solid #ddd; }
 .scenario-btn:disabled { opacity: 0.6; cursor: not-allowed; }
 .scenario-feedback { padding: 15px 20px; display: none; border-top: 1px solid rgba(0,0,0,0.1); font-size: 0.95rem; }
 
-/* --- 9. DEFENSA (TARJETAS NUEVAS) --- */
+/* DEFENSA */
 .defense-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-top: 20px; }
 .defense-card { background: #fff; border: 1px solid #ddd; padding: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
 .defense-icon { font-size: 2.5rem; margin-bottom: 10px; display: block; }
@@ -798,7 +791,7 @@ details p, details div { padding: 15px; margin: 0; border-top: 1px solid #ddd; }
 /* Animación genérica */
 @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-/* ESTILOS NUEVOS: SIMULADOR OSINT (REDES SOCIALES) REALISTA */
+/* SIMULADOR REDES SOCIALES */
 .osint-simulation { background: #fff; border: 1px solid #ddd; border-radius: 8px; max-width: 600px; margin: 0 auto; box-shadow: 0 4px 15px rgba(0,0,0,0.1); overflow: hidden; }
 .osint-header { padding: 15px; border-bottom: 1px solid #eee; display: flex; align-items: center; gap: 10px; background: #fafafa; }
 .osint-avatar { width: 40px; height: 40px; background: #2196f3; border-radius: 50%; }
@@ -810,38 +803,35 @@ details p, details div { padding: 15px; margin: 0; border-top: 1px solid #ddd; }
     position: relative;
     width: 100%;
     height: auto;
-    background: #000; /* Fondo negro mientras carga */
+    background: #000;
 }
 
 .osint-real-photo {
     width: 100%;
     height: auto;
-    display: block; /* Elimina espacios extra debajo de la imagen */
+    display: block; 
 }
 
-/* Estilos de los Hotspots (Zonas de clic) */
 .hotspot {
     position: absolute;
-    /* background: rgba(255, 0, 0, 0.3); border: 2px dashed red; <--- DESCOMENTA ESTO PARA VER LAS ZONAS MIENTRAS LAS AJUSTAS */
-    background: transparent; /* Transparente en el juego final */
+    background: transparent; 
     cursor: pointer;
-    z-index: 10; /* Asegura que estén por encima de la imagen */
+    z-index: 10;
 }
 
 .hotspot:hover {
-    background: rgba(255, 255, 255, 0.2); /* Ligero brillo al pasar el ratón */
+    background: rgba(255, 255, 255, 0.2);
     box-shadow: 0 0 10px rgba(255,255,255,0.5);
 }
 
 .hotspot.found {
-    border: 3px solid #4caf50; /* Borde verde al encontrarlo */
+    border: 3px solid #4caf50;
     background: rgba(76, 175, 80, 0.2);
-    pointer-events: none; /* Ya no se puede clicar */
+    pointer-events: none; 
 }
 
-/* Etiquetas que aparecen debajo del hotspot (opcional) */
 .hotspot-label {
-    display: none; /* Ocultas por defecto */
+    display: none; 
     position: absolute;
     bottom: -25px;
     left: 50%;
@@ -855,14 +845,14 @@ details p, details div { padding: 15px; margin: 0; border-top: 1px solid #ddd; }
 }
 
 .hotspot:hover .hotspot-label {
-    display: block; /* Mostrar al pasar el ratón */
+    display: block; 
 }
 
 .osint-caption { padding: 15px; font-size: 0.95rem; line-height: 1.5; border-top: 1px solid #eee; }
 .osint-risks-count { text-align: center; margin-top: 15px; font-weight: bold; color: #d32f2f; }
 
 /* =========================================
-   ESTILOS: SÍNTESIS (TARJETAS DE RESUMEN)
+   ESTILOS: SÍNTESIS
    ========================================= */
 
 .summary-grid {
@@ -874,7 +864,7 @@ details p, details div { padding: 15px; margin: 0; border-top: 1px solid #ddd; }
 
 .summary-card {
     background: #fff;
-    border-top: 5px solid #2196f3; /* Azul corporativo estándar */
+    border-top: 5px solid #2196f3; 
     border-radius: 8px;
     padding: 20px;
     box-shadow: 0 4px 10px rgba(0,0,0,0.08);
@@ -905,7 +895,7 @@ details p, details div { padding: 15px; margin: 0; border-top: 1px solid #ddd; }
 
 .summary-card h3 {
     text-align: center;
-    color: #1565c0; /* Azul oscuro profesional */
+    color: #1565c0; 
     margin-bottom: 15px;
     font-size: 1.1rem;
     font-weight: 600;
@@ -927,7 +917,7 @@ details p, details div { padding: 15px; margin: 0; border-top: 1px solid #ddd; }
 }
 
 .check-list li::before {
-    content: "•"; /* Bullet simple o check discreto */
+    content: "•"; 
     color: #2196f3;
     font-weight: bold;
     position: absolute;
@@ -937,12 +927,12 @@ details p, details div { padding: 15px; margin: 0; border-top: 1px solid #ddd; }
 }
 
 /* =========================================
-   BOTÓN FINAL (IR AL EXAMEN)
+   IR AL EXAMEN
    ========================================= */
 .btn-finish {
     display: inline-block;
     padding: 15px 40px;
-    background-color: #4caf50; /* Verde éxito */
+    background-color: #4caf50;
     color: white;
     text-decoration: none;
     border-radius: 8px;
@@ -961,27 +951,13 @@ details p, details div { padding: 15px; margin: 0; border-top: 1px solid #ddd; }
     box-shadow: 0 6px 12px rgba(0,0,0,0.15);
 }
 
-.password-tester {
-    background: #2d3436; padding: 20px; border-radius: 8px; color: white; margin-top: 15px;
-}
-.pass-input {
-    width: 100%; padding: 10px; font-size: 1.2rem; border-radius: 4px; border: none; font-family: monospace;
-}
-.strength-bar {
-    height: 10px; background: #555; margin-top: 10px; border-radius: 5px; overflow: hidden;
-}
-.strength-fill {
-    height: 100%; width: 0%; transition: all 0.3s; background: red;
-}
+.password-tester { background: #2d3436; padding: 20px; border-radius: 8px; color: white; margin-top: 15px; }
+.pass-input { width: 100%; padding: 10px; font-size: 1.2rem; border-radius: 4px; border: none; font-family: monospace; }
+.strength-bar { height: 10px; background: #555; margin-top: 10px; border-radius: 5px; overflow: hidden; }
+.strength-fill { height: 100%; width: 0%; transition: all 0.3s; background: red; }
 .crack-time { font-weight: bold; color: #ff7675; margin-top: 5px; display: block; }
-
-.errors-grid {
-    display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-top: 20px;
-}
-.error-card {
-    background: #fff; padding: 15px; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;
-    transition: all 0.2s; text-align: center;
-}
+.errors-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-top: 20px; }
+.error-card { background: #fff; padding: 15px; border: 2px solid #ddd; border-radius: 8px; cursor: pointer; transition: all 0.2s; text-align: center; }
 .error-card:hover { border-color: #aaa; }
 .error-card.found { border-color: #d32f2f; background: #ffebee; }
 .error-card.safe { border-color: #388e3c; background: #e8f5e9; }
@@ -1002,16 +978,11 @@ details p, details div { padding: 15px; margin: 0; border-top: 1px solid #ddd; }
 }
 .btn-leak:hover { background: #00ff00; color: black; }
 .leak-result { margin-top: 20px; min-height: 60px; line-height: 1.5; }
-.breach-item {
-    background: #330000; color: #ff9999; padding: 10px; margin-top: 5px; border-left: 3px solid red;
-}
-
-.emergency-step {
-    background: #fff3e0; border-left: 5px solid #ff9800; padding: 15px; margin-bottom: 10px;
-}
+.breach-item { background: #330000; color: #ff9999; padding: 10px; margin-top: 5px; border-left: 3px solid red; }
+.emergency-step { background: #fff3e0; border-left: 5px solid #ff9800; padding: 15px; margin-bottom: 10px; }
 
 
-/* --- ESTILOS NUEVA INTRODUCCIÓN (MÓDULO 6) --- */
+/* MÓDULO 6 */
 .network-map {
     display: flex;
     justify-content: space-between;

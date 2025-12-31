@@ -4,7 +4,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const path = window.location.pathname;
     const body = document.body;
 
-    // 1. PÁGINAS PÚBLICAS (Actualizado con rutas limpias)
     const paginasPublicas = [
         '/',
         '/inicio',
@@ -15,7 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const esPublica = paginasPublicas.some(p => path === p || path.endsWith(p));
 
-    // 2. VERIFICACIÓN DE USUARIO
+    // VERIFICACIÓN DE USUARIO
     auth.onAuthStateChanged((user) => {
         if (user) {
             localStorage.setItem('usuarioLogueado', 'true');
@@ -28,7 +27,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (!user) {
             if (!esPublica) {
-                // Redirección a la ruta limpia configurada en firebase.json
                 window.location.href = '/login';
             } else {
                 body.style.display = 'block';
@@ -42,9 +40,8 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // --- LÓGICA DE CARPETAS ---
+    // LÓGICA DE CARPETAS
     function verificarAccesoCarpeta(user, ruta) {
-        // Mantenemos los requisitos por carpeta física ya que el path real sigue conteniendo estos nombres
         const requisitos = {
             '/modulos/2phishing/': { previo: 'introduccion', nombre: 'Phishing' },
             '/modulos/3ransomware/': { previo: 'phishing', nombre: 'Ransomware' },
@@ -55,7 +52,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
         let moduloRestringido = null;
         for (const [clave, datos] of Object.entries(requisitos)) {
-            // Se usa includes para detectar la carpeta física aunque la URL sea limpia
             if (ruta.includes(clave) || ruta.includes(clave.split('/')[2])) { 
                 moduloRestringido = datos;
                 break;
@@ -71,8 +67,8 @@ document.addEventListener("DOMContentLoaded", () => {
                     body.style.display = 'block'; 
                     verificarAccesoExamen(user, ruta);
                 } else {
-                    alert(`⛔ ACCESO DENEGADO\n\nDebes aprobar el módulo de ${moduloRestringido.nombre} para entrar aquí.`);
-                    window.location.href = '/modulos'; // Ruta limpia
+                    alert(`ACCESO DENEGADO\n\nDebes aprobar el módulo de ${moduloRestringido.nombre} para entrar aquí.`);
+                    window.location.href = '/modulos';
                 }
             });
         } else {
@@ -81,9 +77,8 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // --- LÓGICA DE EXAMEN ---
+    // LÓGICA DE EXAMEN
     function verificarAccesoExamen(user, ruta) {
-        // Detectamos si la ruta limpia termina en /examen
         if (!ruta.endsWith('/examen') && !ruta.endsWith('examen.html')) return;
 
         const mapaModulos = {
@@ -103,7 +98,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 if (!teoriaCompletada) {
                     alert("⚠️ Completa toda la teoría antes del examen.");
-                    // Redirige a la versión de teoría limpia
                     window.location.href = ruta.replace('/examen', '/teoria');
                 }
             });
@@ -111,7 +105,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 });
 
-// Función optimizada para rutas limpias (/perfil, /modulos, etc)
 function resaltarSeccionActual() {
     const path = window.location.pathname;
     const menuLinks = document.querySelectorAll('.top-buttons a');
@@ -121,8 +114,6 @@ function resaltarSeccionActual() {
         
         if (!href || href === '#') return;
 
-        // Si la ruta exacta coincide (ej: /perfil === /perfil)
-        // O si es inicio ( / === /inicio o /inicio === /inicio )
         const esInicio = (path === '/' || path === '/inicio') && href === '/inicio';
         
         if (path === href || esInicio) {

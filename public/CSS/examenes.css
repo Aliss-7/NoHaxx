@@ -46,7 +46,6 @@
    ========================================================================= */
 .option-grid, .card-grid {
   display: grid;
-  /* CAMBIO: Reducimos de 220px a 160px para que quepan 3 en línea */
   grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); 
   gap: 20px; 
   margin-top: 25px;
@@ -57,7 +56,6 @@
   cursor: pointer; text-align: center; transition: all 0.2s ease;
   position: relative; display: flex; flex-direction: column; justify-content: center;
   min-height: 100px;
-  /* Asegura que no se desborden si el texto es largo */
   word-wrap: break-word; 
 }
 
@@ -177,7 +175,7 @@
   font-weight: bold; font-size: 1.2rem; box-shadow: 0 5px 15px rgba(0,0,0,0.3);
 }
 
-/* Panel Forense (Correos y SMS) */
+/* Panel Correos y SMS */
 .forensic-panel { 
   background: white; border: 1px solid #ccc; font-family: 'Courier New', monospace; 
   text-align: left; margin: 0 auto 20px auto; border-radius: 6px; overflow: hidden;
@@ -263,7 +261,7 @@
 }
 .toggle-container { display: flex; align-items: center; gap: 15px; font-size: 1.2rem; }
 
-/* Switch Toggle (Interruptor animado) */
+/* Interruptor animado */
 .switch { position: relative; display: inline-block; width: 60px; height: 34px; }
 .switch input { opacity: 0; width: 0; height: 0; }
 .slider {
@@ -305,7 +303,7 @@ input:checked + .slider:before { transform: translateX(26px); }
 
 
 /* =========================================================================
-   6. ESTILOS ESPECÍFICOS: MÓDULO 5 (CONTRASEÑAS)
+   6. MÓDULO 5 (CONTRASEÑAS)
    ========================================================================= */
 
 /* Input de Contraseña con Medidor */
@@ -340,7 +338,7 @@ input:checked + .slider:before { transform: translateX(26px); }
 }
 .auth-btn:hover { border-color: #1f73b8; background: #f0f8ff; transform: translateY(-3px); }
 
-/* Interfaz Gestor de Claves (Estilo App Oscura) */
+/* Interfaz Gestor de Claves */
 .manager-interface {
   background: #2d3436; color: white; padding: 25px; border-radius: 12px;
   max-width: 450px; margin: 0 auto; font-family: 'Courier New', monospace;
@@ -356,7 +354,7 @@ input:checked + .slider:before { transform: translateX(26px); }
 }
 .btn-save:hover { opacity: 0.9; }
 
-/* Alerta de Email (Estilo Phishing Warning) */
+/* Alerta de Email */
 .email-alert {
   border: 1px solid #e0e0e0; padding: 25px; background: #fff;
   border-left: 6px solid #d32f2f; text-align: left;
@@ -370,7 +368,7 @@ input:checked + .slider:before { transform: translateX(26px); }
   padding: 5px; border-radius: 4px; display: inline-block;
 }
 
-/* Pantalla Códigos de Respaldo (Estilo Terminal) */
+/* Pantalla terminal */
 .backup-codes-screen {
   background: #000; color: #0f0; padding: 25px; border-radius: 10px;
   font-family: 'Courier New', monospace; margin: 0 auto 20px auto;
@@ -400,7 +398,7 @@ input:checked + .slider:before { transform: translateX(26px); }
 
 
 /* =========================================================================
-   7. RESPONSIVE (Para móviles)
+   7. RESPONSIVE
    ========================================================================= */
 @media (max-width: 768px) {
   .interactive-desk, .file-grid, .os-grid, .chat-options, .mobile-screen-grid { 
@@ -412,10 +410,10 @@ input:checked + .slider:before { transform: translateX(26px); }
 
 
 /* =========================================================================
-   ESTILOS ESPECÍFICOS: MÓDULO 6 (NAVEGACIÓN SEGURA)
+   ESTILOS MÓDULO 6
    ========================================================================= */
 
-/* 1. Lista WiFi (Estilo Menú Configuración Móvil/PC) */
+/* 1. Lista WiFi  */
 .wifi-container {
   background: #fff; border-radius: 12px; overflow: hidden;
   max-width: 500px; margin: 0 auto; 
@@ -500,7 +498,7 @@ input:checked + .slider:before { transform: translateX(26px); }
 .btn-del { background: #ffcdd2; color: #c62828; }
 .btn-del:hover { background: #ef5350; color: white; }
 
-/* 5. Cookie Banner (Estilo Navegador Moderno) */
+/* 5. Cookie Banner */
 .browser-view {
   background: url('https://placehold.co/800x400/333/666?text=Noticias+Digitales') no-repeat center;
   background-size: cover; height: 350px; border-radius: 12px;

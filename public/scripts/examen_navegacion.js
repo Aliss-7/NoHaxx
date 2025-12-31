@@ -1,4 +1,3 @@
-// Respuestas correctas esperadas
 const correctAnswers = { 
   1: 'secure',
   2: 'encrypt',
@@ -17,7 +16,6 @@ const totalQuestions = 10;
 const passingScore = 8;
 let isTransitioning = false; 
 
-// --- NAVEGACIÓN ---
 function nextQuestion(current) {
   const progress = (current / totalQuestions) * 100;
   const progressBar = document.getElementById('progress-bar');
@@ -32,8 +30,6 @@ function nextQuestion(current) {
   }
 }
 
-// --- MANEJADORES DE PREGUNTAS ---
-// Pasamos 'event' para saber qué elemento se clickeó y marcarlo
 function checkQ1(ans) { handleAnswer(1, ans, event); }
 function checkQ2(ans) { handleAnswer(2, ans, event); }
 function checkQ3(ans) { handleAnswer(3, ans, event); }
@@ -50,30 +46,24 @@ function handleAnswer(qNum, ans, e) {
     isTransitioning = true;
     userAnswers[qNum] = ans;
     
-    // 1. Identificar el elemento clicado y añadirle la clase .selected
     if(e && e.target) {
-        // Buscamos el contenedor padre interactivo correcto
         const el = e.target.closest('.wifi-item, .card-option, .url-card, .popup-close, .popup-btn, .btn-action, .cookie-btn-big, .cookie-link');
         if(el) {
             el.classList.add('selected');
-            // Forzamos un estilo visual simple por si el CSS específico no tiene .selected definido para ese elemento
             el.style.borderColor = '#1f73b8';
             el.style.backgroundColor = '#e8eaf6';
         }
     }
     
-    // 2. Esperar y pasar a la siguiente (600ms)
     setTimeout(() => { 
         nextQuestion(qNum); 
         isTransitioning = false; 
     }, 600);
 }
 
-// --- CÁLCULO FINAL Y RESULTADOS ---
 function finishExam() {
   document.getElementById('final-screen').classList.add('active');
   
-  // Cálculo interno silencioso
   let hits = 0;
   for (let i = 1; i <= totalQuestions; i++) {
     if (userAnswers[i] === correctAnswers[i]) {
@@ -88,16 +78,13 @@ function finishExam() {
   const btnContinue = document.getElementById('btn-continue');
   const btnNext = document.getElementById('btn-next');
 
-  // Simular carga breve
   setTimeout(() => {
     document.getElementById('loading-results').style.display = 'none';
     document.getElementById('results-content').style.display = 'block';
     
-    // Mostrar nota "X/10"
     scoreDisplay.innerText = `${hits}/${totalQuestions}`;
 
     if (hits >= passingScore) {
-      // APROBADO
       scoreDisplay.parentElement.style.background = '#1f73b8';
       scoreDisplay.parentElement.style.borderColor = '#1f73b8';
       
@@ -106,11 +93,10 @@ function finishExam() {
       detailDisplay.innerText = `Has superado ${hits} de 10 desafíos.`;
       
       btnContinue.style.display = "inline-block";
-      if(btnNext) btnNext.style.display = "inline-block"; // Botón FINALIZAR CURSO
+      if(btnNext) btnNext.style.display = "inline-block";
       
       saveToFirebase(hits);
     } else {
-      // SUSPENSO
       scoreDisplay.parentElement.style.background = '#d32f2f';
       scoreDisplay.parentElement.style.borderColor = '#d32f2f';
       

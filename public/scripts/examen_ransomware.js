@@ -10,7 +10,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if(steps.length > 0) steps[0].classList.add('active');
  
-    // Funciones para la ventana de propiedades (Pregunta 1)
     window.mostrarPropiedades = function() {
         const v = document.getElementById('propiedades-file');
         if(v) v.style.display = 'block';
@@ -20,7 +19,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if(v) v.style.display = 'none';
     }
 
-    // --- LÓGICA DE PREGUNTAS ---
     steps.forEach((step, index) => {
         if (step.id === 'step-final') return;
 
@@ -28,7 +26,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         options.forEach(opt => {
             opt.addEventListener('click', () => {
-                // Evitar doble clic
                 if (step.classList.contains('answered') || isTransitioning) return;
                 
                 step.classList.add('answered');
@@ -37,20 +34,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 const correctAnswer = step.getAttribute('data-correcta');
                 const userAnswer = opt.getAttribute('data-respuesta');
                 
-                // CAMBIO: Solo marcamos visualmente la selección (neutro)
                 opt.classList.add('selected');
 
-                // Calculamos la nota internamente (sin mostrar verde/rojo)
                 if (userAnswer === correctAnswer) {
                     currentScore++;
                 }
-                // Ya no hay "else" para mostrar errores
 
-                // Actualizar barra de progreso
                 const progressPct = ((index + 1) / totalQuestions) * 100;
                 if(progressBar) progressBar.style.width = `${progressPct}%`;
 
-                // Pasar a la siguiente pregunta
                 setTimeout(() => {
                     step.classList.remove('active'); 
                     const nextStep = step.nextElementSibling;
@@ -61,7 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         finishExam();
                     }
                     isTransitioning = false;
-                }, 600); // Transición rápida
+                }, 600);
             });
         });
     });
@@ -83,11 +75,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const btnContinue = document.getElementById('btn-continue');
         const btnNext = document.getElementById('btn-next');
 
-        // Mostrar nota final
         scoreDisplay.textContent = `${currentScore}/${totalQuestions}`;
 
         if (currentScore >= passingScore) {
-            // APROBADO
             scoreDisplay.parentElement.style.background = '#1f73b8';
             scoreDisplay.parentElement.style.borderColor = '#1f73b8';
             
@@ -104,7 +94,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 localSaveScore(currentScore);
             }
         } else {
-            // SUSPENSO
             scoreDisplay.parentElement.style.background = '#d32f2f';
             scoreDisplay.parentElement.style.borderColor = '#d32f2f';
             

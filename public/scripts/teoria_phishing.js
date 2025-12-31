@@ -17,7 +17,7 @@ let currentCase = 1;
 const totalCases = 3; 
 let viewedCases = [true, false, false];
 
-// YOUTUBE PLAYERS
+// YOUTUBE
 var players = {};
 var videoStatus = { smishing: false, vishing: false, phishing: false, summary: false };
 
@@ -38,7 +38,7 @@ function createPlayer(elementId, videoId, key) {
 }
 
 function onPlayerStateChange(event, key) {
-    if (event.data === 0) { // Vídeo finalizado
+    if (event.data === 0) {
         markVideoComplete(key);
     }
 }
@@ -46,7 +46,7 @@ function onPlayerStateChange(event, key) {
 function markVideoComplete(key) {
     if (!videoStatus[key]) {
         videoStatus[key] = true;
-        updateUI(); // Refrescar botón al terminar video
+        updateUI(); 
     }
 }
 
@@ -94,7 +94,6 @@ function updateUI() {
         nextBtn.style.display = 'inline-block'; 
         finishBtn.style.display = 'none';
 
-        // COMPORTAMIENTO DE BLOQUEO VISUAL (IDÉNTICO A MODS 4, 5, 6)
         if (isStepComplete) {
             nextBtn.disabled = false;
             nextBtn.style.opacity = "1";
@@ -113,11 +112,9 @@ function checkCurrentStepCompletion() {
     const currentDiv = document.getElementById(`step-${currentStep}`);
     if (!currentDiv) return true;
 
-    // Verificar interacciones requeridas (clase .required-interaction)
     const pendingItems = currentDiv.querySelectorAll('.required-interaction:not(.viewed)');
     if (pendingItems.length > 0) return false;
 
-    // Verificación de vídeos por paso
     const videoRequisitos = { 4: 'smishing', 6: 'vishing', 8: 'phishing', 13: 'summary' };
     const videoKey = videoRequisitos[currentStep];
     if (videoKey && !videoStatus[videoKey]) return false;
@@ -128,7 +125,7 @@ function checkCurrentStepCompletion() {
 function markInteraction(element) {
     if (element && !element.classList.contains('viewed')) {
         element.classList.add('viewed');
-        updateUI(); // Refrescar UI inmediatamente
+        updateUI();
     }
 }
 
@@ -239,6 +236,5 @@ function guardarProgresoTeoria(modulo) {
     }
 }
 
-// Inicialización
 loadScenario();
 updateUI();

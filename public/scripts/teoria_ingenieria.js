@@ -39,7 +39,7 @@ function updateNextButtonState() {
             finishBtn.style.pointerEvents = 'auto';
             finishBtn.textContent = "Ir al Examen";
             
-            guardarProgresoTeoria('ingenieria'); // <--- ¡GUARDAR!
+            guardarProgresoTeoria('ingenieria');
         }
     }
 }
@@ -118,7 +118,7 @@ function showStep(index) {
 
     const prevBtn = document.getElementById('prevBtn');
     const nextBtn = document.getElementById('nextBtn');
-    const finishBtn = document.getElementById('finishBtn'); // Referencia al botón final
+    const finishBtn = document.getElementById('finishBtn');
     
     prevBtn.disabled = (index === 0);
     
@@ -224,7 +224,6 @@ function checkTrash(type, element) {
     }
 }
 
-// EJERCICIO OSINT (Paso 7)
 function checkOsintRisk(id, element) {
     if (element.classList.contains('found')) return;
 

@@ -1,4 +1,3 @@
-// Configuración Inicial 
 let currentStep = 0;
 const totalSteps = 7;
 let stepUnlocked = new Array(totalSteps).fill(false);
@@ -11,7 +10,6 @@ const nextBtn = document.getElementById('nextBtn');
 const finishBtn = document.getElementById('finishBtn');
 const bloqueoMsg = document.getElementById('bloqueo-msg');
 
-// UI - Se encarga de refrescar el estado de los botones y menús
 function updateUI() {
     const isStepComplete = checkCurrentStepCompletion();
 
@@ -29,10 +27,8 @@ function updateUI() {
         }
     });
 
-    // Control de visibilidad de botón Anterior
     prevBtn.style.visibility = (currentStep === 0) ? 'hidden' : 'visible';
 
-    // Lógica para el botón Siguiente / Finalizar
     if (currentStep === totalSteps - 1) {
         nextBtn.style.display = 'none';
         finishBtn.style.display = 'inline-block';
@@ -51,7 +47,6 @@ function updateUI() {
         nextBtn.style.display = 'inline-block';
         finishBtn.style.display = 'none';
 
-        // COMPORTAMIENTO DE BLOQUEO VISUAL (Sombreado y Desactivado)
         if (isStepComplete) {
             nextBtn.disabled = false;
             nextBtn.style.opacity = "1";
@@ -107,17 +102,15 @@ function checkCurrentStepCompletion() {
     const currentDiv = document.getElementById(`step-${currentStep}`);
     if (!currentDiv) return true;
 
-    // Verificar interacciones requeridas (clase required-interaction)
     const pendingItems = currentDiv.querySelectorAll('.required-interaction:not(.viewed)');
     if (pendingItems.length > 0) return false;
 
-    // Verificar vídeos específicos si el paso los contiene
-    if (currentStep === 5) { // Paso del vídeo de amenazas
+    if (currentStep === 5) { 
         const videoThreats = document.getElementById('video-amenazas-container');
         if (videoThreats && !videoThreats.classList.contains('viewed')) return false;
     }
     
-    if (currentStep === 6) { // Paso del vídeo final
+    if (currentStep === 6) { 
         const videoFinal = document.getElementById('video-container-final');
         if (videoFinal && !videoFinal.classList.contains('viewed')) return false;
     }
@@ -125,7 +118,6 @@ function checkCurrentStepCompletion() {
     return true;
 }
 
-// Interacciones - Todas llaman a updateUI() para refrescar el botón en tiempo real
 function markInteraction(element) {
     if (!element.classList.contains('viewed')) {
         element.classList.add('viewed');
@@ -301,5 +293,4 @@ function guardarProgresoTeoria(modulo) {
     }
 }
 
-// Inicializar la primera vista
 updateUI();

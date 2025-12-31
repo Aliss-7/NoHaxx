@@ -29,7 +29,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if(tooltip) tooltip.style.display = visible ? 'block' : 'none';
     };
 
-    // Lógica principal
     steps.forEach((step, index) => {
         if (step.id === 'step-final') return;
 
@@ -37,7 +36,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         options.forEach(opt => {
             opt.addEventListener('click', () => {
-                // Evitar doble clic
                 if (step.classList.contains('answered') || isTransitioning) return;
                 
                 step.classList.add('answered');
@@ -46,20 +44,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 const correctAnswer = step.getAttribute('data-correcta');
                 const userAnswer = opt.getAttribute('data-respuesta');
 
-                // CAMBIO: Solo marcamos como "seleccionada" (Visualmente neutro)
                 opt.classList.add('selected');
 
-                // Calculamos la nota internamente sin mostrar colores
                 if (userAnswer === correctAnswer) {
                     currentScore++;
                 } 
-                // Ya no hay "else" para mostrar rojo ni revelar la correcta
 
-                // Actualizar barra de progreso
                 const progressPct = ((index + 1) / totalQuestions) * 100;
                 if(progressBar) progressBar.style.width = `${progressPct}%`;
 
-                // Pasar a la siguiente pregunta
                 setTimeout(() => {
                     step.classList.remove('active');
                     const nextStep = step.nextElementSibling;
@@ -92,7 +85,6 @@ document.addEventListener('DOMContentLoaded', () => {
         scoreDisplay.textContent = `${currentScore}/${totalQuestions}`;
 
         if (currentScore >= passingScore) {
-            // Aprobado
             scoreDisplay.parentElement.style.background = '#1f73b8';
             scoreDisplay.parentElement.style.borderColor = '#1f73b8'; 
             msgDisplay.innerHTML = "¡EXCELENTE!";
@@ -108,7 +100,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 localSaveScore(currentScore);
             }
         } else {
-            // Suspenso
             scoreDisplay.parentElement.style.background = '#d32f2f';
             scoreDisplay.parentElement.style.borderColor = '#d32f2f';
             msgDisplay.innerHTML = "Necesitas repasar";
@@ -123,7 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const auth = firebase.auth();
         const db = firebase.firestore();
         const msgDiv = document.getElementById('firebase-msg');
-        const idModulo = 'phishing'; // CLAVE ESPECÍFICA
+        const idModulo = 'phishing';
 
         auth.onAuthStateChanged(user => {
             if (user) {

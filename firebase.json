@@ -33,6 +33,7 @@
       { "source": "/resultados", "destination": "/Pantallas/resultados.html" },
       { "source": "/modulos", "destination": "/Pantallas/modulos.html" },
       { "source": "/contacto", "destination": "/Pantallas/contacto.html" },
+      { "source": "/registro-exitoso", "destination": "/Pantallas/registro-exitoso.html" },
       
       { "source": "/introduccion/teoria", "destination": "/modulos/1introduccion/teoria.html" },
       { "source": "/introduccion/examen", "destination": "/modulos/1introduccion/examen.html" },

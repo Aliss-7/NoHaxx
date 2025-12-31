@@ -1,6 +1,3 @@
-/* =========================================================================
-   CONTROL DE PROGRESO (MÓDULO 6 - 13 PASOS)
-   ========================================================================= */
 const stepRequirements = {
     0: { completed: true },
     1: { type: 'mixed', checks: { wifi: false, tooltip: false }, completed: false },
@@ -8,7 +5,6 @@ const stepRequirements = {
     3: { type: 'mixed', checks: { proto: false, domain: false, path: false }, completed: false },
     4: { type: 'browser', completed: false },
     5: { type: 'puzzle', itemsTotal: 7, itemsSolved: 0, completed: false },
-    // PASO 6: VIDEO (AUTO-DETECTADO)
     6: { type: 'video', completed: false }, 
     7: { completed: true }, 
     8: { type: 'privacy', checks: { toggles: false, tooltip: false }, completed: false }, 
@@ -18,9 +14,6 @@ const stepRequirements = {
     12: { type: 'finish', completed: true }
 };
 
-/* =========================================================================
-   NAVEGACIÓN BASE
-   ========================================================================= */
 let currentStep = 0;
 const steps = document.querySelectorAll('.course-step');
 const totalSteps = steps.length;
@@ -132,11 +125,7 @@ function markCheck(step, key) {
 if(steps.length > 0) showStep(0);
 
 
-/* =========================================================================
-   INTERACCIONES
-   ========================================================================= */
-
-// PASO 1: WI-FI
+// WI-FI
 function checkWifi(type) {
     const feedback = document.getElementById('wifi-feedback');
     const status = document.getElementById('wifi-status');
@@ -154,7 +143,7 @@ function checkWifi(type) {
     }
 }
 
-// PASO 2: VPN
+// VPN
 function toggleVPN() {
     const tunnel = document.getElementById('vpn-tunnel');
     const status = document.getElementById('vpn-text');
@@ -172,7 +161,7 @@ function toggleVPN() {
     markCheck(2, 'vpn');
 }
 
-// PASO 4: NAVEGADOR
+// NAVEGADOR
 let isHttps = false;
 function toggleHttps() {
     isHttps = !isHttps;
@@ -203,17 +192,16 @@ function checkDownload() {
     }
 }
 
-// === PASO 6: API DE YOUTUBE (NUEVO) ===
+// API DE YOUTUBE ===
 var player;
-// Esta función es llamada automáticamente por la API de YouTube cuando carga
 function onYouTubeIframeAPIReady() {
     player = new YT.Player('yt-player', {
         height: '315',
         width: '560',
-        videoId: 'cjSNVxtXY-U', // ID del video
+        videoId: 'cjSNVxtXY-U', 
         playerVars: {
-            'start': 11, // Empieza en el segundo 11
-            'rel': 0,    // No mostrar videos relacionados al final
+            'start': 11, 
+            'rel': 0,
             'controls': 1 
         },
         events: {
@@ -223,7 +211,6 @@ function onYouTubeIframeAPIReady() {
 }
 
 function onPlayerStateChange(event) {
-    // El estado 0 corresponde a "ENDED" (Video terminado)
     if (event.data === 0) {
         stepRequirements[6].completed = true;
         updateNextButtonState();
@@ -236,7 +223,7 @@ function onPlayerStateChange(event) {
     }
 }
 
-// PASO 8: PRIVACIDAD
+// PRIVACIDAD
 function checkPrivacy() {
     const vis = document.getElementById('priv-vis').checked; 
     const geo = document.getElementById('priv-geo').checked; 
@@ -261,7 +248,7 @@ function checkPrivacy() {
     updateNextButtonState();
 }
 
-// PASO 9: SIMULADOR PERFIL FALSO
+// SIMULADOR PERFIL FALSO
 function analyzeProfile(part, element) {
     const req = stepRequirements[9]; 
     const feedback = document.getElementById('profile-feedback');
@@ -303,7 +290,7 @@ function analyzeProfile(part, element) {
     }
 }
 
-// PASO 10: DISPOSITIVOS
+// DISPOSITIVOS
 function showDeviceInfo(type, card) {
     const step10Ids = ['info-lock', 'info-encrypt', 'info-update', 'info-find'];
     step10Ids.forEach(id => {
@@ -326,7 +313,7 @@ function showDeviceInfo(type, card) {
     }
 }
 
-// PASO 11: PERMISOS DE APPS
+// PERMISOS DE APPS
 function checkPermission(app, choice, btn) {
     const req = stepRequirements[11];
     const feedback = document.getElementById('perm-feedback');

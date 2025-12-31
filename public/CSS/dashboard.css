@@ -5,12 +5,12 @@
 /* Contenedor de la cuadrícula */
 .lista-modulos {
   display: grid;
-  grid-template-columns: repeat(3, 1fr); /* 3 columnas de igual ancho */
-  gap: 30px; /* Espacio entre los cuadros */
-  margin-top: 40px; /* IMPORTANTE: Espacio para separarlo del título */
+  grid-template-columns: repeat(3, 1fr); 
+  gap: 30px; 
+  margin-top: 40px; 
   padding: 0;
   list-style: none;
-  width: 100%; /* Asegura que ocupe todo el ancho disponible */
+  width: 100%;
 }
 
 .lista-modulos li {
@@ -18,7 +18,6 @@
   width: 100%;
 }
 
-/* Diseño de la Tarjeta (Cuadradito) */
 .lista-modulos a {
   display: flex;
   flex-direction: column;
@@ -26,12 +25,12 @@
   align-items: center;
   text-align: center;
   
-  height: 180px; /* Altura fija para hacerlos cuadrados */
+  height: 180px; 
   padding: 20px;
   
   background-color: #fff;
-  border: 1px solid rgba(0,0,0,0.05); /* Borde sutil */
-  border-left: 5px solid #0f1e40; /* Tu indicador de estado */
+  border: 1px solid rgba(0,0,0,0.05);
+  border-left: 5px solid #0f1e40;
   border-radius: 12px;
   
   text-decoration: none;
@@ -39,13 +38,12 @@
   font-weight: 700;
   font-size: 1.1rem;
   
-  box-shadow: 0 4px 6px rgba(0,0,0,0.05); /* Sombra suave base */
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05); 
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   position: relative;
   overflow: hidden;
 }
 
-/* Efecto Hover: La tarjeta "flota" hacia arriba */
 .lista-modulos a:hover {
   transform: translateY(-8px);
   box-shadow: 0 12px 20px rgba(0,0,0,0.1);
@@ -68,7 +66,7 @@
 }
 
 .lista-modulos a.bloqueado:hover {
-  transform: none; /* No se mueve si está bloqueado */
+  transform: none;
 }
 
 .lista-modulos a.bloqueado::before {
@@ -80,14 +78,14 @@
 
 /* Estado: APROBADO */
 .lista-modulos a.aprobado {
-  background-color: #f0f9f0 !important; /* Verde muy clarito */
+  background-color: #f0f9f0 !important;
   color: #1b5e20 !important;
   border-left-color: #4caf50 !important;
 }
   
 .lista-modulos a.aprobado:hover {
   background-color: #e8f5e9 !important;
-  box-shadow: 0 12px 20px rgba(76, 175, 80, 0.2); /* Sombra verdosa */
+  box-shadow: 0 12px 20px rgba(76, 175, 80, 0.2);
 }
 
 .lista-modulos a.aprobado::after {
@@ -102,25 +100,24 @@
 }
 
 /* =========================================================================
-   RESPONSIVE (MÓVIL)
+   RESPONSIVE
    ========================================================================= */
 @media (max-width: 768px) {
   .lista-modulos {
-    grid-template-columns: 1fr; /* Una sola columna en móviles */
+    grid-template-columns: 1fr; 
     gap: 15px;
   }
   
   .lista-modulos a {
-    height: auto; /* Altura automática para que no ocupe tanto */
+    height: auto;
     min-height: 100px;
-    flex-direction: row; /* En móvil, quizás prefieras fila: Icono - Texto */
+    flex-direction: row;
     justify-content: flex-start;
     text-align: left;
     padding: 20px;
     gap: 15px;
   }
   
-  /* Ajuste de iconos para móvil */
   .lista-modulos a.bloqueado::before { margin-bottom: 0; margin-right: 10px; }
   .lista-modulos a.aprobado::after { margin-top: 0; margin-left: auto; }
 }

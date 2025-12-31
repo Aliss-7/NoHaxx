@@ -1,4 +1,4 @@
-/* --- TARJETA DE CONTACTO --- */
+/* TARJETA DE CONTACTO */
 .contacto-container {
     background-color: #ffffff;
     width: 100%;
@@ -14,7 +14,7 @@
 /* Títulos y textos */
 .contacto-container h1 {
     margin-top: 0;
-    color: #1a1a1a; /* var(--primary-color) */
+    color: #1a1a1a;
     font-size: 1.8rem;
     text-align: center;
     margin-bottom: 10px;
@@ -27,7 +27,7 @@
     margin-bottom: 30px;
 }
 
-/* --- FORMULARIO --- */
+/* FORMULARIO */
 form {
     display: flex;
     flex-direction: column;
@@ -46,7 +46,6 @@ label {
     font-size: 0.9rem;
 }
 
-/* Inputs consistentes con el resto de la web */
 input[type="text"],
 input[type="email"],
 textarea {
@@ -65,7 +64,7 @@ textarea {
 input:focus,
 textarea:focus {
     outline: none;
-    border-color: #3f51b5; /* var(--accent-color) */
+    border-color: #3f51b5;
     box-shadow: 0 0 0 3px rgba(63, 81, 181, 0.1);
 }
 
@@ -76,7 +75,7 @@ textarea {
 
 /* Botón consistente con la clase .boton de base.css */
 button[type="submit"] {
-    background-color: #1a1a1a; /* var(--primary-color) */
+    background-color: #1a1a1a;
     color: white;
     border: none;
     padding: 12px 25px;
@@ -104,7 +103,6 @@ button[type="submit"]:hover {
     min-height: 1.5em; 
 }
 
-/* Footer específico si fuera necesario, sino base.css lo maneja */
 footer {
     text-align: center;
     padding: 20px;

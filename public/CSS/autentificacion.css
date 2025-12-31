@@ -16,18 +16,17 @@
     justify-content: center;
     align-items: center;
     min-height: 85vh;
-    background-color: #f4f6f8; /* Fondo gris pantalla */
+    background-color: #f4f6f8;
     padding: 20px !important;
 }
 
-/* --- 2. TARJETA FLOTANTE (.auth-card) --- */
 .auth-card {
     background: white;
     width: 100%;
     max-width: 500px;
     padding: 3rem;
     border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); /* Sombra única y suave */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
     text-align: center;
     border: 1px solid rgba(0,0,0,0.02);
     position: relative;
@@ -48,9 +47,9 @@
     font-size: 0.95rem;
 }
 
-/* --- 3. INPUTS Y TEXTAREA MODERNOS --- */
+/* INPUTS */
 
-/* Estilo común para Inputs y Textarea dentro de la tarjeta */
+/* Estilo común para Inputs dentro de la tarjeta */
 .auth-card input,
 .auth-card textarea {
     width: 100%;
@@ -59,13 +58,12 @@
     padding: 15px;
     border-radius: 10px;
     font-size: 0.95rem;
-    font-family: inherit; /* Hereda la fuente del body */
+    font-family: inherit;
     transition: all 0.3s ease;
     box-sizing: border-box;
-    margin-bottom: 0; /* El margen lo controla el form-group */
+    margin-bottom: 0;
 }
 
-/* Efecto al hacer clic/escribir */
 .auth-card input:focus,
 .auth-card textarea:focus {
     background-color: #fff;
@@ -74,9 +72,8 @@
     outline: none;
 }
 
-/* Ajuste específico para el área de mensaje (Contacto) */
 .auth-card textarea {
-    resize: vertical; /* Solo permite estirar hacia abajo */
+    resize: vertical;
     min-height: 120px;
 }
 
@@ -93,9 +90,9 @@
     margin-bottom: 15px;
 }
 
-/* --- 4. BOTONES Y ENLACES --- */
+/* BOTONES Y ENLACES */
 
-/* Botón "Glow" Azul */
+/* Botón Azul */
 .btn-glow {
     background: linear-gradient(135deg, #368fe2 0%, #1f73b8 100%);
     color: white !important;
@@ -116,7 +113,6 @@
     box-shadow: 0 10px 20px rgba(31, 115, 184, 0.3);
 }
 
-/* Pie de tarjeta (Links) */
 .auth-footer {
     margin-top: 25px;
     font-size: 0.9rem;
@@ -142,7 +138,7 @@
     min-height: 20px;
 }
 
-/* --- 5. RESPONSIVE --- */
+/* RESPONSIVE */
 @media (max-width: 600px) {
     .form-row {
         flex-direction: column;

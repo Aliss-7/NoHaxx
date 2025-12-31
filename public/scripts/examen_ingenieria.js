@@ -3,7 +3,7 @@ const correctAnswers = {
   2: 'correct_trio',
   3: 'it',
   4: 'sender',
-  5: 'phone', // Se acepta 'phone' o 'teams' en la lógica de cálculo
+  5: 'phone',
   6: 'file2',
   7: 'b',
   8: 'link',
@@ -126,7 +126,7 @@ function calculateAndSave() {
   
   let hits = 0;
   for (let i = 1; i <= totalQuestions; i++) {
-    // Caso especial pregunta 5 (Phone o Teams son válidos)
+    // Phone o Teams son válidos
     if(i === 5 && (userAnswers[5] === 'phone' || userAnswers[5] === 'teams')) {
        hits++;
     } else if (userAnswers[i] === correctAnswers[i]) {
@@ -151,12 +151,10 @@ function calculateAndSave() {
     loadingDiv.style.display = 'none';
     resultsDiv.style.display = 'block';
     
-    // Formato "8/10"
     scoreTxt.innerText = `${hits}/${totalQuestions}`;
 
     if (passed) {
-      // APROBADO (Azul/Verde)
-      scoreTxt.parentElement.style.background = '#1f73b8'; // Azul corporativo
+      scoreTxt.parentElement.style.background = '#1f73b8';
       scoreTxt.parentElement.style.borderColor = '#1f73b8';
       
       msgTxt.innerText = "¡EXCELENTE!";
@@ -168,17 +166,14 @@ function calculateAndSave() {
       
       saveToFirebase(finalScore);
     } else {
-      // SUSPENSO (Rojo)
       scoreTxt.parentElement.style.background = '#d32f2f';
       scoreTxt.parentElement.style.borderColor = '#d32f2f';
       
       msgTxt.innerText = "Necesitas repasar";
-      msgTxt.style.color = "#d32f2f"; // Rojo
+      msgTxt.style.color = "#d32f2f";
       detailTxt.innerText = `Has conseguido ${hits} de ${totalQuestions}. Necesitas al menos ${passingScore} aciertos para aprobar.`;
       
       if(btnRetry) btnRetry.style.display = "inline-block";
-      // Opcional: mostrar botón salir aunque suspenda
-      // if(btnCont) btnCont.style.display = "inline-block"; 
     }
   }, 1000);
 }

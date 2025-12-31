@@ -22,10 +22,9 @@ function guardarNota(modulo, puntos, mensajeFinal) {
 }
 
 /**
- * Inicializa y gestiona el flujo de un examen.
- * @param {string} moduloName Nombre del módulo para guardar en Firebase (e.g., 'phishing').
- * @param {number} totalQuestions Número total de preguntas esperadas.
- * @param {number} passingScore Puntuación mínima de aciertos para aprobar.
+ * @param {string} moduloName
+ * @param {number} totalQuestions 
+ * @param {number} passingScore
  */
 function iniciarExamen(moduloName, totalQuestions, passingScore) {
   const preguntas = document.querySelectorAll('.pregunta.examen');
@@ -82,11 +81,11 @@ function iniciarExamen(moduloName, totalQuestions, passingScore) {
     const notaMaxima = 10;
 
     if (aprobado) {
-       mensajeFinal.innerHTML = "<h3 style='color:green'>¡Aprobado! ✅</h3><p>Guardando tu progreso...</p>";
+       mensajeFinal.innerHTML = "<h3 style='color:green'>¡Aprobado! </h3><p>Guardando tu progreso...</p>";
        puntosGuardados = notaMaxima;
        guardarNota(moduloName, puntosGuardados, mensajeFinal);
     } else {
-       mensajeFinal.innerHTML = "<h3 style='color:red'>Has suspendido ❌</h3><p>Repasa la teoría e inténtalo de nuevo.</p><button onclick='location.reload()' class='boton'>Reintentar</button>";
+       mensajeFinal.innerHTML = "<h3 style='color:red'>Has suspendido </h3><p>Repasa la teoría e inténtalo de nuevo.</p><button onclick='location.reload()' class='boton'>Reintentar</button>";
     }
   }
 }

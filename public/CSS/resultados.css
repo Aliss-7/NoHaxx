@@ -1,7 +1,6 @@
-/* --- LAYOUT PRINCIPAL --- */
 .dashboard-container {
     display: grid;
-    grid-template-columns: 320px 1fr; /* Izquierda fija, Derecha flexible */
+    grid-template-columns: 320px 1fr;
     gap: 40px;
     max-width: 1200px;
     margin: 40px auto;
@@ -9,7 +8,7 @@
     align-items: start;
 }
 
-/* --- BARRA LATERAL (Izquierda) --- */
+/* BARRA LATERAL */
 .profile-sidebar {
     display: flex;
     flex-direction: column;
@@ -81,7 +80,7 @@
     color: #777;
 }
 
-/* --- CONTENIDO PRINCIPAL (Derecha) --- */
+/* CONTENIDO PRINCIPAL */
 .section-header {
     margin-bottom: 30px;
 }
@@ -96,7 +95,7 @@
     color: #666;
 }
 
-/* --- GRID DE RESULTADOS --- */
+/* RESULTADOS */
 .modules-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -130,21 +129,20 @@
     font-weight: 600;
 }
 
-/* --- EL NÚMERO VERDE (Ajustado) --- */
 .card-score {
     font-size: 3.5rem;
-    font-weight: 600;    /* ANTES ERA 800. Ahora es más fino. */
+    font-weight: 600;
     color: #4caf50;      
     line-height: 1;
     margin: 0;
 }
 
-/* Si suspende (rojo) */
+/* Si suspende rojo */
 .module-result-card.failed .card-score {
     color: #d32f2f;
 }
 
-/* --- RESPONSIVE --- */
+/* RESPONSIVE */
 @media (max-width: 850px) {
     .dashboard-container {
         grid-template-columns: 1fr;

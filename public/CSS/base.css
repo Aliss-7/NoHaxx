@@ -174,7 +174,6 @@ p {
     width: 100%;
   }
 
-  /* Ajustes heredados para otros módulos */
   .lms-container { flex-direction: column; }
   .lms-sidebar { width: 100%; border-right: none; border-bottom: 1px solid #ddd; }
   .lms-content { width: 100%; padding: 20px; }
@@ -201,25 +200,24 @@ p {
 
 /* Tamaño de la imagen del logo */
 #logo-header {
-    height: 40px; /* Ajusta esta altura según prefieras */
-    width: auto;  /* Mantiene la proporción */
+    height: 40px;
+    width: auto;
     display: block;
 }
 
-/* Ajuste para el modo portátil (Zoom 80%) */
+/* Ajuste para el modo portátil */
 @media screen and (max-width: 1400px), screen and (max-height: 800px) {
     #logo-header {
-        height: 35px; /* Un pelín más pequeño en portátiles */
+        height: 35px;
     }
 }
 
-/* Estilo para el botón siguiente cuando está bloqueado */
 .btn-nav.btn-next:disabled {
-    background-color: #ccc !important; /* Gris sombreado */
+    background-color: #ccc !important;
     color: #666 !important;
     cursor: not-allowed;
     opacity: 0.6;
-    pointer-events: none; /* Evita cualquier interacción */
+    pointer-events: none; 
 }
 
 /* Estilo para el mensaje de bloqueo */

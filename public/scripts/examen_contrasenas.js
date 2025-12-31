@@ -17,7 +17,7 @@ const totalQuestions = 10;
 const passingScore = 8;
 let isTransitioning = false; 
 
-// --- GESTIÓN DE BARRA DE PROGRESO Y NAVEGACIÓN ---
+// BARRA DE PROGRESO Y NAVEGACIÓN
 function nextQuestion(current) {
   const progress = (current / totalQuestions) * 100;
   const progressBar = document.getElementById('progress-bar');
@@ -32,7 +32,7 @@ function nextQuestion(current) {
   }
 }
 
-// --- PREGUNTA 1: INPUT MANUAL ---
+// PREGUNTA 1
 function checkQ1Strength() {
     const input = document.getElementById('q1-input').value;
     const bar = document.getElementById('q1-bar');
@@ -68,8 +68,6 @@ function submitQ1() {
     nextQuestion(1);
 }
 
-// --- PREGUNTAS DE SELECCIÓN (Q2 - Q10) ---
-// Pasamos el evento (e) para poder marcar el elemento pulsado
 function checkQ2(ans) { handleAnswer(2, ans, event); }
 function checkQ3(ans) { handleAnswer(3, ans, event); }
 function checkQ4(ans) { handleAnswer(4, ans, event); }
@@ -85,25 +83,21 @@ function handleAnswer(qNum, ans, e) {
     isTransitioning = true;
     userAnswers[qNum] = ans;
     
-    // 1. Identificar el elemento clicado y añadirle la clase .selected (Azul neutro)
     if(e && e.target) {
-        // Buscamos el contenedor padre (tarjeta o botón) por si se hizo clic en el texto
         const el = e.target.closest('.card-option, .auth-btn, .btn-save, .boton, .q-option, .email-link');
         if(el) el.classList.add('selected');
     }
     
-    // 2. Esperar y pasar a la siguiente (Sin revelar si es correcta)
     setTimeout(() => { 
         nextQuestion(qNum); 
         isTransitioning = false; 
-    }, 600); // 600ms igual que los otros módulos
+    }, 600);
 }
 
-// --- CÁLCULO FINAL Y RESULTADOS ---
+// CÁLCULO FINAL Y RESULTADOS
 function finishExam() {
   document.getElementById('final-screen').classList.add('active');
   
-  // Cálculo interno silencioso
   let hits = 0;
   for (let i = 1; i <= totalQuestions; i++) {
     if (userAnswers[i] === correctAnswers[i]) {
@@ -118,7 +112,7 @@ function finishExam() {
   const btnContinue = document.getElementById('btn-continue');
   const btnNext = document.getElementById('btn-next');
 
-  // Simular carga breve
+  // carga breve
   setTimeout(() => {
     document.getElementById('loading-results').style.display = 'none';
     document.getElementById('results-content').style.display = 'block';
@@ -136,7 +130,7 @@ function finishExam() {
       detailDisplay.innerText = "Has superado el test con éxito.";
       
       btnContinue.style.display = "inline-block";
-      btnNext.style.display = "inline-block"; // Botón al Módulo 6
+      btnNext.style.display = "inline-block";
       
       saveToFirebase(hits);
     } else {

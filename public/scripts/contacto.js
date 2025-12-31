@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // 1. Inicializar EmailJS
+    // Inicializar EmailJS
     emailjs.init("lyJuBtfl7qfLrX__9"); 
   
     const form = document.getElementById("contact-form");
@@ -7,11 +7,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const navButtons = document.getElementById("nav-buttons");
     const auth = firebase.auth();
 
-    // 2. Controlar el Header según el estado de sesión
+    // Controlar el Header según el estado de sesión
     auth.onAuthStateChanged((user) => {
         if (user) {
             // USUARIO LOGUEADO: Mostrar menú completo
-            // Rellenamos automáticamente el email si quieres (opcional)
             if(form.reply_to && !form.reply_to.value) {
                 form.reply_to.value = user.email;
             }
@@ -41,7 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // 3. Lógica del Formulario (Tu código original mejorado visualmente)
+    // Lógica del Formulario
     form.addEventListener("submit", (e) => {
       e.preventDefault();
       
@@ -74,13 +73,13 @@ document.addEventListener("DOMContentLoaded", () => {
       })
       .then(() => {
         mensaje.textContent = "¡Mensaje enviado con éxito! Te responderemos pronto.";
-        mensaje.style.color = "#4caf50"; // Verde
+        mensaje.style.color = "#4caf50";
         form.reset();
       })
       .catch((error) => {
         console.error("Error al enviar el mensaje:", error);
         mensaje.textContent = "Hubo un error al enviar. Por favor intenta más tarde.";
-        mensaje.style.color = "#d32f2f"; // Rojo
+        mensaje.style.color = "#d32f2f";
       })
       .finally(() => {
         btnEnviar.innerText = textoOriginal;

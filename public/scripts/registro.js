@@ -63,7 +63,7 @@ document.addEventListener("DOMContentLoaded", () => {
           creado: firebase.firestore.FieldValue.serverTimestamp()
         })
           .then(() => {
-            window.location.href = "registro-exitoso.html";
+            window.location.href = "/registro-exitoso";
           })
           .catch((error) => {
             console.error("Error al guardar en Firestore:", error);

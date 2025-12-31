@@ -9,10 +9,10 @@ document.addEventListener("DOMContentLoaded", () => {
     // redirigir si ya hay sesión iniciada
     auth.onAuthStateChanged((user) => {
       if (user) {
-        window.location.href = "modulos.html";
+        window.location.href = "/modulos";
       }
     });
-  
+   
     // iniciar sesión cuando se envía el formulario
     form.addEventListener("submit", (e) => {
       e.preventDefault();
@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
   
       auth.signInWithEmailAndPassword(email, password)
         .then(() => {
-          window.location.href = "modulos.html";
+          window.location.href = "/inicio";
         })
         .catch((error) => {
             console.log("Código de error:", error.code);
@@ -44,5 +44,5 @@ document.addEventListener("DOMContentLoaded", () => {
 firebase.auth().signInWithEmailAndPassword(email, password)
   .then((userCredential) => {
     localStorage.setItem('usuarioLogueado', 'true');
-    window.location.href = "index.html";
+    window.location.href = "/inicio";
   });

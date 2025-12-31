@@ -5,12 +5,12 @@ stepUnlocked[0] = true;
 
 const sectionsMapping = [0, 0, 1, 1, 1, 1, 2, 2, 2, 3, 3, 4, 4, 4, 4, 5, 5, 6];
 
-// 2. VARIABLES YOUTUBE
+// VARIABLES YOUTUBE
 var player;
 var playerWannacry;
 var videoStatus = { ransomware: false, wannacry: false };
 
-// 3. API YOUTUBE
+// API YOUTUBE
 function onYouTubeIframeAPIReady() {
     player = new YT.Player('player-ransomware', {
         height: '360', width: '100%', videoId: 'sd7Ns_ziBPY',
@@ -27,23 +27,19 @@ function onYouTubeIframeAPIReady() {
     });
 }
 
-// 4. CONTROL DE INTERFAZ (UPDATE UI)
 function updateUI() {
     const isStepComplete = checkCurrentStepCompletion();
 
-    // Actualizar pasos
     document.querySelectorAll('.course-step').forEach((s, i) => {
         s.classList.toggle('active', i === currentStep);
     });
     
-    // Mostrar/Ocultar Secciones
     const currentSec = sectionsMapping[currentStep];
     for(let i=0; i<=6; i++){
         const sec = document.getElementById(`section-${i}`);
         if(sec) sec.style.display = (i === currentSec) ? 'block' : 'none';
     }
     
-    // Menú lateral
     document.querySelectorAll('.lms-menu-item').forEach((m, i) => {
         m.classList.toggle('active', i === currentSec);
         m.classList.toggle('unlocked', stepUnlocked[sectionsMapping.indexOf(i)]);
@@ -76,7 +72,6 @@ function updateUI() {
     } else {
         if(nextBtn) {
             nextBtn.style.display = 'inline-block';
-            // BLOQUEO VISUAL
             if (isStepComplete) {
                 nextBtn.disabled = false;
                 nextBtn.style.opacity = "1";
@@ -91,7 +86,7 @@ function updateUI() {
         if(finishBtn) finishBtn.style.display = 'none';
     }
 
-    // Video Wannacry (Paso 10)
+    // Video Wannacry
     if (currentStep === 10 && !playerWannacry) {
         const container = document.getElementById('player-wannacry');
         if(container) {
@@ -112,7 +107,6 @@ function updateUI() {
     }
 }
 
-// 5. SISTEMA DE INTERACCIONES
 function checkCurrentStepCompletion() {
     const activeStep = document.getElementById(`step-${currentStep}`);
     if (!activeStep) return true;
@@ -146,8 +140,6 @@ function tryNextStep() {
         }
     }
 }
-
-// --- TODAS TUS FUNCIONES ORIGINALES RECUPERADAS ---
 
 function revelar(id, btn) { 
     const target = document.getElementById(id);
@@ -218,7 +210,7 @@ function animarRed(btn) {
     }, i * 600));
 }
 
-// --- LÓGICA DE MACROS (EXCEL) ---
+// LÓGICA DE MACROS
 function openTab(evt, tabName) {
     let tabcontent = document.getElementsByClassName("tab-content");
     for (let i = 0; i < tabcontent.length; i++) tabcontent[i].style.display = "none";
@@ -242,7 +234,7 @@ function activarTrampa(btn) {
     markInteraction(btn);
 }
 
-// --- LÓGICA DE CLIC DERECHO ---
+// CLIC DERECHO
 function showContextMenu(e) { 
     e.preventDefault();
     const menu = document.getElementById('context-menu');
@@ -288,7 +280,6 @@ function finalizarTodo(btn) {
     markInteraction(btn); 
 }
 
-// --- CRISIS PRÁCTICA ---
 function iniciarPracticaCrisis(btn) {
     const container = document.getElementById('crisis-sim-container');
     const icon = document.getElementById('ransomware-alert-icon');

@@ -2,7 +2,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const auth = firebase.auth();
     const db = firebase.firestore();
   
-    // 1. Función para mostrar mensajes flotantes
     function mostrarNotificacion(mensaje) {
       const notif = document.getElementById("notificacion");
       if (notif) {
