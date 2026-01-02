@@ -165,3 +165,21 @@
         min-width: auto;
     }
 }
+
+/* Estilo para módulos no completados en Resultados */
+.module-result-card.locked {
+    background-color: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    box-shadow: none; 
+    opacity: 0.6;
+    cursor: default;
+}
+
+.module-result-card.locked .card-title {
+    color: #aaa;
+}
+
+.module-result-card.locked:hover {
+    transform: none;
+    box-shadow: none;
+}

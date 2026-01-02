@@ -2,7 +2,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const auth = firebase.auth();
   const db = firebase.firestore();
 
-  // Elementos del DOM
   const userNameEl = document.getElementById('userName');
   const userInitialEl = document.getElementById('userInitial');
   const totalScoreEl = document.getElementById('totalScore');
@@ -12,8 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Configuración de puntuación
   const TOTAL_MODULOS_POSIBLES = 6; 
-  const PUNTOS_POR_MODULO = 10;
-  const PUNTUACION_MAXIMA = TOTAL_MODULOS_POSIBLES * PUNTOS_POR_MODULO; 
+  const PUNTOS_POR_MODULO = 10; 
 
   const ORDEN_MODULOS = [
     "introduccion",
@@ -26,7 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   auth.onAuthStateChanged(async (user) => {
     if (!user) {
-      window.location.href = "login.html";
+      window.location.href = "/login";
       return;
     }
 
@@ -43,58 +41,77 @@ document.addEventListener("DOMContentLoaded", () => {
     if (docSnap.exists) {
       const data = docSnap.data();
       const scores = data.scores || {};
+
+      // CÁLCULO DE NOTA MEDIA
+      const modulosCompletados = Object.keys(scores).length;
       const puntosBrutos = Object.values(scores).reduce((a, b) => a + b, 0);
 
-      // Calcular porcentaje total
-      let notaFinal = Math.round((puntosBrutos / PUNTUACION_MAXIMA) * 100);
-      if (notaFinal > 100) notaFinal = 100;
+      let notaMedia = 0;
+      if (modulosCompletados > 0) {
+        notaMedia = Math.round((puntosBrutos / (modulosCompletados * 10)) * 100);
+      }
+      if (notaMedia > 100) notaMedia = 100;
 
-      // Actualizar el círculo grande global
-      totalScoreEl.innerText = notaFinal;
+      totalScoreEl.innerText = notaMedia;
       
       const circleEl = document.querySelector('.circle-progress');
       if (circleEl) {
-          if (notaFinal >= 80) circleEl.style.color = "#4caf50"; 
-          else if (notaFinal < 50) circleEl.style.color = "#d32f2f";
+          if (notaMedia >= 80) circleEl.style.color = "#4caf50"; 
+          else if (notaMedia >= 50) circleEl.style.color = "#ffa000";
+          else circleEl.style.color = "#d32f2f";
+
+          const label = circleEl.querySelector('.circle-label');
+          if(label) label.innerText = "Media";
+
+          let progressText = document.getElementById('progreso-detalle');
+          if(!progressText) {
+             progressText = document.createElement('div');
+             progressText.id = 'progreso-detalle';
+             progressText.style.fontSize = '0.9rem'; 
+             progressText.style.marginTop = '5px';
+             progressText.style.color = '#666';
+             progressText.style.fontWeight = 'normal';
+             circleEl.appendChild(progressText);
+          }
+          progressText.innerText = `${modulosCompletados} de ${TOTAL_MODULOS_POSIBLES} completados`;
       }
 
       // GENERAR TARJETAS DE MÓDULOS
       moduleScoresEl.innerHTML = ''; 
       
-      if (Object.keys(scores).length > 0) {
-        
-        const entradasOrdenadas = Object.entries(scores).sort((a, b) => {
-            const indexA = ORDEN_MODULOS.indexOf(a[0].toLowerCase());
-            const indexB = ORDEN_MODULOS.indexOf(b[0].toLowerCase());
-            return (indexA === -1 ? 999 : indexA) - (indexB === -1 ? 999 : indexB);
-        });
-
-        for (const [module, score] of entradasOrdenadas) {
-          const nombreModulo = module.charAt(0).toUpperCase() + module.slice(1);
+      for (const moduleKey of ORDEN_MODULOS) {
+          const score = scores[moduleKey]; 
+          const nombreModulo = moduleKey.charAt(0).toUpperCase() + moduleKey.slice(1);
           
-          let statusClass = "failed"; 
-          if (score === 10) statusClass = "perfect"; 
-          else if (score >= 5) statusClass = "passed"; 
-
           const card = document.createElement('div');
-          card.className = `module-result-card ${statusClass}`;
           
-          card.innerHTML = `
-              <div class="card-content">
-                 <div class="card-title"></div> 
-              </div>
-              <div class="card-score">
-                 ${score}
-              </div>
-          `;
+          if (score !== undefined) {
+              let statusClass = "failed"; 
+              if (score === 10) statusClass = "perfect"; 
+              else if (score >= 5) statusClass = "passed"; 
 
-          card.querySelector('.card-title').textContent = nombreModulo;
+              card.className = `module-result-card ${statusClass}`;
+              card.innerHTML = `
+                  <div class="card-content">
+                     <div class="card-title">${nombreModulo}</div> 
+                  </div>
+                  <div class="card-score">
+                     ${score}
+                  </div>
+              `;
+          } else {
+              card.className = `module-result-card locked`;
+              card.innerHTML = `
+                  <div class="card-content">
+                     <div class="card-title">${nombreModulo}</div> 
+                  </div>
+                  <div class="card-score" style="color: #ccc;">
+                     -
+                  </div>
+              `;
+          }
 
           moduleScoresEl.appendChild(card);
-        }
-
-      } else {
-        moduleScoresEl.innerHTML = "<p style='grid-column: 1/-1; padding:20px; text-align:center; color:#777;'>Aún no hay módulos completados.</p>";
       }
 
     } else {

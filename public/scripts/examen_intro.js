@@ -43,6 +43,8 @@ function calculateAndSave() {
     if (userAnswers[i] === correctAnswers[i]) hits++;
   }
   
+  const finalGrade = Math.round((hits / totalQuestions) * 10);
+
   const passed = hits >= 4;
 
   const resultsDiv = document.getElementById('results-content');
@@ -67,12 +69,12 @@ function calculateAndSave() {
         
         msgTxt.innerText = "¡Enhorabuena!";
         msgTxt.style.color = "green";
-        detailTxt.innerText = `Has superado el test con éxito.`;
+        detailTxt.innerText = `Has superado el test con éxito. Nota: ${finalGrade}/10`;
         
         if(btnCont) btnCont.style.display = "inline-block";
         if(btnNext) btnNext.style.display = "inline-block";
         
-        saveToFirebase(10); 
+        saveToFirebase(finalGrade); 
       } else {
         scoreTxt.parentElement.style.background = '#d32f2f';
         scoreTxt.parentElement.style.borderColor = '#d32f2f';

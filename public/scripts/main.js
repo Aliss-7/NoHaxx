@@ -27,7 +27,7 @@ firebase.auth().onAuthStateChanged((user) => {
             comenzarBtn.textContent = "Comenzar";
             comenzarBtn.onclick = (e) => {
                 e.preventDefault();
-                window.location.href = "login.html";
+                window.location.href = "/login";
             };
         }
     }
